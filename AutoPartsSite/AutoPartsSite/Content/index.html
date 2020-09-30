@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+    <title></title>
+</head>
+<body onload="onLoadPage()">
+    <script>
+        function onLoadPage() {
+            var backlen = history.length;
+            history.go(-backlen);
+            window.location.replace('/Content/view/index.html?' + (window.location.href.toLocaleLowerCase().indexOf('?admin') > -1 ? 'admin&' : '') + (window.location.href.toLocaleLowerCase().indexOf('isnativeapp') > -1 ? 'isnativeapp&' : '') + 'gb=' + new Date().getTime().toString());
+        }
+    </script>
+</body>
+</html>
