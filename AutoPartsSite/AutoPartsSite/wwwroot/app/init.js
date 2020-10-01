@@ -31,7 +31,9 @@
 
 require(["domReady", "jquery"], function (domReady, _jquery) {
     $("#progress-container").show();
-    require(["materialize", "kendo.binder"], function (_materialize, _kendoBinder) {
+    require(["materialize", "kendo.binder", "i18n"], function (_materialize, _kendoBinder, i18n) {
+        //i18n.locale = 'root';
+        //i18n.translations = { root };
         domReady(function () {
             require(["app/app"], function (app) {
                 var _app = new app.App.Application();

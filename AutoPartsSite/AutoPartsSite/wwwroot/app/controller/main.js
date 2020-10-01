@@ -30,12 +30,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             Main.prototype.createModel = function () {
                 return new kendo.data.ObservableObject({
                     "Header": "",
-                    "employee": {},
-                    "userDesc": "jdandturk@gmail.com",
+                    "client": { "name": "client@email.com", "phone": "+79991234567" },
+                    "labelAbout": vars._statres("label$aboutUs"),
                 });
             };
             Main.prototype.ControllersInit = function () {
-                //return vars._maincontrollers;
                 return vars._controllers;
             };
             Main.prototype.GetContent = function () {
@@ -62,62 +61,27 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.createEvents = function () {
                 this.OpenMenuButtonClick = this.createTouchClickEvent(this.buttonMenu, this.openMenuButtonClick);
-                this.MenuPOSTerminalButtonClick = this.createClickEvent("main-view-btn-posterminal", this.menuPOSTerminalButtonClick);
-                this.MenuSettingsButtonClick = this.createClickEvent("main-view-btn-settings", this.menuSettingsButtonClick);
-                this.MenuDocumentsButtonClick = this.createClickEvent("main-view-btn-documents", this.menuDocumentsButtonClick);
-                this.MenuReportsButtonClick = this.createClickEvent("main-view-btn-reports", this.menuReportsButtonClick);
                 this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
-                this.MenuExitButtonClick = this.createClickEvent("main-view-btn-exit", this.menuExitButtonClick);
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
-                this.destroyClickEvent("main-view-btn-posterminal", this.MenuPOSTerminalButtonClick);
-                this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
-                this.destroyClickEvent("main-view-btn-documents", this.MenuDocumentsButtonClick);
-                this.destroyClickEvent("main-view-btn-reports", this.MenuReportsButtonClick);
                 this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
-                this.destroyClickEvent("main-view-btn-exit", this.MenuExitButtonClick);
             };
             Main.prototype.navigateOnStart = function () {
                 this.handleMenuItem("search/index");
-                //if (vars._identity.employee.openonlogin === 1)
-                //    this.MenuSettingsButtonClick({});
-                //else if (vars._identity.employee.openonlogin === 2)
-                //    this.MenuDocumentsButtonClick({});
-                //else if (vars._identity.employee.openonlogin === 3)
-                //    this.MenuReportsButtonClick({});
-                //else
-                //    this.MenuPOSTerminalButtonClick({});
             };
             Main.prototype.openMenuButtonClick = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.sideNav.sidenav('open');
             };
-            Main.prototype.menuPOSTerminalButtonClick = function (e) {
-                this.handleMenuItem("terminal/index");
-            };
-            Main.prototype.menuSettingsButtonClick = function (e) {
-                this.handleMenuItem("setting/index");
-            };
-            Main.prototype.menuDocumentsButtonClick = function (e) {
-                this.handleMenuItem("document/index");
-            };
-            Main.prototype.menuReportsButtonClick = function (e) {
-                this.handleMenuItem("report/index");
-            };
             Main.prototype.menuAboutButtonClick = function (e) {
                 this.handleMenuItem("about/index");
-            };
-            Main.prototype.menuExitButtonClick = function (e) {
-                this.sideNav.sidenav('close');
-                variables_1._app.OpenController({ urlController: "security/login" });
             };
             Main.prototype.handleMenuItem = function (urlController) {
                 this.sideNav.sidenav('close');
                 if (!utils.isNullOrEmpty(urlController))
                     variables_1._app.OpenController({ urlController: urlController });
-                // nativeBridge.showMessage('Message from JS');
             };
             return Main;
         }(ctrl.Controller.BaseContent));

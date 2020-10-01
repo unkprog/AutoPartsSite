@@ -35,6 +35,11 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 var app = this;
                 app.progressControl = $("#progress-container");
                 app.contentControl = $("#app-content");
+                app.appTitle = $("#app-title");
+                this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, this.appTitleClick, $("#app-view"));
+            };
+            Application.prototype.appTitleClick = function (e) {
+                this.initAfterLoaded();
             };
             Application.prototype.ShowLoading = function () {
                 this.progressControl.show();

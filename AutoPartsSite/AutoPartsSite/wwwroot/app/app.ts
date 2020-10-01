@@ -22,6 +22,7 @@ export module App {
         private progressControl: JQuery;
         private rigthMenuItems: JQuery;
         private buttonAppClose: JQuery;
+        private appTitle: JQuery;
 
         public Initailize(): void {
             super.Initailize();
@@ -29,6 +30,13 @@ export module App {
             let app = this;
             app.progressControl = $("#progress-container");
             app.contentControl = $("#app-content");
+            app.appTitle = $("#app-title");
+            this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, this.appTitleClick, $("#app-view"));
+        }
+
+        public AppTitleClick: { (e: any): void; };
+        private appTitleClick(e) {
+            this.initAfterLoaded();
         }
 
         public ShowLoading() {

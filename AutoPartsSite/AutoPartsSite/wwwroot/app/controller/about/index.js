@@ -17,20 +17,19 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var Search;
-        (function (Search) {
+        var About;
+        (function (About) {
             var Index = /** @class */ (function (_super) {
                 __extends(Index, _super);
                 function Index() {
                     return _super.call(this) || this;
                 }
                 Index.prototype.createOptions = function () {
-                    return { Url: "/app/controller/search/index.html", Id: "search-view" };
+                    return { Url: "/app/controller/about/index.html", Id: "about-view" };
                 };
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("button$label$find"),
-                        "labelAbout": vars._statres("label$aboutUs")
+                        "Header": vars._statres("label$aboutUs")
                     });
                 };
                 Index.prototype.createEvents = function () {
@@ -39,9 +38,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 };
                 return Index;
             }(base.Controller.Base));
-            Search.Index = Index;
-        })(Search = Controller.Search || (Controller.Search = {}));
+            About.Index = Index;
+        })(About = Controller.About || (Controller.About = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("search/index", function (module) { return new module.Controller.Search.Index(); });
+    vars.registerController("about/index", function (module) { return new module.Controller.About.Index(); });
 });
 //# sourceMappingURL=index.js.map
