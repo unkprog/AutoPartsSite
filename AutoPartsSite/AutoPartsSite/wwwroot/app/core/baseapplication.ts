@@ -215,7 +215,7 @@ export namespace App {
         public OpenController(options: Interfaces.IOpenControllerOptions) {
             var self = this;
 
-            let url: string = "/Content/js/app/controller/" + options.urlController + ".js";
+            let url: string = "/app/controller/" + options.urlController + ".js";
             require([url], function (module) {
                 let ctrlCreate: any = vars._controllers[options.urlController]
                 if (ctrlCreate) {

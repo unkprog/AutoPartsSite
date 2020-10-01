@@ -185,7 +185,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             };
             Application.prototype.OpenController = function (options) {
                 var self = this;
-                var url = "/Content/js/app/controller/" + options.urlController + ".js";
+                var url = "/app/controller/" + options.urlController + ".js";
                 require([url], function (module) {
                     var ctrlCreate = vars._controllers[options.urlController];
                     if (ctrlCreate) {

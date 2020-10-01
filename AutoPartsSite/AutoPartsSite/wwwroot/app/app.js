@@ -86,10 +86,9 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 $("#app-btn-menu").removeClass("hide");
             };
             Application.prototype.login = function () {
-                this.OpenController({ urlController: "security/login" });
             };
             Application.prototype.initAfterLoaded = function () {
-                this.login();
+                this.OpenController({ urlController: "main" });
             };
             Application.prototype.HandleError = function (e) {
                 this.ShowError(e.responseJSON ? (e.responseJSON.error ? e.responseJSON.error : (e.responseJSON.Message ? e.responseJSON.Message : e)) : e);

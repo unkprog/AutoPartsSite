@@ -94,11 +94,11 @@ export module App {
         }
 
         private login(): void {
-            this.OpenController({ urlController: "security/login" });
+            
         }
 
         private initAfterLoaded() {
-            this.login();
+            this.OpenController({ urlController: "main" });
         }
 
         public HandleError(e: any): void {

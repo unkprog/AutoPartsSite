@@ -16,7 +16,7 @@ export declare let _appSettings: {
 };
 
 
-namespace App {
+export namespace App {
     export class StaticResources {
 
         private i18nData: any;
@@ -30,7 +30,7 @@ namespace App {
     }
 }
 
-let staticResources = new App.StaticResources();
+const staticResources = new App.StaticResources();
 _statres = (id: string) => { return staticResources.GetString(id); }
 _showError = (error: string) => { _app.ShowError(error); }
 

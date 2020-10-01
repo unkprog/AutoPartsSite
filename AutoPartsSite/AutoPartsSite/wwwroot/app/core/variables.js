@@ -2,7 +2,7 @@
 define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getTemplate = exports.unRegisterController = exports.registerController = void 0;
+    exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
     var App;
     (function (App) {
         var StaticResources = /** @class */ (function () {
@@ -15,7 +15,7 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
             return StaticResources;
         }());
         App.StaticResources = StaticResources;
-    })(App || (App = {}));
+    })(App = exports.App || (exports.App = {}));
     var staticResources = new App.StaticResources();
     exports._statres = function (id) { return staticResources.GetString(id); };
     exports._showError = function (error) { exports._app.ShowError(error); };
