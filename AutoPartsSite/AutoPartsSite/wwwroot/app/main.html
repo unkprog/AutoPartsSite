@@ -1,0 +1,35 @@
+﻿<div id="main-view">
+    <ul id="main-view-slide" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="/Content/img/menu-background.png" />
+                </div>
+                <table>
+                    <tr>
+                        <td width="85px">
+                            <div class="person-image"></div>
+                        </td>
+                        <td class="person-info">
+                            <span class="white-text" data-bind="text:employee.name"></span><br />
+                            <span class="white-text" data-bind="text:employee.phone"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </li>
+        <li><a id="main-view-btn-posterminal"><i class="material-icons">shopping_cart</i><span data-bind="text:labelPOSterminal">POS терминал</span></a></li>
+        <li><a id="main-view-btn-settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings">Настройки</span></a></li>
+        <li><a id="main-view-btn-documents"><i class="material-icons">input</i><span data-bind="text:labelDocuments">Документы</span></a></li>
+        <!--<li><a><i class="material-icons">storage</i>Справочники</a></li>-->
+        <li><a id="main-view-btn-reports"><i class="material-icons">timeline</i><span data-bind="text:labelReports">Отчеты</span></a></li>
+        <li><a id="main-view-btn-about"><i class="material-icons">help</i><span data-bind="text:labelAbout">О программе</span></a></li>
+        <li><div class="divider divider-menu"></div></li>
+        <li><a id="main-view-btn-exit"><i class="material-icons">power_settings_new</i><span data-bind="text:labelExit">Выход</span></a></li>
+    </ul>
+
+    <div id="main-view-content">
+
+    </div>
+    
+</div>
