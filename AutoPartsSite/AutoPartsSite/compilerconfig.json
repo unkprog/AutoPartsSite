@@ -1,0 +1,26 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/app.css",
+    "inputFile": "Scss/app.scss"
+  },
+  {
+    "outputFile": "wwwroot/lib/kendo/kendo.binder.es5.js",
+    "inputFile": "wwwroot/lib/kendo/kendo.binder.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/kendo/kendo.core.es5.js",
+    "inputFile": "wwwroot/lib/kendo/kendo.core.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/kendo/kendo.data.es5.js",
+    "inputFile": "wwwroot/lib/kendo/kendo.data.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/kendo/kendo.data.odata.es5.js",
+    "inputFile": "wwwroot/lib/kendo/kendo.data.odata.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/kendo/kendo.data.xml.es5.js",
+    "inputFile": "wwwroot/lib/kendo/kendo.data.xml.js"
+  }
+]

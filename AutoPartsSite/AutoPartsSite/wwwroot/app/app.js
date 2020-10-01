@@ -46,7 +46,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             Application.prototype.loadAppView = function () {
                 var self = this;
-                $.when($.ajax({ url: "/Content/view/app.html", cache: false })).done(function (template) {
+                $.when($.ajax({ url: "/app/app.html", cache: false })).done(function (template) {
                     try {
                         $("#app-view").html(template);
                         kendo.bind($("#app-view"), self.Model);
@@ -75,8 +75,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 var header = controller.Header;
                 if (header)
                     this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
-                else if ("POS Cloud" !== this.Model.get("AppHeader"))
-                    this.Model.set("AppHeader", "POS Cloud");
+                else if ("Auto Parts Site" !== this.Model.get("AppHeader"))
+                    this.Model.set("AppHeader", "Auto Parts Site");
             };
             Application.prototype.OpenViewTemplateIsModal = function () {
                 if ($("#app-btn-menu").hasClass("hide") == false)

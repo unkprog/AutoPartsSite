@@ -6,7 +6,6 @@ import baseapp = require('app/core/baseapplication');
 export module App {
     export class Application extends baseapp.App.Application {
 
-
         constructor() {
             super();
         }
@@ -19,7 +18,6 @@ export module App {
                 "contentError": ""
             });
         }
-
 
         private progressControl: JQuery;
         private rigthMenuItems: JQuery;
@@ -45,7 +43,7 @@ export module App {
 
         protected loadAppView() {
             let self = this;
-            $.when($.ajax({ url: "/Content/view/app.html", cache: false })).done((template) => {
+            $.when($.ajax({ url: "/app/app.html", cache: false })).done((template) => {
                 try {
                     $("#app-view").html(template);
                     kendo.bind($("#app-view"), self.Model);
@@ -80,8 +78,8 @@ export module App {
             if (header)
                 this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
             else
-                if ("POS Cloud" !== this.Model.get("AppHeader"))
-                    this.Model.set("AppHeader", "POS Cloud");
+                if ("Auto Parts Site" !== this.Model.get("AppHeader"))
+                    this.Model.set("AppHeader", "Auto Parts Site");
         }
 
 

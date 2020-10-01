@@ -1,19 +1,15 @@
 ﻿requirejs.config({
-    baseUrl: "/Content",
+    baseUrl: "/",
     paths: {
-        "jquery": "js/lib/jquery-3.3.1.min",
-        "materialize": "js/lib/materialize/materialize",
-        "materialize.pagination": "js/lib/materialize/materialize.pagination",
-        "printThis": "js/lib/printthis/printThis",
-        "jqueryprint": "js/lib/jquery.print.min",
-        "chartjs": "js/lib/chartjs/Chart.min",
-        "kendo.core": "js/lib/kendo/kendo.core.es5.min",
-        "kendo.data": "js/lib/kendo/kendo.data.es5.min",
-        "kendo.data.odata": "js/lib/kendo/kendo.data.odata.es5.min",
-        "kendo.data.xml": "js/lib/kendo/kendo.data.xml.es5.min",
-        "kendo.binder": "js/lib/kendo/kendo.binder.es5.min",
-        "i18n": "js/lib/i18n.es5.min",
-        "domReady": "js/lib/require/domReady.es5.min"
+        "jquery": "lib/jquery/dist/jquery.min",
+        "materialize": "lib/materialize/dist/js/materialize",
+        "kendo.core": "lib/kendo/kendo.core.es5.min",
+        "kendo.data": "lib/kendo/kendo.data.es5.min",
+        "kendo.data.odata": "lib/kendo/kendo.data.odata.es5.min",
+        "kendo.data.xml": "lib/kendo/kendo.data.xml.es5.min",
+        "kendo.binder": "lib/kendo/kendo.binder.es5.min",
+        "i18n": "lib/i18n.es5.min",
+        "domReady": "lib/require/domReady.es5.min"
     },
     waitSeconds: 20
 });
@@ -35,9 +31,9 @@
 
 require(["domReady", "jquery"], function (domReady, _jquery) {
     $("#progress-container").show();
-    require(["materialize", "materialize.pagination", "kendo.binder", "chartjs", "printThis"], function (_materialize, _materializePager, _kendoBinder, _chartjs, _printThis) {
+    require(["materialize", "kendo.binder"], function (_materialize, _kendoBinder) {
         domReady(function () {
-            require(["app/application"], function (app) {
+            require(["app/app"], function (app) {
                 var _app = new app.App.Application();
                 $(window).on('resize', function (e) {
                     _app.Resize(e);
