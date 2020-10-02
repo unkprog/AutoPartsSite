@@ -29,7 +29,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.createModel = function () {
                 return new kendo.data.ObservableObject({
-                    "Header": "",
+                    "Header": vars._statres("label$AutoPartsSite"),
                     "client": { "name": "client@email.com", "phone": "+79991234567" },
                     "labelAbout": vars._statres("label$aboutUs"),
                 });

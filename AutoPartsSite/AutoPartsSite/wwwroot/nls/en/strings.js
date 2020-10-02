@@ -5,6 +5,14 @@ define({
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Ошибки, предупреждения и другие системные сообщения                        //
     /////////////////////////////////////////////////////////////////////////////////////////////
+    "msg$error$phoneNumberIncorrect": "Incorrect phone number",
+    "msg$error$emailIncorrect": "Incorrect E-mail address",
+    "msg$error$passwordNotSpecified": "A password is not specified",
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Информационные сообщения                                                   //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "msg$success$Register": "You have successfully registered! <br/>The login password has been sent to Your email address",
+    "msg$success$Recovery": "A new password has been sent to Your email address",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Наименования кнопок                                                        //

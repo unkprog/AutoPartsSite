@@ -41,9 +41,5 @@
     <Content Remove="wwwroot\app\init.js" />
     <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\app\controller\account\" />
-  </ItemGroup>
   
 </Project>

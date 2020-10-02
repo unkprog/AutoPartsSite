@@ -24,7 +24,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             }
             Application.prototype.CreateModel = function () {
                 return new kendo.data.ObservableObject({
-                    "AppHeader": "Auto Parts Site",
+                    "AppHeader": vars._statres("label$AutoPartsSite"),
                     "labelOk": vars._statres("button$label$ok"),
                     "labelError": vars._statres("label$error"),
                     "contentError": ""
@@ -80,8 +80,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 var header = controller.Header;
                 if (header)
                     this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
-                else if ("Auto Parts Site" !== this.Model.get("AppHeader"))
-                    this.Model.set("AppHeader", "Auto Parts Site");
+                else if (vars._statres("label$AutoPartsSite") !== this.Model.get("AppHeader"))
+                    this.Model.set("AppHeader", vars._statres("label$AutoPartsSite"));
             };
             Application.prototype.OpenViewTemplateIsModal = function () {
                 if ($("#app-btn-menu").hasClass("hide") == false)

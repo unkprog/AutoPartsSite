@@ -12,7 +12,7 @@ export module App {
 
         protected CreateModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "AppHeader": "Auto Parts Site",
+                "AppHeader": vars._statres("label$AutoPartsSite"),
                 "labelOk": vars._statres("button$label$ok"),
                 "labelError": vars._statres("label$error"),
                 "contentError": ""
@@ -86,8 +86,8 @@ export module App {
             if (header)
                 this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
             else
-                if ("Auto Parts Site" !== this.Model.get("AppHeader"))
-                    this.Model.set("AppHeader", "Auto Parts Site");
+                if (vars._statres("label$AutoPartsSite") !== this.Model.get("AppHeader"))
+                    this.Model.set("AppHeader", vars._statres("label$AutoPartsSite"));
         }
 
 
