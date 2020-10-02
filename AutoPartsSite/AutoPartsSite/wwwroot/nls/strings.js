@@ -1,4 +1,6 @@
 ﻿define({
-    "root": true,
-    "ru": true,
+    "root": false,
+    "dummy": {}, //dummy language with no translations if user language is unknown
+    "en": true,
+    "ru": true
 });

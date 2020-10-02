@@ -108,6 +108,14 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     messagerDialog.Show(header, message);
                 });
             };
+            Application.prototype.ChangeLocale = function (newlocale) {
+                var locale = localStorage.getItem('locale');
+                if (!locale || locale !== newlocale) {
+                    localStorage.setItem('locale', newlocale);
+                    //reload the app
+                    location.reload();
+                }
+            };
             return Application;
         }(baseapp.App.Application));
         App.Application = Application;

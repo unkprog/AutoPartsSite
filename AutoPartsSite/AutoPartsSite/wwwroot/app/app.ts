@@ -124,5 +124,17 @@ export module App {
                 messagerDialog.Show(header, message);
             });
         }
+
+        public ChangeLocale(newlocale: string): void {
+            var locale: string = localStorage.getItem('locale');
+
+            if (!locale || locale !== newlocale) {
+
+                localStorage.setItem('locale', newlocale);
+
+                //reload the app
+                location.reload();
+            }
+        }
     }
 }

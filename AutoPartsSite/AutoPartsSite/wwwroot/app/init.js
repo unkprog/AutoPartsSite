@@ -1,4 +1,6 @@
-﻿requirejs.config({
+﻿var locale = localStorage.getItem('locale') || 'en';
+
+requirejs.config({
     baseUrl: "/",
     paths: {
         "jquery": "lib/jquery/dist/jquery.min",
@@ -11,7 +13,14 @@
         "i18n": "lib/i18n.es5.min",
         "domReady": "lib/require/domReady.es5.min"
     },
-    waitSeconds: 20
+    waitSeconds: 20,
+    config: {
+        //Set the config for the i18n
+        //module ID
+        i18n: {
+            locale: locale
+        }
+    }
 });
 
 (function () {
