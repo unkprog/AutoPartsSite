@@ -36,10 +36,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Remove="wwwroot\app\app.ts" />
     <TypeScriptCompile Include="wwwroot\app\app.ts" DependentUpon="app.html" />
     <Content Remove="wwwroot\app\init.js" />
     <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
+
+    <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
+
+    <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="index.html" />
+    
+    <TypeScriptCompile Include="wwwroot\app\controller\account\login.ts" DependentUpon="login.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="recovery.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\register.ts" DependentUpon="register.html" />
   </ItemGroup>
   
 </Project>

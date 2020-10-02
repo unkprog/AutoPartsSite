@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,12 +15,15 @@ namespace AutoPartsSite
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; private set; }
+        public IServiceCollection Services { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            Services = services;
 
+            services.AddControllers();
             services.AddHttpContextAccessor();
             // Or you can also register as follows
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -28,6 +32,8 @@ namespace AutoPartsSite
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Environment = env;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -35,10 +41,7 @@ namespace AutoPartsSite
 
             app.UseHttpsRedirection();
 
-            DefaultFilesOptions options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("index.html");
-            app.UseDefaultFiles(options);
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -49,6 +52,10 @@ namespace AutoPartsSite
                 endpoints.MapControllers();
             });
 
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Auto parts site");
+            });
         }
     }
 }
