@@ -34,6 +34,22 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     });
                 };
                 Index.prototype.createEvents = function () {
+                    var templateContent = this.View.find('#search-view-brand-catalogs-template').html();
+                    var items = [
+                        { BrandName: "BMW", BrandImage: "bmw.png" },
+                        { BrandName: "Chevrolet", BrandImage: "chevrolet.png" },
+                        { BrandName: "Honda", BrandImage: "honda.png" },
+                        { BrandName: "Hyundai", BrandImage: "hyundai.png" },
+                        { BrandName: "Infiniti", BrandImage: "infiniti.png" },
+                        { BrandName: "Isuzu", BrandImage: "isuzu.png" },
+                        { BrandName: "Kia", BrandImage: "kia.png" },
+                        { BrandName: "Land-Rover", BrandImage: "land-rover.png" },
+                    ];
+                    var template = vars.getTemplate(templateContent);
+                    var htmlResult = '';
+                    for (var i = 0, icount = items.length; i < icount; i++)
+                        htmlResult = (htmlResult + template(items[i]));
+                    this.View.find('#search-view-brand-catalogs').html(htmlResult);
                 };
                 Index.prototype.destroyEvents = function () {
                 };
