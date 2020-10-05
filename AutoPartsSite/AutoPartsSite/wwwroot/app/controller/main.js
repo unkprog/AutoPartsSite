@@ -47,6 +47,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav = view.find('#main-view-slide');
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
+                this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login"><i class="material-icons">account_circle</i></a></li>');
+                $("#app-navbar").find(".right").append(this.menuRight);
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
@@ -61,6 +63,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.createEvents = function () {
                 this.OpenMenuButtonClick = this.createTouchClickEvent(this.buttonMenu, this.openMenuButtonClick);
+                var self = this;
+                this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
+                this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, self);
                 this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
             };
             Main.prototype.destroyEvents = function () {
@@ -74,6 +79,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 e.preventDefault();
                 e.stopPropagation();
                 this.sideNav.sidenav('open');
+            };
+            Main.prototype.appTitleClick = function (e) {
+                //this.initAfterLoaded();
+            };
+            Main.prototype.loginClick = function (e) {
+                this.OpenController({ urlController: "account/login" });
             };
             Main.prototype.menuAboutButtonClick = function (e) {
                 this.handleMenuItem("about/index");

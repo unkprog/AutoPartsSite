@@ -34,6 +34,7 @@ export namespace Controller {
         }
 
         private menu: JQuery;
+        private menuRight: JQuery;
         private sideNav: JQuery;
         private buttonMenu: JQuery;
         public ViewInit(view: JQuery): boolean {
@@ -43,6 +44,10 @@ export namespace Controller {
             this.sideNav = view.find('#main-view-slide');
             this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
             $("#app-navbar").find(".left").append(this.menu);
+
+            this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login"><i class="material-icons">account_circle</i></a></li>');
+            $("#app-navbar").find(".right").append(this.menuRight);
+
             this.buttonMenu = this.menu.find("#app-btn-menu");
             this.content = view.find("#main-view-content");
             this.contentModal = view.find("#main-view-content-modal");
@@ -59,6 +64,10 @@ export namespace Controller {
 
         protected createEvents(): void {
             this.OpenMenuButtonClick = this.createTouchClickEvent(this.buttonMenu, this.openMenuButtonClick);
+
+            let self = this;
+            this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
+            this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, self);
 
             this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
            
@@ -81,6 +90,15 @@ export namespace Controller {
             this.sideNav.sidenav('open');
         }
 
+        public AppTitleClick: { (e: any): void; };
+        private appTitleClick(e) {
+            //this.initAfterLoaded();
+        }
+
+        public LoginClick: { (e: any): void; };
+        private loginClick(e) {
+            this.OpenController({ urlController: "account/login" });
+        }
 
         public MenuAboutButtonClick: { (e: any): void; };
         private menuAboutButtonClick(e) {

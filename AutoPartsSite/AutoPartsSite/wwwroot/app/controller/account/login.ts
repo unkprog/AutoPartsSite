@@ -10,7 +10,7 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/login.html", Id: "app-login" };
+            return { Url: "/app/controller/account/login.html", Id: "login-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
@@ -95,4 +95,4 @@ export namespace Controller.Account {
     }
 }
 
-vars.registerController("account/login", function (module: any): Interfaces.IController { vars._app.SetControlNavigation(vars._app); return new module.Controller.Account.Login(); });
+vars.registerController("account/login", function (module: any): Interfaces.IController { return new module.Controller.Account.Login(); }); //vars._app.SetControlNavigation(vars._app); 

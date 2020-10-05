@@ -1,16 +1,20 @@
 ﻿import vars = require('app/core/variables');
 import utils = require('app/core/utils');
-import acc = require('app/controller/account/account');
+import acc = require('app/services/accountservice')
+import bc = require('app/core/basecontroller');
 
 export namespace Controller.Account {
-    export class Recovery extends acc.Controller.Account.Account {
+    export class Recovery extends bc.Controller.Base {
+
+        accountService: acc.Services.AccountService;
 
         constructor() {
             super();
+            this.accountService = new acc.Services.AccountService();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/accont/recovery.html", Id: "app-recovery" };
+            return { Url: "/app/controller/account/recovery.html", Id: "recovery-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
@@ -38,7 +42,7 @@ export namespace Controller.Account {
             };
 
             if (this.validate(model)) {
-                controller.AccountService.Recovery(model, (responseData) => {
+                this.accountService.Recovery(model, (responseData) => {
                     if (responseData.result == "Ok")
                         vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Recovery"), () => { vars._app.OpenController({ urlController: "account/login" }); });
                     else
@@ -60,4 +64,4 @@ export namespace Controller.Account {
     }
 }
 
-vars.registerController("account/recovery", function (module: any): Interfaces.IController { vars._app.SetControlNavigation(vars._app); return new module.Controller.Security.Recovery(); });
+vars.registerController("account/recovery", function (module: any): Interfaces.IController { return new module.Controller.Account.Recovery(); }); //vars._app.SetControlNavigation(vars._app);

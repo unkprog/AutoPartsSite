@@ -13,7 +13,7 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/register.html", Id: "app-register" };
+            return { Url: "/app/controller/account/register.html", Id: "register-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
@@ -68,4 +68,4 @@ export namespace Controller.Account {
     }
 }
 
-vars.registerController("account/register", function (module: any): Interfaces.IController { vars._app.SetControlNavigation(vars._app); return new module.Controller.Account.Register(); });
+vars.registerController("account/register", function (module: any): Interfaces.IController { return new module.Controller.Account.Register(); }); //vars._app.SetControlNavigation(vars._app);

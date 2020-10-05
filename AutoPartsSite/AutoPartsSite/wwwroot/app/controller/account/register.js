@@ -27,7 +27,7 @@ define(["require", "exports", "app/core/basecontroller", "app/core/variables", "
                     return _this;
                 }
                 Register.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/register.html", Id: "app-register" };
+                    return { Url: "/app/controller/account/register.html", Id: "register-view" };
                 };
                 Register.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
@@ -73,6 +73,6 @@ define(["require", "exports", "app/core/basecontroller", "app/core/variables", "
             Account.Register = Register;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("account/register", function (module) { vars._app.SetControlNavigation(vars._app); return new module.Controller.Account.Register(); });
+    vars.registerController("account/register", function (module) { return new module.Controller.Account.Register(); }); //vars._app.SetControlNavigation(vars._app);
 });
 //# sourceMappingURL=register.js.map

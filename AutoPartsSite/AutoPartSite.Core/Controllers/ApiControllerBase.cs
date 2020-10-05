@@ -23,6 +23,7 @@ namespace AutoPartsSite.Core.Controllers
             _logger?.Log(LogLevel.Error, ex.Message);
         }
 
+        [NonAction]
         public HttpResponseMessage TryCatchResponse(Func<HttpResponseMessage> func)
         {
             try
@@ -36,7 +37,7 @@ namespace AutoPartsSite.Core.Controllers
             }
         }
 
-
+        [NonAction]
         public async Task<HttpResponseMessage> TryCatchResponseAsync(Func<Task<HttpResponseMessage>> func)
         {
             try
@@ -52,12 +53,13 @@ namespace AutoPartsSite.Core.Controllers
             }
         }
 
-
+        [NonAction]
         public HttpResponseMessage CreateResponse(HttpStatusCode statusCode)
         {
             return new HttpResponseMessage(statusCode);
         }
 
+        [NonAction]
         public HttpResponseMessage CreateResponse(HttpStatusCode statusCode, object value)
         {
             return new HttpResponseMessage(statusCode) { Content = new StringContent(Utf8Json.JsonSerializer.NonGeneric.ToJsonString(value)) };

@@ -25,7 +25,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return _super.call(this) || this;
                 }
                 Login.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/login.html", Id: "app-login" };
+                    return { Url: "/app/controller/account/login.html", Id: "login-view" };
                 };
                 Login.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
@@ -96,6 +96,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
             Account.Login = Login;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("account/login", function (module) { vars._app.SetControlNavigation(vars._app); return new module.Controller.Account.Login(); });
+    vars.registerController("account/login", function (module) { return new module.Controller.Account.Login(); }); //vars._app.SetControlNavigation(vars._app); 
 });
 //# sourceMappingURL=login.js.map
