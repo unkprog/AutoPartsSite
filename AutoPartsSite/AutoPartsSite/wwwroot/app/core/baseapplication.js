@@ -4,8 +4,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
     exports.App = void 0;
     var App;
     (function (App) {
-        var Application = /** @class */ (function () {
-            function Application() {
+        class Application {
+            constructor() {
                 this.contentModals = [];
                 vars._app = this;
                 this._controllersStack = new base.Controller.ControllersStack();
@@ -13,24 +13,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 this._model = this.CreateModel();
                 this.Initailize();
             }
-            Application.prototype.CreateModel = function () {
+            CreateModel() {
                 return new kendo.data.ObservableObject({});
-            };
-            Object.defineProperty(Application.prototype, "Model", {
-                get: function () {
-                    return this._model;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(Application.prototype, "Controller", {
-                get: function () {
-                    return this._controller;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Application.prototype.GlobalAjaxSetup = function () {
+            }
+            get Model() {
+                return this._model;
+            }
+            get Controller() {
+                return this._controller;
+            }
+            GlobalAjaxSetup() {
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                     //jqXHR.setRequestHeader("X-Application-Language", _config.Language);
                     if (vars._identity && vars._identity.auth && vars._identity.token) {
@@ -38,61 +30,57 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     }
                 });
                 // $(document).ajaxError(this.GlobalAjaxErrorHandler);
-            };
-            Application.prototype.Initailize = function () {
-                var app = this;
+            }
+            Initailize() {
+                let app = this;
                 app.GlobalAjaxSetup();
                 app.SetControlNavigation(this);
                 app.Resize = $.proxy(app.resize, app);
                 app.ControllerBack = $.proxy(app.controllerBack, app);
                 app.loadAppView();
-            };
-            Application.prototype.resize = function (e) {
-                var heigth = window.innerHeight;
+            }
+            resize(e) {
+                let heigth = window.innerHeight;
                 heigth = heigth - (this.navbarControl ? this.navbarControl.height() : 0);
                 if (this.contentControl)
                     this.contentControl.height(heigth);
                 if (this._controller)
                     this._controller.ViewResize(e);
-            };
-            Application.prototype.ShowLoading = function () {
+            }
+            ShowLoading() {
                 if (this.contentControl)
                     this.contentControl.hide();
-            };
-            Application.prototype.HideLoading = function () {
+            }
+            HideLoading() {
                 if (this.IsModal)
                     this.contentModals[this.contentModals.length - 1].show();
                 else if (this.contentControl) {
                     this.contentControl.show();
                 }
                 this.resize({});
-            };
-            Application.prototype.loadAppView = function () {
-            };
-            Application.prototype.SetControlNavigation = function (controlNavigation) {
+            }
+            loadAppView() {
+            }
+            SetControlNavigation(controlNavigation) {
                 if (controlNavigation)
                     this._controllerNavigation = controlNavigation;
-            };
-            Object.defineProperty(Application.prototype, "Identity", {
-                get: function () {
-                    return this._identity;
-                },
-                set: function (identity) {
-                    this._identity = identity;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Application.prototype.OpenViewTemplateIsModal = function () {
-            };
-            Application.prototype.SetHeader = function (controller) {
-            };
-            Application.prototype.OpenViewTemplate = function (options) {
-                var self = this;
-                var isInit = false;
-                var isModal = (options.isModal ? options.isModal === true : false);
-                var isRestore = (options.isRestore ? options.isRestore === true : false);
-                var content = self.contentControl;
+            }
+            get Identity() {
+                return this._identity;
+            }
+            set Identity(identity) {
+                this._identity = identity;
+            }
+            OpenViewTemplateIsModal() {
+            }
+            SetHeader(controller) {
+            }
+            OpenViewTemplate(options) {
+                let self = this;
+                let isInit = false;
+                let isModal = (options.isModal ? options.isModal === true : false);
+                let isRestore = (options.isRestore ? options.isRestore === true : false);
+                let content = self.contentControl;
                 try {
                     if (!isModal && self._controller)
                         self._controller.ViewHide(self);
@@ -103,7 +91,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         self._controllersStack.Push(options.backController);
                     if (!isModal)
                         self.SetHeader(self._controller);
-                    var view = $(options.template);
+                    let view = $(options.template);
                     isInit = self._controller.ViewInit(view);
                     if (isModal) {
                         self.OpenViewTemplateIsModal();
@@ -127,31 +115,23 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     if (isInit == true)
                         self.HideLoading();
                 }
-            };
-            Object.defineProperty(Application.prototype, "IsModal", {
-                get: function () {
-                    return (this.contentModals.length > 0);
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(Application.prototype, "IsNativeApp", {
-                get: function () {
-                    return (window.location.href.toLocaleLowerCase().indexOf('isnativeapp') > -1 ? true : false);
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Application.prototype.NativeCommand = function (command, data) {
+            }
+            get IsModal() {
+                return (this.contentModals.length > 0);
+            }
+            get IsNativeApp() {
+                return (window.location.href.toLocaleLowerCase().indexOf('isnativeapp') > -1 ? true : false);
+            }
+            NativeCommand(command, data) {
                 if (this.IsNativeApp)
                     nativeBridge.command(command, JSON.stringify(data));
-            };
-            Application.prototype.ControllerBackEndModal = function () {
-            };
-            Application.prototype.controllerBack = function (e) {
+            }
+            ControllerBackEndModal() {
+            }
+            controllerBack(e) {
                 if (this.IsModal === true) {
-                    var contentModal = this.contentModals.pop();
-                    var controllerModal = this._controllersModalStack.Last;
+                    let contentModal = this.contentModals.pop();
+                    let controllerModal = this._controllersModalStack.Last;
                     controllerModal.ViewHide(this);
                     contentModal.remove();
                     this._controllersModalStack.Pop();
@@ -174,34 +154,34 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     else
                         this._controllerNavigation.ControllerBack(e);
                 }
-            };
-            Application.prototype.RestoreController = function () {
+            }
+            RestoreController() {
                 if (this._controllerNavigation === this) {
                     if (this._controllersStack.Current)
                         this.OpenView({ controller: this._controllersStack.Current });
                 }
                 else
                     this._controllerNavigation.RestoreController();
-            };
-            Application.prototype.OpenController = function (options) {
+            }
+            OpenController(options) {
                 var self = this;
-                var url = "/app/controller/" + options.urlController + ".js";
+                let url = "/app/controller/" + options.urlController + ".js";
                 require([url], function (module) {
-                    var ctrlCreate = vars._controllers[options.urlController];
+                    let ctrlCreate = vars._controllers[options.urlController];
                     if (ctrlCreate) {
-                        var controller = ctrlCreate(module);
+                        let controller = ctrlCreate(module);
                         if (options.onLoadController)
                             options.onLoadController(controller);
                         self.OpenView({ controller: controller, isModal: options.isModal, backController: options.backController });
                     }
                 });
-            };
-            Application.prototype.OpenView = function (options) {
-                var self = this;
+            }
+            OpenView(options) {
+                let self = this;
                 if (options.isModal && options.isModal === true) {
-                    $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
+                    $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
                         self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
-                    }).fail(function (e) {
+                    }).fail((e) => {
                         self.HideLoading();
                     });
                     return;
@@ -214,26 +194,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     return; //Already loaded and current
                 self.ShowLoading();
                 //<div id="main-view-content-modal" style="display:none"></div>
-                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
+                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
                     self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
-                }).fail(function (e) {
+                }).fail((e) => {
                     self.HideLoading();
                 });
-            };
-            Application.prototype.ResetScroll = function () {
+            }
+            ResetScroll() {
                 this.contentControl.scrollTop(0);
-            };
-            Application.prototype.HandleError = function (e) {
+            }
+            HandleError(e) {
                 throw new Error("Method not implemented.");
-            };
-            Application.prototype.ShowError = function (e) {
+            }
+            ShowError(e) {
                 throw new Error("Method not implemented.");
-            };
-            Application.prototype.ShowMessage = function (header, message, onClose) {
+            }
+            ShowMessage(header, message, onClose) {
                 throw new Error("Method not implemented.");
-            };
-            return Application;
-        }());
+            }
+        }
         App.Application = Application;
     })(App = exports.App || (exports.App = {}));
 });

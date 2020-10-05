@@ -3,6 +3,7 @@ using AutoPartsSite.Core.Controllers;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -39,9 +40,9 @@ namespace AutoPartsSite.Controllers.Api
         //        async () => await Common.Net.Json.PostAsync<JObject, login_user>(AppSettings.Server.Register, "api/account/login", login)
         //            , (response) =>
         //            {
-        //                PrincipalData principalData = response.ToObject<PrincipalData>();
-        //                if (principalData.User == null)
-        //                    throw new ApiException("Невозможно произвести авторизацию!");
+        //                user User = response.ToObject<user>();
+        //                if (User == null)
+        //                    throw new Exception("Невозможно произвести авторизацию!");
         //                //// TODO: Добавить проверку Expires!!!
         //                Principal principal = new Principal(principalData);
         //                AuthUser.LogIn(principal);

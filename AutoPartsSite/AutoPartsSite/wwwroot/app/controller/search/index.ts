@@ -13,7 +13,7 @@ export namespace Controller.Search {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("button$label$find"),
+                "Header": vars._statres("label$AutoPartsSite"),
                 "labelAbout": vars._statres("label$aboutUs")
             });
         }
@@ -29,6 +29,18 @@ export namespace Controller.Search {
                 { BrandName: "Isuzu", BrandImage: "isuzu.png" },
                 { BrandName: "Kia", BrandImage: "kia.png" },
                 { BrandName: "Land-Rover", BrandImage: "land-rover.png" },
+                { BrandName: "Lexus", BrandImage: "lexus.png" },
+                { BrandName: "Mazda", BrandImage: "mazda.png" },
+                { BrandName: "Mercedes", BrandImage: "mercedes-benz.png" },
+                { BrandName: "Mitsubishi", BrandImage: "mitsubishi.png" },
+                { BrandName: "Nissan", BrandImage: "nissan.png" },
+                { BrandName: "Peugeot", BrandImage: "peugeot.png" },
+                { BrandName: "Porsche", BrandImage: "porsche.png" },
+                { BrandName: "Renault", BrandImage: "renault.png" },
+                { BrandName: "Subaru", BrandImage: "subaru.png" },
+                { BrandName: "Suzuki", BrandImage: "suzuki.png" },
+                { BrandName: "Toyota", BrandImage: "toyota.png" },
+                { BrandName: "Volkswagen", BrandImage: "volkswagen.png" }
             ];
 
             let template = vars.getTemplate(templateContent);

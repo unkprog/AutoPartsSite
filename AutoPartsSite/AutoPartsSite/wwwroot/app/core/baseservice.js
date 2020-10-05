@@ -4,28 +4,24 @@ define(["require", "exports", "./variables"], function (require, exports, variab
     exports.Services = void 0;
     var Services;
     (function (Services) {
-        var BaseService = /** @class */ (function () {
-            function BaseService() {
+        class BaseService {
+            constructor() {
             }
-            Object.defineProperty(BaseService.prototype, "Options", {
-                get: function () {
-                    return { BaseUrl: '' };
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseService.prototype.handleError = function (e) {
-                var isHandled = false;
+            get Options() {
+                return { BaseUrl: '' };
+            }
+            handleError(e) {
+                let isHandled = false;
                 variables_1._app.HideLoading();
                 if (this.Options.OnError)
                     isHandled = this.Options.OnError(e);
                 if (!isHandled)
                     variables_1._app.HandleError(e);
-            };
-            BaseService.prototype.GetApi = function (options) {
+            }
+            GetApi(options) {
                 //_app.ShowLoading();
-                var self = this;
-                var action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
+                let self = this;
+                let action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
                 $.ajax({
                     url: action,
                     type: "get",
@@ -51,11 +47,11 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                             self.handleError(e);
                     }
                 });
-            };
-            BaseService.prototype.PostApi = function (options) {
+            }
+            PostApi(options) {
                 //_app.ShowLoading();
-                var self = this;
-                var action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
+                let self = this;
+                let action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
                 $.ajax({
                     url: action,
                     type: "post",
@@ -80,9 +76,8 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                             self.handleError(e);
                     }
                 });
-            };
-            return BaseService;
-        }());
+            }
+        }
         Services.BaseService = BaseService;
     })(Services = exports.Services || (exports.Services = {}));
 });

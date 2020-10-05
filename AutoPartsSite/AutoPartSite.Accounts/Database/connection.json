@@ -1,0 +1,10 @@
+{
+  "DataSource": ".",
+  "InitialCatalog": "AutoPartsSite.Accounts",
+  "IsSSPI":  true,
+  "UserID": "",
+  "Password": "",
+  "Path": {
+    "Query": "\\Database\\Query"
+  }
+}

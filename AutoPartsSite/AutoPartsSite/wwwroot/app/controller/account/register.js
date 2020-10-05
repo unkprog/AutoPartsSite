@@ -1,17 +1,4 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-define(["require", "exports", "app/core/basecontroller", "app/core/variables", "app/core/utils", "app/services/accountservice"], function (require, exports, bc, vars, utils, acc) {
+define(["require", "exports", "app/core/variables", "app/core/utils", "app/controller/account/account"], function (require, exports, vars, utils, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -19,17 +6,14 @@ define(["require", "exports", "app/core/basecontroller", "app/core/variables", "
     (function (Controller) {
         var Account;
         (function (Account) {
-            var Register = /** @class */ (function (_super) {
-                __extends(Register, _super);
-                function Register() {
-                    var _this = _super.call(this) || this;
-                    _this.accountService = new acc.Services.AccountService();
-                    return _this;
+            class Register extends acc.Controller.Account.Account {
+                constructor() {
+                    super();
                 }
-                Register.prototype.createOptions = function () {
+                createOptions() {
                     return { Url: "/app/controller/account/register.html", Id: "register-view" };
-                };
-                Register.prototype.createModel = function () {
+                }
+                createModel() {
                     return new kendo.data.ObservableObject({
                         "Header": "",
                         "labelTitle": vars._statres("button$label$register"),
@@ -39,37 +23,36 @@ define(["require", "exports", "app/core/basecontroller", "app/core/variables", "
                         "labelConfirmPassword": vars._statres("label$confirmPassword"),
                         "labelRegister": vars._statres("button$label$register"),
                     });
-                };
-                Register.prototype.createEvents = function () {
+                }
+                createEvents() {
                     this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
-                };
-                Register.prototype.destroyEvents = function () {
+                }
+                destroyEvents() {
                     this.destroyTouchClickEvent("btn-register", this.RegisterButtonClick);
-                };
-                Register.prototype.registerButtonClick = function (e) {
-                    var controller = this;
-                    var model = {
+                }
+                registerButtonClick(e) {
+                    let controller = this;
+                    let model = {
                         email: $('#register-email').val()
                     };
                     if (this.validate(model)) {
-                        controller.accountService.Register(model, function (responseData) {
+                        controller.AccountService.Register(model, (responseData) => {
                             if (responseData.result == "Ok")
-                                vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Register"), function () { vars._app.OpenController({ urlController: "security/login" }); });
+                                vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Register"), () => { vars._app.OpenController({ urlController: "security/login" }); });
                             else
                                 vars._app.ShowError(responseData);
                         });
                     }
-                };
-                Register.prototype.validate = function (model) {
-                    var validateMessage = '';
+                }
+                validate(model) {
+                    let validateMessage = '';
                     if (!utils.isNullOrEmpty(model.email) && !utils.validateEmail(model.email))
                         validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
                     if (validateMessage !== '')
                         vars._showError(validateMessage);
                     return (validateMessage === '');
-                };
-                return Register;
-            }(bc.Controller.Base));
+                }
+            }
             Account.Register = Register;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));

@@ -1,16 +1,12 @@
 ﻿import vars = require('app/core/variables');
 import utils = require('app/core/utils');
-import acc = require('app/services/accountservice')
-import bc = require('app/core/basecontroller');
+import acc = require('app/controller/account/account');
 
 export namespace Controller.Account {
-    export class Recovery extends bc.Controller.Base {
-
-        accountService: acc.Services.AccountService;
+    export class Recovery extends acc.Controller.Account.Account {
 
         constructor() {
             super();
-            this.accountService = new acc.Services.AccountService();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
@@ -41,8 +37,8 @@ export namespace Controller.Account {
                 email: <string>$('#recovery-email').val(),
             };
 
-            if (this.validate(model)) {
-                this.accountService.Recovery(model, (responseData) => {
+            if (controller.validate(model)) {
+                controller.AccountService.Recovery(model, (responseData) => {
                     if (responseData.result == "Ok")
                         vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Recovery"), () => { vars._app.OpenController({ urlController: "account/login" }); });
                     else
@@ -50,6 +46,7 @@ export namespace Controller.Account {
                 });
             }
         }
+
         private validate(model: Interfaces.Model.IRegisterModel): boolean {
             let validateMessage: string = '';
 

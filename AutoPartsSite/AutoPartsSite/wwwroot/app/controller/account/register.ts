@@ -1,15 +1,12 @@
-﻿import bc = require('app/core/basecontroller');
-import vars = require('app/core/variables');
+﻿import vars = require('app/core/variables');
 import utils = require('app/core/utils');
-import acc = require('app/services/accountservice');
+import acc = require('app/controller/account/account');
 
 export namespace Controller.Account {
-    export class Register extends bc.Controller.Base {
+    export class Register extends acc.Controller.Account.Account {
 
-        accountService: acc.Services.AccountService;
         constructor() {
             super();
-            this.accountService = new acc.Services.AccountService();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
@@ -44,7 +41,7 @@ export namespace Controller.Account {
             };
 
             if (this.validate(model)) {
-                controller.accountService.Register(model, (responseData) => {
+                controller.AccountService.Register(model, (responseData) => {
                     if (responseData.result == "Ok")
                         vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Register"), () => { vars._app.OpenController({ urlController: "security/login" }); });
                     else

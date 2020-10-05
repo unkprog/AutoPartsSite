@@ -1,30 +1,17 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 define(["require", "exports", "app/core/utils", "app/core/variables"], function (require, exports, utils, vars) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Control = void 0;
     var Control;
     (function (Control) {
-        var ReferenceFieldControl = /** @class */ (function () {
-            function ReferenceFieldControl() {
+        class ReferenceFieldControl {
+            constructor() {
             }
-            ReferenceFieldControl.prototype.InitControl = function (view, name, field, fieldout, header, cardcontroller, model) {
-                var controlHtml = '<input id="' + name + '" type="text" disabled class="truncate black-text" data-bind="value: ' + fieldout + '" style="cursor:pointer;font-weight:bold;">';
+            InitControl(view, name, field, fieldout, header, cardcontroller, model) {
+                let controlHtml = '<input id="' + name + '" type="text" disabled class="truncate black-text" data-bind="value: ' + fieldout + '" style="cursor:pointer;font-weight:bold;">';
                 controlHtml += '<label for="' + name + '">' + header + '</label>';
                 controlHtml += '<i id="' + name + '-clear" class="material-icons editor-header right doc-edit-ref-del">close</i>';
-                var result = $(controlHtml);
+                let result = $(controlHtml);
                 this.cardController = cardcontroller;
                 this.field = field;
                 this.model = model;
@@ -32,25 +19,25 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 this.fieldClearControl = result.find("#" + name + "-clear");
                 view.append(result);
                 return result;
-            };
-            ReferenceFieldControl.prototype.createEvents = function () {
+            }
+            createEvents() {
                 if (this.fieldControl)
                     this.FieldButtonClick = utils.createTouchClickEvent(this.fieldControl, this.fieldButtonClick, this, this.fieldControl);
                 if (this.fieldClearControl)
                     this.FieldClearButtonClick = utils.createTouchClickEvent(this.fieldClearControl, this.fieldClearButtonClick, this, this.fieldControl);
-            };
-            ReferenceFieldControl.prototype.destroyEvents = function () {
+            }
+            destroyEvents() {
                 if (this.fieldClearControl)
                     utils.destroyTouchClickEvent(this.fieldClearControl, this.FieldClearButtonClick, this.fieldControl);
                 if (this.fieldControl)
                     utils.destroyTouchClickEvent(this.fieldControl, this.FieldButtonClick, this.fieldControl);
-            };
-            ReferenceFieldControl.prototype.fieldButtonClick = function (e) {
-                var self = this;
+            }
+            fieldButtonClick(e) {
+                let self = this;
                 vars._app.OpenController({
                     urlController: self.cardController, isModal: true,
-                    onLoadController: function (controller) {
-                        var ctrlUnit = controller;
+                    onLoadController: (controller) => {
+                        let ctrlUnit = controller;
                         ctrlUnit.CardSettings.IsAdd = false;
                         ctrlUnit.CardSettings.IsAddCopy = false;
                         ctrlUnit.CardSettings.IsDelete = false;
@@ -59,9 +46,9 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                         ctrlUnit.OnSelect = $.proxy(self.selectValue, self);
                     }
                 });
-            };
-            ReferenceFieldControl.prototype.selectValue = function (controller) {
-                var value = controller.getSelectedRecord();
+            }
+            selectValue(controller) {
+                let value = controller.getSelectedRecord();
                 if (value) {
                     if (this.SelectValue)
                         this.SelectValue(value);
@@ -69,40 +56,35 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                         this.model.set(this.field, value);
                 }
                 M.updateTextFields();
-            };
-            ReferenceFieldControl.prototype.fieldClearButtonClick = function (e) {
+            }
+            fieldClearButtonClick(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.model.set(this.field, {});
                 M.updateTextFields();
                 return false;
-            };
-            return ReferenceFieldControl;
-        }());
+            }
+        }
         Control.ReferenceFieldControl = ReferenceFieldControl;
-        var BaseCardFilterSettings = /** @class */ (function () {
-            function BaseCardFilterSettings(setupRows) {
+        class BaseCardFilterSettings {
+            constructor(setupRows) {
                 this.fieldSearch = "name";
                 this.setupRows = setupRows;
             }
-            BaseCardFilterSettings.prototype.saveFilter = function () {
+            saveFilter() {
                 throw new Error("Method not implemented.");
-            };
-            BaseCardFilterSettings.prototype.restoreFilter = function () {
+            }
+            restoreFilter() {
                 throw new Error("Method not implemented.");
-            };
-            Object.defineProperty(BaseCardFilterSettings.prototype, "FieldSearch", {
-                get: function () {
-                    return this.fieldSearch;
-                },
-                set: function (val) {
-                    this.fieldSearch = val;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseCardFilterSettings.prototype.InitControls = function () {
-                var navbarHeader = '<nav class="card-search-nav editor-header z-depth-1">';
+            }
+            get FieldSearch() {
+                return this.fieldSearch;
+            }
+            set FieldSearch(val) {
+                this.fieldSearch = val;
+            }
+            InitControls() {
+                let navbarHeader = '<nav class="card-search-nav editor-header z-depth-1">';
                 navbarHeader += '   <div class="nav-wrapper">';
                 navbarHeader += '       <form>';
                 navbarHeader += '           <div class="input-field">';
@@ -118,45 +100,45 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 this.inputSearch = this.formSearch.find('#card-view-search');
                 this.clearSearch = this.formSearch.find('#card-view-search-clear');
                 return this.navSearch;
-            };
-            BaseCardFilterSettings.prototype.ViewControls = function () {
-            };
-            BaseCardFilterSettings.prototype.ResizeControls = function () {
-            };
-            BaseCardFilterSettings.prototype.createEvents = function () {
+            }
+            ViewControls() {
+            }
+            ResizeControls() {
+            }
+            createEvents() {
                 if (this.clearSearch)
                     this.ClearButtonClick = utils.createTouchClickEvent(this.clearSearch, this.clearButtonClick, this);
                 if (this.formSearch) {
                     this.proxySearch = $.proxy(this.search, this);
                     this.formSearch.on('submit', this.proxySearch);
                 }
-            };
-            BaseCardFilterSettings.prototype.search = function (e) {
+            }
+            search(e) {
                 e.preventDefault();
                 if (this.setupRows)
                     this.setupRows();
                 return false;
-            };
-            BaseCardFilterSettings.prototype.destroyEvents = function () {
+            }
+            destroyEvents() {
                 if (this.formSearch)
                     this.formSearch.off('submit', this.proxySearch);
                 if (this.clearSearch)
                     utils.destroyTouchClickEvent(this.clearSearch, this.ClearButtonClick);
-            };
-            BaseCardFilterSettings.prototype.clearButtonClick = function (e) {
+            }
+            clearButtonClick(e) {
                 if (this.inputSearch)
                     this.inputSearch.val("");
                 if (this.setupRows)
                     this.setupRows();
-            };
-            BaseCardFilterSettings.prototype.GetItemsForView = function (data) {
-                var result = [];
-                var strSearch = (this.inputSearch ? this.inputSearch.val() : ""); // ($("#card-view-search").val() as string);
-                var fieldSearch = this.FieldSearch;
-                var isNotSearch = (utils.isNullOrEmpty(fieldSearch) || utils.isNullOrEmpty(strSearch));
+            }
+            GetItemsForView(data) {
+                let result = [];
+                let strSearch = (this.inputSearch ? this.inputSearch.val() : ""); // ($("#card-view-search").val() as string);
+                let fieldSearch = this.FieldSearch;
+                let isNotSearch = (utils.isNullOrEmpty(fieldSearch) || utils.isNullOrEmpty(strSearch));
                 if (!isNotSearch)
                     strSearch = strSearch.toLowerCase();
-                for (var i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
+                for (let i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
                     if (isNotSearch) {
                         result.push(data[i]);
                     }
@@ -165,57 +147,40 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     }
                 }
                 return result;
-            };
-            return BaseCardFilterSettings;
-        }());
+            }
+        }
         Control.BaseCardFilterSettings = BaseCardFilterSettings;
-        var BaseTable = /** @class */ (function () {
-            function BaseTable() {
+        class BaseTable {
+            constructor() {
                 this.columns = [];
                 this.isScroll = true;
             }
-            Object.defineProperty(BaseTable.prototype, "Columns", {
-                get: function () {
-                    return this.columns;
-                },
-                set: function (columns) {
-                    this.columns = columns;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseTable.prototype, "Rows", {
-                get: function () {
-                    return this.rows;
-                },
-                set: function (rows) {
-                    this.rows = rows;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseTable.prototype, "IsScroll", {
-                get: function () {
-                    return this.isScroll;
-                },
-                set: function (isScroll) {
-                    this.isScroll = isScroll;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseTable.prototype, "TableBody", {
-                get: function () {
-                    return this.tableBody;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseTable.prototype.InitView = function () {
+            get Columns() {
+                return this.columns;
+            }
+            set Columns(columns) {
+                this.columns = columns;
+            }
+            get Rows() {
+                return this.rows;
+            }
+            set Rows(rows) {
+                this.rows = rows;
+            }
+            get IsScroll() {
+                return this.isScroll;
+            }
+            set IsScroll(isScroll) {
+                this.isScroll = isScroll;
+            }
+            get TableBody() {
+                return this.tableBody;
+            }
+            InitView() {
                 this.SortButtonClick = $.proxy(this.sortButtonClick, this);
                 this.RowClick = $.proxy(this.rowClick, this);
                 this.RowDoubleClick = $.proxy(this.rowDoubleClick, this);
-                var htmlTable = '<table class="highlight">';
+                let htmlTable = '<table class="highlight">';
                 htmlTable += '   <thead></thead>';
                 htmlTable += '   <tbody></tbody>';
                 htmlTable += '</table>';
@@ -223,23 +188,18 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 this.tableHead = this.tableControl.find('thead');
                 this.tableBody = this.tableControl.find('tbody');
                 return this.tableControl;
-            };
-            Object.defineProperty(BaseTable.prototype, "View", {
-                get: function () {
-                    return this.tableControl;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseTable.prototype.DestroyView = function () {
+            }
+            get View() {
+                return this.tableControl;
+            }
+            DestroyView() {
                 this.detachSortEvents();
                 this.destroyRowsEvents();
-            };
-            BaseTable.prototype.Setup = function (onlyRows) {
-                if (onlyRows === void 0) { onlyRows = false; }
+            }
+            Setup(onlyRows = false) {
                 if (onlyRows == false) {
                     this.detachSortEvents();
-                    var headerHtml = this.getTableHeaderHtml();
+                    let headerHtml = this.getTableHeaderHtml();
                     this.tableHead.html(headerHtml);
                     if (this.tableBody) {
                         if (this.IsScroll === true) {
@@ -252,39 +212,39 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     this.attachSortEvents();
                 }
                 this.setupRows();
-            };
-            BaseTable.prototype.createRowsEvents = function () {
+            }
+            createRowsEvents() {
                 if (this.tableRows) {
                     utils.createClickEvent(this.tableRows, this.RowClick, this, this.tableBody);
                     utils.createDblTouchClickEvent(this.tableRows, this.RowDoubleClick, this, this.tableBody);
                 }
-            };
-            BaseTable.prototype.destroyRowsEvents = function () {
+            }
+            destroyRowsEvents() {
                 if (this.tableRows) {
                     utils.destroyDblTouchClickEvent(this.tableRows, this.RowDoubleClick, this.tableBody);
                     utils.destroyClickEvent(this.tableRows, this.RowClick, this.tableBody);
                 }
-            };
-            BaseTable.prototype.setupRows = function () {
+            }
+            setupRows() {
                 this.destroyRowsEvents();
                 this.selectedRow = undefined;
                 this.selectedDataRow = undefined;
                 this.tableBody.html(this.getTableBodyHtml());
-                var valueSum;
-                for (var j = 0, jcount = (this.sumFieldsInfo.fields && this.sumFieldsInfo.fields.length ? this.sumFieldsInfo.fields.length : 0); j < jcount; j++) {
+                let valueSum;
+                for (let j = 0, jcount = (this.sumFieldsInfo.fields && this.sumFieldsInfo.fields.length ? this.sumFieldsInfo.fields.length : 0); j < jcount; j++) {
                     valueSum = this.sumFieldsInfo.sumFied[this.sumFieldsInfo.fields[j]];
                     this.tableHead.find('#' + this.sumFieldsInfo.fields[j] + '_sum').html(utils.numberToString(valueSum ? valueSum : 0, 2));
                 }
                 this.tableRows = this.tableBody.find('tr');
                 this.createRowsEvents();
-            };
-            BaseTable.prototype.getTableHeaderHtml = function () {
-                var columns = this.Columns;
-                var html = '';
+            }
+            getTableHeaderHtml() {
+                let columns = this.Columns;
+                let html = '';
                 this.sumFieldsInfo = { fields: [], sumFied: {}, orderfields: [] };
-                var knSupport = kendo;
+                let knSupport = kendo;
                 html += '<tr>';
-                for (var i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
+                for (let i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
                     html += '   <th';
                     if (columns[i].HeaderStyle || columns[i].IsOrder === true) {
                         if (columns[i].IsOrder === true) {
@@ -318,30 +278,30 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     html += '<th style="width:' + (knSupport.support.browser.chrome === true ? "17" : "17") + 'px;"></th>';
                 html += '</tr>';
                 return html;
-            };
-            BaseTable.prototype.attachSortEvents = function () {
-                var columns = this.Columns;
-                for (var i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
+            }
+            attachSortEvents() {
+                let columns = this.Columns;
+                for (let i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
                     if (columns[i].IsOrder === true) {
-                        var strId = 'sort_' + i;
+                        let strId = 'sort_' + i;
                         utils.createTouchClickEvent(strId, this.SortButtonClick, this, this.tableHead);
                     }
                 }
-            };
-            BaseTable.prototype.detachSortEvents = function () {
-                var columns = this.Columns;
-                for (var i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
+            }
+            detachSortEvents() {
+                let columns = this.Columns;
+                for (let i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
                     if (columns[i].IsOrder === true) {
-                        var strId = 'sort_' + i;
+                        let strId = 'sort_' + i;
                         utils.destroyTouchClickEvent(strId, this.SortButtonClick, this.tableHead);
                     }
                 }
-            };
-            BaseTable.prototype.getTableRowTemplate = function () {
-                var columns = this.Columns;
-                var html = '';
+            }
+            getTableRowTemplate() {
+                let columns = this.Columns;
+                let html = '';
                 html += '<tr id="table-row-#=rowtmpitem#">';
-                for (var i = 0, icount = (columns && columns.length ? columns.length : 0); i < icount; i++) {
+                for (let i = 0, icount = (columns && columns.length ? columns.length : 0); i < icount; i++) {
                     html += '   <td data-field="' + columns[i].Field + '"';
                     if (columns[i].FieldStyle || this.OnDetalize) {
                         html += ' class="';
@@ -365,17 +325,17 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 }
                 html += '</tr>';
                 return html;
-            };
-            BaseTable.prototype.getTableBodyHtml = function () {
-                var html = '';
-                var data = this.Rows;
+            }
+            getTableBodyHtml() {
+                let html = '';
+                let data = this.Rows;
                 if (data && data.length > 0) {
-                    var templateRow = vars.getTemplate(this.getTableRowTemplate());
+                    let templateRow = vars.getTemplate(this.getTableRowTemplate());
                     if (templateRow) {
-                        for (var i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
+                        for (let i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
                             data[i]["rowtmpitem"] = i;
                             html += templateRow(data[i]);
-                            for (var j = 0, jcount = (this.sumFieldsInfo.fields && this.sumFieldsInfo.fields.length ? this.sumFieldsInfo.fields.length : 0); j < jcount; j++) {
+                            for (let j = 0, jcount = (this.sumFieldsInfo.fields && this.sumFieldsInfo.fields.length ? this.sumFieldsInfo.fields.length : 0); j < jcount; j++) {
                                 if (i === 0)
                                     this.sumFieldsInfo.sumFied[this.sumFieldsInfo.fields[j]] = data[i][this.sumFieldsInfo.fields[j]];
                                 else
@@ -385,27 +345,23 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     }
                 }
                 return html;
-            };
-            Object.defineProperty(BaseTable.prototype, "SelectedDataRow", {
-                get: function () {
-                    return this.selectedDataRow;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseTable.prototype.UpdateRow = function () {
+            }
+            get SelectedDataRow() {
+                return this.selectedDataRow;
+            }
+            UpdateRow() {
                 if (this.selectedRow && this.selectedDataRow) {
-                    var templateRow = vars.getTemplate(this.getTableRowTemplate());
-                    var html = templateRow(this.selectedDataRow);
+                    let templateRow = vars.getTemplate(this.getTableRowTemplate());
+                    let html = templateRow(this.selectedDataRow);
                     this.selectedRow.html($(html).html());
                 }
-            };
-            BaseTable.prototype.SetSelectedDataRow = function (e) {
-                var result = -1;
+            }
+            SetSelectedDataRow(e) {
+                let result = -1;
                 if (this.selectedRow) {
                     this.selectedRow.removeClass("row-active z-depth-1 brown lighten-5");
                 }
-                var currentTarget = e;
+                let currentTarget = e;
                 while (currentTarget && currentTarget.nodeName != "TR") {
                     currentTarget = currentTarget.parentElement;
                 }
@@ -417,8 +373,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     this.selectedDataRow = this.Rows[result];
                 }
                 return result;
-            };
-            BaseTable.prototype.rowClick = function (e) {
+            }
+            rowClick(e) {
                 this.SetSelectedDataRow(e.currentTarget);
                 if (this.OnSelect) {
                     this.OnSelect(this.selectedDataRow);
@@ -426,55 +382,55 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
-            };
-            BaseTable.prototype.rowDoubleClick = function (e) {
+            }
+            rowDoubleClick(e) {
                 if (this.OnDetalize) {
-                    var index = +e.currentTarget.id.replace('table-row-', '');
-                    var row = this.Rows[index];
+                    let index = +e.currentTarget.id.replace('table-row-', '');
+                    let row = this.Rows[index];
                     this.OnDetalize(row);
                 }
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
-            };
-            BaseTable.prototype.sortButtonClick = function (e) {
-                var self = this;
-                var strId = e.currentTarget.id;
+            }
+            sortButtonClick(e) {
+                let self = this;
+                let strId = e.currentTarget.id;
                 strId = strId.replace('sort_', '');
-                var i = +strId;
-                var columns = this.Columns;
-                var orderfields = [];
-                var colName = columns[i].Field;
-                var isSum = columns[i].IsSum;
-                var isNum = columns[i].IsNumber;
+                let i = +strId;
+                let columns = this.Columns;
+                let orderfields = [];
+                let colName = columns[i].Field;
+                let isSum = columns[i].IsSum;
+                let isNum = columns[i].IsNumber;
                 orderfields = self.sumFieldsInfo.orderfields;
-                orderfields.filter(function (x) { return x.field == colName; });
+                orderfields.filter(x => x.field == colName);
                 var findResult = $.grep(orderfields, function (x) { return x.field == colName; });
-                var typeSort = 0;
+                let typeSort = 0;
                 if (findResult && findResult.length > 0) {
                     typeSort = findResult[0].typeSort;
                 }
-                var colNameSplit = colName.split('.');
-                var data = this.Rows;
+                let colNameSplit = colName.split('.');
+                let data = this.Rows;
                 if (isNum == true || isSum === true) {
                     data.sort(function (a, b) {
-                        var aval = a[colNameSplit[0]];
-                        for (var i_1 = 1, icount = colNameSplit.length; i_1 < icount; i_1++)
-                            aval = aval[colNameSplit[i_1]];
-                        var bval = b[colNameSplit[0]];
-                        for (var i_2 = 1, icount = colNameSplit.length; i_2 < icount; i_2++)
-                            bval = bval[colNameSplit[i_2]];
+                        let aval = a[colNameSplit[0]];
+                        for (let i = 1, icount = colNameSplit.length; i < icount; i++)
+                            aval = aval[colNameSplit[i]];
+                        let bval = b[colNameSplit[0]];
+                        for (let i = 1, icount = colNameSplit.length; i < icount; i++)
+                            bval = bval[colNameSplit[i]];
                         return (typeSort === 0 || typeSort === 2 ? aval - bval : bval - aval);
                     });
                 }
                 else {
                     data.sort(function (a, b) {
-                        var aval = a[colNameSplit[0]];
-                        for (var i_3 = 1, icount = colNameSplit.length; i_3 < icount; i_3++)
-                            aval = aval[colNameSplit[i_3]];
-                        var bval = b[colNameSplit[0]];
-                        for (var i_4 = 1, icount = colNameSplit.length; i_4 < icount; i_4++)
-                            bval = bval[colNameSplit[i_4]];
+                        let aval = a[colNameSplit[0]];
+                        for (let i = 1, icount = colNameSplit.length; i < icount; i++)
+                            aval = aval[colNameSplit[i]];
+                        let bval = b[colNameSplit[0]];
+                        for (let i = 1, icount = colNameSplit.length; i < icount; i++)
+                            bval = bval[colNameSplit[i]];
                         return (typeSort === 0 || typeSort === 2 ? aval.localeCompare(bval) : bval.localeCompare(aval));
                     });
                 }
@@ -483,19 +439,16 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 }
                 self.Rows = data;
                 self.setupRows();
-            };
-            return BaseTable;
-        }());
-        Control.BaseTable = BaseTable;
-        var BaseEditTable = /** @class */ (function (_super) {
-            __extends(BaseEditTable, _super);
-            function BaseEditTable() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.editData = { currentInputControl: undefined, currentCell: undefined, oldValue: undefined, field: "", index: -1 };
-                return _this;
             }
-            BaseEditTable.prototype.InitView = function () {
-                var result = _super.prototype.InitView.call(this);
+        }
+        Control.BaseTable = BaseTable;
+        class BaseEditTable extends BaseTable {
+            constructor() {
+                super(...arguments);
+                this.editData = { currentInputControl: undefined, currentCell: undefined, oldValue: undefined, field: "", index: -1 };
+            }
+            InitView() {
+                let result = super.InitView();
                 this.RowHeaderContextClick = $.proxy(this.rowHeaderContextClick, this);
                 this.RowContextClick = $.proxy(this.rowContextClick, this);
                 if (this.tableHead) {
@@ -503,53 +456,53 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                     utils.createContextMenuEvent(this.tableHead, this.RowHeaderContextClick, this, result);
                 }
                 return result;
-            };
-            BaseEditTable.prototype.DestroyView = function () {
+            }
+            DestroyView() {
                 this.destroyCurrentInputControl();
                 if (this.tableHead)
                     utils.destroyContextMenuEvent(this.tableHead, this.RowHeaderContextClick, this.tableControl);
-                _super.prototype.DestroyView.call(this);
-            };
-            BaseEditTable.prototype.createRowsEvents = function () {
-                _super.prototype.createRowsEvents.call(this);
+                super.DestroyView();
+            }
+            createRowsEvents() {
+                super.createRowsEvents();
                 if (this.tableRows)
                     utils.createContextMenuEvent(this.tableRows, this.RowContextClick, this, this.tableBody);
-            };
-            BaseEditTable.prototype.destroyRowsEvents = function () {
+            }
+            destroyRowsEvents() {
                 if (this.tableRows)
                     utils.destroyContextMenuEvent(this.tableRows, this.RowContextClick, this.tableBody);
-                _super.prototype.destroyRowsEvents.call(this);
-            };
-            BaseEditTable.prototype.rowHeaderContextClick = function (e) {
+                super.destroyRowsEvents();
+            }
+            rowHeaderContextClick(e) {
                 if (this.OnHeaderContextMenu) {
                     this.OnHeaderContextMenu(e);
                 }
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
-            };
-            BaseEditTable.prototype.rowContextClick = function (e) {
+            }
+            rowContextClick(e) {
                 if (this.OnContextMenu) {
-                    var index = +e.currentTarget.id.replace('table-row-', '');
-                    var row = this.Rows[index];
+                    let index = +e.currentTarget.id.replace('table-row-', '');
+                    let row = this.Rows[index];
                     this.OnContextMenu(e, row);
                 }
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
-            };
-            BaseEditTable.prototype.attachEditEvents = function () {
+            }
+            attachEditEvents() {
                 this.EditCellClick = utils.createTouchClickEvent(this.View.find('td'), this.editCellClick, this);
-            };
-            BaseEditTable.prototype.destroyEditEvents = function () {
+            }
+            destroyEditEvents() {
                 utils.destroyTouchClickEvent(this.View.find('td'), this.EditCellClick, this.View);
-            };
-            BaseEditTable.prototype.setupRows = function () {
+            }
+            setupRows() {
                 this.destroyEditEvents();
-                _super.prototype.setupRows.call(this);
+                super.setupRows();
                 this.attachEditEvents();
-            };
-            BaseEditTable.prototype.editCellClick = function (e) {
+            }
+            editCellClick(e) {
                 this.destroyCurrentInputControl();
                 this.editData.currentCell = $(e.currentTarget);
                 this.editData.field = this.editData.currentCell.data("field");
@@ -569,14 +522,14 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                             this.editData.currentInputControl.val(this.editData.oldValue ? this.editData.oldValue : "");
                     }
                 }
-            };
-            BaseEditTable.prototype.UpdateRow = function () {
+            }
+            UpdateRow() {
                 this.destroyEditEvents();
-                _super.prototype.UpdateRow.call(this);
+                super.UpdateRow();
                 this.attachEditEvents();
-            };
-            BaseEditTable.prototype.editCellBlur = function (e) {
-                var checkResult = false;
+            }
+            editCellBlur(e) {
+                let checkResult = false;
                 if (this.CheckValueEditControl && this.editData.currentInputControl && this.SelectedDataRow) {
                     checkResult = this.CheckValueEditControl(this.editData.field, this.editData.currentInputControl.val(), this.SelectedDataRow);
                     this.Rows[this.editData.index] = this.SelectedDataRow;
@@ -594,17 +547,17 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
-            };
-            BaseEditTable.prototype.editKeyEvent = function (e) {
+            }
+            editKeyEvent(e) {
                 var key = e.which || e.keyCode;
                 if (key === 13) {
                     this.editCellBlur(e);
                 }
-            };
-            BaseEditTable.prototype.destroyCurrentInputControl = function () {
+            }
+            destroyCurrentInputControl() {
                 if (this.editData.currentInputControl) {
-                    var parent_1 = this.editData.currentInputControl.parent();
-                    if (parent_1 && parent_1.length > 0)
+                    let parent = this.editData.currentInputControl.parent();
+                    if (parent && parent.length > 0)
                         this.editData.currentInputControl.remove();
                     utils.destroyBlurEvent(this.editData.currentInputControl, this.EditCellBlur);
                     utils.destroyEventListener(this.editData.currentInputControl, "keyup", this.EditCellBlur);
@@ -612,9 +565,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                 }
                 if (this.editData.currentCell)
                     this.editData.currentCell.removeClass('td-edit-cell');
-            };
-            return BaseEditTable;
-        }(BaseTable));
+            }
+        }
         Control.BaseEditTable = BaseEditTable;
     })(Control = exports.Control || (exports.Control = {}));
 });

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>5f31b309-5846-42f4-976c-16f165c0bef9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +18,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoPartSite.Core\AutoPartSite.Core.csproj" />
+    <ProjectReference Include="..\AutoPartsSite.Models\AutoPartsSite.Models.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptTarget>ES2020</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>

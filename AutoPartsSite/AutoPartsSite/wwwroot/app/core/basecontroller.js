@@ -1,97 +1,68 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/basecontrol"], function (require, exports, utils, vars, ctrl) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var Base = /** @class */ (function () {
-            function Base() {
+        class Base {
+            constructor() {
                 this._options = this.createOptions();
                 this._model = this.createModel();
             }
-            Base.prototype.createOptions = function () {
+            createOptions() {
                 return {
                     Url: "",
                     Id: ""
                 };
-            };
-            Object.defineProperty(Base.prototype, "Options", {
-                get: function () {
-                    return this._options;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Base.prototype.createModel = function () {
+            }
+            get Options() {
+                return this._options;
+            }
+            createModel() {
                 return new kendo.data.ObservableObject({
                     "Header": ""
                 });
-            };
-            Object.defineProperty(Base.prototype, "Model", {
-                get: function () {
-                    return this._model;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(Base.prototype, "View", {
-                get: function () {
-                    return this._view;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(Base.prototype, "Header", {
-                get: function () { return this._model ? this._model.get("Header") : ""; },
-                set: function (value) { if (this._model)
-                    this._model.set("Header", value); },
-                enumerable: false,
-                configurable: true
-            });
-            Base.prototype.ViewInit = function (view) {
+            }
+            get Model() {
+                return this._model;
+            }
+            get View() {
+                return this._view;
+            }
+            get Header() { return this._model ? this._model.get("Header") : ""; }
+            set Header(value) { if (this._model)
+                this._model.set("Header", value); }
+            ViewInit(view) {
                 this._view = view;
                 kendo.bind(view, this._model);
                 this.createEvents();
                 return true;
-            };
-            Base.prototype.createEvents = function () {
-            };
-            Base.prototype.ViewShow = function (e) {
+            }
+            createEvents() {
+            }
+            ViewShow(e) {
                 M.updateTextFields();
                 return true;
-            };
+            }
             //public AfterShow(e: any): void {
             //}
-            Base.prototype.ViewHide = function (e) {
+            ViewHide(e) {
                 this.destroyEvents();
-            };
-            Base.prototype.destroyEvents = function () {
-            };
-            Base.prototype.ViewResize = function (e) {
-            };
-            Base.prototype.createTouchClickEvent = function (elemName, clickFunc) {
+            }
+            destroyEvents() {
+            }
+            ViewResize(e) {
+            }
+            createTouchClickEvent(elemName, clickFunc) {
                 return utils.createTouchClickEvent(elemName, clickFunc, this, this.View);
-            };
-            Base.prototype.createDblTouchClickEvent = function (elemName, clickFunc) {
+            }
+            createDblTouchClickEvent(elemName, clickFunc) {
                 return utils.createDblTouchClickEvent(elemName, clickFunc, this, this.View);
-            };
-            Base.prototype.createClickEvent = function (elemName, clickFunc) {
+            }
+            createClickEvent(elemName, clickFunc) {
                 return utils.createClickEvent(elemName, clickFunc, this, this.View);
-            };
-            Base.prototype.createKeyPress = function (elemName, clickFunc, controller) {
+            }
+            createKeyPress(elemName, clickFunc, controller) {
                 var result = $.proxy(clickFunc, controller);
                 $.each(elemName, function (index, el) {
                     var $inp = $("#" + el);
@@ -100,51 +71,42 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     }
                 });
                 return result;
-            };
-            Base.prototype.destroyTouchClickEvent = function (elemName, proxyFunc) {
+            }
+            destroyTouchClickEvent(elemName, proxyFunc) {
                 utils.destroyTouchClickEvent(elemName, proxyFunc, this.View);
-            };
-            Base.prototype.destroyDblTouchClickEvent = function (elemName, proxyFunc) {
+            }
+            destroyDblTouchClickEvent(elemName, proxyFunc) {
                 utils.destroyDblTouchClickEvent(elemName, proxyFunc, this.View);
-            };
-            Base.prototype.destroyClickEvent = function (elemName, proxyFunc) {
+            }
+            destroyClickEvent(elemName, proxyFunc) {
                 utils.destroyClickEvent(elemName, proxyFunc, this.View);
-            };
-            Base.prototype.deleteKeyPress = function (elemName, proxyFunc) {
+            }
+            deleteKeyPress(elemName, proxyFunc) {
                 $.each(elemName, function (index, el) {
                     var $inp = $("#" + el);
                     if ($inp.length > 0)
                         $inp[0].removeEventListener("keypress", proxyFunc);
                 });
-            };
-            return Base;
-        }());
+            }
+        }
         Controller.Base = Base;
-        var ControllersStack = /** @class */ (function () {
-            function ControllersStack() {
+        class ControllersStack {
+            constructor() {
                 this._controllers = [];
             }
-            Object.defineProperty(ControllersStack.prototype, "Current", {
-                get: function () {
-                    return this._current;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(ControllersStack.prototype, "Last", {
-                get: function () {
-                    return (this._controllers.length > 0 ? this._controllers[this._controllers.length - 1] : undefined);
-                },
-                enumerable: false,
-                configurable: true
-            });
-            ControllersStack.prototype.Pop = function () {
+            get Current() {
+                return this._current;
+            }
+            get Last() {
+                return (this._controllers.length > 0 ? this._controllers[this._controllers.length - 1] : undefined);
+            }
+            Pop() {
                 if (this._controllers.length > 0)
                     this._current = this._controllers.pop();
                 else
                     this._current = undefined;
-            };
-            ControllersStack.prototype.Push = function (controller) {
+            }
+            Push(controller) {
                 var self = this;
                 if (controller) {
                     self._controllers.push(controller);
@@ -152,64 +114,61 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
                 else
                     self._controllers = [];
-            };
-            return ControllersStack;
-        }());
-        Controller.ControllersStack = ControllersStack;
-        var BaseContent = /** @class */ (function (_super) {
-            __extends(BaseContent, _super);
-            function BaseContent() {
-                var _this = _super.call(this) || this;
-                _this._controllersStack = new ControllersStack();
-                _this.ControllerBack = $.proxy(_this.controllerBack, _this);
-                _this._controllers = _this.ControllersInit();
-                return _this;
             }
-            BaseContent.prototype.ControllersInit = function () {
+        }
+        Controller.ControllersStack = ControllersStack;
+        class BaseContent extends Base {
+            constructor() {
+                super();
+                this._controllersStack = new ControllersStack();
+                this.ControllerBack = $.proxy(this.controllerBack, this);
+                this._controllers = this.ControllersInit();
+            }
+            ControllersInit() {
                 return {};
-            };
-            BaseContent.prototype.GetContent = function () {
+            }
+            GetContent() {
                 return this._content;
-            };
-            BaseContent.prototype.ViewInit = function (view) {
-                var result = _super.prototype.ViewInit.call(this, view);
+            }
+            ViewInit(view) {
+                let result = super.ViewInit(view);
                 this._content = this.GetContent();
                 return result;
-            };
-            BaseContent.prototype.ViewShow = function (e) {
-                var result = _super.prototype.ViewShow.call(this, e);
+            }
+            ViewShow(e) {
+                let result = super.ViewShow(e);
                 if (this._controller)
                     this._controller.ViewShow(e);
                 return result;
-            };
-            BaseContent.prototype.ResetScroll = function () {
+            }
+            ResetScroll() {
                 this._content.scrollTop(0);
-            };
-            BaseContent.prototype.ViewResize = function (e) {
+            }
+            ViewResize(e) {
                 if (this._content) {
-                    var heigth = window.innerHeight;
+                    let heigth = window.innerHeight;
                     heigth = heigth - this._content.offset().top;
                     this._content.height(heigth);
                 }
                 if (this._controller)
                     this._controller.ViewResize(e);
-            };
-            BaseContent.prototype.controllerBack = function (e) {
+            }
+            controllerBack(e) {
                 if (vars._app.IsModal)
                     vars._app.ControllerBack(e);
                 else {
                     this._controllersStack.Pop();
                     this.RestoreController();
                 }
-            };
-            BaseContent.prototype.RestoreController = function () {
+            }
+            RestoreController() {
                 if (this._controllersStack.Current)
                     this.OpenView({ controller: this._controllersStack.Current, isRestore: true });
-            };
-            BaseContent.prototype.OpenController = function (options) {
+            }
+            OpenController(options) {
                 vars._app.OpenController(options);
-            };
-            BaseContent.prototype.OpenView = function (options) {
+            }
+            OpenView(options) {
                 var self = this;
                 if (options.isModal && options.isModal === true) {
                     vars._app.OpenView(options);
@@ -218,19 +177,19 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 if ($("#" + options.controller.Options.Id).length > 0)
                     return; //Already loaded and current
                 vars._app.ShowLoading();
-                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
+                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
                     self.OpenViewTemplate({ controller: options.controller, template: template, backController: options.backController, isRestore: options.isRestore });
-                }).fail(function (e) {
+                }).fail((e) => {
                     vars._app.HideLoading();
                 });
-            };
-            BaseContent.prototype.OpenViewTemplate = function (options) {
-                var self = this;
+            }
+            OpenViewTemplate(options) {
+                let self = this;
                 //if (options.isModal && options.isModal === true) {
                 //    _app.OpenViewTemplate(options);
                 //    return;
                 //}
-                var isInit = false;
+                let isInit = false;
                 try {
                     if (self._controller) {
                         self._controller.ViewHide(self);
@@ -242,7 +201,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                             self._controllersStack.Push(options.backController);
                     self.SetHeader(self._controller);
                     try {
-                        var view = $(options.template);
+                        let view = $(options.template);
                         isInit = self._controller.ViewInit(view);
                         self.ResetScroll();
                         self._content.html(view[0]);
@@ -257,8 +216,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     if (isInit)
                         vars._app.HideLoading();
                 }
-            };
-            BaseContent.prototype.SetHeader = function (controller) {
+            }
+            SetHeader(controller) {
                 //TODO: Пока не заморачиваемся с заголовком
                 //let header = controller.Header;
                 //if (header)
@@ -266,51 +225,36 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 //else
                 //    if ("POS Cloud" !== self._model.get("AppHeader"))
                 //        self._model.set("AppHeader", "POS Cloud");
-            };
-            return BaseContent;
-        }(Base));
-        Controller.BaseContent = BaseContent;
-        var BaseEditor = /** @class */ (function (_super) {
-            __extends(BaseEditor, _super);
-            function BaseEditor() {
-                var _this = _super.call(this) || this;
-                _this.editorSettings = _this.createEditorSettings();
-                if (!_this.editorSettings.ButtonSetings)
-                    _this.editorSettings.ButtonSetings = { IsSave: true, IsCancel: true };
-                return _this;
             }
-            BaseEditor.prototype.createModel = function () {
+        }
+        Controller.BaseContent = BaseContent;
+        class BaseEditor extends Base {
+            constructor() {
+                super();
+                this.editorSettings = this.createEditorSettings();
+                if (!this.editorSettings.ButtonSetings)
+                    this.editorSettings.ButtonSetings = { IsSave: true, IsCancel: true };
+            }
+            createModel() {
                 return new kendo.data.ObservableObject({
                     "Header": "",
                     "editModel": {},
                 });
-            };
-            Object.defineProperty(BaseEditor.prototype, "EditorModel", {
-                get: function () {
-                    return this.Model.get("editModel").toJSON();
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseEditor.prototype, "EditorSettings", {
-                get: function () {
-                    return this.editorSettings;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseEditor.prototype.createEditorSettings = function () {
+            }
+            get EditorModel() {
+                return this.Model.get("editModel").toJSON();
+            }
+            get EditorSettings() {
+                return this.editorSettings;
+            }
+            createEditorSettings() {
                 return { EditIdName: "", Load: undefined, Save: undefined };
-            };
-            Object.defineProperty(BaseEditor.prototype, "EditorHeader", {
-                get: function () {
-                    return (this.editorSettings.ButtonSetings.IsSave === true || this.editorSettings.ButtonSetings.IsCancel === true ? this.navHeader : undefined);
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseEditor.prototype.ViewInit = function (view) {
-                var navbarHeader = '<div class="navbar-fixed editor-header">';
+            }
+            get EditorHeader() {
+                return (this.editorSettings.ButtonSetings.IsSave === true || this.editorSettings.ButtonSetings.IsCancel === true ? this.navHeader : undefined);
+            }
+            ViewInit(view) {
+                let navbarHeader = '<div class="navbar-fixed editor-header">';
                 navbarHeader += '        <nav class="editor-header-nav">';
                 navbarHeader += '            <div class="nav-wrapper editor-header">';
                 navbarHeader += '                <a class="editor-header-title">' + this.Header + '</a>';
@@ -322,7 +266,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this.btnPrint = $('<li><a id="editor-btn-print" class="editor-header-button tooltipped" data-position="bottom" data-tooltip="' + vars._statres("button$label$print") + '"><i class="material-icons editor-header">print</i></a></li>');
                 this.btnSave = $('<li><a id="editor-btn-save" class="editor-header-button tooltipped" data-position="bottom" data-tooltip="' + vars._statres("button$label$save") + '"><i class="material-icons editor-header">done</i></a></li>');
                 this.btnCancel = $('<li><a id="editor-btn-cancel" class="editor-header-button tooltipped" data-position="bottom" data-tooltip="' + vars._statres("button$label$cancel") + '"><i class="material-icons editor-header">close</i></a></li>');
-                var editButtons = this.navHeader.find("#editButtons");
+                let editButtons = this.navHeader.find("#editButtons");
                 if (this.editorSettings.ButtonSetings.IsPrint === true)
                     editButtons.append(this.btnPrint);
                 if (this.editorSettings.ButtonSetings.IsSave === true)
@@ -332,16 +276,16 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 if (this.editorSettings.ButtonSetings.IsSave === true || this.editorSettings.ButtonSetings.IsCancel === true)
                     view.prepend(this.navHeader);
                 this.tooltips = this.navHeader.find(".tooltipped");
-                _super.prototype.ViewInit.call(this, view);
+                super.ViewInit(view);
                 return this.loadData();
-            };
-            BaseEditor.prototype.ViewShow = function (e) {
+            }
+            ViewShow(e) {
                 if (this.tooltips)
                     this.tooltips.tooltip();
-                return _super.prototype.ViewShow.call(this, e);
-            };
-            BaseEditor.prototype.ViewHide = function (e) {
-                _super.prototype.ViewHide.call(this, e);
+                return super.ViewShow(e);
+            }
+            ViewHide(e) {
+                super.ViewHide(e);
                 if (this.btnPrint)
                     this.btnPrint.remove();
                 if (this.btnSave)
@@ -350,34 +294,34 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     this.btnCancel.remove();
                 if (this.tooltips)
                     this.tooltips.tooltip("destroy");
-            };
-            BaseEditor.prototype.createEvents = function () {
+            }
+            createEvents() {
                 this.PrintButtonClick = this.createTouchClickEvent(this.btnPrint, this.printButtonClick);
                 this.SaveButtonClick = this.createTouchClickEvent(this.btnSave, this.saveButtonClick);
                 this.CancelButtonClick = this.createTouchClickEvent(this.btnCancel, this.cancelButtonClick);
-            };
-            BaseEditor.prototype.destroyEvents = function () {
+            }
+            destroyEvents() {
                 this.destroyTouchClickEvent(this.btnPrint, this.PrintButtonClick);
                 this.destroyTouchClickEvent(this.btnSave, this.SaveButtonClick);
                 this.destroyTouchClickEvent(this.btnCancel, this.CancelButtonClick);
-            };
-            BaseEditor.prototype.printButtonClick = function (e) {
+            }
+            printButtonClick(e) {
                 this.Print();
-            };
-            BaseEditor.prototype.saveButtonClick = function (e) {
+            }
+            saveButtonClick(e) {
                 if (this.validate()) {
                     this.Save();
                 }
-            };
-            BaseEditor.prototype.cancelButtonClick = function (e) {
+            }
+            cancelButtonClick(e) {
                 this.Cancel();
                 vars._main.ControllerBack(e);
-            };
-            BaseEditor.prototype.loadData = function () {
-                var controller = this;
+            }
+            loadData() {
+                let controller = this;
                 if (controller.EditorSettings && controller.EditorSettings.Load) {
-                    var id = (vars._editorData[controller.EditorSettings.EditIdName] ? vars._editorData[controller.EditorSettings.EditIdName] : 0);
-                    controller.EditorSettings.Load(id, function (responseData) {
+                    let id = (vars._editorData[controller.EditorSettings.EditIdName] ? vars._editorData[controller.EditorSettings.EditIdName] : 0);
+                    controller.EditorSettings.Load(id, (responseData) => {
                         if (vars._editorData.isCopy === true)
                             responseData.record.id = 0;
                         controller.Model.set("editModel", responseData.record);
@@ -389,81 +333,70 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 controller.afterLoad();
                 controller.endLoad();
                 return true;
-            };
-            BaseEditor.prototype.afterLoad = function (responseData) {
-            };
-            BaseEditor.prototype.endLoad = function () {
+            }
+            afterLoad(responseData) {
+            }
+            endLoad() {
                 M.updateTextFields();
                 vars._app.HideLoading();
                 this.View.show();
-            };
-            BaseEditor.prototype.validate = function () {
+            }
+            validate() {
                 return true;
-            };
-            BaseEditor.prototype.endSave = function () {
+            }
+            endSave() {
                 vars._main.ControllerBack(this);
-            };
-            BaseEditor.prototype.getSaveModel = function () {
+            }
+            getSaveModel() {
                 return this.EditorModel;
-            };
-            BaseEditor.prototype.Print = function () {
-            };
-            BaseEditor.prototype.Save = function () {
-                var controller = this;
+            }
+            Print() {
+            }
+            Save() {
+                let controller = this;
                 if (controller.EditorSettings && controller.EditorSettings.Save) {
-                    var model = controller.getSaveModel();
-                    controller.EditorSettings.Save(model, function (responseData) {
+                    let model = controller.getSaveModel();
+                    controller.EditorSettings.Save(model, (responseData) => {
                         controller.endSave();
                     });
                     return;
                 }
                 controller.endSave();
-            };
-            BaseEditor.prototype.Cancel = function () {
-            };
-            return BaseEditor;
-        }(Base));
-        Controller.BaseEditor = BaseEditor;
-        var BaseCard = /** @class */ (function (_super) {
-            __extends(BaseCard, _super);
-            function BaseCard() {
-                var _this = _super.call(this) || this;
-                _this.cardSettings = _this.createCardSettings();
-                return _this;
             }
-            BaseCard.prototype.createModel = function () {
+            Cancel() {
+            }
+        }
+        Controller.BaseEditor = BaseEditor;
+        class BaseCard extends Base {
+            constructor() {
+                super();
+                this.cardSettings = this.createCardSettings();
+            }
+            createModel() {
                 return new kendo.data.ObservableObject({
                     "Header": "",
                     "cardModel": [],
                 });
-            };
-            Object.defineProperty(BaseCard.prototype, "CardModel", {
-                get: function () {
-                    return this.Model.get("cardModel").toJSON();
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseCard.prototype, "CardSettings", {
-                get: function () {
-                    return this.cardSettings;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseCard.prototype.ViewInit = function (view) {
-                var controls = [];
+            }
+            get CardModel() {
+                return this.Model.get("cardModel").toJSON();
+            }
+            get CardSettings() {
+                return this.cardSettings;
+            }
+            ViewInit(view) {
+                let controls = [];
                 controls.push(this.initNavHeader());
-                var filterControl = (this.cardSettings && this.cardSettings.FilterSettings ? this.cardSettings.FilterSettings.InitControls() : undefined);
+                let filterControl = (this.cardSettings && this.cardSettings.FilterSettings ? this.cardSettings.FilterSettings.InitControls() : undefined);
                 if (filterControl)
                     controls.push(filterControl);
                 controls.push(this.initializeTableRow());
                 view.append(controls);
-                _super.prototype.ViewInit.call(this, view);
+                super.ViewInit(view);
                 return this.loadData();
-            };
-            BaseCard.prototype.initNavHeader = function () {
-                var navbarHeader = '<div class="navbar-fixed editor-header">';
+            }
+            initNavHeader() {
+                let navbarHeader = '<div class="navbar-fixed editor-header">';
                 navbarHeader += '        <nav class="editor-header-nav">';
                 navbarHeader += '            <div class="nav-wrapper editor-header">';
                 navbarHeader += '                <a class="editor-header-title">' + this.Header + '</a>';
@@ -483,13 +416,13 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 if (this.CardSettings.IsSelect)
                     this.btnSelect = $('<li><a id="editor-btn-select" class="editor-header-button tooltipped" data-position="bottom" data-tooltip="' + vars._statres("button$label$select") + '"><i class="material-icons editor-header">done</i></a></li>');
                 this.btnClose = $('<li><a id="card-btn-close" class="editor-header-button tooltipped" data-position="bottom" data-tooltip="' + vars._statres("button$label$cancel") + '"><i class="material-icons editor-header">close</i></a></li>');
-                var cardButtons = this.navHeader.find("#cardButtons");
+                let cardButtons = this.navHeader.find("#cardButtons");
                 cardButtons.append(this.btnEdit).append(this.btnAdd).append(this.btnAddCopy).append(this.btnDelete).append(this.btnSelect).append(this.btnClose);
                 this.tooltips = cardButtons.find(".tooltipped");
                 return this.navHeader;
-            };
-            BaseCard.prototype.initializeTableRow = function () {
-                var navbarHeader = '<div class="row row-table">';
+            }
+            initializeTableRow() {
+                let navbarHeader = '<div class="row row-table">';
                 navbarHeader += '    <div class="col s12 m12 l12 xl12 col-table">';
                 navbarHeader += '        <table class="highlight">';
                 navbarHeader += '            <thead></thead>';
@@ -501,25 +434,25 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this.tableHead = this.tableRow.find('thead');
                 this.tableBody = this.tableRow.find('tbody');
                 return this.tableRow;
-            };
-            BaseCard.prototype.ViewResize = function (e) {
-                _super.prototype.ViewResize.call(this, e);
+            }
+            ViewResize(e) {
+                super.ViewResize(e);
                 if (this.cardSettings && this.cardSettings.FilterSettings)
                     this.cardSettings.FilterSettings.ResizeControls();
-                var tbody = this.tableBody;
+                let tbody = this.tableBody;
                 if (tbody && tbody.length > 0) {
                     tbody.height($(window).height() - tbody.offset().top - tbody.parent().parent().parent().parent().parent().scrollTop() - (0.2 * parseFloat(getComputedStyle(tbody[0]).fontSize)) - 1);
                 }
-            };
-            BaseCard.prototype.ViewShow = function (e) {
+            }
+            ViewShow(e) {
                 if (this.cardSettings && this.cardSettings.FilterSettings)
                     this.cardSettings.FilterSettings.ViewControls();
                 if (this.tooltips)
                     this.tooltips.tooltip();
-                return _super.prototype.ViewShow.call(this, e);
-            };
-            BaseCard.prototype.ViewHide = function (e) {
-                _super.prototype.ViewHide.call(this, e);
+                return super.ViewShow(e);
+            }
+            ViewHide(e) {
+                super.ViewHide(e);
                 if (this.btnEdit)
                     this.btnEdit.remove();
                 if (this.btnAdd)
@@ -534,8 +467,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     this.btnSelect.remove();
                 if (this.tooltips)
                     this.tooltips.tooltip("destroy");
-            };
-            BaseCard.prototype.createEvents = function () {
+            }
+            createEvents() {
                 this.EditButtonClick = this.createTouchClickEvent(this.btnEdit, this.editButtonClick);
                 this.AddButtonClick = this.createTouchClickEvent(this.btnAdd, this.addButtonClick);
                 this.AddCopyButtonClick = this.createTouchClickEvent(this.btnAddCopy, this.addCopyButtonClick);
@@ -544,8 +477,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this.SelectButtonClick = this.createTouchClickEvent(this.btnSelect, this.selectButtonClick);
                 if (this.cardSettings && this.cardSettings.FilterSettings)
                     this.cardSettings.FilterSettings.createEvents();
-            };
-            BaseCard.prototype.destroyEvents = function () {
+            }
+            destroyEvents() {
                 if (this.cardSettings && this.cardSettings.FilterSettings)
                     this.cardSettings.FilterSettings.destroyEvents();
                 if (this.rows) {
@@ -558,18 +491,18 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this.destroyTouchClickEvent(this.btnAddCopy, this.AddCopyButtonClick);
                 this.destroyTouchClickEvent(this.btnDelete, this.DeleteButtonClick);
                 this.destroyTouchClickEvent(this.btnClose, this.CloseButtonClick);
-            };
-            BaseCard.prototype.createCardFilterSettings = function () {
+            }
+            createCardFilterSettings() {
                 return new ctrl.Control.BaseCardFilterSettings($.proxy(this.setupRows, this));
-            };
-            BaseCard.prototype.createCardSettings = function () {
+            }
+            createCardSettings() {
                 return { FilterSettings: this.createCardFilterSettings(), ValueIdNew: 0, EditIdName: "", IsAdd: false, IsAddCopy: false, IsEdit: false, IsDelete: false, IsSelect: false, EditController: "", Load: undefined, Delete: undefined, Columns: [] };
-            };
-            BaseCard.prototype.setupTable = function () {
+            }
+            setupTable() {
                 this.tableHead.html(this.getTableHeaderHtml());
                 this.setupRows();
-            };
-            BaseCard.prototype.setupRows = function () {
+            }
+            setupRows() {
                 this.selectedRow = null;
                 if (this.rows) {
                     this.destroyTouchClickEvent(this.rows, this.rowClick);
@@ -582,12 +515,12 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     this.createTouchClickEvent(this.rows, this.rowClick);
                     this.createDblTouchClickEvent(this.rows, this.rowDblClick);
                 }
-            };
-            BaseCard.prototype.getTableHeaderHtml = function () {
-                var columns = this.CardSettings.Columns;
-                var html = '';
+            }
+            getTableHeaderHtml() {
+                let columns = this.CardSettings.Columns;
+                let html = '';
                 html += '<tr>';
-                for (var i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
+                for (let i = 0, icount = columns && columns.length ? columns.length : 0; i < icount; i++) {
                     html += '   <th';
                     if (columns[i].HeaderStyle) {
                         html += ' class="';
@@ -600,11 +533,11 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
                 html += '</tr>';
                 return html;
-            };
-            BaseCard.prototype.getTableRowTemplate = function () {
-                var setting = this.CardSettings;
-                var columns = setting.Columns;
-                var html = '';
+            }
+            getTableRowTemplate() {
+                let setting = this.CardSettings;
+                let columns = setting.Columns;
+                let html = '';
                 html += '<tr';
                 if (setting.FieldId) {
                     html += ' id="table-row-#=';
@@ -612,7 +545,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     html += '#"';
                 }
                 html += '>';
-                for (var i = 0, icount = (columns && columns.length ? columns.length : 0); i < icount; i++) {
+                for (let i = 0, icount = (columns && columns.length ? columns.length : 0); i < icount; i++) {
                     html += '   <td';
                     if (columns[i].FieldStyle) {
                         html += ' class="';
@@ -631,28 +564,28 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
                 html += '</tr>';
                 return html;
-            };
-            BaseCard.prototype.getTableBodyHtml = function () {
-                var html = '';
-                var data = (this.cardSettings && this.cardSettings.FilterSettings ? this.cardSettings.FilterSettings.GetItemsForView(this.Model.get("cardModel")) : this.Model.get("cardModel"));
+            }
+            getTableBodyHtml() {
+                let html = '';
+                let data = (this.cardSettings && this.cardSettings.FilterSettings ? this.cardSettings.FilterSettings.GetItemsForView(this.Model.get("cardModel")) : this.Model.get("cardModel"));
                 if (data && data.length > 0) {
-                    var templateRow = vars.getTemplate(this.getTableRowTemplate());
+                    let templateRow = vars.getTemplate(this.getTableRowTemplate());
                     if (templateRow) {
-                        for (var i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
+                        for (let i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
                             html += templateRow(data[i]);
                         }
                     }
                 }
                 return html;
-            };
-            BaseCard.prototype.rowClick = function (e) {
+            }
+            rowClick(e) {
                 if (this.selectedRow)
                     this.selectedRow.removeClass("row-active z-depth-1 brown lighten-5");
                 this.selectedRow = $(e.currentTarget);
                 if (this.selectedRow)
                     this.selectedRow.addClass("row-active z-depth-1 brown lighten-5");
-            };
-            BaseCard.prototype.rowDblClick = function (e) {
+            }
+            rowDblClick(e) {
                 if (this.selectedRow)
                     this.selectedRow.removeClass("row-active z-depth-1 brown lighten-5");
                 this.selectedRow = $(e.currentTarget);
@@ -662,24 +595,24 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     this.selectButtonClick(e);
                 else
                     this.editButtonClick(e);
-            };
-            BaseCard.prototype.editButtonClick = function (e) {
+            }
+            editButtonClick(e) {
                 if (this.selectedRow) {
                     this.Edit();
                 }
-            };
-            BaseCard.prototype.getSelectedRowId = function () {
+            }
+            getSelectedRowId() {
                 if (this.selectedRow && this.selectedRow.length > 0 && this.selectedRow[0].id) {
                     return this.selectedRow[0].id.replace("table-row-", "");
                 }
-            };
-            BaseCard.prototype.getSelectedRecord = function () {
-                var result;
-                var id = this.getSelectedRowId();
+            }
+            getSelectedRecord() {
+                let result;
+                let id = this.getSelectedRowId();
                 if (id) {
-                    var _id = +id;
-                    var data = this.Model.get("cardModel");
-                    for (var i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
+                    let _id = +id;
+                    let data = this.Model.get("cardModel");
+                    for (let i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
                         if (data[i].id == _id) {
                             result = data[i];
                             break;
@@ -687,31 +620,31 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     }
                 }
                 return result;
-            };
-            BaseCard.prototype.addButtonClick = function (e) {
+            }
+            addButtonClick(e) {
                 this.Add();
-            };
-            BaseCard.prototype.addCopyButtonClick = function (e) {
+            }
+            addCopyButtonClick(e) {
                 this.addCopy();
-            };
-            BaseCard.prototype.deleteButtonClick = function (e) {
+            }
+            deleteButtonClick(e) {
                 this.Delete();
-            };
-            BaseCard.prototype.selectButtonClick = function (e) {
-                var self = this;
+            }
+            selectButtonClick(e) {
+                let self = this;
                 if (this.OnSelect)
                     this.OnSelect(self);
                 this.Close();
                 vars._main.ControllerBack(e);
-            };
-            BaseCard.prototype.closeButtonClick = function (e) {
+            }
+            closeButtonClick(e) {
                 this.Close();
                 vars._main.ControllerBack(e);
-            };
-            BaseCard.prototype.loadData = function () {
-                var controller = this;
+            }
+            loadData() {
+                let controller = this;
                 if (this.CardSettings && this.CardSettings.Load) {
-                    this.CardSettings.Load(function (responseData) {
+                    this.CardSettings.Load((responseData) => {
                         controller.Model.set("cardModel", responseData);
                         controller.afterLoad();
                     });
@@ -719,100 +652,93 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
                 controller.afterLoad();
                 return true;
-            };
-            BaseCard.prototype.afterLoad = function () {
+            }
+            afterLoad() {
                 this.setupTable();
                 vars._app.HideLoading();
-            };
-            BaseCard.prototype.Add = function () {
+            }
+            Add() {
                 vars._editorData[this.CardSettings.EditIdName] = this.CardSettings.ValueIdNew;
                 vars._app.OpenController({ urlController: this.CardSettings.EditController, backController: this });
-            };
-            BaseCard.prototype.afterAdd = function () {
-            };
-            BaseCard.prototype.addCopy = function () {
-                var id = this.getSelectedRowId();
+            }
+            afterAdd() {
+            }
+            addCopy() {
+                let id = this.getSelectedRowId();
                 if (id) {
-                    var _id = +id;
+                    let _id = +id;
                     if (_id > 0) {
                         vars._editorData[this.CardSettings.EditIdName] = _id;
                         vars._editorData["isCopy"] = true;
                         vars._app.OpenController({ urlController: this.CardSettings.EditController, backController: this });
                     }
                 }
-            };
-            BaseCard.prototype.Edit = function () {
-                var id = this.getSelectedRowId();
+            }
+            Edit() {
+                let id = this.getSelectedRowId();
                 if (id) {
-                    var _id = +id;
+                    let _id = +id;
                     if (_id > 0) {
                         vars._editorData[this.CardSettings.EditIdName] = _id;
                         vars._editorData["isCopy"] = false;
                         vars._app.OpenController({ urlController: this.CardSettings.EditController, backController: this });
                     }
                 }
-            };
-            BaseCard.prototype.Delete = function () {
-                var id = this.getSelectedRowId();
+            }
+            Delete() {
+                let id = this.getSelectedRowId();
                 if (id) {
-                    var _id = +id;
-                    var controller_1 = this;
+                    let _id = +id;
+                    let controller = this;
                     if (this.CardSettings && this.CardSettings.Delete) {
-                        this.CardSettings.Delete(_id, function (responseData) {
-                            controller_1.afterDelete();
+                        this.CardSettings.Delete(_id, (responseData) => {
+                            controller.afterDelete();
                         });
                     }
                 }
-            };
-            BaseCard.prototype.afterDelete = function () {
-                var id = this.getSelectedRowId();
+            }
+            afterDelete() {
+                let id = this.getSelectedRowId();
                 if (id) {
-                    var _id = +id;
-                    var model = this.Model.get("cardModel");
-                    for (var i = model.length - 1; i >= 0; i--) {
+                    let _id = +id;
+                    let model = this.Model.get("cardModel");
+                    for (let i = model.length - 1; i >= 0; i--) {
                         if (model[i].id === _id) {
                             model.splice(i, 1);
                         }
                     }
                     this.setupRows();
                 }
-            };
-            BaseCard.prototype.Close = function () {
-            };
-            return BaseCard;
-        }(Base));
-        Controller.BaseCard = BaseCard;
-        var BaseReportWithFilter = /** @class */ (function (_super) {
-            __extends(BaseReportWithFilter, _super);
-            function BaseReportWithFilter() {
-                var _this = _super.call(this) || this;
-                if (_this.EditorSettings && _this.EditorSettings.ButtonSetings)
-                    _this.EditorSettings.ButtonSetings.IsSave = false;
-                _this.RestoreFilter();
-                return _this;
             }
-            BaseReportWithFilter.prototype.createModel = function () {
+            Close() {
+            }
+        }
+        Controller.BaseCard = BaseCard;
+        class BaseReportWithFilter extends BaseEditor {
+            constructor() {
+                super();
+                if (this.EditorSettings && this.EditorSettings.ButtonSetings)
+                    this.EditorSettings.ButtonSetings.IsSave = false;
+                this.RestoreFilter();
+            }
+            createModel() {
                 return new kendo.data.ObservableObject({
                     "Header": "",
                     "filterModel": {},
                 });
-            };
-            Object.defineProperty(BaseReportWithFilter.prototype, "FilterName", {
-                get: function () {
-                    return "reportFilter";
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseReportWithFilter.prototype.SaveFilter = function () {
+            }
+            get FilterName() {
+                return "reportFilter";
+            }
+            SaveFilter() {
                 window.localStorage.setItem(this.FilterName, this.getSaveFilter());
-            };
-            BaseReportWithFilter.prototype.getSaveFilter = function () {
+            }
+            getSaveFilter() {
                 return JSON.stringify(this.Filter);
-            };
-            BaseReportWithFilter.prototype.RestoreFilter = function () {
-                var filter;
-                var saved = window.localStorage.getItem(this.FilterName);
+            }
+            RestoreFilter() {
+                let filter;
+                let saved = window.localStorage.getItem(this.FilterName);
                 if (!saved || saved === "\"{}\"") {
                     filter = this.getDefaultFilter();
                 }
@@ -820,97 +746,82 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     filter = JSON.parse(saved);
                 this.Model.set("filterModel", filter);
                 // this.Filter = filter;
-            };
-            BaseReportWithFilter.prototype.getDefaultFilter = function () {
-                return { datefrom: utils.date_ddmmyyyy(utils.dateToday()), dateto: utils.date_ddmmyyyy(utils.dateToday()) };
-            };
-            Object.defineProperty(BaseReportWithFilter.prototype, "Filter", {
-                get: function () {
-                    return this.Model.get("filterModel").toJSON();
-                },
-                set: function (filter) {
-                    this.Model.set("filterModel", filter);
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseReportWithFilter.prototype.ViewHide = function (e) {
-                this.SaveFilter();
-                _super.prototype.ViewHide.call(this, e);
-            };
-            return BaseReportWithFilter;
-        }(BaseEditor));
-        Controller.BaseReportWithFilter = BaseReportWithFilter;
-        var BaseReportTable = /** @class */ (function (_super) {
-            __extends(BaseReportTable, _super);
-            function BaseReportTable() {
-                return _super.call(this) || this;
             }
-            Object.defineProperty(BaseReportTable.prototype, "Columns", {
-                get: function () {
-                    var columns = [];
-                    return columns;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(BaseReportTable.prototype, "Table", {
-                get: function () {
-                    return this.tableControl;
-                },
-                set: function (table) {
-                    this.tableControl = table;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            BaseReportTable.prototype.ViewInit = function (view) {
-                var result = _super.prototype.ViewInit.call(this, view);
-                var controls = [];
+            getDefaultFilter() {
+                return { datefrom: utils.date_ddmmyyyy(utils.dateToday()), dateto: utils.date_ddmmyyyy(utils.dateToday()) };
+            }
+            get Filter() {
+                return this.Model.get("filterModel").toJSON();
+            }
+            set Filter(filter) {
+                this.Model.set("filterModel", filter);
+            }
+            ViewHide(e) {
+                this.SaveFilter();
+                super.ViewHide(e);
+            }
+        }
+        Controller.BaseReportWithFilter = BaseReportWithFilter;
+        class BaseReportTable extends BaseReportWithFilter {
+            constructor() {
+                super();
+            }
+            get Columns() {
+                let columns = [];
+                return columns;
+            }
+            get Table() {
+                return this.tableControl;
+            }
+            set Table(table) {
+                this.tableControl = table;
+            }
+            ViewInit(view) {
+                let result = super.ViewInit(view);
+                let controls = [];
                 controls.push(this.initializeTableRow());
                 view.append(controls);
                 this.SetupTable();
                 return result;
-            };
-            BaseReportTable.prototype.SetupTable = function (rows) {
+            }
+            SetupTable(rows) {
                 this.tableControl.Rows = rows;
                 this.tableControl.Columns = this.Columns;
                 this.tableControl.Setup();
-            };
-            BaseReportTable.prototype.OnDetalize = function (row) {
-            };
-            BaseReportTable.prototype.initializeTableRow = function () {
+            }
+            OnDetalize(row) {
+            }
+            initializeTableRow() {
                 if (!this.tableControl)
                     this.tableControl = new ctrl.Control.BaseTable();
                 this.tableControl.OnDetalize = $.proxy(this.OnDetalize, this);
-                var tableRow = $('<div class="row row-table-report"></div>');
-                var tableCol = $('<div class="col s12 m12 l12 xl12 col-table"></div>');
+                let tableRow = $('<div class="row row-table-report"></div>');
+                let tableCol = $('<div class="col s12 m12 l12 xl12 col-table"></div>');
                 tableCol.append(this.tableControl.InitView());
                 tableRow.append(tableCol);
                 return tableRow;
-            };
-            BaseReportTable.prototype.ViewResize = function (e) {
-                _super.prototype.ViewResize.call(this, e);
-                var tbody = (this.tableControl ? this.tableControl.TableBody : undefined);
+            }
+            ViewResize(e) {
+                super.ViewResize(e);
+                let tbody = (this.tableControl ? this.tableControl.TableBody : undefined);
                 if (tbody && tbody.length > 0) {
                     tbody.height($(window).height() - tbody.offset().top - (0.2 * parseFloat(getComputedStyle(tbody[0]).fontSize)) - 1);
                 }
-            };
-            BaseReportTable.prototype.ViewShow = function (e) {
-                return _super.prototype.ViewShow.call(this, e);
-            };
-            BaseReportTable.prototype.ViewHide = function (e) {
+            }
+            ViewShow(e) {
+                return super.ViewShow(e);
+            }
+            ViewHide(e) {
                 this.tableControl.DestroyView();
-                _super.prototype.ViewHide.call(this, e);
-            };
-            BaseReportTable.prototype.destroyEvents = function () {
-                _super.prototype.destroyEvents.call(this);
-            };
-            BaseReportTable.prototype.buildButtonClick = function (e) {
+                super.ViewHide(e);
+            }
+            destroyEvents() {
+                super.destroyEvents();
+            }
+            buildButtonClick(e) {
                 this.SetupTable([]);
-            };
-            return BaseReportTable;
-        }(BaseReportWithFilter));
+            }
+        }
         Controller.BaseReportTable = BaseReportTable;
     })(Controller = exports.Controller || (exports.Controller = {}));
 });
