@@ -41,7 +41,11 @@ namespace AutoPartSite.Accounts
             {
                 settings = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+                        .AddJsonFile(@"\\appsettings.jsn")
+#else
                         .AddJsonFile(@"\\appsettings.json")
+#endif
                         .Build();
             }
             public static string Address => settings["Mail:Address"];

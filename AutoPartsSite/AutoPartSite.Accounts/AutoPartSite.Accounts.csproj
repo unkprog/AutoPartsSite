@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.jsn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.jsn" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AutoPartSite.Core\AutoPartSite.Core.csproj" />
     <ProjectReference Include="..\AutoPartsSite.Models\AutoPartsSite.Models.csproj" />
   </ItemGroup>
