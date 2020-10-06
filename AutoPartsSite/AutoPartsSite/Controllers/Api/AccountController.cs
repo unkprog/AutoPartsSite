@@ -38,7 +38,7 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("login")]
-        public async Task<HttpMessage<object>> Login(LoginUser login)
+        public async Task<HttpMessage<IdentityResult>> Login(LoginUser login)
             => await TryCatchResponseAsync(async () =>
             {
                 HttpMessage<User> postResult = await Json.PostAsync<HttpMessage<User>, LoginUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
@@ -57,7 +57,7 @@ namespace AutoPartsSite.Controllers.Api
                 AuthUserManager.LogIn(principal);
                 AuthorizationHeaderHandler.SetPrincipal(principal);
 
-                return CreateResponseOk<object>(new { result = "Ok", indetity = new { auth = true, token = principal.GetKey() } });
+                return CreateResponseOk(new IdentityResult() { Auth = true, Token = principal.GetKey() });
             });
 
         [HttpPost]

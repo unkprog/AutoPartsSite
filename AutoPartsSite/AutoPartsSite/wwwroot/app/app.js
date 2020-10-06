@@ -88,6 +88,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     let messagerDialog = new dialog.Controller.Dialog.ModalDialog();
                     messagerDialog.OnClose = onClose;
                     messagerDialog.Show(header, message);
+                    vars._app.HideLoading();
                 });
             }
             ChangeLocale(newlocale) {

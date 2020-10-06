@@ -25,8 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             GlobalAjaxSetup() {
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                     //jqXHR.setRequestHeader("X-Application-Language", _config.Language);
-                    if (vars._identity && vars._identity.auth && vars._identity.token) {
-                        jqXHR.setRequestHeader("Authorization", "POSCloud-ApiKey " + vars._identity.token);
+                    if (vars._identity && vars._identity.Auth && vars._identity.Token) {
+                        jqXHR.setRequestHeader("Authorization", "APS-ApiKey " + vars._identity.Token);
                     }
                 });
                 // $(document).ajaxError(this.GlobalAjaxErrorHandler);

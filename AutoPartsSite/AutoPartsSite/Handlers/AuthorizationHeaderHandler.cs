@@ -44,6 +44,7 @@ namespace AutoPartsSite.Handlers
             // setting.   
             Thread.CurrentPrincipal = principal;
             // Verification.   
+
             if (HttpContext.Current != null)
             {
                 // Setting.   

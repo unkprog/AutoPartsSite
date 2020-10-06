@@ -117,6 +117,7 @@ export module App {
                 let messagerDialog: Interfaces.IDialog = new dialog.Controller.Dialog.ModalDialog();
                 messagerDialog.OnClose = onClose;
                 messagerDialog.Show(header, message);
+                vars._app.HideLoading();
             });
         }
 

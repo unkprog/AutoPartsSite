@@ -7,13 +7,14 @@ namespace AutoPartSite.Core.Models.Security
     {
         public Principal(User user) : base(new Identity(user))
         {
+            User = user;
             ////Identity = new Identity(user);
             //List<ClaimsIdentity> claims = new List<ClaimsIdentity>();
             //claims.Add(new ClaimsIdentity(new Identity(user)));
             //AddIdentities(claims);
         }
 
-       // public IIdentity Identity { get; private set; }
+        public User User { get; }
 
         //public bool IsInRole(string role)
         //{
@@ -22,8 +23,8 @@ namespace AutoPartSite.Core.Models.Security
 
         public string GetKey()
         {
-            Identity identity = (Identity)Identity;
-            string key = string.Concat("id=", identity.User.Id, ";email=", identity.User.Email);
+           // Identity identity = (Identity)Identity;
+            string key = string.Concat("id=", User?.Id, ";email=", User?.Email);
             byte[] utf8Bytes = System.Text.Encoding.UTF8.GetBytes(key);
             return System.Convert.ToBase64String(utf8Bytes);
         }

@@ -43,9 +43,10 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     };
                     if (this.validate(model)) {
                         controller.AccountService.Login(model, (responseData) => {
-                            if (responseData.result === 0) {
-                                vars._identity = responseData.indetity;
+                            if (responseData.Result === 0) {
+                                vars._identity = responseData.Data;
                                 vars._app.OpenController({ urlController: "main" });
+                                vars._app.HideLoading();
                             }
                             else
                                 vars._app.ShowError(responseData.Error);

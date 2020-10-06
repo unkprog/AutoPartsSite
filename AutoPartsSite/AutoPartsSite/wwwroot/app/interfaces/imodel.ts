@@ -13,13 +13,13 @@
         Pass: string;
     }
 
-    export interface IClientModel extends IRegisterModel  {
-    }
+    //export interface IClientModel extends IRegisterModel  {
+    //}
 
     export interface IIdentity {
-        auth: boolean;
-        token: string;
-        client: IClientModel;
+        Auth: boolean;
+        Token: string;
+        //client: IClientModel;
     }
 
     export interface IEditorModel extends IBaseModel {

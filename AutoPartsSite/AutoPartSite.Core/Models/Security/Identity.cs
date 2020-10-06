@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System.Runtime.Serialization;
+using System.Security.Principal;
 using AutoPartsSite.Models.Account;
 
 namespace AutoPartSite.Core.Models.Security
@@ -19,5 +20,14 @@ namespace AutoPartSite.Core.Models.Security
 
         public bool IsAuthenticated => User != null;
     #endregion
+    }
+
+    [DataContract]
+    public class IdentityResult
+    {
+        [DataMember]
+        public bool Auth { get; set; }
+        [DataMember]
+        public string Token { get; set; }
     }
 }

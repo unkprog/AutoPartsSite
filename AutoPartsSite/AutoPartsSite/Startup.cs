@@ -1,10 +1,12 @@
 using AutoPartSite.Core.Formatters;
+using AutoPartSite.Core.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Utf8Json.Resolvers;
 
@@ -41,9 +43,13 @@ namespace AutoPartsSite
             {
                 options.AllowSynchronousIO = true;
             });
-            services.AddHttpContextAccessor();
-            // Or you can also register as follows
-            //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddHttpContextAccessor1();
+           // services.AddHttpContextAccessor();
+           // // Or you can also register as follows
+           // services.TryAddSingleton<IHttpContextAccessor, HttpContextAccess>();
+           ////services.AddHttpContextAccessor();
+           // //services.AddTransient<IHttpContextAccessor, HttpContext>();
 
         }
 
@@ -57,6 +63,7 @@ namespace AutoPartsSite
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticHttpContext1();
             app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
