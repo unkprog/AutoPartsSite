@@ -1,13 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
-using AutoPartsSite.Core.Controllers;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AutoPartsSite.Models;
+using Microsoft.Extensions.Logging;
+using Utf8Json;
 using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Extensions;
 using AutoPartSite.Accounts;
-using System.Net;
+using AutoPartSite.Core.Models.Security;
+using AutoPartsSite.Core.Controllers;
+using AutoPartsSite.Managers;
+using AutoPartsSite.Handlers;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -19,59 +23,57 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [ActionName("register")]
-        public HttpResponseMessage register(register_user register_user)
-               => TryCatchResponse(() =>
+        public async Task<HttpResponseMessage> register(register_user register_user)
+               => await TryCatchResponseAsync(async () =>
                {
-                   HttpResponseMessage result = null;
-                   result = Json.Post<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/register", register_user,
+                   HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/register", register_user,
                        onError: (e) =>
                        {
-                           result = CreateResponse(HttpStatusCode.BadRequest, new { result = e.Message });
+                           postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
                        });
-                   return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = result });
+                   return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
 
                });
 
-        //[HttpPost]
-        //[ActionName("login")]
-        //public async Task<HttpResponseMessage> login(login_user login)
-        //=> await TryCatchResponseAsync(async () =>
-        //{
-        //    return await CheckResponseError(
-        //        async () => await Common.Net.Json.PostAsync<JObject, login_user>(AppSettings.Server.Register, "api/account/login", login)
-        //            , (response) =>
-        //            {
-        //                user User = response.ToObject<user>();
-        //                if (User == null)
-        //                    throw new Exception("Невозможно произвести авторизацию!");
-        //                //// TODO: Добавить проверку Expires!!!
-        //                Principal principal = new Principal(principalData);
-        //                AuthUser.LogIn(principal);
-        //                AuthorizationHeaderHandler.SetPrincipal(principal);
-        //                return TryCatchResponseQuery((query) =>
-        //                {
-        //                    return this.CreateResponse(HttpStatusCode.OK, new { result = "Ok", indetity = new { auth = true, token = principal.GetKey(), employee = AccountData(query, principal) } });
-        //                });
-        //            });
-        //});
+        [HttpPost]
+        [ActionName("login")]
+        public async Task<HttpResponseMessage> login(login_user login)
+            => await TryCatchResponseAsync(async () =>
+            {
+                HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, login_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
+                    onError: (e) =>
+                    {
+                        postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
+                    });
+
+                if (postResult.StatusCode != HttpStatusCode.OK)
+                    return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
 
 
-        ////internal static employeecard AccountData(Query query, Principal principal)
-        ////{
-        ////    employee empl = new employee(principal.Data);
-        ////    empl = Employee.GetEmployee(query, empl);
-        ////    empl = Employee.GetEmployeeSalepointAccess(query, empl);
-        ////    employeecard result = new employeecard(empl);
-        ////    return result;
-        ////}
+                var rawData = await postResult.Content.ReadAsStringAsync();
+                user user = (user)JsonSerializer.NonGeneric.Deserialize(typeof(user), rawData, JsonSerializer.DefaultResolver);
 
-        //[HttpPost]
-        //[ActionName("recovery")]
-        //public async Task<HttpResponseMessage> recovery(register_user register_user)
-        //=> await TryCatchResponseAsync(async () =>
-        //{
-        //    var resultPost = await Common.Net.Json.PostAsync<object, register_user>(AppSettings.Server.Register, "api/account/recovery", register_user);
-        //    return this.CreateResponse(HttpStatusCode.OK, resultPost);
-        //});
+                if (user == null)
+                       throw new Exception("Невозможно произвести авторизацию!");
+
+                Principal principal = new Principal(user);
+                AuthUserManager.LogIn(principal);
+                AuthorizationHeaderHandler.SetPrincipal(principal);
+
+                return CreateResponse(HttpStatusCode.OK, new { result = "Ok", indetity = new { auth = true, token = principal.GetKey() } });
+            });
+
+        [HttpPost]
+        [ActionName("recovery")]
+        public async Task<HttpResponseMessage> recovery(register_user register_user)
+            => await TryCatchResponseAsync(async () =>
+            {
+                HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/recovery", register_user,
+                    onError: (e) =>
+                    {
+                        postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
+                    });
+                return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
+            });
     }
 }
