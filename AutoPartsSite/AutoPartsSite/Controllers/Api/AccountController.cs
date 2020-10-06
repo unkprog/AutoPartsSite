@@ -4,6 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Models;
+using AutoPartsSite.Models.Account;
+using AutoPartsSite.Core.Extensions;
+using AutoPartSite.Accounts;
+using System.Net;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -13,23 +17,20 @@ namespace AutoPartsSite.Controllers.Api
         {
         }
 
-        //[HttpPost]
-        //[ActionName("register")]
-        //public async Task<HttpResponseMessage> register(register_user register_user)
-        //       => await TryCatchResponseAsync(async () =>
-        //       {
-        //           return await CheckResponseError(
-        //       async () => await Common.Net.Json.PostAsync<JObject, register_user>(AppSettings.Server.Register, "api/account/register", register_user)
-        //           , (response) =>
-        //                                                  {
-        //                                                      HttpRegisterMessage registerMessage = response.ToObject<HttpRegisterMessage>();
-        //                                                      Database.CreateDatabase(registerMessage.server.ConnectionString(), registerMessage.database.catalog);
-        //                                                      Database.CreateDatabaseUser(registerMessage.server.ConnectionString(), registerMessage.database.catalog, registerMessage.database.user, registerMessage.database.pass);
-        //                                                      string path = string.Concat(HostingEnvironment.ApplicationPhysicalPath, AppSettings.Database.Path.Sql);
-        //                                                      Database.CreateTables(path, registerMessage.database.ConnectionString(registerMessage.server));
-        //                                                      return this.CreateResponse(HttpStatusCode.OK, new { result = "Ok", response });
-        //                                                  });
-        //       });
+        [HttpPost]
+        [ActionName("register")]
+        public HttpResponseMessage register(register_user register_user)
+               => TryCatchResponse(() =>
+               {
+                   HttpResponseMessage result = null;
+                   result = Json.Post<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/register", register_user,
+                       onError: (e) =>
+                       {
+                           result = CreateResponse(HttpStatusCode.BadRequest, new { result = e.Message });
+                       });
+                   return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = result });
+
+               });
 
         //[HttpPost]
         //[ActionName("login")]
