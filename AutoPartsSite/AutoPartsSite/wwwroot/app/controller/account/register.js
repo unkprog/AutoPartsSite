@@ -48,12 +48,12 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     }
                 }
                 validate(model) {
-                    let validateMessage = '';
-                    if (!utils.isNullOrEmpty(model.Email) && !utils.validateEmail(model.Email))
-                        validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
-                    if (validateMessage !== '')
-                        vars._showError(validateMessage);
-                    return (validateMessage === '');
+                    let result = true;
+                    if (!utils.validateEmail(model.Email)) {
+                        M.toast({ html: vars._statres('msg$error$emailIncorrect') });
+                        result = false;
+                    }
+                    return result;
                 }
             }
             Account.Register = Register;

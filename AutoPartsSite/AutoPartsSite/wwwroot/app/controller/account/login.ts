@@ -47,20 +47,14 @@ export namespace Controller.Account {
                 Pass: <string>$('#login-pass').val()
             };
 
-            // TODO: Заглушка на демо-вход
-            if (utils.isNullOrEmpty(model.Email) && utils.isNullOrEmpty(model.Pass)) {
-                model.Email = "9264042915_";
-                model.Pass = "1";
-            }
-
             if (this.validate(model)) {
                 controller.AccountService.Login(model, (responseData) => {
-                    if (responseData.result == "Ok") {
+                    if (responseData.result === 0) {
                         vars._identity = responseData.indetity;
                         vars._app.OpenController({ urlController: "main" });
                     }
                     else
-                        vars._app.ShowError(responseData.error);
+                        vars._app.ShowError(responseData.Error);
                 });
             }
             else
@@ -70,7 +64,7 @@ export namespace Controller.Account {
         private validate(model: Interfaces.Model.ILoginModel): boolean {
             let result: boolean = true;
 
-            if (model.Email != "9264042915_" && !utils.validateEmail(model.Email)) {
+            if (!utils.validateEmail(model.Email)) {
                 M.toast({ html: vars._statres('msg$error$emailIncorrect') });
                 result = false;
             }

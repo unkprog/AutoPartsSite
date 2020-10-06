@@ -48,15 +48,14 @@ export namespace Controller.Account {
         }
 
         private validate(model: Interfaces.Model.IRegisterModel): boolean {
-            let validateMessage: string = '';
+            let result: boolean = true;
 
-            if (!utils.validateEmail(model.Email))
-                validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
-
-            if (validateMessage !== '')
-                vars._showError(validateMessage);
-
-            return (validateMessage === '');
+            if (!utils.validateEmail(model.Email)) {
+                M.toast({ html: vars._statres('msg$error$emailIncorrect') });
+                result = false;
+            }
+       
+            return result;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace AutoPartSite.Accounts.Controllers.Api
         {
             return TryCatchResponse(() =>
             {
-                if (register == null)
+                if (register == null || string.IsNullOrEmpty(register.Email))
                     throw new Exception("Неверные параметры регистрации.");
 
                 List<User> users = GetUsers(register.Email);
@@ -77,8 +77,8 @@ namespace AutoPartSite.Accounts.Controllers.Api
         {
             return TryCatchResponse(() =>
             {
-                if (register == null)
-                    throw new Exception("Неверные параметры для восстановления.");
+                if (register == null || string.IsNullOrEmpty(register.Email))
+                    throw new Exception("Неверные параметры для восстановления пароля.");
 
                 List<User> users = GetUsers(register.Email);
 
