@@ -1,9 +1,12 @@
+using AutoPartSite.Core.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Utf8Json.Resolvers;
 
 namespace AutoPartsSite
 {
@@ -23,10 +26,25 @@ namespace AutoPartsSite
         {
             Services = services;
 
-            services.AddControllers();
+            services.AddControllers().AddMvcOptions(option =>
+            {
+                option.OutputFormatters.Clear();
+                option.OutputFormatters.Add(new Utf8JsonOutputFormatter(StandardResolver.Default));
+                option.InputFormatters.Clear();
+                option.InputFormatters.Add(new Utf8JsonInputFormatter());
+            });
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
             services.AddHttpContextAccessor();
             // Or you can also register as follows
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,12 +5,12 @@ namespace AutoPartsSite.Models.Account
     /// <summary>
     /// Пароль
     /// </summary>
-    public class user_sec : base_db_model
+    public class User_Sec : BaseDbModel
     {
         /// <summary>
         /// E-mail
         /// </summary>
         [DataMember]
-        public string pass { get; set; }
+        public string Pass { get; set; }
     }
 }

@@ -116,14 +116,14 @@ namespace AutoPartSite.Core.Sql
             return result;
         }
 
-        public static bool IsEmptyValue(this base_db_model value)
+        public static bool IsEmptyValue(this BaseDbModel value)
         {
-            return (value == null || value.id == 0);
+            return (value == null || value.Id == 0);
         }
 
-        public static int GetSqlParamValue(this base_db_model value)
+        public static int GetSqlParamValue(this BaseDbModel value)
         {
-            return (value == null ? 0 : value.id);
+            return (value == null ? 0 : value.Id);
         }
     }
 }

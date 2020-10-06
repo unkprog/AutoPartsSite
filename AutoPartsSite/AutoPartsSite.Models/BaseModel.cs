@@ -6,46 +6,46 @@ using System.Text;
 namespace AutoPartsSite.Models
 {
     [DataContract]
-    public class base_model
+    public class BaseModel
     {
     }
 
 
-    public class base_db_model : base_model
+    public class BaseDbModel : BaseModel
     {
         /// <summary>
         /// Идентификатор записи
         /// </summary>
         [DataMember]
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 
-    public class sys_db_model : base_db_model
+    public class SysDbModel : BaseDbModel
     {
         /// <summary>
         /// Если запись удалена, то значение равно id
         /// </summary>
         [DataMember]
-        public int d { get; set; }
+        public int D { get; set; }
         /// <summary>
         /// Время создания
         /// </summary>
         [DataMember]
-        public DateTime cd { get;set;}
+        public DateTime Cd { get;set;}
         /// <summary>
         /// Кто создал
         /// </summary>
         [DataMember]
-        public int cu { get;set;}
+        public int Cu { get;set;}
         /// <summary>
         /// Время обновления
         /// </summary>
         [DataMember]
-        public DateTime ud { get; set; }
+        public DateTime Ud { get; set; }
         /// <summary>
         /// Кто обновил
         /// </summary>
         [DataMember]
-        public int uu { get; set; }
+        public int Uu { get; set; }
     }
 }

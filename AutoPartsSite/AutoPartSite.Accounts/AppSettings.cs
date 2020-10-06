@@ -8,21 +8,21 @@ namespace AutoPartSite.Accounts
     {
         public static class Database
         {
-            static IConfiguration settings { get; }
+            private static IConfiguration Settings { get; }
             static Database()
             {
-                settings = new ConfigurationBuilder()
+                Settings = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile(@"\\Database\\connection.json")
                         .Build();
 
                 Connection = new Connection()
                 {
-                    DataSource = settings["DataSource"],
-                    InitialCatalog = settings["InitialCatalog"],
-                    IsSSPI = settings.GetValue<bool>("IsSSPI"),
-                    UserID = settings["UserID"],
-                    Password = settings["Password"]
+                    DataSource = Settings["DataSource"],
+                    InitialCatalog = Settings["InitialCatalog"],
+                    IsSSPI = Settings.GetValue<bool>("IsSSPI"),
+                    UserID = Settings["UserID"],
+                    Password = Settings["Password"]
                 };
             }
 
@@ -30,16 +30,16 @@ namespace AutoPartSite.Accounts
 
             public static class Path
             {
-                public static string Query => settings["Path:Query"];
+                public static string Query => Settings["Path:Query"];
             }
         }
     
         public static class Mail
         {
-            static IConfiguration settings { get; }
+            static IConfiguration Settings { get; }
             static Mail()
             {
-                settings = new ConfigurationBuilder()
+                Settings = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
 #if DEBUG
                         .AddJsonFile(@"\\appsettings.jsn")
@@ -48,8 +48,8 @@ namespace AutoPartSite.Accounts
 #endif
                         .Build();
             }
-            public static string Address => settings["Mail:Address"];
-            public static string Password => settings["Mail:Password"];
+            public static string Address => Settings["Mail:Address"];
+            public static string Password => Settings["Mail:Password"];
         }
     }
 }

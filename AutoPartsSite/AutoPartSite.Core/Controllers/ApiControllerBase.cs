@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using AutoPartSite.Core.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,7 +23,7 @@ namespace AutoPartsSite.Core.Controllers
         }
 
         [NonAction]
-        public HttpResponseMessage TryCatchResponse(Func<HttpResponseMessage> func)
+        public HttpMessage<T> TryCatchResponse<T>(Func<HttpMessage<T>> func)
         {
             try
             {
@@ -33,36 +32,48 @@ namespace AutoPartsSite.Core.Controllers
             catch (Exception ex)
             {
                 WriteError(ex);
-                return CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return CreateResponseError<T>(ex);
             }
         }
 
         [NonAction]
-        public async Task<HttpResponseMessage> TryCatchResponseAsync(Func<Task<HttpResponseMessage>> func)
+        public async Task<HttpMessage<T>> TryCatchResponseAsync<T>(Func<Task<HttpMessage<T>>> func)
         {
             try
             {
-                Task<HttpResponseMessage> taskInvoke = func.Invoke();
+                Task<HttpMessage<T>> taskInvoke = func.Invoke();
                 return await taskInvoke;
             }
             catch (Exception ex)
             {
                 WriteError(ex);
-                return CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return CreateResponseError<T>(ex);
 
             }
         }
 
+        //[NonAction]
+        //public HttpResponseMessage CreateResponse(HttpStatusCode statusCode)
+        //{
+        //    return new HttpResponseMessage(statusCode);
+        //}
+
         [NonAction]
-        public HttpResponseMessage CreateResponse(HttpStatusCode statusCode)
+        public HttpMessage<T> CreateResponse<T>(int result, T data, string error = "")
         {
-            return new HttpResponseMessage(statusCode);
+            return new HttpMessage<T>() { Result = result, Data = data, Error = error };
         }
 
         [NonAction]
-        public HttpResponseMessage CreateResponse(HttpStatusCode statusCode, object value)
+        public HttpMessage<T> CreateResponseOk<T>(T data)
         {
-            return new HttpResponseMessage(statusCode) { Content = new StringContent(Utf8Json.JsonSerializer.NonGeneric.ToJsonString(value)) };
+            return new HttpMessage<T>() { Result = 0, Data = data };
+        }
+
+        [NonAction]
+        public HttpMessage<T> CreateResponseError<T>(Exception ex)
+        {
+            return new HttpMessage<T>() { Result = -1, Data = default, Error = ex?.Message };
         }
     }
 }

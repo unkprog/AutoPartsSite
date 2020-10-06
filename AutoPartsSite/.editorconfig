@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CS0693: Параметр типа имеет то же имя, что и параметр, указанный во внешнем типе
+dotnet_diagnostic.CS0693.severity = silent
+
+# IDE0063: Использовать простой оператор using
+csharp_prefer_simple_using_statement = true:none

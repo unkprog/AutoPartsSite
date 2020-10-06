@@ -43,6 +43,7 @@
     <None Remove="appsettings.jsn" />
     <Content Include="appsettings.jsn" />
     <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
+    <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />

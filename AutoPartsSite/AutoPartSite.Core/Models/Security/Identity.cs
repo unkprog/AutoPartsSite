@@ -5,15 +5,15 @@ namespace AutoPartSite.Core.Models.Security
 {
     public class Identity : IIdentity
     {
-        public Identity(user user)
+        public Identity(User user)
         {
             User = user;
         }
 
-        public user User { get; private set; }
+        public User User { get; private set; }
 
     #region IIdentity
-        public string Name => User == null ? string.Empty : User.email;
+        public string Name => User == null ? string.Empty : User.Email;
 
         public string AuthenticationType => "Password";
 

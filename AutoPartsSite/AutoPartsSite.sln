@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite", "AutoPartsS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartSite.Core", "AutoPartSite.Core\AutoPartSite.Core.csproj", "{9DCF8931-4852-4C0F-9217-E7B66E59A0EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPartSite.Accounts", "AutoPartSite.Accounts\AutoPartSite.Accounts.csproj", "{DEF598B5-7ABD-46A9-A64A-02F6358772EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartSite.Accounts", "AutoPartSite.Accounts\AutoPartSite.Accounts.csproj", "{DEF598B5-7ABD-46A9-A64A-02F6358772EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPartsSite.Models", "AutoPartsSite.Models\AutoPartsSite.Models.csproj", "{9BBDAFA6-38FE-4F83-8568-D118DD6AB28A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.Models", "AutoPartsSite.Models\AutoPartsSite.Models.csproj", "{9BBDAFA6-38FE-4F83-8568-D118DD6AB28A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CF6F895-1F3A-4307-B1E7-4AB73088FF87}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

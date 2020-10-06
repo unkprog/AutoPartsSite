@@ -24,20 +24,20 @@ namespace AutoPartsSite.Core.Extensions
 
         public static void Write<T>(string path, T obj)
         {
+            string jsonString = System.Text.Encoding.UTF8.GetString(JsonSerializer.Serialize(obj, Utf8Json.Resolvers.StandardResolver.Default)); // StandardResolver.Default);//);
             using (StreamWriter streamWriter = File.CreateText(path))
             {
-                string jsonString = System.Text.Encoding.UTF8.GetString(JsonSerializer.Serialize(obj, Utf8Json.Resolvers.StandardResolver.Default)); // StandardResolver.Default);//);
                 streamWriter.Write(jsonString);
             }
         }
 
         internal static async Task<TResult> HttpClientInvoke<TResult>(string server, HttpClientHandler handler, Action<Exception> onError, Func<HttpClient, Task<HttpResponseMessage>> func)
         {
-            TResult result = default(TResult);
+            TResult result = default;
             HttpResponseMessage response = null;
             try
             {
-                using (HttpClient client = (handler == null ? new HttpClient() : new HttpClient(handler)))
+                using (HttpClient client = handler == null ? new HttpClient() : new HttpClient(handler))
                 {
                     client.BaseAddress = new Uri(server);
                     client.DefaultRequestHeaders.Accept.Clear();

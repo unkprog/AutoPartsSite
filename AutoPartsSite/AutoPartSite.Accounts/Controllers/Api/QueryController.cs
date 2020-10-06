@@ -1,6 +1,7 @@
 ﻿using AutoPartSite.Core.Http;
 using AutoPartSite.Core.Sql;
 using AutoPartsSite.Core.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -15,17 +16,17 @@ namespace AutoPartSite.Accounts.Controllers.Api
         }
         public string PhysicalApplicationPath => Directory.GetCurrentDirectory();
 
+        [NonAction]
         protected Query CreateQuery(string connectionString, string path)
         {
             return new Query(connectionString, string.Concat(PhysicalApplicationPath, path));
         }
 
+        [NonAction]
         protected void ExecQuery(Action<Query> func)
         {
             using (Query query = CreateQuery(AppSettings.Database.Connection.ConnectionString, AppSettings.Database.Path.Query))
-            {
                 func?.Invoke(query);
-            }
         }
     }
 }

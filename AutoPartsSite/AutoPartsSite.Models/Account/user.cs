@@ -2,26 +2,26 @@
 
 namespace AutoPartsSite.Models.Account
 {
-    public class register_user
+    public class RegisterUser
     {
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 
-    public class login_user : register_user
+    public class LoginUser : RegisterUser
     {
-        public string pass { get; set; }
+        public string Pass { get; set; }
     }
 
 
     /// <summary>
     /// Пользователь
     /// </summary>
-    public class user : sys_db_model
+    public class User : SysDbModel
     {
         /// <summary>
         /// E-mail
         /// </summary>
         [DataMember]
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

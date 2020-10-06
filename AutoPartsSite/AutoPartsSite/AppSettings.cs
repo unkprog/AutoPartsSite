@@ -7,10 +7,10 @@ namespace AutoPartSite.Accounts
     {
         public static class AccountService
         {
-            static IConfiguration settings { get; }
+            static IConfiguration Settings { get; }
             static AccountService()
             {
-                settings = new ConfigurationBuilder()
+                Settings = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
 #if DEBUG
                         .AddJsonFile(@"\\appsettings.jsn")
@@ -19,8 +19,8 @@ namespace AutoPartSite.Accounts
 #endif
                         .Build();
             }
-            public static string Server => settings["AccountService:Server"];
-            public static string ApiAccount => settings["AccountService:ApiAccount"];
+            public static string Server => Settings["AccountService:Server"];
+            public static string ApiAccount => Settings["AccountService:ApiAccount"];
 
         }
     }

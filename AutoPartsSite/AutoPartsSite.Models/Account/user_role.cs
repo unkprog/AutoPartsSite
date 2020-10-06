@@ -6,18 +6,18 @@ namespace AutoPartsSite.Models.Account
     /// <summary>
     /// Роль пользователя
     /// </summary>
-    public class user_role : base_db_model
+    public class User_Role : BaseDbModel
     {
         /// <summary>
         /// Пользователь
         /// </summary>
         [DataMember]
-        public int user { get; set; }
+        public int User { get; set; }
 
         /// <summary>
         /// Роль
         /// </summary>
         [DataMember]
-        public int role { get; set; }
+        public int Role { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using AutoPartSite.Core.Models.Security;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Managers;
 using AutoPartsSite.Handlers;
+using AutoPartSite.Core.Http;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -22,36 +23,32 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [HttpPost]
-        [ActionName("register")]
-        public async Task<HttpResponseMessage> register(register_user register_user)
+        [Route("register")]
+        public async Task<HttpMessage<User>> Register(RegisterUser register_user)
                => await TryCatchResponseAsync(async () =>
                {
-                   HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/register", register_user,
+                   HttpMessage<User> result = await Json.PostAsync<HttpMessage<User>, RegisterUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/register", register_user,
                        onError: (e) =>
                        {
-                           postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
+                           result = CreateResponseError<User>(e);
                        });
-                   return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
+                   return result;
 
                });
 
         [HttpPost]
-        [ActionName("login")]
-        public async Task<HttpResponseMessage> login(login_user login)
+        [Route("login")]
+        public async Task<HttpMessage<object>> Login(LoginUser login)
             => await TryCatchResponseAsync(async () =>
             {
-                HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, login_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
+                HttpMessage<User> postResult = await Json.PostAsync<HttpMessage<User>, LoginUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
                     onError: (e) =>
                     {
-                        postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
+                        postResult = CreateResponseError<User>(e);
                     });
 
-                if (postResult.StatusCode != HttpStatusCode.OK)
-                    return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
 
-
-                var rawData = await postResult.Content.ReadAsStringAsync();
-                user user = (user)JsonSerializer.NonGeneric.Deserialize(typeof(user), rawData, JsonSerializer.DefaultResolver);
+                User user = postResult.Data;
 
                 if (user == null)
                        throw new Exception("Невозможно произвести авторизацию!");
@@ -60,20 +57,20 @@ namespace AutoPartsSite.Controllers.Api
                 AuthUserManager.LogIn(principal);
                 AuthorizationHeaderHandler.SetPrincipal(principal);
 
-                return CreateResponse(HttpStatusCode.OK, new { result = "Ok", indetity = new { auth = true, token = principal.GetKey() } });
+                return CreateResponseOk<object>(new { result = "Ok", indetity = new { auth = true, token = principal.GetKey() } });
             });
 
         [HttpPost]
-        [ActionName("recovery")]
-        public async Task<HttpResponseMessage> recovery(register_user register_user)
+        [Route("recovery")]
+        public async Task<HttpMessage<string>> Recovery(RegisterUser register_user)
             => await TryCatchResponseAsync(async () =>
             {
-                HttpResponseMessage postResult = await Json.PostAsync<HttpResponseMessage, register_user>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/recovery", register_user,
+                HttpMessage<string> result = await Json.PostAsync<HttpMessage<string>, RegisterUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/recovery", register_user,
                     onError: (e) =>
                     {
-                        postResult = CreateResponse(HttpStatusCode.BadRequest, new { result = "Error", response = e.Message });
+                        result = CreateResponseError<string>(e);
                     });
-                return CreateResponse(HttpStatusCode.OK, new { result = "Ok", response = postResult });
+                return result;
             });
     }
 }
