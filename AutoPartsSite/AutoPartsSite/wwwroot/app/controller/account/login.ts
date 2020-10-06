@@ -43,14 +43,14 @@ export namespace Controller.Account {
             vars._app.ShowLoading();
             let controller = this;
             let model: Interfaces.Model.ILoginModel = {
-                email: <string>$('#login-email').val(),
-                password: <string>$('#login-pass').val()
+                Email: <string>$('#login-email').val(),
+                Pass: <string>$('#login-pass').val()
             };
 
             // TODO: Заглушка на демо-вход
-            if (utils.isNullOrEmpty(model.email) && utils.isNullOrEmpty(model.password)) {
-                model.email = "9264042915_";
-                model.password = "1";
+            if (utils.isNullOrEmpty(model.Email) && utils.isNullOrEmpty(model.Pass)) {
+                model.Email = "9264042915_";
+                model.Pass = "1";
             }
 
             if (this.validate(model)) {
@@ -70,12 +70,12 @@ export namespace Controller.Account {
         private validate(model: Interfaces.Model.ILoginModel): boolean {
             let result: boolean = true;
 
-            if (model.email != "9264042915_" && !utils.validateEmail(model.email)) {
+            if (model.Email != "9264042915_" && !utils.validateEmail(model.Email)) {
                 M.toast({ html: vars._statres('msg$error$emailIncorrect') });
                 result = false;
             }
 
-            if (utils.isNullOrEmpty(model.password)) {
+            if (utils.isNullOrEmpty(model.Pass)) {
                 M.toast({ html: vars._statres('msg$error$passwordNotSpecified') });
                 result = false;
             }
@@ -86,11 +86,15 @@ export namespace Controller.Account {
         public RegisterButtonClick: { (e: any): void; };
         private registerButtonClick(e) {
             vars._app.OpenController({ urlController: "account/register", backController: this });
+            e.preventDefault();
+            return false;
         }
 
         public ForgotButtonClick: { (e: any): void; };
         private forgotButtonClick(e) {
             vars._app.OpenController({ urlController: "account/recovery", backController: this });
+            e.preventDefault();
+            return false;
         }
     }
 }

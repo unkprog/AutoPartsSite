@@ -613,7 +613,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     let _id = +id;
                     let data = this.Model.get("cardModel");
                     for (let i = 0, icount = (data && data.length ? data.length : 0); i < icount; i++) {
-                        if (data[i].id == _id) {
+                        if (data[i].Id == _id) {
                             result = data[i];
                             break;
                         }

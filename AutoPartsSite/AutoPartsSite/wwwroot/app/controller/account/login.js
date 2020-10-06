@@ -38,13 +38,13 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     vars._app.ShowLoading();
                     let controller = this;
                     let model = {
-                        email: $('#login-email').val(),
-                        password: $('#login-pass').val()
+                        Email: $('#login-email').val(),
+                        Pass: $('#login-pass').val()
                     };
                     // TODO: Заглушка на демо-вход
-                    if (utils.isNullOrEmpty(model.email) && utils.isNullOrEmpty(model.password)) {
-                        model.email = "9264042915_";
-                        model.password = "1";
+                    if (utils.isNullOrEmpty(model.Email) && utils.isNullOrEmpty(model.Pass)) {
+                        model.Email = "9264042915_";
+                        model.Pass = "1";
                     }
                     if (this.validate(model)) {
                         controller.AccountService.Login(model, (responseData) => {
@@ -61,11 +61,11 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 }
                 validate(model) {
                     let result = true;
-                    if (model.email != "9264042915_" && !utils.validateEmail(model.email)) {
+                    if (model.Email != "9264042915_" && !utils.validateEmail(model.Email)) {
                         M.toast({ html: vars._statres('msg$error$emailIncorrect') });
                         result = false;
                     }
-                    if (utils.isNullOrEmpty(model.password)) {
+                    if (utils.isNullOrEmpty(model.Pass)) {
                         M.toast({ html: vars._statres('msg$error$passwordNotSpecified') });
                         result = false;
                     }
@@ -73,9 +73,13 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 }
                 registerButtonClick(e) {
                     vars._app.OpenController({ urlController: "account/register", backController: this });
+                    e.preventDefault();
+                    return false;
                 }
                 forgotButtonClick(e) {
                     vars._app.OpenController({ urlController: "account/recovery", backController: this });
+                    e.preventDefault();
+                    return false;
                 }
             }
             Account.Login = Login;

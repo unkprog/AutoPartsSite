@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Utf8Json;
 using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Extensions;
 using AutoPartSite.Accounts;
@@ -13,9 +10,12 @@ using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Managers;
 using AutoPartsSite.Handlers;
 using AutoPartSite.Core.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoPartsSite.Controllers.Api
 {
+    [AllowAnonymous]
+    [Route("api/account")]
     public class AccountController : ApiControllerBase<AccountController>
     {
         public AccountController(ILogger<AccountController> logger) : base(logger)

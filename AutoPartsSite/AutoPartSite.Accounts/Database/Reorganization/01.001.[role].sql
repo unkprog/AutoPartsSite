@@ -1,29 +1,29 @@
 ﻿-- en: Roles
 -- ru: Роли
 
-if not exists (select * from [sys].[objects] where [object_id] = object_id(N'[role]') and type in (N'U'))
+if not exists (select * from [sys].[objects] where [object_id] = object_id(N'[Role]') and type in (N'U'))
 begin
-  create table [role]
+  create table [Role]
   (
-	[id]      [int]          not null,
-	[name]    [nvarchar](50) not null default (N''),
-	[options] [int]          not null default (0),
-    primary key clustered ([id])
+	[Id]      [int]          not null,
+	[Name]    [nvarchar](50) not null default (N''),
+	[Options] [int]          not null default (0),
+    primary key clustered ([Id])
   )
 end
 
 go
 
 if exists(select * from [sys].[indexes] where [name] = 'role_idx_1')
-  drop index [role_idx_1] on [role]
+  drop index [role_idx_1] on [Role]
 
 go
 
-create nonclustered index [role_idx_1] ON [role] ([name])
+create nonclustered index [role_idx_1] ON [Role] ([Name])
 
 go
 
-if not exists (select [id] from [role] where [id] = 1) insert into [role]([id], [name], [options]) values(1, 'Administrator', 1) else update [role] set [name] = 'Administrator', [options] = 1 where [id] = 1
-if not exists (select [id] from [role] where [id] = 2) insert into [role]([id], [name], [options]) values(2, 'Client', 2)        else update [role] set [name] = 'Client'       , [options] = 2 where [id] = 2
+if not exists (select [Id] from [Role] where [Id] = 1) insert into [Role]([Id], [Name], [Options]) values(1, 'Administrator', 1) else update [Role] set [Name] = 'Administrator', [Options] = 1 where [Id] = 1
+if not exists (select [Id] from [Role] where [Id] = 2) insert into [Role]([Id], [Name], [Options]) values(2, 'Client', 2)        else update [Role] set [Name] = 'Client'       , [Options] = 2 where [Id] = 2
  
 

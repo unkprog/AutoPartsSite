@@ -30,20 +30,20 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 recoveryButtonClick(e) {
                     let controller = this;
                     let model = {
-                        email: $('#recovery-email').val(),
+                        Email: $('#recovery-email').val(),
                     };
                     if (controller.validate(model)) {
                         controller.AccountService.Recovery(model, (responseData) => {
-                            if (responseData.result == "Ok")
+                            if (responseData.Result == 0)
                                 vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Recovery"), () => { vars._app.OpenController({ urlController: "account/login" }); });
                             else
-                                vars._app.ShowError(responseData);
+                                vars._app.ShowError(responseData.Error);
                         });
                     }
                 }
                 validate(model) {
                     let validateMessage = '';
-                    if (!utils.validatePhone(model.email))
+                    if (!utils.validateEmail(model.Email))
                         validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
                     if (validateMessage !== '')
                         vars._showError(validateMessage);

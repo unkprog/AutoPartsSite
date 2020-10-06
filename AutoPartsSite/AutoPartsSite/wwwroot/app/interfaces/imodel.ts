@@ -1,16 +1,16 @@
 ﻿namespace Interfaces.Model {
 
     export interface IBaseModel {
-        id: number;
+        Id: number;
     }
 
     export interface IRegisterModel {
-        email: string;
+        Email: string;
     }
 
-    export interface ILoginModel {
-        email: string;
-        password: string;
+    export interface ILoginModel extends IRegisterModel {
+        Email: string;
+        Pass: string;
     }
 
     export interface IClientModel extends IRegisterModel  {

@@ -34,15 +34,15 @@ export namespace Controller.Account {
         private recoveryButtonClick(e) {
             let controller = this;
             let model: Interfaces.Model.IRegisterModel = {
-                email: <string>$('#recovery-email').val(),
+                Email: <string>$('#recovery-email').val(),
             };
 
             if (controller.validate(model)) {
                 controller.AccountService.Recovery(model, (responseData) => {
-                    if (responseData.result == "Ok")
+                    if (responseData.Result == 0)
                         vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Recovery"), () => { vars._app.OpenController({ urlController: "account/login" }); });
                     else
-                        vars._app.ShowError(responseData);
+                        vars._app.ShowError(responseData.Error);
                 });
             }
         }
@@ -50,7 +50,7 @@ export namespace Controller.Account {
         private validate(model: Interfaces.Model.IRegisterModel): boolean {
             let validateMessage: string = '';
 
-            if (!utils.validatePhone(model.email))
+            if (!utils.validateEmail(model.Email))
                 validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
 
             if (validateMessage !== '')

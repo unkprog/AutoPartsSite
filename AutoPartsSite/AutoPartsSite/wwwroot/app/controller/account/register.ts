@@ -17,7 +17,6 @@ export namespace Controller.Account {
             return new kendo.data.ObservableObject({
                 "Header": "",
                 "labelTitle": vars._statres("button$label$register"),
-                "labelPhone": vars._statres("label$phone"),
                 "labelEmail": vars._statres("label$email"),
                 "labelPassword": vars._statres("label$password"),
                 "labelConfirmPassword": vars._statres("label$confirmPassword"),
@@ -37,15 +36,19 @@ export namespace Controller.Account {
         private registerButtonClick(e) {
             let controller = this;
             let model: Interfaces.Model.IRegisterModel = {
-                email: <string>$('#register-email').val()
+                Email: <string>$('#register-email').val()
             };
 
             if (this.validate(model)) {
                 controller.AccountService.Register(model, (responseData) => {
-                    if (responseData.result == "Ok")
-                        vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Register"), () => { vars._app.OpenController({ urlController: "security/login" }); });
+                    if (responseData.Result == 0)
+                        vars._app.ShowMessage(vars._statres("button$label$register"), vars._statres("msg$success$Register"), () => {
+                            vars._app.OpenController({
+                                urlController: "account/login"
+                            });
+                        });
                     else
-                        vars._app.ShowError(responseData);
+                        vars._app.ShowError(responseData.Error);
                 });
             }
            
@@ -54,7 +57,7 @@ export namespace Controller.Account {
         private validate(model: Interfaces.Model.IRegisterModel): boolean {
             let validateMessage: string = '';
 
-            if (!utils.isNullOrEmpty(model.email) && !utils.validateEmail(model.email))
+            if (!utils.isNullOrEmpty(model.Email) && !utils.validateEmail(model.Email))
                 validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
 
             if (validateMessage !== '')

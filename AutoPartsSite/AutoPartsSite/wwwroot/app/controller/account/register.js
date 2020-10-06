@@ -17,7 +17,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return new kendo.data.ObservableObject({
                         "Header": "",
                         "labelTitle": vars._statres("button$label$register"),
-                        "labelPhone": vars._statres("label$phone"),
                         "labelEmail": vars._statres("label$email"),
                         "labelPassword": vars._statres("label$password"),
                         "labelConfirmPassword": vars._statres("label$confirmPassword"),
@@ -33,20 +32,24 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 registerButtonClick(e) {
                     let controller = this;
                     let model = {
-                        email: $('#register-email').val()
+                        Email: $('#register-email').val()
                     };
                     if (this.validate(model)) {
                         controller.AccountService.Register(model, (responseData) => {
-                            if (responseData.result == "Ok")
-                                vars._app.ShowMessage(vars._statres("label$passwordRecovery"), vars._statres("msg$success$Register"), () => { vars._app.OpenController({ urlController: "security/login" }); });
+                            if (responseData.Result == 0)
+                                vars._app.ShowMessage(vars._statres("button$label$register"), vars._statres("msg$success$Register"), () => {
+                                    vars._app.OpenController({
+                                        urlController: "account/login"
+                                    });
+                                });
                             else
-                                vars._app.ShowError(responseData);
+                                vars._app.ShowError(responseData.Error);
                         });
                     }
                 }
                 validate(model) {
                     let validateMessage = '';
-                    if (!utils.isNullOrEmpty(model.email) && !utils.validateEmail(model.email))
+                    if (!utils.isNullOrEmpty(model.Email) && !utils.validateEmail(model.Email))
                         validateMessage = validateMessage + (validateMessage !== '' ? '<br/>' : '') + vars._statres('msg$error$emailIncorrect');
                     if (validateMessage !== '')
                         vars._showError(validateMessage);
