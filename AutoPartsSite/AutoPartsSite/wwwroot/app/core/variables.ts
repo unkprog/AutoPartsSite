@@ -2,7 +2,7 @@
 
 export declare let _app: Interfaces.IApplication;
 export declare let _identity: Interfaces.Model.IIdentity;
-export declare let _main: Interfaces.IControllerNavigation;
+export declare let _main: Interfaces.IMainNavigation;
 export declare let _statres: (id: string) => string;
 export declare let _absUrl: (id: string) => string;   //Create absolute ref to resource
 export declare let _showError: (error: string) => void;

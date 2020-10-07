@@ -57,7 +57,7 @@ namespace AutoPartsSite.Controllers.Api
                 AuthUserManager.LogIn(principal);
                 AuthorizationHeaderHandler.SetPrincipal(principal);
 
-                return CreateResponseOk(new IdentityResult() { Auth = true, Token = principal.GetKey() });
+                return CreateResponseOk(new IdentityResult() { Auth = true, Token = principal.GetKey(), User = user });
             });
 
         [HttpPost]

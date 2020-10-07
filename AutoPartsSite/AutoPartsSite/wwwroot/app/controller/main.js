@@ -17,6 +17,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "Header": vars._statres("label$AutoPartsSite"),
                     "client": { "name": "client@email.com", "phone": "+79991234567" },
                     "labelAbout": vars._statres("label$aboutUs"),
+                    "labelUserName": "",
+                    "labelOrders": vars._statres("label$orders"),
+                    "labelGarage": vars._statres("label$garage"),
+                    "labelMessages": vars._statres("label$messages"),
+                    "labelSettings": vars._statres("label$settings"),
                 });
             }
             ControllersInit() {
@@ -28,18 +33,51 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             ViewInit(view) {
                 variables_1._app.SetControlNavigation(this);
                 //this.Model.set("employee", vars._identity.employee);
-                this.menu = $('<li><a id="app-btn-menu"><i class="material-icons">menu</i></a></li>');
+                this.menu = $('<li><a id="app-btn-menu"><i class="material-icons">menu</i></a></li><li><a id="app-btn-lang"><i class="material-icons">language</i></a></li>');
                 this.sideNav = view.find('#main-view-slide');
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
-                this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login" href="account/login"><i class="material-icons">account_circle</i></a></li>');
-                $("#app-navbar").find(".right").append(this.menuRight);
+                this.menuRight = $('<li><a id="app-btn-login" href="account/login"><i class="material-icons">person_outline</i></a></li>');
+                this.sideNavBarRight = $("#app-navbar").find(".right");
+                this.sideNavBarRight.append(this.menuRight);
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
                 super.ViewInit(view);
+                this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
                 this.navigateOnStart();
                 return false;
+            }
+            LogIn() {
+                this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
+                if (vars._identity.Auth !== true)
+                    return;
+                this.userMenuDropdown = $('<ul id="app-dropdown-user-menu" class="dropdown-content">'
+                    + '<li><a href="/account/orders"><i class="material-icons">access_time</i><span data-bind="text:labelOrders"><span></a></li>'
+                    + '<li><a href="/account/garage"><i class="material-icons">time_to_leave</i><span data-bind="text:labelGarage"><span></a></li>'
+                    + '<li><a href="/account/messages"><i class="material-icons">message</i><span data-bind="text:labelMessages"><span></a></li>'
+                    + '<li class="divider" tabindex="-1"></li>'
+                    + '<li><a href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings"><span></a></li>'
+                    + '</ul>');
+                this.View.append(this.userMenuDropdown);
+                this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger btn" data-target="app-dropdown-user-menu"><span data-bind="text:labelUserName"><span></a></li>');
+                this.menuRight.find('#app-btn-login').find('.material-icons').html('exit_to_app');
+                this.menuRight.remove();
+                this.sideNavBarRight.append(this.userMenu).append(this.menuRight);
+                this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
+            }
+            LogOut() {
+                if (this.userMenu)
+                    this.userMenu.remove();
+                if (this.userMenuDropdown)
+                    this.userMenuDropdown.remove();
+                if (this.menuRight)
+                    this.menuRight.find('#app-btn-login').find('.material-icons').html('person_outline');
+            }
+            ViewShow(e) {
+                let result = super.ViewShow(e);
+                //this.LogIn();
+                return result;
             }
             ViewHide(e) {
                 super.ViewHide(e);
@@ -69,7 +107,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 //this.initAfterLoaded();
             }
             loginClick(e) {
-                this.OpenController({ urlController: "account/login" });
+                if (vars._identity.Auth === true) {
+                    this.LogOut();
+                    this.OpenController({ urlController: "search/index" });
+                }
+                else
+                    this.OpenController({ urlController: "account/login" });
                 e.preventDefault();
                 return false;
             }

@@ -69,6 +69,11 @@
         ResetScroll(): void;
     }
 
+    export interface IMainNavigation extends Interfaces.IControllerNavigation {
+        LogIn();
+        LogOut();
+    }
+
     export interface IDialog extends IController {
         Show(header: string, e: string): void;
         OnClose: () => void;

@@ -66,6 +66,10 @@ define({
     "label$AutoPartsSite": "Auto Part Site",
     "label$search": "Search",
 
+    "label$orders": "Orders",
+    "label$garage": "Garage",
+    "label$messages": "Messages",
+    "label$settings": "Settings",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Меню                                                                       //
     /////////////////////////////////////////////////////////////////////////////////////////////

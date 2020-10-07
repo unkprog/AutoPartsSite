@@ -29,5 +29,7 @@ namespace AutoPartSite.Core.Models.Security
         public bool Auth { get; set; }
         [DataMember]
         public string Token { get; set; }
+        [DataMember]
+        public User User { get; set; }
     }
 }

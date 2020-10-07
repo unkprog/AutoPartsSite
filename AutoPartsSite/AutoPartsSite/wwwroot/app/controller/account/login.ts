@@ -52,6 +52,7 @@ export namespace Controller.Account {
                     if (responseData.Result === 0) {
                         vars._identity = responseData.Data;
                         vars._app.OpenController({ urlController: "search/index" });
+                        vars._main.LogIn();
                         vars._app.HideLoading();
                     }
                     else
