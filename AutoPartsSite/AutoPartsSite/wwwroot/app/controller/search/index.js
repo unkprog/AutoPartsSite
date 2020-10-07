@@ -1,4 +1,4 @@
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice"], function (require, exports, vars, base, srh) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -9,6 +9,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             class Index extends base.Controller.Base {
                 constructor() {
                     super();
+                    this.searchService = new srh.Services.SearchService();
+                }
+                get SearchService() {
+                    return this.searchService;
                 }
                 createOptions() {
                     return { Url: "/app/controller/search/index.html", Id: "search-view" };
@@ -19,37 +23,54 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         "labelAbout": vars._statres("label$aboutUs")
                     });
                 }
+                OnViewInit() {
+                    this.searchForm = this.View.find("#search-view-form");
+                    this.loadBrands();
+                }
+                loadBrands() {
+                    let self = this;
+                    self.SearchService.ListBrands((responseData) => {
+                        if (responseData.Result === 0) {
+                            let templateContent = this.View.find('#search-view-brand-catalogs-template').html();
+                            let template = vars.getTemplate(templateContent);
+                            let htmlResult = '';
+                            let items = responseData.Data;
+                            for (let i = 0, icount = items.length; i < icount; i++)
+                                htmlResult = (htmlResult + template(items[i]));
+                            self.View.find('#search-view-brand-catalogs').html(htmlResult);
+                        }
+                        else
+                            vars._app.ShowError(responseData.Error);
+                    });
+                }
                 createEvents() {
-                    let templateContent = this.View.find('#search-view-brand-catalogs-template').html();
-                    let items = [
-                        { BrandName: "BMW", BrandImage: "bmw.png" },
-                        { BrandName: "Chevrolet", BrandImage: "chevrolet.png" },
-                        { BrandName: "Honda", BrandImage: "honda.png" },
-                        { BrandName: "Hyundai", BrandImage: "hyundai.png" },
-                        { BrandName: "Infiniti", BrandImage: "infiniti.png" },
-                        { BrandName: "Isuzu", BrandImage: "isuzu.png" },
-                        { BrandName: "Kia", BrandImage: "kia.png" },
-                        { BrandName: "Land-Rover", BrandImage: "land-rover.png" },
-                        { BrandName: "Lexus", BrandImage: "lexus.png" },
-                        { BrandName: "Mazda", BrandImage: "mazda.png" },
-                        { BrandName: "Mercedes", BrandImage: "mercedes-benz.png" },
-                        { BrandName: "Mitsubishi", BrandImage: "mitsubishi.png" },
-                        { BrandName: "Nissan", BrandImage: "nissan.png" },
-                        { BrandName: "Peugeot", BrandImage: "peugeot.png" },
-                        { BrandName: "Porsche", BrandImage: "porsche.png" },
-                        { BrandName: "Renault", BrandImage: "renault.png" },
-                        { BrandName: "Subaru", BrandImage: "subaru.png" },
-                        { BrandName: "Suzuki", BrandImage: "suzuki.png" },
-                        { BrandName: "Toyota", BrandImage: "toyota.png" },
-                        { BrandName: "Volkswagen", BrandImage: "volkswagen.png" }
-                    ];
-                    let template = vars.getTemplate(templateContent);
-                    let htmlResult = '';
-                    for (let i = 0, icount = items.length; i < icount; i++)
-                        htmlResult = (htmlResult + template(items[i]));
-                    this.View.find('#search-view-brand-catalogs').html(htmlResult);
+                    if (this.searchForm) {
+                        this.proxySearch = $.proxy(this.search, this);
+                        this.searchForm.on('submit', this.proxySearch);
+                    }
                 }
                 destroyEvents() {
+                    if (this.searchForm)
+                        this.searchForm.off('submit', this.proxySearch);
+                }
+                search(e) {
+                    let self = this;
+                    let partNum = '' + self.View.find('#search-view-part-number').val();
+                    self.SearchService.PartNumber(partNum, (responseData) => {
+                        if (responseData.Result === 0) {
+                            let templateContent = this.View.find('#search-view-parts-template').html();
+                            let template = vars.getTemplate(templateContent);
+                            let htmlResult = '';
+                            let items = responseData.Data;
+                            for (let i = 0, icount = items.length; i < icount; i++)
+                                htmlResult = (htmlResult + template(items[i]));
+                            self.View.find('#search-view-parts').html(htmlResult);
+                        }
+                        else
+                            vars._app.ShowError(responseData.Error);
+                    });
+                    e.preventDefault();
+                    return false;
                 }
             }
             Search.Index = Index;

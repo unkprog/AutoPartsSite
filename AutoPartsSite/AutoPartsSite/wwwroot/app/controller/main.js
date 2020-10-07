@@ -32,7 +32,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav = view.find('#main-view-slide');
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
-                this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login"><i class="material-icons">account_circle</i></a></li>');
+                this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login" href="account/login"><i class="material-icons">account_circle</i></a></li>');
                 $("#app-navbar").find(".right").append(this.menuRight);
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
@@ -70,9 +70,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             }
             loginClick(e) {
                 this.OpenController({ urlController: "account/login" });
+                e.preventDefault();
+                return false;
             }
             menuAboutButtonClick(e) {
                 this.handleMenuItem("about/index");
+                e.preventDefault();
+                return false;
             }
             handleMenuItem(urlController) {
                 this.sideNav.sidenav('close');

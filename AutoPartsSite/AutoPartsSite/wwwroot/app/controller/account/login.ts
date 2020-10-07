@@ -51,7 +51,7 @@ export namespace Controller.Account {
                 controller.AccountService.Login(model, (responseData) => {
                     if (responseData.Result === 0) {
                         vars._identity = responseData.Data;
-                        vars._app.OpenController({ urlController: "main" });
+                        vars._app.OpenController({ urlController: "search/index" });
                         vars._app.HideLoading();
                     }
                     else

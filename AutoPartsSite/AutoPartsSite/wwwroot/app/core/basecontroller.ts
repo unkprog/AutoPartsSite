@@ -43,8 +43,11 @@ export namespace Controller {
         public ViewInit(view: JQuery): boolean {
             this._view = view;
             kendo.bind(view, this._model);
+            this.OnViewInit();
             this.createEvents();
             return true;
+        }
+        protected OnViewInit(): void {
         }
 
         protected createEvents(): void {

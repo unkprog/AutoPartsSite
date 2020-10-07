@@ -37,6 +37,7 @@ export namespace Controller {
         private menuRight: JQuery;
         private sideNav: JQuery;
         private buttonMenu: JQuery;
+
         public ViewInit(view: JQuery): boolean {
             _app.SetControlNavigation(this);
             //this.Model.set("employee", vars._identity.employee);
@@ -45,7 +46,7 @@ export namespace Controller {
             this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
             $("#app-navbar").find(".left").append(this.menu);
 
-            this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login"><i class="material-icons">account_circle</i></a></li>');
+            this.menuRight = $('<li><a id="app-btn-lang"><i class="material-icons">language</i></a></li><li><a id="app-btn-login" href="account/login"><i class="material-icons">account_circle</i></a></li>');
             $("#app-navbar").find(".right").append(this.menuRight);
 
             this.buttonMenu = this.menu.find("#app-btn-menu");
@@ -98,11 +99,15 @@ export namespace Controller {
         public LoginClick: { (e: any): void; };
         private loginClick(e) {
             this.OpenController({ urlController: "account/login" });
+            e.preventDefault();
+            return false;
         }
 
         public MenuAboutButtonClick: { (e: any): void; };
         private menuAboutButtonClick(e) {
             this.handleMenuItem("about/index");
+            e.preventDefault();
+            return false;
         }
 
         private handleMenuItem(urlController: string): void {

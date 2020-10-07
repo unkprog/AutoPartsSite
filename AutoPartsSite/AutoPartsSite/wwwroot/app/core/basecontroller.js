@@ -35,8 +35,11 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             ViewInit(view) {
                 this._view = view;
                 kendo.bind(view, this._model);
+                this.OnViewInit();
                 this.createEvents();
                 return true;
+            }
+            OnViewInit() {
             }
             createEvents() {
             }

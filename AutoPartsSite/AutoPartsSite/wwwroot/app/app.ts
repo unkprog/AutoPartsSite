@@ -85,8 +85,6 @@ export module App {
                     this.Model.set("AppHeader", vars._statres("label$AutoPartsSite"));
         }
 
-
-
         protected OpenViewTemplateIsModal() {
             if ($("#app-btn-menu").hasClass("hide") == false)
                 $("#app-btn-menu").addClass("hide");
