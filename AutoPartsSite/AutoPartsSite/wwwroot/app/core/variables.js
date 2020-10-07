@@ -18,6 +18,7 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     const staticResources = new App.StaticResources();
     exports._statres = (id) => { return staticResources.GetString(id); };
     exports._showError = (error) => { exports._app.ShowError(error); };
+    exports._identity = { Auth: false, Token: '', User: null };
     exports._controllers = {};
     exports._controllers["main"] = function (module) { return new module.Controller.Main(); };
     function registerController(crtlId, funcConstructor) {
