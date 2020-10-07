@@ -20,7 +20,7 @@
     function bind(element: JQuery, viewModel: kendo.data.ObservableObject, namespace?: any): void;
     function bind(element: Element, viewModel: any, namespace?: any): void;
     function bind(element: Element, viewModel: kendo.data.ObservableObject, namespace?: any): void;
-
+    function unbind(element: JQuery, viewModel: any, namespace?: any): void;
     function template(templateSource: string): Function;
 }
 

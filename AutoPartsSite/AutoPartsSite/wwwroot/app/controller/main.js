@@ -53,17 +53,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 if (vars._identity.Auth !== true)
                     return;
                 this.userMenuDropdown = $('<ul id="app-dropdown-user-menu" class="dropdown-content">'
-                    + '<li><a href="/account/orders"><i class="material-icons">access_time</i><span data-bind="text:labelOrders"><span></a></li>'
-                    + '<li><a href="/account/garage"><i class="material-icons">time_to_leave</i><span data-bind="text:labelGarage"><span></a></li>'
-                    + '<li><a href="/account/messages"><i class="material-icons">message</i><span data-bind="text:labelMessages"><span></a></li>'
+                    + '<li><a href="/account/orders"><i class="material-icons">access_time</i><span>' + this.Model.get('labelOrders') + '<span></a></li>'
+                    + '<li><a href="/account/garage"><i class="material-icons">time_to_leave</i><span data-bind="text:labelGarage">' + this.Model.get('labelGarage') + '<span></a></li>'
+                    + '<li><a href="/account/messages"><i class="material-icons">message</i><span data-bind="text:labelMessages">' + this.Model.get('labelMessages') + '<span></a></li>'
                     + '<li class="divider" tabindex="-1"></li>'
-                    + '<li><a href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings"><span></a></li>'
+                    + '<li><a href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings">' + this.Model.get('labelSettings') + '<span></a></li>'
                     + '</ul>');
                 this.View.append(this.userMenuDropdown);
-                this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger btn" data-target="app-dropdown-user-menu"><span data-bind="text:labelUserName"><span></a></li>');
+                this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger btn" data-target="app-dropdown-user-menu"><span>' + vars._identity.User.Email + '</span></a></li>');
                 this.menuRight.find('#app-btn-login').find('.material-icons').html('exit_to_app');
-                this.menuRight.remove();
-                this.sideNavBarRight.append(this.userMenu).append(this.menuRight);
+                this.userMenu.insertBefore(this.menuRight);
                 this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
             }
             LogOut() {
@@ -73,6 +72,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.userMenuDropdown.remove();
                 if (this.menuRight)
                     this.menuRight.find('#app-btn-login').find('.material-icons').html('person_outline');
+                vars._identity = { Auth: false, Token: '', User: null };
             }
             ViewShow(e) {
                 let result = super.ViewShow(e);
