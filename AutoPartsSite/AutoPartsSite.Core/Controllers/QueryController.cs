@@ -11,17 +11,19 @@ namespace AutoPartsSite.Core.Controllers
         public QueryController(ILogger<T> logger) : base(logger)
         {
         }
-        public string PhysicalApplicationPath => Directory.GetCurrentDirectory();
+
 
         [NonAction]
-        protected Query CreateQuery(string connectionString, string path)
+        protected virtual Query CreateQuery()
         {
-            return new Query(connectionString, string.Concat(PhysicalApplicationPath, path));
+            throw new NotImplementedException("Необходимо реализовать CreateQuery");
         }
 
         [NonAction]
-        protected virtual void ExecQuery(Action<Query> func)
+        protected void ExecQuery(Action<Query> func)
         {
+            using (Query query = CreateQuery())
+                func?.Invoke(query);
         }
     }
 }

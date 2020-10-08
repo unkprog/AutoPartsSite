@@ -6,12 +6,14 @@ using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using System.Collections.Generic;
 using AutoPartsSite.Models.GlobalParts;
+using System.IO;
+using AutoPartsSite.Core.Sql;
 
 namespace AutoPartsSite.Controllers.Api
 {
     [AllowAnonymous]
     [Route("api/search")]
-    public class SearchController : ApiControllerBase<SearchController>
+    public partial class SearchController : QueryController<SearchController>
     {
         public SearchController(ILogger<SearchController> logger) : base(logger)
         {

@@ -1,13 +1,23 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
+using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Models.Account;
+using System.Data.SqlClient;
 
 namespace AutoPartsSite.Accounts.Controllers.Api
 {
     public partial class AccountController
     {
+        private string PhysicalApplicationPath => Directory.GetCurrentDirectory();
+
+        [NonAction]
+        protected override Query CreateQuery()
+        {
+            return new Query(AppSettings.Database.Connection.ConnectionString, string.Concat(PhysicalApplicationPath, AppSettings.Database.Path.Query));
+        }
+
         [NonAction]
         private List<User> GetUsers(string email)
         {
@@ -38,7 +48,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             User result = null;
             ExecQuery((query) =>
             {
-                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "id"), new SqlParameter("@id", value:id), new SqlParameter("@email", value: string.Empty) }
+                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "id"), new SqlParameter("@id", value: id), new SqlParameter("@email", value: string.Empty) }
                  , (values) =>
                  {
                      result = new User()

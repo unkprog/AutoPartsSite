@@ -15,7 +15,7 @@ namespace AutoPartsSite.Controllers.Api
 {
     [AllowAnonymous]
     [Route("api/account")]
-    public class AccountController : ApiControllerBase<AccountController>
+    public partial class AccountController : ApiControllerBase<AccountController>
     {
         public AccountController(ILogger<AccountController> logger) : base(logger)
         {

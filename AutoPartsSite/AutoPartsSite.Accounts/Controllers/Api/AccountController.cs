@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using AutoPartsSite.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using AutoPartsSite.Core.Http;
+using AutoPartsSite.Core.Controllers;
 
 namespace AutoPartsSite.Accounts.Controllers.Api
 {
