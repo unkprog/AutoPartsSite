@@ -871,3 +871,13 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .td-edit-cell {
     padding: 0 0.4em;
 }
+
+.card-search-image {
+    height: 110px !important;
+    width: 110px;
+    background-image: url(/img/noimage.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border: solid 1px black;
+    background-position: center;
+}
