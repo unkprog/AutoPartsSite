@@ -1,5 +1,4 @@
-﻿@charset "UTF-8";
-/**********************************************************************************/
+﻿/**********************************************************************************/
 /*********************************     COMMON     *********************************/
 /**********************************************************************************/
 body, html {
@@ -39,6 +38,9 @@ body, html {
 
 .padding-0em {
   padding: 0; }
+
+.padding-075rem {
+  padding: 0.75rem !important; }
 
 .app-login-row {
   width: 80%;
@@ -210,10 +212,6 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .divider-menu {
   margin: 0 !important; }
 
-.posterminal-cash-menu-incash {
-  font-size: 1.2em;
-  font-weight: bold; }
-
 .cb-state-label {
   font-size: 1.35em;
   margin: 1em 2em; }
@@ -278,33 +276,6 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .product-col-button-delete {
   color: rgba(0, 0, 0, 0.87); }
 
-#posterminal-view-breadcrumbs {
-  height: 42px;
-  line-height: 42px;
-  overflow: auto;
-  padding: 0 1em;
-  background: transparent;
-  border-top: 1px solid #a1887f;
-  border-bottom: 1px solid #a1887f;
-  box-shadow: none; }
-
-#pos-items-breadcrumbs > .breadcrumb, #pos-items-breadcrumbs > .breadcrumb:before {
-  color: #a1887f;
-  cursor: pointer; }
-
-#pos-items-breadcrumbs > .breadcrumb:last-child:before, #pos-items-breadcrumbs > .breadcrumb:last-child {
-  color: black; }
-
-#posterminal-view-checks-container {
-  position: absolute;
-  width: 35%;
-  border-top: 1px solid #a1887f;
-  border-right: 1px solid #a1887f;
-  overflow: auto; }
-
-#posterminal-view-checks {
-  padding: 5px; }
-
 #btn-check-new, #btn-add-map {
   height: 36px;
   line-height: 36px;
@@ -339,21 +310,6 @@ input[type='number']:hover::-webkit-outer-spin-button {
 #check-items {
   display: none; }
 
-#posterminal-view-items {
-  position: absolute;
-  left: 35%; }
-
-#posterminal-view-checks {
-  border-bottom: 1px solid #a1887f; }
-
-#posterminal-view-check-positions {
-  font-size: 0.8em;
-  font-weight: bold; }
-
-#posterminal-view-check-buttons, #posterminal-view-check-total, #posterminal-view-check-info {
-  margin: 5px 0;
-  padding-bottom: 0 !important; }
-
 .info-label {
   margin: 0;
   font-size: 1.3em;
@@ -376,17 +332,10 @@ input[type='number']:hover::-webkit-outer-spin-button {
   font-weight: bold; }
 
 @media only screen and (max-width: 992px) {
-  #posterminal-view-checks-container {
-    width: 50%; }
   #check-items {
-    display: none; }
-  #posterminal-view-items {
-    left: 50%; } }
+    display: none; } }
 
 @media only screen and (max-width: 600px) {
-  #posterminal-view-checks-container {
-    width: 100%;
-    line-height: initial; }
   .check-chip {
     height: 30px;
     line-height: 30px;
@@ -405,14 +354,10 @@ input[type='number']:hover::-webkit-outer-spin-button {
     border-radius: 15px; }
   #check-items {
     display: block; }
-  #posterminal-view-items {
-    left: 0; }
   .info-label {
     font-size: 1em; }
   .info-value {
     font-size: 1em; }
-  #posterminal-view-check-positions {
-    font-size: .7em; }
   .editor-header {
     height: 30px !important;
     line-height: 30px !important; }
@@ -422,73 +367,6 @@ input[type='number']:hover::-webkit-outer-spin-button {
     line-height: 45px; }
   #changesales-view-table {
     font-size: 10px; } }
-
-.pos-items-container {
-  margin-top: 0.5%;
-  min-height: 150px;
-  margin-bottom: 0;
-  overflow-y: auto; }
-
-.pos-item-sale {
-  cursor: pointer; }
-
-.pos-item-card {
-  width: 100%;
-  padding-top: 100%; }
-
-.pos-item-card-image {
-  background-color: #e6e6e6;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiI…c7Ij7QmNCX0J7QkdCg0JDQltCV0J3QmNCvPC90c3Bhbj48L3RleHQ+CiAgPC9nPgo8L3N2Zz4K);
-  background-size: cover;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0; }
-
-.pos-item-card-content {
-  color: black;
-  padding: 0 !important;
-  height: 61px;
-  font-size: 0.9em; }
-
-.pos-item-card-description {
-  position: relative;
-  color: white;
-  background: #a1887f;
-  font-size: 1rem; }
-
-/*@media only screen and (min-width: 601px) {
-    .pos-item-card-description {
-        font-size: 1.25em;
-    }
-}
-
-@media only screen and (min-width: 993px) {
-    .pos-item-card-description {
-        font-size: 1.5em;
-    }
-}
-
-@media only screen and (min-width: 1201px) {
-    .pos-item-card-description {
-        font-size: 1.75em;
-    }
-}*/
-.pos-item-card-price {
-  color: black;
-  position: absolute;
-  bottom: 0.3em;
-  right: 0.3em;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(161, 136, 127, 0.7);
-  border-radius: 1em;
-  width: 6em;
-  height: 2em;
-  line-height: 2em;
-  font-weight: bold; }
 
 .check-btn-typepayment {
   margin: 8px 0;
@@ -578,9 +456,6 @@ input[type='number']:hover::-webkit-outer-spin-button {
 #btn-check-menu-dropdown {
   min-width: 185px !important;
   width: 185px !important; }
-
-.check_pos_q_add, .check_pos_q_del {
-  cursor: pointer; }
 
 .doc-col-conduct {
   width: 30px; }
@@ -695,3 +570,8 @@ input[type='number']:hover::-webkit-outer-spin-button {
   background-repeat: no-repeat;
   border: solid 1px black;
   background-position: center; }
+
+.card-search-partnumber {
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 400; }

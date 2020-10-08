@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Extensions;
-using AutoPartSite.Accounts;
-using AutoPartSite.Core.Models.Security;
+using AutoPartsSite.Core.Models.Security;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Managers;
 using AutoPartsSite.Handlers;
-using AutoPartSite.Core.Http;
+using AutoPartsSite.Core.Http;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AutoPartsSite.Controllers.Api

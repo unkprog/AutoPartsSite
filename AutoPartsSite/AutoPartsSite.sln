@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite", "AutoPartsSite\AutoPartsSite.csproj", "{21CD2D82-8181-48D2-BB47-BCCFAA90CDA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartSite.Core", "AutoPartSite.Core\AutoPartSite.Core.csproj", "{9DCF8931-4852-4C0F-9217-E7B66E59A0EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.Core", "AutoPartsSite.Core\AutoPartsSite.Core.csproj", "{9DCF8931-4852-4C0F-9217-E7B66E59A0EC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartSite.Accounts", "AutoPartSite.Accounts\AutoPartSite.Accounts.csproj", "{DEF598B5-7ABD-46A9-A64A-02F6358772EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.Accounts", "AutoPartsSite.Accounts\AutoPartsSite.Accounts.csproj", "{DEF598B5-7ABD-46A9-A64A-02F6358772EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.Models", "AutoPartsSite.Models\AutoPartsSite.Models.csproj", "{9BBDAFA6-38FE-4F83-8568-D118DD6AB28A}"
 EndProject

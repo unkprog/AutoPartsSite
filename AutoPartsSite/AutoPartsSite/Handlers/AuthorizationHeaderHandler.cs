@@ -2,8 +2,8 @@
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoPartSite.Core.Http;
-using AutoPartSite.Core.Models.Security;
+using AutoPartsSite.Core.Http;
+using AutoPartsSite.Core.Models.Security;
 
 namespace AutoPartsSite.Handlers
 {

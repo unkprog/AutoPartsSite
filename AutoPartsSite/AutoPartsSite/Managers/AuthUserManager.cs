@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using AutoPartSite.Core.Models.Security;
+using AutoPartsSite.Core.Models.Security;
 using AutoPartsSite.Handlers;
 
 namespace AutoPartsSite.Managers

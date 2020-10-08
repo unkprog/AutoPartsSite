@@ -1,0 +1,12 @@
+{
+  "GlobalParts": {
+    "DataSource": ".",
+    "InitialCatalog": "GlobalParts",
+    "IsSSPI": true,
+    "UserID": "",
+    "Password": "",
+    "Path": {
+      "Query": "\\Database\\GlobalParts\\Query"
+    }
+  }
+}

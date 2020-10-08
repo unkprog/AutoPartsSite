@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.jsn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.jsn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPartsSite.Core\AutoPartsSite.Core.csproj" />
+    <ProjectReference Include="..\AutoPartsSite.Models\AutoPartsSite.Models.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoPartSite.Core\AutoPartSite.Core.csproj" />
+    <ProjectReference Include="..\AutoPartsSite.Core\AutoPartsSite.Core.csproj" />
     <ProjectReference Include="..\AutoPartsSite.Models\AutoPartsSite.Models.csproj" />
   </ItemGroup>
 
