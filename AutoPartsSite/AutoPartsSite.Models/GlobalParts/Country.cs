@@ -3,7 +3,7 @@
 namespace AutoPartsSite.Models.GlobalParts
 {
     [DataContract]
-    public class Country : ReferenceDbModel
+    public class Country : ReferenceNamedDbModel
     {
     }
 }

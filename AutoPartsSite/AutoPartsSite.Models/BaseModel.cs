@@ -56,4 +56,13 @@ namespace AutoPartsSite.Models
         [DataMember]
         public string Code { get; set; }
     }
+
+    public class ReferenceNamedDbModel : ReferenceDbModel
+    {
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
+        [DataMember]
+        public string Name { get; set; }
+    }
 }

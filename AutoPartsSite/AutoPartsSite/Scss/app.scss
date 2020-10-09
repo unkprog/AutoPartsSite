@@ -728,10 +728,28 @@ input[type='number']:hover::-webkit-outer-spin-button {
     background-repeat: no-repeat;
     border: solid 1px rgba(0, 0, 0, 0.12);
     background-position: center;
+    margin-left: 0.75rem;
+/*    overflow: hidden;
+    margin: auto;
+    float: left;*/
+}
+
+.card-search {
+    text-decoration: none;
 }
 
 .card-search-partnumber {
-    text-decoration: none;
     font-size: 1.3rem;
     font-weight: 400;
 }
+
+.card-search-info-desc {
+    font-size: 0.9rem;
+}
+
+.card-search-info {
+    min-height: 10px;
+    overflow: hidden;
+    margin-left: 130px;
+}
+

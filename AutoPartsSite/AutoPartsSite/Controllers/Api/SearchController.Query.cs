@@ -34,7 +34,7 @@ namespace AutoPartsSite.Controllers.Api
                         PartNumber = (string)values[2],
                         Name = (string)values[3],
                         Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] },
-                        Country = new Country() { Id = (int)values[7], Code = (string)values[8] },
+                        Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] },
                         Parameters = new GoodsParameters()
                         {
                             WeightPhysical = (decimal)values[11],

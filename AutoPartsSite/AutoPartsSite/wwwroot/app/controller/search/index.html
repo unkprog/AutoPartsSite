@@ -28,33 +28,23 @@
     <script type="text/x-kendo-template" id="search-view-parts-template">
         <div class="col s12 m12 l6 xl6 padding-075rem">
             <div class="z-depth-2 hoverable">
-                <div class="row padding-075rem margin-0">
-                    <div class="col">
-                        <div class="card-search-image" #if(Image) {# style="background-image: url(#=Image#)" #}#>
+                <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
+                    <div class="row padding-075rem margin-0">
+                            <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#>
+                            </div>
+                        <div class="card-search-info">
+                            <div class="card-search-partnumber">#=PartNumber#</div>
+                            <div>#=Name#</div>
+                            <div class="row card-search-desc margin-0">
+                                <div class="col s12 m12 l6 xl6">#=Brand.Code#</div>
+                                <div class="col s12 m12 l6 xl6">#=Country.Code# (#=Country.Name#)</div>
+                                <div class="col s12 m12 l6 xl6">#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <a class="card-search-partnumber black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#" >#=PartNumber#</a>
-                        <div>#=Name#</div>
-                        <div class="meta">
-                            <span class="category">Animals</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!--<div class="col s12 m12 l6 xl6 padding-075rem" style="text-align: center; padding: 0.75rem;">
-            <div class="z-depth-2 hoverable">
-                <a title="#=Name#" href="search?partNumber=#=PartNumber#" style="text-decoration: none;">
-                    <div style="min-height:60px">
-                        <img src="#=Image#" alt="BMW online catalog" style="margin:auto">
-                    </div>
-                    <div style="font-size: 22px; color: black; padding: 0 0 0.75rem;">#=Name#</div>
                 </a>
             </div>
-        </div>-->
+        </div>
     </script>
 
     <script type="text/x-kendo-template" id="search-view-brand-catalogs-template">
