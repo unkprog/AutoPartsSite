@@ -30,7 +30,7 @@
             <div class="z-depth-2 hoverable">
                 <div class="row padding-075rem margin-0">
                     <div class="col">
-                        <div class="card-search-image">
+                        <div class="card-search-image" #if(Image) {# style="background-image: url(#=Image#)" #}#>
                         </div>
                     </div>
                     <div class="col">
@@ -60,11 +60,11 @@
     <script type="text/x-kendo-template" id="search-view-brand-catalogs-template">
         <div class="col s6 m6 l4 xl2 padding-075rem center">
             <div class="z-depth-2 hoverable">
-                <a title="Online Catalog #=Name# OEM Parts" href="" style="text-decoration: none;">
+                <a title="Online Catalog #=Code# OEM Parts" href="" style="text-decoration: none;">
                     <div style="min-height:110px">
-                        <img src="#=Logo#" alt="#=Name# online catalog" style="margin:auto">
+                        <img src="#=Logo#" alt="#=Code# online catalog" style="margin:auto">
                     </div>
-                    <div style="font-size: 22px; color: black; padding: 0 0 0.75rem;">#=Name#</div>
+                    <div style="font-size: 22px; color: black; padding: 0 0 0.75rem;">#=Code#</div>
                 </a>
             </div>
         </div>

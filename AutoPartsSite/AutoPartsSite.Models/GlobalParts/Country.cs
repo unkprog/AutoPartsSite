@@ -1,6 +1,9 @@
-﻿namespace AutoPartsSite.Models.GlobalParts
+﻿using System.Runtime.Serialization;
+
+namespace AutoPartsSite.Models.GlobalParts
 {
-    public class Country
+    [DataContract]
+    public class Country : ReferenceDbModel
     {
     }
 }

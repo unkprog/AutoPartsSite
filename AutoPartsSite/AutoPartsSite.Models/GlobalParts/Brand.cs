@@ -3,13 +3,8 @@
 namespace AutoPartsSite.Models.GlobalParts
 {
     [DataContract]
-    public class Brand : BaseDbModel
+    public class Brand : ReferenceDbModel
     {
-        /// <summary>
-        /// Наименование бренда
-        /// </summary>
-        [DataMember]
-        public string Name { get; set; }
         /// <summary>
         /// Логотип бренда
         /// </summary>

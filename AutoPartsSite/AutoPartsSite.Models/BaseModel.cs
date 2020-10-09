@@ -10,7 +10,6 @@ namespace AutoPartsSite.Models
     {
     }
 
-
     public class BaseDbModel : BaseModel
     {
         /// <summary>
@@ -47,5 +46,14 @@ namespace AutoPartsSite.Models
         /// </summary>
         [DataMember]
         public int Uu { get; set; }
+    }
+
+    public class ReferenceDbModel : BaseDbModel
+    {
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
+        [DataMember]
+        public string Code { get; set; }
     }
 }
