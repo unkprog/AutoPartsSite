@@ -66,6 +66,9 @@ export namespace Controller.Search {
         private search(e: any) {
             let self = this;
             let partNum: string = '' + self.View.find('#search-view-part-number').val();
+
+            vars._app.ShowLoading();
+
             self.SearchService.PartNumber(partNum, (responseData) => {
                 if (responseData.Result === 0) {
 
@@ -77,9 +80,12 @@ export namespace Controller.Search {
                         htmlResult = (htmlResult + template(items[i]));
 
                     self.View.find('#search-view-parts').html(htmlResult);
+                    vars._app.HideLoading();
                 }
-                else
+                else {
                     vars._app.ShowError(responseData.Error);
+                    vars._app.HideLoading();
+                }
             });
             e.preventDefault();
             return false;

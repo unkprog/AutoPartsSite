@@ -56,6 +56,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 search(e) {
                     let self = this;
                     let partNum = '' + self.View.find('#search-view-part-number').val();
+                    vars._app.ShowLoading();
                     self.SearchService.PartNumber(partNum, (responseData) => {
                         if (responseData.Result === 0) {
                             let templateContent = this.View.find('#search-view-parts-template').html();
@@ -65,9 +66,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             for (let i = 0, icount = items.length; i < icount; i++)
                                 htmlResult = (htmlResult + template(items[i]));
                             self.View.find('#search-view-parts').html(htmlResult);
+                            vars._app.HideLoading();
                         }
-                        else
+                        else {
                             vars._app.ShowError(responseData.Error);
+                            vars._app.HideLoading();
+                        }
                     });
                     e.preventDefault();
                     return false;

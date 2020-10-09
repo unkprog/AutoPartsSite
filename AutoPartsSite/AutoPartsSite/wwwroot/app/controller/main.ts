@@ -18,7 +18,10 @@ export namespace Controller {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$AutoPartsSite"),
-                "client": { "name": "client@email.com", "phone":"+79991234567"},
+                "client": { "name": "client@email.com", "phone": "+79991234567" },
+
+                "labelSearch": vars._statres("button$label$find"),
+
                 "labelAbout": vars._statres("label$aboutUs"),
 
                 "labelUserName": "",
@@ -118,6 +121,7 @@ export namespace Controller {
             this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
             this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, self);
 
+            this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
             this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
            
         }
@@ -126,6 +130,7 @@ export namespace Controller {
             this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
 
             this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
+            this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
         }
 
         private navigateOnStart() {
@@ -152,6 +157,13 @@ export namespace Controller {
             }
             else
                 this.OpenController({ urlController: "account/login" });
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuSearchButtonClick: { (e: any): void; };
+        private menuSearchButtonClick(e) {
+            this.handleMenuItem("search/index");
             e.preventDefault();
             return false;
         }

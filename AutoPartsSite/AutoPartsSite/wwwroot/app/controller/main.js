@@ -16,6 +16,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return new kendo.data.ObservableObject({
                     "Header": vars._statres("label$AutoPartsSite"),
                     "client": { "name": "client@email.com", "phone": "+79991234567" },
+                    "labelSearch": vars._statres("button$label$find"),
                     "labelAbout": vars._statres("label$aboutUs"),
                     "labelUserName": "",
                     "labelOrders": vars._statres("label$orders"),
@@ -89,11 +90,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 let self = this;
                 this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
                 this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, self);
+                this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
                 this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
             }
             destroyEvents() {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
                 this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
+                this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
             }
             navigateOnStart() {
                 this.handleMenuItem("search/index");
@@ -113,6 +116,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 }
                 else
                     this.OpenController({ urlController: "account/login" });
+                e.preventDefault();
+                return false;
+            }
+            menuSearchButtonClick(e) {
+                this.handleMenuItem("search/index");
                 e.preventDefault();
                 return false;
             }
