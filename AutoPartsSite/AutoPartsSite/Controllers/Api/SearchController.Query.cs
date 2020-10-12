@@ -19,9 +19,9 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<Goods> GetGoods(string partNumber, int pageRows, int page)
+        private List<GoodsSearch> GetGoods(string partNumber, int pageRows, int page)
         {
-            List<Goods> result = new List<Goods>();
+            List<GoodsSearch> result = new List<GoodsSearch>();
             ExecQuery((query) =>
             {
                 query.Execute(@"Search\[get]", new SqlParameter[] 
@@ -32,7 +32,7 @@ namespace AutoPartsSite.Controllers.Api
                 }
                 , (values) =>
                 {
-                    result.Add(new Goods()
+                    result.Add(new GoodsSearch()
                     {
                         Id = (int)values[0],
                         Articul = (string)values[1],
@@ -49,7 +49,9 @@ namespace AutoPartsSite.Controllers.Api
                             WidthCm = (decimal)values[15],
                             HeightCm = (decimal)values[16],
                             BlockWeightChange = (bool)values[17]
-                        }
+                        },
+                        Page = (long)values[18],
+                        MaxPage = (long)values[19]
                     });
                 });
             });

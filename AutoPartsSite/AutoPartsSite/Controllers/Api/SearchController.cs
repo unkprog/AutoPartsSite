@@ -51,12 +51,12 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpGet]
         [Route("partNumber")]
-        public async Task<HttpMessage<List<Goods>>> PartNumber(string partNumber, int pageRows, int page)
+        public async Task<HttpMessage<List<GoodsSearch>>> PartNumber(string partNumber, int pageRows, int page)
             => await TryCatchResponseAsync(async () =>
             {
                 return await Task.Run(() =>
                 {
-                    List<Goods> result = GetGoods(partNumber, pageRows, page);
+                    List<GoodsSearch> result = GetGoods(partNumber, pageRows, page);
                     return CreateResponseOk(result);
                 });
             });

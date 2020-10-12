@@ -63,4 +63,13 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public bool BlockWeightChange { get; set; }
     }
+
+    [DataContract]
+    public class GoodsSearch : Goods
+    {
+        [DataMember]
+        public long Page { get; set; }
+        [DataMember]
+        public long MaxPage { get; set; }
+    }
 }
