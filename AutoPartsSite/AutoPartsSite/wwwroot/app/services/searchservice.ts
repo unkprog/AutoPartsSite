@@ -11,8 +11,8 @@ export namespace Services {
             return { BaseUrl: '/api/search' };
         }
 
-        public PartNumber(partNumber: string, Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber }, Callback: Callback });
+        public PartNumber(partNumber: string, page: number, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, pageRows: 50, page: page }, Callback: Callback });
         }
 
         public ListBrands(Callback: (responseData: any) => void) {

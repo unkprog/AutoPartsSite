@@ -11,8 +11,8 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             get Options() {
                 return { BaseUrl: '/api/search' };
             }
-            PartNumber(partNumber, Callback) {
-                this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber }, Callback: Callback });
+            PartNumber(partNumber, page, Callback) {
+                this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, pageRows: 50, page: page }, Callback: Callback });
             }
             ListBrands(Callback) {
                 this.GetApi({ Action: "/listBrands", Callback: Callback });

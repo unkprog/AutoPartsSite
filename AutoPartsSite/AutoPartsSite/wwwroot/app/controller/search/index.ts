@@ -69,7 +69,7 @@ export namespace Controller.Search {
 
             vars._app.ShowLoading();
 
-            self.SearchService.PartNumber(partNum, (responseData) => {
+            self.SearchService.PartNumber(partNum, 1, (responseData) => {
                 if (responseData.Result === 0) {
 
                     let templateContent = this.View.find('#search-view-parts-template').html();

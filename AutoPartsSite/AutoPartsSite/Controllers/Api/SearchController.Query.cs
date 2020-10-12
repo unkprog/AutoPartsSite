@@ -19,12 +19,17 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<Goods> GetGoods(string partNumber)
+        private List<Goods> GetGoods(string partNumber, int pageRows, int page)
         {
             List<Goods> result = new List<Goods>();
             ExecQuery((query) =>
             {
-                query.Execute(@"Search\[get]", new SqlParameter[] { new SqlParameter() { ParameterName = "@PartNumber", Value = partNumber } }
+                query.Execute(@"Search\[get]", new SqlParameter[] 
+                { 
+                    new SqlParameter() { ParameterName = "@PartNumber", Value = partNumber },
+                    new SqlParameter() { ParameterName = "@RowspPage" , Value = pageRows },
+                    new SqlParameter() { ParameterName = "@PageNumber", Value = page }
+                }
                 , (values) =>
                 {
                     result.Add(new Goods()
