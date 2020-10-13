@@ -589,3 +589,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
   min-height: 10px;
   overflow: hidden;
   margin-left: 130px; }
+
+.app-flag-icon {
+  width: 1.5em;
+  height: 1.125em; }

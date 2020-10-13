@@ -268,5 +268,22 @@ export namespace App {
         ShowMessage(header: string, message: string, onClose?: () => void): void {
             throw new Error("Method not implemented.");
         }
+
+        public getLocale(): string {
+            var locale: string = localStorage.getItem('locale');
+            return locale ? locale : "en";
+        }
+
+        public changeLocale(newlocale: string): void {
+            var locale: string = this.getLocale();
+
+            if (!locale || locale !== newlocale) {
+
+                localStorage.setItem('locale', newlocale);
+
+                //reload the app
+                location.reload();
+            }
+        }
     }
 }

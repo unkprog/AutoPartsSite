@@ -34,7 +34,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             ViewInit(view) {
                 variables_1._app.SetControlNavigation(this);
                 //this.Model.set("employee", vars._identity.employee);
-                this.menu = $('<li><a id="app-btn-menu"><i class="material-icons">menu</i></a></li><li><a id="app-btn-lang"><i class="material-icons">language</i></a></li>');
+                this.menu = $('<li><a id="app-btn-menu"><i class="material-icons">menu</i></a></li><li><a id="app-btn-lang" class="dropdown-trigger" data-target="app-dropdown-lang-menu"><img class="app-flag-icon" src="/img/flags/' + vars._app.getLocale() + '.svg"/></a></li>');
                 this.sideNav = view.find('#main-view-slide');
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
@@ -61,7 +61,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     + '<li><a href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings">' + this.Model.get('labelSettings') + '<span></a></li>'
                     + '</ul>');
                 this.View.append(this.userMenuDropdown);
-                this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger btn" data-target="app-dropdown-user-menu"><span>' + vars._identity.User.Email + '</span></a></li>');
+                this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger" data-target="app-dropdown-user-menu"><span>' + vars._identity.User.Email + '</span></a></li>');
                 this.menuRight.find('#app-btn-login').find('.material-icons').html('exit_to_app');
                 this.userMenu.insertBefore(this.menuRight);
                 this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
@@ -77,7 +77,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             }
             ViewShow(e) {
                 let result = super.ViewShow(e);
-                //this.LogIn();
+                this.menu.find('#app-btn-lang').dropdown({ constrainWidth: false });
                 return result;
             }
             ViewHide(e) {
