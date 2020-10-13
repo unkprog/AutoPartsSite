@@ -212,6 +212,18 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             ShowMessage(header, message, onClose) {
                 throw new Error("Method not implemented.");
             }
+            getLocale() {
+                var locale = localStorage.getItem('locale');
+                return locale ? locale : "en";
+            }
+            changeLocale(newlocale) {
+                var locale = this.getLocale();
+                if (!locale || locale !== newlocale) {
+                    localStorage.setItem('locale', newlocale);
+                    //reload the app
+                    location.reload();
+                }
+            }
         }
         App.Application = Application;
     })(App = exports.App || (exports.App = {}));

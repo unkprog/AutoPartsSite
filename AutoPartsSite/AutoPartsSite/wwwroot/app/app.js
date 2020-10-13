@@ -91,14 +91,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     vars._app.HideLoading();
                 });
             }
-            ChangeLocale(newlocale) {
-                var locale = localStorage.getItem('locale');
-                if (!locale || locale !== newlocale) {
-                    localStorage.setItem('locale', newlocale);
-                    //reload the app
-                    location.reload();
-                }
-            }
         }
         App.Application = Application;
     })(App = exports.App || (exports.App = {}));

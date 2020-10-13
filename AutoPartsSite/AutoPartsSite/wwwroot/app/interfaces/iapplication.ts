@@ -28,5 +28,8 @@
         IsNativeApp: boolean;
 
         NativeCommand(command: string, data: any);
+
+        getLocale(): string;
+        changeLocale(newlocale: string): void;
     }
 }
