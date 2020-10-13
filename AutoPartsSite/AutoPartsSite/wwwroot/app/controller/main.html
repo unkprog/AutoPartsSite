@@ -1,29 +1,9 @@
 ﻿<div id="main-view">
     <ul id="main-view-slide" class="sidenav">
-        <li>
-            <div class="user-view">
-                <table>
-                    <tr>
-                        <td width="85px">
-                            <div class="person-image"></div>
-                        </td>
-                        <td class="person-info">
-                            <span data-bind="text:client.name"></span><br />
-                            <span data-bind="text:client.phone"></span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </li>
-        <li><a id="main-view-btn-search" href="search/index"><i class="material-icons">search</i><span data-bind="text:labelSearch"></span></a></li>
-        <li><a id="main-view-btn-about" href="about/index"><i class="material-icons">help_outline</i><span data-bind="text:labelAbout"></span></a></li>
-        <!--<li><a id="main-view-btn-posterminal"><i class="material-icons">shopping_cart</i><span data-bind="text:labelPOSterminal">POS терминал</span></a></li>
-        <li><a id="main-view-btn-settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings">Настройки</span></a></li>
-        <li><a id="main-view-btn-documents"><i class="material-icons">input</i><span data-bind="text:labelDocuments">Документы</span></a></li>
+       
+        <li><a id="main-view-btn-search" href="/search/index"><i class="material-icons">search</i><span data-bind="text:labelSearch"></span></a></li>
+        <li><a id="main-view-btn-about" href="/about/index"><i class="material-icons">help_outline</i><span data-bind="text:labelAbout"></span></a></li>
 
-        <li><a id="main-view-btn-reports"><i class="material-icons">timeline</i><span data-bind="text:labelReports">Отчеты</span></a></li>
-        <li><div class="divider divider-menu"></div></li>
-        <li><a id="main-view-btn-exit"><i class="material-icons">power_settings_new</i><span data-bind="text:labelExit">Выход</span></a></li>-->
     </ul>
 
     <div id="main-view-content">
@@ -31,7 +11,18 @@
     </div>
 
     <ul id="app-dropdown-lang-menu" class="dropdown-content">
-        <li><a><img class="app-flag-icon" src="/img/flags/en.svg"/><span>English</span></a></li>
-        <li><a><img class="app-flag-icon" src="/img/flags/ru.svg"><span>Русский</span></a></li>
+        <li><a id="app-lang-en"><img class="app-flag-icon" src="/img/flags/en.svg" /><span style="margin:0.5rem">English</span></a></li>
+        <li><a id="app-lang-ru"><img class="app-flag-icon" src="/img/flags/ru.svg"><span style="margin:0.5rem">Русский</span></a></li>
+    </ul>
+
+    <ul id="app-dropdown-user-menu" class="dropdown-content">
+        <li><a id="app-user-logout" href="/account/logout"><i class="material-icons">exit_to_app</i><span data-bind="text:labelUserName"></span></a></li>
+        <li class="divider" tabindex="-1"></li>
+        <li><a href="/account/orders"><i class="material-icons">access_time</i><span data-bind="text:labelOrders"></span></a></li>
+        <li><a href="/account/garage"><i class="material-icons">time_to_leave</i><span data-bind="text:labelGarage"></span></a></li>
+        <li><a href="/account/messages"><i class="material-icons">message</i><span data-bind="text:labelMessages"></span></a></li>
+        <li class="divider" tabindex="-1"></li>
+        <li><a href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings"></span></a></li>
+       
     </ul>
 </div>
