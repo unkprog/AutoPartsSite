@@ -35,21 +35,25 @@
     <script type="text/x-kendo-template" id="search-view-parts-template">
         <div class="col s12 m12 l6 xl6 padding-075rem">
             <div class="z-depth-2 hoverable">
-                <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
-                    <div class="row padding-075rem margin-0">
-                        <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#>
-                        </div>
-                        <div class="card-search-info">
-                            <div class="card-search-partnumber">#=PartNumber#</div>
-                            <div>#=Name#</div>
-                            <div class="row card-search-desc margin-0">
-                                <div class="col s12 m12 l6 xl6">#=Brand.Code#</div>
-                                <div class="col s12 m12 l6 xl6">#=Country.Code# (#=Country.Name#)</div>
-                                <div class="col s12 m12 l6 xl6">#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
+                <div class="card white margin-0">
+                    <div class="card-content padding-075rem">
+                        <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
+                            <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
+                            <div class="card-search-info">
+                                <div class="card-search-partnumber">#=PartNumber#</div>
+                                <div>#=Name#</div>
+                                <div class="row card-search-desc margin-0">
+                                    <div class="col s12 m12 l6 xl6">#=Brand.Code#</div>
+                                    <div class="col s12 m12 l6 xl6">#=Country.Code# (#=Country.Name#)</div>
+                                    <div class="col s12 m12 l6 xl6">#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                    </div>
+                </div>
             </div>
         </div>
     </script>

@@ -22,7 +22,7 @@ export namespace Controller.Search {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$AutoPartsSite"),
-                "labelAbout": vars._statres("label$aboutUs")
+                "labelAddToCard": vars._statres("label$addToCard")
             });
         }
         
@@ -101,6 +101,7 @@ export namespace Controller.Search {
                     let htmlResult = '';
                     let items: any[] = responseData.Data;
                     for (let i = 0, icount = items.length; i < icount; i++) {
+                        items[i].labelAddToCard = vars._statres("label$addToCard");
                         if (i == 0)
                             self.maxPage = items[i].MaxPage;
                         htmlResult = (htmlResult + template(items[i]));

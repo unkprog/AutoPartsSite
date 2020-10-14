@@ -45,8 +45,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
                 this.sideNavBarRight = $("#app-navbar").find(".right");
-                this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a></li>');
+                this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
                 this.sideNavBarRight.append(this.menuBasket);
+                this.menuBasket.find('.app-basket-counter').hide();
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");

@@ -20,7 +20,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 createModel() {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$AutoPartsSite"),
-                        "labelAbout": vars._statres("label$aboutUs")
+                        "labelAddToCard": vars._statres("label$addToCard")
                     });
                 }
                 OnViewInit() {
@@ -77,6 +77,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             let htmlResult = '';
                             let items = responseData.Data;
                             for (let i = 0, icount = items.length; i < icount; i++) {
+                                items[i].labelAddToCard = vars._statres("label$addToCard");
                                 if (i == 0)
                                     self.maxPage = items[i].MaxPage;
                                 htmlResult = (htmlResult + template(items[i]));

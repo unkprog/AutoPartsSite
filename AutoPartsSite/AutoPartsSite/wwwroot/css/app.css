@@ -450,6 +450,13 @@ input[type='number']:hover::-webkit-outer-spin-button {
     margin: 0.2rem;
     font-size: 2rem; } }
 
+#btn-check-discount-dropdown {
+  min-width: 120px !important; }
+
+#btn-check-menu-dropdown {
+  min-width: 185px !important;
+  width: 185px !important; }
+
 .doc-col-conduct {
   width: 30px; }
 
@@ -579,9 +586,9 @@ input[type='number']:hover::-webkit-outer-spin-button {
   font-size: 0.9rem; }
 
 .card-search-info {
-  min-height: 10px;
+  min-height: 110px;
   overflow: hidden;
-  margin-left: 130px; }
+  margin-left: 135px; }
 
 .app-flag-icon {
   width: 1.5em;
@@ -591,3 +598,15 @@ input[type='number']:hover::-webkit-outer-spin-button {
 
 #app-dropdown-lang-menu span {
   margin-left: 1rem; }
+
+.app-basket-counter {
+  width: 1.3rem;
+  height: 1.3rem;
+  line-height: 1.2rem;
+  position: absolute;
+  border-radius: 1rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: solid 1px rgba(0, 0, 0, 0.33);
+  color: white;
+  margin: -2rem 0 0 2rem; }
