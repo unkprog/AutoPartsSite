@@ -46,7 +46,7 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="search\index.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="index.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\about\faq.ts" DependentUpon="faq.html" />
@@ -54,11 +54,25 @@
     <TypeScriptCompile Include="wwwroot\app\controller\about\shipping.ts" DependentUpon="shipping.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\about\contact.ts" DependentUpon="contact.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\news\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\news\index.ts" DependentUpon="news\index.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\account\login.ts" DependentUpon="login.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="recovery.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\register.ts" DependentUpon="register.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\orders.ts" DependentUpon="orders.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\garage.ts" DependentUpon="garage.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\messages.ts" DependentUpon="messages.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\app\controller\account\garage - Копировать.js">
+      <DependentUpon>garage.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\app\controller\account\garage - Копировать.js.map">
+      <DependentUpon>garage.js.map</DependentUpon>
+    </Content>
   </ItemGroup>
   
 </Project>

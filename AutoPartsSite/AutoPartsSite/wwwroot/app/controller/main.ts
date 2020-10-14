@@ -72,8 +72,7 @@ export namespace Controller {
             this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
             this.initLogIn();
 
-
-            this.navigateOnStart();
+            _app.OpenController({ urlController: "search/index" });
             return false;
         }
 
@@ -135,6 +134,11 @@ export namespace Controller {
             this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
             this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
             this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
+
+            this.UserOrdersButtonClick = this.createClickEvent("app-user-orders", this.userOrdersButtonClick);
+            this.UserGarageButtonClick = this.createClickEvent("app-user-garage", this.userGarageButtonClick);
+            this.UserMessagesButtonClick = this.createClickEvent("app-user-messages", this.userMessagesButtonClick);
+            this.UserSettingsButtonClick = this.createClickEvent("app-user-settings", this.userSettingsButtonClick);
         }
 
         protected destroyEvents(): void {
@@ -150,10 +154,11 @@ export namespace Controller {
             this.destroyClickEvent("main-view-btn-news", this.MenuNewsButtonClick);
             this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
             this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
-        }
 
-        private navigateOnStart() {
-            this.handleMenuItem("search/index");
+            this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
+            this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
+            this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
+            this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
         }
 
         public OpenMenuButtonClick: { (e: any): void; };
@@ -200,59 +205,66 @@ export namespace Controller {
             e.preventDefault();
             return false;
         }
+
         public MenuSearchButtonClick: { (e: any): void; };
-        private menuSearchButtonClick(e) {
-            this.handleMenuItem("search/index");
-            e.preventDefault();
-            return false;
+        private menuSearchButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "search/index");
         }
 
         public MenuAboutButtonClick: { (e: any): void; };
-        private menuAboutButtonClick(e) {
-            this.handleMenuItem("about/index");
-            e.preventDefault();
-            return false;
+        private menuAboutButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "about/index");
         }
 
         public MenuNewsButtonClick: { (e: any): void; };
-        private menuNewsButtonClick(e) {
-            this.handleMenuItem("news/index");
-            e.preventDefault();
-            return false;
+        private menuNewsButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "news/index");
         }
 
         public MenuFaqButtonClick: { (e: any): void; };
-        private menuFaqButtonClick(e) {
-            this.handleMenuItem("about/faq");
-            e.preventDefault();
-            return false;
+        private menuFaqButtonClick(e: any): boolean {
+            return this.handleMenuItem(e,"about/faq");
         }
 
         public MenuShippingButtonClick: { (e: any): void; };
-        private menuShippingButtonClick(e) {
-            this.handleMenuItem("about/shipping");
-            e.preventDefault();
-            return false;
+        private menuShippingButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "about/shipping");
         }
 
         public MenuPaymentButtonClick: { (e: any): void; };
-        private menuPaymentButtonClick(e) {
-            this.handleMenuItem("about/payment");
-            e.preventDefault();
-            return false;
+        private menuPaymentButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "about/payment");
         }
 
         public MenuContactButtonClick: { (e: any): void; };
-        private menuContactButtonClick(e) {
-            this.handleMenuItem("about/contact");
-            e.preventDefault();
-            return false;
+        private menuContactButtonClick(e: any): boolean {
+           return this.handleMenuItem(e, "about/contact");
         }
 
-        private handleMenuItem(urlController: string): void {
+        public UserSettingsButtonClick: { (e: any): void; };
+        private userSettingsButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/settings");
+        }
+
+        public UserMessagesButtonClick: { (e: any): void; };
+        private userMessagesButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/messages");
+        }
+        public UserGarageButtonClick: { (e: any): void; };
+        private userGarageButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/garage");
+        }
+        public UserOrdersButtonClick: { (e: any): void; };
+        private userOrdersButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/orders");
+        }
+
+        private handleMenuItem(e: any, urlController: string): boolean {
             this.sideNav.sidenav('close');
             if (!utils.isNullOrEmpty(urlController))
                 _app.OpenController({ urlController: urlController });
+            e.preventDefault();
+            return false;
         }
     }
 }

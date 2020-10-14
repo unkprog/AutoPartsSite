@@ -50,7 +50,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 super.ViewInit(view);
                 this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
                 this.initLogIn();
-                this.navigateOnStart();
+                variables_1._app.OpenController({ urlController: "search/index" });
                 return false;
             }
             initLogIn() {
@@ -99,6 +99,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
                 this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
                 this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
+                this.UserOrdersButtonClick = this.createClickEvent("app-user-orders", this.userOrdersButtonClick);
+                this.UserGarageButtonClick = this.createClickEvent("app-user-garage", this.userGarageButtonClick);
+                this.UserMessagesButtonClick = this.createClickEvent("app-user-messages", this.userMessagesButtonClick);
+                this.UserSettingsButtonClick = this.createClickEvent("app-user-settings", this.userSettingsButtonClick);
             }
             destroyEvents() {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
@@ -111,9 +115,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("main-view-btn-news", this.MenuNewsButtonClick);
                 this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
                 this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
-            }
-            navigateOnStart() {
-                this.handleMenuItem("search/index");
+                this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
+                this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
+                this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
+                this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
             }
             openMenuButtonClick(e) {
                 e.preventDefault();
@@ -149,44 +154,44 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return false;
             }
             menuSearchButtonClick(e) {
-                this.handleMenuItem("search/index");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "search/index");
             }
             menuAboutButtonClick(e) {
-                this.handleMenuItem("about/index");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "about/index");
             }
             menuNewsButtonClick(e) {
-                this.handleMenuItem("news/index");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "news/index");
             }
             menuFaqButtonClick(e) {
-                this.handleMenuItem("about/faq");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "about/faq");
             }
             menuShippingButtonClick(e) {
-                this.handleMenuItem("about/shipping");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "about/shipping");
             }
             menuPaymentButtonClick(e) {
-                this.handleMenuItem("about/payment");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "about/payment");
             }
             menuContactButtonClick(e) {
-                this.handleMenuItem("about/contact");
-                e.preventDefault();
-                return false;
+                return this.handleMenuItem(e, "about/contact");
             }
-            handleMenuItem(urlController) {
+            userSettingsButtonClick(e) {
+                return this.handleMenuItem(e, "account/settings");
+            }
+            userMessagesButtonClick(e) {
+                return this.handleMenuItem(e, "account/messages");
+            }
+            userGarageButtonClick(e) {
+                return this.handleMenuItem(e, "account/garage");
+            }
+            userOrdersButtonClick(e) {
+                return this.handleMenuItem(e, "account/orders");
+            }
+            handleMenuItem(e, urlController) {
                 this.sideNav.sidenav('close');
                 if (!utils.isNullOrEmpty(urlController))
                     variables_1._app.OpenController({ urlController: urlController });
+                e.preventDefault();
+                return false;
             }
         }
         Controller.Main = Main;
