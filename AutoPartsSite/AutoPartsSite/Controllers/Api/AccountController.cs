@@ -47,7 +47,7 @@ namespace AutoPartsSite.Controllers.Api
                     });
 
 
-                User user = postResult.Data;
+                User user = postResult?.Data;
 
                 if (user == null)
                        throw new Exception("Невозможно произвести авторизацию!");

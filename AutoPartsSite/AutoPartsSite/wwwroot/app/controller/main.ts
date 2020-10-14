@@ -130,9 +130,11 @@ export namespace Controller {
 
             this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
             this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
+            this.MenuNewsButtonClick = this.createClickEvent("main-view-btn-news", this.menuNewsButtonClick);
+            this.MenuFaqButtonClick = this.createClickEvent("main-view-btn-faq", this.menuFaqButtonClick);
+            this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
+            this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
             this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
-            
-           
         }
 
         protected destroyEvents(): void {
@@ -142,6 +144,10 @@ export namespace Controller {
             this.destroyClickEvent("app-lang-ru", this.LangRuClick);
 
             this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
+            this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
+            this.destroyClickEvent("main-view-btn-payment", this.MenuPaymentButtonClick);
+            this.destroyClickEvent("main-view-btn-faq", this.MenuFaqButtonClick);
+            this.destroyClickEvent("main-view-btn-news", this.MenuNewsButtonClick);
             this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
             this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
         }
@@ -204,6 +210,34 @@ export namespace Controller {
         public MenuAboutButtonClick: { (e: any): void; };
         private menuAboutButtonClick(e) {
             this.handleMenuItem("about/index");
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuNewsButtonClick: { (e: any): void; };
+        private menuNewsButtonClick(e) {
+            this.handleMenuItem("news/index");
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuFaqButtonClick: { (e: any): void; };
+        private menuFaqButtonClick(e) {
+            this.handleMenuItem("about/faq");
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuShippingButtonClick: { (e: any): void; };
+        private menuShippingButtonClick(e) {
+            this.handleMenuItem("about/shipping");
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuPaymentButtonClick: { (e: any): void; };
+        private menuPaymentButtonClick(e) {
+            this.handleMenuItem("about/payment");
             e.preventDefault();
             return false;
         }

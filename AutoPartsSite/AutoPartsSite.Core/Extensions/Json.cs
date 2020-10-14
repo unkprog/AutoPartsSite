@@ -52,7 +52,10 @@ namespace AutoPartsSite.Core.Extensions
             }
             catch (Exception ex)
             {
-                onError?.Invoke(new Exception("Api -> (ErrorCode = " + response.StatusCode.ToString() + ") " + response.RequestMessage.RequestUri + Environment.NewLine + ex.Message));
+                if(response!= null)
+                    onError?.Invoke(new Exception("Api -> (ErrorCode = " + response.StatusCode.ToString() + ") " + response.RequestMessage.RequestUri + Environment.NewLine + ex.Message));
+                else
+                    onError?.Invoke(new Exception("Api -> " + ex.Message));
             }
 
             return result;

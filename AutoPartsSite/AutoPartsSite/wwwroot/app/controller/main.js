@@ -94,6 +94,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.LangRuClick = this.createClickEvent("app-lang-ru", this.langRuClick);
                 this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
                 this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
+                this.MenuNewsButtonClick = this.createClickEvent("main-view-btn-news", this.menuNewsButtonClick);
+                this.MenuFaqButtonClick = this.createClickEvent("main-view-btn-faq", this.menuFaqButtonClick);
+                this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
+                this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
                 this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
             }
             destroyEvents() {
@@ -101,6 +105,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("app-lang-en", this.LangEnClick);
                 this.destroyClickEvent("app-lang-ru", this.LangRuClick);
                 this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
+                this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
+                this.destroyClickEvent("main-view-btn-payment", this.MenuPaymentButtonClick);
+                this.destroyClickEvent("main-view-btn-faq", this.MenuFaqButtonClick);
+                this.destroyClickEvent("main-view-btn-news", this.MenuNewsButtonClick);
                 this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
                 this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
             }
@@ -147,6 +155,26 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             }
             menuAboutButtonClick(e) {
                 this.handleMenuItem("about/index");
+                e.preventDefault();
+                return false;
+            }
+            menuNewsButtonClick(e) {
+                this.handleMenuItem("news/index");
+                e.preventDefault();
+                return false;
+            }
+            menuFaqButtonClick(e) {
+                this.handleMenuItem("about/faq");
+                e.preventDefault();
+                return false;
+            }
+            menuShippingButtonClick(e) {
+                this.handleMenuItem("about/shipping");
+                e.preventDefault();
+                return false;
+            }
+            menuPaymentButtonClick(e) {
+                this.handleMenuItem("about/payment");
                 e.preventDefault();
                 return false;
             }
