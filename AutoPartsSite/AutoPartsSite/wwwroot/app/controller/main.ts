@@ -48,6 +48,7 @@ export namespace Controller {
 
         private menu: JQuery;
         private menuRight: JQuery;
+        private menuBasket: JQuery;
         private sideNav: JQuery;
         private sideNavBarRight: JQuery;
         private buttonMenu: JQuery;
@@ -56,14 +57,17 @@ export namespace Controller {
         public ViewInit(view: JQuery): boolean {
             _app.SetControlNavigation(this);
             //this.Model.set("employee", vars._identity.employee);
-            this.menu = $('<li><a id="app-btn-menu"><i class="material-icons">menu</i></a></li><li><a id="app-btn-lang" class="dropdown-trigger" data-target="app-dropdown-lang-menu"><img class="app-flag-icon" src="/img/flags/' + vars._app.getLocale() + '.svg"/></a></li>');
+            this.menu = $('<li><a id="app-btn-menu" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$menu") + '"><i class="material-icons">menu</i></a></li>'
+                        + '<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._app.getLocale() + '.svg"/></a></li>');
            
             this.sideNav = view.find('#main-view-slide');
             this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
             $("#app-navbar").find(".left").append(this.menu);
 
             this.sideNavBarRight = $("#app-navbar").find(".right");
-            
+            this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a></li>');
+            this.sideNavBarRight.append(this.menuBasket);
+
             this.buttonMenu = this.menu.find("#app-btn-menu");
             this.content = view.find("#main-view-content");
             this.contentModal = view.find("#main-view-content-modal");
@@ -77,7 +81,7 @@ export namespace Controller {
         }
 
         private initLogIn() {
-            this.menuRight = $('<li><a id="app-btn-login"><i class="material-icons">person_outline</i></a></li>');
+            this.menuRight = $('<li><a id="app-btn-login" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$account") + '"><i class="material-icons">person_outline</i></a></li>');
             this.sideNavBarRight.append(this.menuRight);
             this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, this);
         }
@@ -108,7 +112,7 @@ export namespace Controller {
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
             this.menu.find('#app-btn-lang').dropdown({ constrainWidth: false });
-            
+            $("#app-navbar").find('.tooltipped').tooltip();
             return result;
         }
 

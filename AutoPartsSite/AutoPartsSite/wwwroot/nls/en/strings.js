@@ -65,13 +65,20 @@ define({
     "label$AutoPartsSite": "Auto Part Site",
     "label$search": "Search",
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Меню                                                                       //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$menu": "Menu",
+    "label$language": "Language",
+
     "label$orders": "Orders",
     "label$garage": "Garage",
     "label$messages": "Messages",
     "label$settings": "Settings",
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //              Меню                                                                       //
-    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    "label$basket": "Basket",
+
+    "label$account": "Аккаунт",
     "label$aboutUs": "About us",
     "label$faq": "FAQ",
     "label$news": "News",

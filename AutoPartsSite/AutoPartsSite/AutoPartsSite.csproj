@@ -74,5 +74,9 @@
       <DependentUpon>garage.js.map</DependentUpon>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\app\controller\basket\" />
+  </ItemGroup>
   
 </Project>
