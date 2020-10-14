@@ -49,6 +49,7 @@
     <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\contact.ts" DependentUpon="contact.html" />
     
     <TypeScriptCompile Include="wwwroot\app\controller\account\login.ts" DependentUpon="login.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="recovery.html" />

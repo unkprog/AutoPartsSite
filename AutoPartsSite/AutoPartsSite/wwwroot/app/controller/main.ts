@@ -21,8 +21,12 @@ export namespace Controller {
                 "client": { "name": "client@email.com", "phone": "+79991234567" },
 
                 "labelSearch": vars._statres("button$label$find"),
-
                 "labelAbout": vars._statres("label$aboutUs"),
+                "labelFaq": vars._statres("label$faq"),
+                "labelNews": vars._statres("label$news"),
+                "labelPayment": vars._statres("label$payment"),
+                "labelShipping": vars._statres("label$shipping"),
+                "labelContacts": vars._statres("label$contacts"),
 
                 "labelUserName": "",
                 "labelOrders": vars._statres("label$orders"),
@@ -126,6 +130,8 @@ export namespace Controller {
 
             this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
             this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
+            this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
+            
            
         }
 
@@ -135,6 +141,7 @@ export namespace Controller {
             this.destroyClickEvent("app-lang-en", this.LangEnClick);
             this.destroyClickEvent("app-lang-ru", this.LangRuClick);
 
+            this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
             this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
             this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
         }
@@ -197,6 +204,13 @@ export namespace Controller {
         public MenuAboutButtonClick: { (e: any): void; };
         private menuAboutButtonClick(e) {
             this.handleMenuItem("about/index");
+            e.preventDefault();
+            return false;
+        }
+
+        public MenuContactButtonClick: { (e: any): void; };
+        private menuContactButtonClick(e) {
+            this.handleMenuItem("about/contact");
             e.preventDefault();
             return false;
         }

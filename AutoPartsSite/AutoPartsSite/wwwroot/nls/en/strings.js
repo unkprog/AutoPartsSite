@@ -41,7 +41,6 @@ define({
     "label$yes": "Yes",
     "label$autorization": "Autorization",
     "label$unspecified": "Unspecified",
-    "label$contacts": "Contacts",
     "label$name": "Name",
     "label$default": "Default",
     "label$code": "Code",
@@ -74,7 +73,11 @@ define({
     //              Меню                                                                       //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$aboutUs": "About us",
-
+    "label$faq": "FAQ",
+    "label$news": "News",
+    "label$payment": "Payment",
+    "label$shipping": "Shipping",
+    "label$contacts": "Contacts",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Дни недели                                                                 //
     /////////////////////////////////////////////////////////////////////////////////////////////

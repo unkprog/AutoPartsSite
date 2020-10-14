@@ -42,7 +42,6 @@ define({
     "label$yes": "Да",
     "label$autorization": "Авторизация",
     "label$unspecified": "Не указан",
-    "label$contacts": "Контакты",
     "label$name": "Наименование",
     "label$default": "По умолчанию",
     "label$code": "Код",
@@ -71,6 +70,11 @@ define({
     //              Меню                                                                       //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$aboutUs": "O нас",
+    "label$faq": "Вопрос-ответ",
+    "label$news": "Новости",
+    "label$payment": "Оплата",
+    "label$shipping": "Доставка",
+    "label$contacts": "Контакты",
 
     "label$orders": "Заказы",
     "label$garage": "Гараж",
