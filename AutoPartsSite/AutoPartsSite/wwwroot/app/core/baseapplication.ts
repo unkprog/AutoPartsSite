@@ -90,6 +90,15 @@ export namespace App {
                 this._controllerNavigation = controlNavigation;
         }
 
+        public getUID(): string {
+            let uid: string = localStorage.getItem('apsUID');
+            if (!uid) {
+                uid = M.guid();
+                localStorage.setItem('apsUID', uid);
+            }
+            return uid;
+        }
+
         private _identity: Interfaces.Model.IIdentity;
         public get Identity(): Interfaces.Model.IIdentity {
             return this._identity;
@@ -271,6 +280,10 @@ export namespace App {
 
         public getLocale(): string {
             var locale: string = localStorage.getItem('locale');
+            if (!locale) {
+                locale = "en";
+                localStorage.setItem('locale', locale);
+            }
             return locale ? locale : "en";
         }
 

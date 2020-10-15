@@ -65,6 +65,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 if (controlNavigation)
                     this._controllerNavigation = controlNavigation;
             }
+            getUID() {
+                let uid = localStorage.getItem('apsUID');
+                if (!uid) {
+                    uid = M.guid();
+                    localStorage.setItem('apsUID', uid);
+                }
+                return uid;
+            }
             get Identity() {
                 return this._identity;
             }
@@ -214,6 +222,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             }
             getLocale() {
                 var locale = localStorage.getItem('locale');
+                if (!locale) {
+                    locale = "en";
+                    localStorage.setItem('locale', locale);
+                }
                 return locale ? locale : "en";
             }
             changeLocale(newlocale) {
