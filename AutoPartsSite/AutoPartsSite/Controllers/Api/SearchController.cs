@@ -6,8 +6,6 @@ using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using System.Collections.Generic;
 using AutoPartsSite.Models.GlobalParts;
-using System.IO;
-using AutoPartsSite.Core.Sql;
 
 namespace AutoPartsSite.Controllers.Api
 {

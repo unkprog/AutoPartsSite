@@ -1,0 +1,1 @@
+﻿select [count] = count(*) from [Basket] with(nolock) where [Uid] = @Uid

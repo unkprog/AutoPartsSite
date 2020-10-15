@@ -6,13 +6,15 @@ namespace AutoPartsSite
 {
     public static class AppSettings
     {
+        private static string PhysicalApplicationPath => Directory.GetCurrentDirectory();
+
         public static class AccountService
         {
             static IConfiguration Settings { get; }
             static AccountService()
             {
                 Settings = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .SetBasePath(PhysicalApplicationPath)
 #if DEBUG
                         .AddJsonFile(@"\\appsettings.jsn")
 #else
@@ -53,7 +55,31 @@ namespace AutoPartsSite
 
                 public static class Path
                 {
-                    public static string Query => Settings["GlobalParts:Path:Query"];
+                    public static string Query => string.Concat(PhysicalApplicationPath, Settings["GlobalParts:Path:Query"]);
+                }
+            }
+
+            public static class AutoPartsSite
+            {
+                public static class Basket
+                {
+                    static Basket()
+                    {
+                        Connection = new Connection()
+                        {
+                            DataSource = Settings["AutoPartsSite.Basket:DataSource"],
+                            InitialCatalog = Settings["AutoPartsSite.Basket:InitialCatalog"],
+                            IsSSPI = Settings.GetValue<bool>("AutoPartsSite.Basket:IsSSPI"),
+                            UserID = Settings["AutoPartsSite.Basket:UserID"],
+                            Password = Settings["AutoPartsSite.Basket:Password"]
+                        };
+                    }
+                    public static Connection Connection { get; }
+
+                    public static class Path
+                    {
+                        public static string Query => string.Concat(PhysicalApplicationPath, Settings["AutoPartsSite.Basket:Path:Query"]);
+                    }
                 }
             }
         }

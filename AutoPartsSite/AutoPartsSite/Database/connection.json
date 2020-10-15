@@ -8,5 +8,15 @@
     "Path": {
       "Query": "\\Database\\GlobalParts\\Query"
     }
+  },
+  "AutoPartsSite.Basket": {
+    "DataSource": ".",
+    "InitialCatalog": "AutoPartsSite.Basket",
+    "IsSSPI": true,
+    "UserID": "",
+    "Password": "",
+    "Path": {
+      "Query": "\\Database\\AutoPartsSite\\Basket"
+    }
   }
 }

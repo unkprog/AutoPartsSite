@@ -69,15 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\app\controller\account\garage - Копировать.js">
-      <DependentUpon>garage.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\app\controller\account\garage - Копировать.js.map">
-      <DependentUpon>garage.js.map</DependentUpon>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Database\Reorganization\News\" />
   </ItemGroup>
   

@@ -1,12 +1,14 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import srh = require('app/services/searchservice');
+import bsk = require('app/services/basketservice');
 
 export namespace Controller.Search {
     export class Index extends base.Controller.Base {
         constructor() {
             super();
             this.searchService = new srh.Services.SearchService();
+            this.basketService = new bsk.Services.BasketService();
         }
 
         private searchService: srh.Services.SearchService;
@@ -14,6 +16,10 @@ export namespace Controller.Search {
             return this.searchService;
         }
 
+        private basketService: bsk.Services.BasketService;
+        public get BasketService(): bsk.Services.BasketService {
+            return this.basketService;
+        }
 
         protected createOptions(): Interfaces.IControllerOptions {
             return { Url: "/app/controller/search/index.html", Id: "search-view" };
@@ -31,9 +37,11 @@ export namespace Controller.Search {
         private proxyPage;
         private proxyPagePrev;
         private proxyPageNext;
+        private proxyAddToCard;
 
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
+            this.BasketService.Count(this.setBasketCount);
             this.loadBrands();
         }
 
@@ -65,6 +73,7 @@ export namespace Controller.Search {
             this.proxyPage = $.proxy(this.searchPage, this);
             this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
             this.proxyPageNext = $.proxy(this.searchPageNext, this);
+            this.proxyAddToCard = $.proxy(this.addToCard, this);
         }
 
         protected destroyEvents(): void {
@@ -82,6 +91,8 @@ export namespace Controller.Search {
 
             vars._app.ShowLoading();
 
+            $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
+            
             $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
             $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
             $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
@@ -124,6 +135,7 @@ export namespace Controller.Search {
                     $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
+                    $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
                     vars._app.HideLoading();
                 }
                 else {
@@ -153,6 +165,25 @@ export namespace Controller.Search {
             if (self.currentPage < self.maxPage)
                 self.currentPage = self.currentPage + 1;
             return self.search(e);
+        }
+
+        private setBasketCount(responseData): void {
+            if (responseData.Result === 0) {
+                let count: number = responseData.Data;
+                if (count > 0) $('.app-basket-counter').html('' + count).show();
+                else           $('.app-basket-counter').html('0').hide();
+            }
+            else vars._app.ShowError(responseData.Error);
+            vars._app.HideLoading();
+        }
+
+        private addToCard(e: any): boolean {
+            vars._app.ShowLoading();
+            let self = this;
+            let id: number = $(e.target).data('id');
+            this.BasketService.Add(id, self.setBasketCount);
+            e.preventDefault();
+            return false;
         }
     }
 }

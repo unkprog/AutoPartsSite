@@ -1,4 +1,5 @@
 ﻿import base = require("app/core/baseservice");
+import vars = require('app/core/variables');
 
 export namespace Services {
     export class BasketService extends base.Services.BaseService {
@@ -11,8 +12,12 @@ export namespace Services {
             return { BaseUrl: '/api/basket' };
         }
 
-        public View(uid: string, Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/view", RequestData: { uid: uid }, Callback: Callback });
+        public Count(Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/count", RequestData: { uid: vars._app.Uid }, Callback: Callback });
+        }
+
+        public Add(id: number, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id }), Callback: Callback });
         }
     }
 }

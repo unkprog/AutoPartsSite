@@ -1,4 +1,4 @@
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice"], function (require, exports, vars, base, srh) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice"], function (require, exports, vars, base, srh, bsk) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -10,9 +10,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 constructor() {
                     super();
                     this.searchService = new srh.Services.SearchService();
+                    this.basketService = new bsk.Services.BasketService();
                 }
                 get SearchService() {
                     return this.searchService;
+                }
+                get BasketService() {
+                    return this.basketService;
                 }
                 createOptions() {
                     return { Url: "/app/controller/search/index.html", Id: "search-view" };
@@ -25,6 +29,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 }
                 OnViewInit() {
                     this.searchForm = this.View.find("#search-view-form");
+                    this.BasketService.Count(this.setBasketCount);
                     this.loadBrands();
                 }
                 loadBrands() {
@@ -52,6 +57,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.proxyPage = $.proxy(this.searchPage, this);
                     this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
                     this.proxyPageNext = $.proxy(this.searchPageNext, this);
+                    this.proxyAddToCard = $.proxy(this.addToCard, this);
                 }
                 destroyEvents() {
                     if (this.searchForm)
@@ -61,6 +67,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     let self = this;
                     let partNum = '' + self.View.find('#search-view-part-number').val();
                     vars._app.ShowLoading();
+                    $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
                     $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
@@ -96,6 +103,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
                             $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
                             $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
+                            $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
                             vars._app.HideLoading();
                         }
                         else {
@@ -122,6 +130,26 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (self.currentPage < self.maxPage)
                         self.currentPage = self.currentPage + 1;
                     return self.search(e);
+                }
+                setBasketCount(responseData) {
+                    if (responseData.Result === 0) {
+                        let count = responseData.Data;
+                        if (count > 0)
+                            $('.app-basket-counter').html('' + count).show();
+                        else
+                            $('.app-basket-counter').html('0').hide();
+                    }
+                    else
+                        vars._app.ShowError(responseData.Error);
+                    vars._app.HideLoading();
+                }
+                addToCard(e) {
+                    vars._app.ShowLoading();
+                    let self = this;
+                    let id = $(e.target).data('id');
+                    this.BasketService.Add(id, self.setBasketCount);
+                    e.preventDefault();
+                    return false;
                 }
             }
             Search.Index = Index;

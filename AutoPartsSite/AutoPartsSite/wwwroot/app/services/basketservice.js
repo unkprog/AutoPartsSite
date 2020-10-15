@@ -1,4 +1,4 @@
-define(["require", "exports", "app/core/baseservice"], function (require, exports, base) {
+define(["require", "exports", "app/core/baseservice", "app/core/variables"], function (require, exports, base, vars) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -11,8 +11,11 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             get Options() {
                 return { BaseUrl: '/api/basket' };
             }
-            View(uid, Callback) {
-                this.GetApi({ Action: "/view", RequestData: { uid: uid }, Callback: Callback });
+            Count(Callback) {
+                this.GetApi({ Action: "/count", RequestData: { uid: vars._app.Uid }, Callback: Callback });
+            }
+            Add(id, Callback) {
+                this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id }), Callback: Callback });
             }
         }
         Services.BasketService = BasketService;

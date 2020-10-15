@@ -97,7 +97,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
                 this.LangEnClick = this.createClickEvent("app-lang-en", this.langEnClick);
                 this.LangRuClick = this.createClickEvent("app-lang-ru", this.langRuClick);
-                this.BasketButtonClick = this.createClickEvent("app-btn-basket", this.basketButtonClick);
+                this.BasketButtonClick = this.createClickEvent(this.menuBasket.find("#app-btn-basket"), this.basketButtonClick);
+                //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
                 this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
                 this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
                 this.MenuNewsButtonClick = this.createClickEvent("main-view-btn-news", this.menuNewsButtonClick);
@@ -114,7 +115,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
                 this.destroyClickEvent("app-lang-en", this.LangEnClick);
                 this.destroyClickEvent("app-lang-ru", this.LangRuClick);
-                this.destroyClickEvent("app-btn-basket", this.BasketButtonClick);
+                //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
+                this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
                 this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
                 this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
                 this.destroyClickEvent("main-view-btn-payment", this.MenuPaymentButtonClick);

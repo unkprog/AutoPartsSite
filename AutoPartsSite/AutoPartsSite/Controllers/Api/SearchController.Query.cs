@@ -10,12 +10,12 @@ namespace AutoPartsSite.Controllers.Api
 {
     public partial class SearchController
     {
-        private string PhysicalApplicationPath => Directory.GetCurrentDirectory();
+      
 
         [NonAction]
         protected override Query CreateQuery()
         {
-            return new Query(AppSettings.Database.GlobalParts.Connection.ConnectionString, string.Concat(PhysicalApplicationPath, AppSettings.Database.GlobalParts.Path.Query));
+            return new Query(AppSettings.Database.GlobalParts.Connection.ConnectionString, AppSettings.Database.GlobalParts.Path.Query);
         }
 
         [NonAction]
