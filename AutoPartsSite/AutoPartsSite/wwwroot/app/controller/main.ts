@@ -133,6 +133,8 @@ export namespace Controller {
             this.LangEnClick = this.createClickEvent("app-lang-en", this.langEnClick);
             this.LangRuClick = this.createClickEvent("app-lang-ru", this.langRuClick);
 
+            this.BasketButtonClick = this.createClickEvent("app-btn-basket", this.basketButtonClick);
+
             this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
             this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
             this.MenuNewsButtonClick = this.createClickEvent("main-view-btn-news", this.menuNewsButtonClick);
@@ -152,6 +154,8 @@ export namespace Controller {
 
             this.destroyClickEvent("app-lang-en", this.LangEnClick);
             this.destroyClickEvent("app-lang-ru", this.LangRuClick);
+
+            this.destroyClickEvent("app-btn-basket", this.BasketButtonClick);
 
             this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
             this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
@@ -210,6 +214,11 @@ export namespace Controller {
             location.reload();
             e.preventDefault();
             return false;
+        }
+
+        public BasketButtonClick: { (e: any): void; };
+        private basketButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "basket/index");
         }
 
         public MenuSearchButtonClick: { (e: any): void; };

@@ -65,7 +65,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 if (controlNavigation)
                     this._controllerNavigation = controlNavigation;
             }
-            getUID() {
+            get Uid() {
                 let uid = localStorage.getItem('apsUID');
                 if (!uid) {
                     uid = M.guid();

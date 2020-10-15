@@ -90,7 +90,7 @@ export namespace App {
                 this._controllerNavigation = controlNavigation;
         }
 
-        public getUID(): string {
+        public get Uid(): string {
             let uid: string = localStorage.getItem('apsUID');
             if (!uid) {
                 uid = M.guid();
