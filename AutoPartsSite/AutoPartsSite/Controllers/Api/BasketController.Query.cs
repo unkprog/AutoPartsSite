@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AutoPartsSite.Controllers.Api
 {
-    public class BasketController
+    public partial class BasketController
     {
     }
 }
