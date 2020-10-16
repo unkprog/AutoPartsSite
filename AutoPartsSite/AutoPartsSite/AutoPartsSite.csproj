@@ -21,8 +21,8 @@
     <ProjectReference Include="..\AutoPartsSite.Models\AutoPartsSite.Models.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES2020</TypeScriptTarget>
+  <PropertyGroup>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
@@ -37,12 +37,19 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\app.ts" DependentUpon="app.html" />
     <Content Remove="wwwroot\app\init.js" />
     <None Remove="appsettings.jsn" />
     <Content Include="appsettings.jsn" />
-    <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
+    <Content Include="wwwroot\app\init.js" DependentUpon="index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
@@ -70,6 +77,21 @@
 
   <ItemGroup>
     <Folder Include="Database\Reorganization\News\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Database\AutoPartsSite\Basket\[add].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[count].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Search\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>

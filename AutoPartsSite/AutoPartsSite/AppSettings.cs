@@ -6,7 +6,7 @@ namespace AutoPartsSite
 {
     public static class AppSettings
     {
-        private static string PhysicalApplicationPath => Directory.GetCurrentDirectory();
+        public static string PhysicalApplicationPath => Directory.GetCurrentDirectory();
 
         public static class AccountService
         {

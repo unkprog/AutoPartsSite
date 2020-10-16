@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define(["require", "exports", "app/core/variables", "app/core/basedialog"], function (require, exports, vars, bd) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -6,19 +19,21 @@ define(["require", "exports", "app/core/variables", "app/core/basedialog"], func
     (function (Controller) {
         var Dialog;
         (function (Dialog) {
-            class ModalDialog extends bd.Controller.Dialog.Base {
-                constructor() {
-                    super();
-                    this.ViewInit(this.createView());
+            var ModalDialog = /** @class */ (function (_super) {
+                __extends(ModalDialog, _super);
+                function ModalDialog() {
+                    var _this = _super.call(this) || this;
+                    _this.ViewInit(_this.createView());
+                    return _this;
                 }
-                createModel() {
+                ModalDialog.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": "",
                         "labelOk": vars._statres("button$label$ok"),
                     });
-                }
-                createView() {
-                    let viewHtml;
+                };
+                ModalDialog.prototype.createView = function () {
+                    var viewHtml;
                     //<!-- Modal Structure -->
                     viewHtml = '<div class="error-dialog modal modal-fixed-footer">';
                     viewHtml += '    <div class="modal-content">';
@@ -35,22 +50,22 @@ define(["require", "exports", "app/core/variables", "app/core/basedialog"], func
                     this.dialogButtonOk = this.dialog.find(".error-dialog-ok");
                     this.dialog.modal({ dismissible: false });
                     return this.dialog;
-                }
-                createEvents() {
+                };
+                ModalDialog.prototype.createEvents = function () {
                     this.Close = this.createTouchClickEvent(this.dialogButtonOk, this.close);
-                }
-                destroyEvents() {
+                };
+                ModalDialog.prototype.destroyEvents = function () {
                     this.destroyTouchClickEvent(this.dialogButtonOk, this.Close);
-                }
-                Show(header, e) {
+                };
+                ModalDialog.prototype.Show = function (header, e) {
                     if (this.dialogContent)
                         this.dialogContent.html(e);
                     this.Model.set("Header", header);
                     $("body").append(this.View);
                     if (this.dialog)
                         this.dialog.modal("open");
-                }
-                close(e) {
+                };
+                ModalDialog.prototype.close = function (e) {
                     if (this.dialog)
                         this.dialog.modal("close");
                     this.View.remove();
@@ -58,8 +73,9 @@ define(["require", "exports", "app/core/variables", "app/core/basedialog"], func
                     this.dialog.modal("destroy");
                     if (this.OnClose)
                         this.OnClose();
-                }
-            }
+                };
+                return ModalDialog;
+            }(bd.Controller.Dialog.Base));
             Dialog.ModalDialog = ModalDialog;
         })(Dialog = Controller.Dialog || (Controller.Dialog = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));

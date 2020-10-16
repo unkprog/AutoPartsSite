@@ -79,7 +79,7 @@ namespace AutoPartsSite
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Auto parts site");
+                await context.Response.WriteAsync("Auto parts site" + System.Environment.NewLine + AppSettings.PhysicalApplicationPath);
             });
         }
     }

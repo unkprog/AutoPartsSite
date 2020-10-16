@@ -5,19 +5,20 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
     var App;
     (function (App) {
-        class StaticResources {
-            constructor() {
+        var StaticResources = /** @class */ (function () {
+            function StaticResources() {
                 this.i18nData = require("i18n!nls/strings");
             }
-            GetString(id) {
+            StaticResources.prototype.GetString = function (id) {
                 return (this.i18nData && this.i18nData[id]) ? this.i18nData[id] : "";
-            }
-        }
+            };
+            return StaticResources;
+        }());
         App.StaticResources = StaticResources;
     })(App = exports.App || (exports.App = {}));
-    const staticResources = new App.StaticResources();
-    exports._statres = (id) => { return staticResources.GetString(id); };
-    exports._showError = (error) => { exports._app.ShowError(error); };
+    var staticResources = new App.StaticResources();
+    exports._statres = function (id) { return staticResources.GetString(id); };
+    exports._showError = function (error) { exports._app.ShowError(error); };
     exports._identity = { Auth: false, Token: '', User: null };
     exports._controllers = {};
     exports._controllers["main"] = function (module) { return new module.Controller.Main(); };
@@ -34,8 +35,8 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     exports._editorData = {};
     exports._templates = {};
     function getTemplate(template) {
-        let result;
-        let hash = window.strToHashCode(template);
+        var result;
+        var hash = window.strToHashCode(template);
         result = exports._templates['' + hash];
         if (!result) {
             result = kendo.template(template);

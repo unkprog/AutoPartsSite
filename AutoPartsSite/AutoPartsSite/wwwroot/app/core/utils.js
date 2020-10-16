@@ -5,14 +5,14 @@ define(["require", "exports"], function (require, exports) {
     function createEventListener(elemName, eventName, clickFunc, thisObject, view) {
         var result = $.proxy(clickFunc, thisObject);
         var elem = elemName instanceof $ ? elemName : (view ? view.find("#" + elemName) : $("#" + elemName));
-        for (let i = 0, iCount = elem.length; i < iCount; i++)
+        for (var i = 0, iCount = elem.length; i < iCount; i++)
             elem[i].addEventListener(eventName, result, false);
         return result;
     }
     exports.createEventListener = createEventListener;
     function destroyEventListener(elemName, eventName, proxyFunc, view) {
-        let elem = elemName instanceof $ ? elemName : (view ? view.find("#" + elemName) : $("#" + elemName));
-        for (let i = 0, iCount = elem.length; i < iCount; i++)
+        var elem = elemName instanceof $ ? elemName : (view ? view.find("#" + elemName) : $("#" + elemName));
+        for (var i = 0, iCount = elem.length; i < iCount; i++)
             elem[i].removeEventListener(eventName, proxyFunc);
     }
     exports.destroyEventListener = destroyEventListener;
@@ -74,7 +74,11 @@ define(["require", "exports"], function (require, exports) {
         return pattern.test(phone);
     }
     exports.validatePhone = validatePhone;
-    function stringFormat(...args1) {
+    function stringFormat() {
+        var args1 = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args1[_i] = arguments[_i];
+        }
         var args = Array.prototype.slice.call(arguments, 1);
         return arguments[0].replace(/\{(\d+)\}/g, function (match, index) {
             return args[index];
@@ -87,23 +91,23 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.dateToLongString = dateToLongString;
     function dateToday() {
-        let result = new Date();
+        var result = new Date();
         result.setHours(0, 0, 0, 0);
         return result;
     }
     exports.dateToday = dateToday;
     function date_parse(date) {
-        let result; // = new Date();
-        let split1 = date.split(' ');
-        let splitDate = (split1.length > 0 ? split1[0].split('.') : []);
-        let splitTime = (split1.length > 1 ? split1[1].split(':') : []);
+        var result; // = new Date();
+        var split1 = date.split(' ');
+        var splitDate = (split1.length > 0 ? split1[0].split('.') : []);
+        var splitTime = (split1.length > 1 ? split1[1].split(':') : []);
         result = new Date(parseInt(splitDate[2], 10), parseInt(splitDate[1], 10) - 1, parseInt(splitDate[0], 10), splitTime.length > 0 ? parseInt(splitTime[0], 10) : 0, splitTime.length > 1 ? parseInt(splitTime[1], 10) : 0, splitTime.length > 2 ? parseInt(splitTime[2], 10) : 0);
         return result;
     }
     exports.date_parse = date_parse;
     window.date_parse = date_parse;
     function date_ddmmyyyy(date) {
-        let _date = (date ? (typeof date === 'string' || date instanceof String ? date_parse(date) : date) : new Date());
+        var _date = (date ? (typeof date === 'string' || date instanceof String ? date_parse(date) : date) : new Date());
         var yyyy = _date.getFullYear().toString();
         var mm = (_date.getMonth() + 1).toString(); // getMonth() is zero-based         
         var dd = _date.getDate().toString();
@@ -113,13 +117,13 @@ define(["require", "exports"], function (require, exports) {
     ;
     window.date_ddmmyyyy = date_ddmmyyyy;
     function date_ddmmyyyy_withtime(date) {
-        let _date = (date ? (typeof date === 'string' || date instanceof String ? new Date(date) : date) : new Date());
-        let yyyy = _date.getFullYear().toString();
-        let mm = (_date.getMonth() + 1).toString(); // getMonth() is zero-based         
-        let dd = _date.getDate().toString();
-        let hh = _date.getHours().toString();
-        let mn = _date.getMinutes().toString();
-        let ss = _date.getSeconds().toString();
+        var _date = (date ? (typeof date === 'string' || date instanceof String ? new Date(date) : date) : new Date());
+        var yyyy = _date.getFullYear().toString();
+        var mm = (_date.getMonth() + 1).toString(); // getMonth() is zero-based         
+        var dd = _date.getDate().toString();
+        var hh = _date.getHours().toString();
+        var mn = _date.getMinutes().toString();
+        var ss = _date.getSeconds().toString();
         return (dd[1] ? dd : '0' + dd[0]) + '.' + (mm[1] ? mm : '0' + mm[0]) + '.' + yyyy + ' ' + (hh[1] ? hh : '0' + hh[0]) + ':' + (mn[1] ? mn : '0' + mn[0]) + ':' + (ss[1] ? ss : '0' + ss[0]);
     }
     exports.date_ddmmyyyy_withtime = date_ddmmyyyy_withtime;
@@ -133,7 +137,7 @@ define(["require", "exports"], function (require, exports) {
     ;
     window.date_from_ddmmyyyy = date_from_ddmmyyyy;
     function numberToString(value, decimal) {
-        let result = "";
+        var result = "";
         if (value || value === 0) {
             if (value === 0)
                 result = '-';
@@ -145,7 +149,7 @@ define(["require", "exports"], function (require, exports) {
     exports.numberToString = numberToString;
     window.numberToString = numberToString;
     function numberPadZero(value, length) {
-        let str = '' + value;
+        var str = '' + value;
         while (str.length < length)
             str = '0' + str;
         return str;
@@ -153,7 +157,7 @@ define(["require", "exports"], function (require, exports) {
     exports.numberPadZero = numberPadZero;
     window.numberPadZero = numberPadZero;
     function numberRound(value, places) {
-        let multiplier = Math.pow(10, places);
+        var multiplier = Math.pow(10, places);
         return (Math.round(value * multiplier) / multiplier);
     }
     exports.numberRound = numberRound;
@@ -169,7 +173,7 @@ define(["require", "exports"], function (require, exports) {
                 hash = value.split("").reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0);
             }
             else {
-                for (let i = 0, icount = value.length; i < icount; i++) {
+                for (var i = 0, icount = value.length; i < icount; i++) {
                     var character = value.charCodeAt(i);
                     hash = ((hash << 5) - hash) + character;
                     hash = hash & hash; // Convert to 32bit integer

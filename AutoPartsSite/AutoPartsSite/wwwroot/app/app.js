@@ -1,39 +1,53 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/baseapplication"], function (require, exports, utils, vars, baseapp) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.App = void 0;
     var App;
     (function (App) {
-        class Application extends baseapp.App.Application {
-            constructor() {
-                super();
+        var Application = /** @class */ (function (_super) {
+            __extends(Application, _super);
+            function Application() {
+                return _super.call(this) || this;
             }
-            CreateModel() {
+            Application.prototype.CreateModel = function () {
                 return new kendo.data.ObservableObject({
                     "AppHeader": vars._statres("label$AutoPartsSite"),
                     "labelOk": vars._statres("button$label$ok"),
                     "labelError": vars._statres("label$error"),
                     "contentError": ""
                 });
-            }
-            Initailize() {
-                super.Initailize();
-                let app = this;
+            };
+            Application.prototype.Initailize = function () {
+                _super.prototype.Initailize.call(this);
+                var app = this;
                 app.progressControl = $("#progress-container");
                 app.contentControl = $("#app-content");
                 app.appTitle = $("#app-title");
-            }
-            ShowLoading() {
+            };
+            Application.prototype.ShowLoading = function () {
                 this.progressControl.show();
-                super.ShowLoading();
-            }
-            HideLoading() {
+                _super.prototype.ShowLoading.call(this);
+            };
+            Application.prototype.HideLoading = function () {
                 this.progressControl.hide();
-                super.HideLoading();
-            }
-            loadAppView() {
-                let self = this;
-                $.when($.ajax({ url: "/app/app.html", cache: false })).done((template) => {
+                _super.prototype.HideLoading.call(this);
+            };
+            Application.prototype.loadAppView = function () {
+                var self = this;
+                $.when($.ajax({ url: "/app/app.html", cache: false })).done(function (template) {
                     try {
                         $("#app-view").html(template);
                         kendo.bind($("#app-view"), self.Model);
@@ -50,48 +64,49 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     }
                     finally {
                     }
-                }).fail((e) => {
+                }).fail(function (e) {
                     self.HideLoading();
                     alert(e.responseText);
                 });
-            }
-            CloseApp(e) {
+            };
+            Application.prototype.CloseApp = function (e) {
                 this.NativeCommand("CloseApp", {});
-            }
-            SetHeader(controller) {
-                let header = controller.Header;
+            };
+            Application.prototype.SetHeader = function (controller) {
+                var header = controller.Header;
                 if (header)
                     this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
                 else if (vars._statres("label$AutoPartsSite") !== this.Model.get("AppHeader"))
                     this.Model.set("AppHeader", vars._statres("label$AutoPartsSite"));
-            }
-            OpenViewTemplateIsModal() {
+            };
+            Application.prototype.OpenViewTemplateIsModal = function () {
                 if ($("#app-btn-menu").hasClass("hide") == false)
                     $("#app-btn-menu").addClass("hide");
-            }
-            ControllerBackEndModal() {
+            };
+            Application.prototype.ControllerBackEndModal = function () {
                 $("#app-btn-menu").removeClass("hide");
-            }
-            login() {
-            }
-            initAfterLoaded() {
+            };
+            Application.prototype.login = function () {
+            };
+            Application.prototype.initAfterLoaded = function () {
                 this.OpenController({ urlController: "main" });
-            }
-            HandleError(e) {
+            };
+            Application.prototype.HandleError = function (e) {
                 this.ShowError(e.responseJSON ? (e.responseJSON.error ? e.responseJSON.error : (e.responseJSON.Message ? e.responseJSON.Message : e)) : e);
-            }
-            ShowError(e) {
+            };
+            Application.prototype.ShowError = function (e) {
                 this.ShowMessage(vars._statres("label$error"), e);
-            }
-            ShowMessage(header, message, onClose) {
+            };
+            Application.prototype.ShowMessage = function (header, message, onClose) {
                 require(['app/controller/dialog/modaldialog'], function (dialog) {
-                    let messagerDialog = new dialog.Controller.Dialog.ModalDialog();
+                    var messagerDialog = new dialog.Controller.Dialog.ModalDialog();
                     messagerDialog.OnClose = onClose;
                     messagerDialog.Show(header, message);
                     vars._app.HideLoading();
                 });
-            }
-        }
+            };
+            return Application;
+        }(baseapp.App.Application));
         App.Application = Application;
     })(App = exports.App || (exports.App = {}));
 });

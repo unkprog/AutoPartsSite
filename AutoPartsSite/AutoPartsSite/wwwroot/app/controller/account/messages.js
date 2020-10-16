@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define(["require", "exports", "app/core/variables", "app/controller/account/account"], function (require, exports, vars, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -6,23 +19,25 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
     (function (Controller) {
         var Account;
         (function (Account) {
-            class Messages extends acc.Controller.Account.Account {
-                constructor() {
-                    super();
+            var Messages = /** @class */ (function (_super) {
+                __extends(Messages, _super);
+                function Messages() {
+                    return _super.call(this) || this;
                 }
-                createOptions() {
+                Messages.prototype.createOptions = function () {
                     return { Url: "/app/controller/account/messages.html", Id: "messages-view" };
-                }
-                createModel() {
+                };
+                Messages.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$messages")
                     });
-                }
-                createEvents() {
-                }
-                destroyEvents() {
-                }
-            }
+                };
+                Messages.prototype.createEvents = function () {
+                };
+                Messages.prototype.destroyEvents = function () {
+                };
+                return Messages;
+            }(acc.Controller.Account.Account));
             Account.Messages = Messages;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));

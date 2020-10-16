@@ -149,7 +149,7 @@ export namespace Controller.Search {
 
         private searchPage(e: any): boolean {
             let self = this;
-            self.currentPage = Number.parseInt($(e.target).html());
+            self.currentPage = parseInt($(e.target).html());
             return self.search(e);
         }
 

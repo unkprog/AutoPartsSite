@@ -1,18 +1,33 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils", "app/core/variables"], function (require, exports, vars, ctrl, utils, variables_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        class Main extends ctrl.Controller.BaseContent {
-            constructor() {
-                super();
-                vars._main = this;
+        var Main = /** @class */ (function (_super) {
+            __extends(Main, _super);
+            function Main() {
+                var _this = _super.call(this) || this;
+                vars._main = _this;
+                return _this;
             }
-            createOptions() {
+            Main.prototype.createOptions = function () {
                 return { Url: "/app/controller/main.html", Id: "main-view" };
-            }
-            createModel() {
+            };
+            Main.prototype.createModel = function () {
                 return new kendo.data.ObservableObject({
                     "Header": vars._statres("label$AutoPartsSite"),
                     "client": { "name": "client@email.com", "phone": "+79991234567" },
@@ -29,14 +44,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelMessages": vars._statres("label$messages"),
                     "labelSettings": vars._statres("label$settings"),
                 });
-            }
-            ControllersInit() {
+            };
+            Main.prototype.ControllersInit = function () {
                 return vars._controllers;
-            }
-            GetContent() {
+            };
+            Main.prototype.GetContent = function () {
                 return this.content;
-            }
-            ViewInit(view) {
+            };
+            Main.prototype.ViewInit = function (view) {
                 variables_1._app.SetControlNavigation(this);
                 //this.Model.set("employee", vars._identity.employee);
                 this.menu = $('<li><a id="app-btn-menu" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$menu") + '"><i class="material-icons">menu</i></a></li>');
@@ -51,18 +66,18 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
-                super.ViewInit(view);
+                _super.prototype.ViewInit.call(this, view);
                 this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
                 this.initLogIn();
                 variables_1._app.OpenController({ urlController: "search/index" });
                 return false;
-            }
-            initLogIn() {
+            };
+            Main.prototype.initLogIn = function () {
                 this.menuRight = $('<li><a id="app-btn-login" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$account") + '"><i class="material-icons">person_outline</i></a></li>');
                 this.sideNavBarRight.append(this.menuRight);
                 this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, this);
-            }
-            LogIn() {
+            };
+            Main.prototype.LogIn = function () {
                 this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
                 if (vars._identity.Auth !== true)
                     return;
@@ -71,29 +86,29 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNavBarRight.append(this.userMenu);
                 this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
                 this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
-            }
-            LogOut() {
+            };
+            Main.prototype.LogOut = function () {
                 vars._identity = { Auth: false, Token: '', User: null };
                 //if (this.userMenu) {
                 //    //this.userMenu.find('#app-btn-user-menu').dropdown('destroy');
                 //    this.userMenu.remove();
                 //}
                 ////this.initLogIn();
-            }
-            ViewShow(e) {
-                let result = super.ViewShow(e);
+            };
+            Main.prototype.ViewShow = function (e) {
+                var result = _super.prototype.ViewShow.call(this, e);
                 this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
                 $("#app-navbar").find('.tooltipped').tooltip();
                 return result;
-            }
-            ViewHide(e) {
-                super.ViewHide(e);
+            };
+            Main.prototype.ViewHide = function (e) {
+                _super.prototype.ViewHide.call(this, e);
                 if (this.menu)
                     this.menu.remove();
-            }
-            createEvents() {
+            };
+            Main.prototype.createEvents = function () {
                 this.OpenMenuButtonClick = this.createTouchClickEvent(this.buttonMenu, this.openMenuButtonClick);
-                let self = this;
+                var self = this;
                 this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
                 this.LangEnClick = this.createClickEvent("app-lang-en", this.langEnClick);
                 this.LangRuClick = this.createClickEvent("app-lang-ru", this.langRuClick);
@@ -110,8 +125,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.UserGarageButtonClick = this.createClickEvent("app-user-garage", this.userGarageButtonClick);
                 this.UserMessagesButtonClick = this.createClickEvent("app-user-messages", this.userMessagesButtonClick);
                 this.UserSettingsButtonClick = this.createClickEvent("app-user-settings", this.userSettingsButtonClick);
-            }
-            destroyEvents() {
+            };
+            Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
                 this.destroyClickEvent("app-lang-en", this.LangEnClick);
                 this.destroyClickEvent("app-lang-ru", this.LangRuClick);
@@ -128,84 +143,85 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
                 this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
                 this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
-            }
-            openMenuButtonClick(e) {
+            };
+            Main.prototype.openMenuButtonClick = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.sideNav.sidenav('open');
-            }
-            appTitleClick(e) {
+            };
+            Main.prototype.appTitleClick = function (e) {
                 //this.initAfterLoaded();
-            }
-            loginClick(e) {
+            };
+            Main.prototype.loginClick = function (e) {
                 if (vars._identity.Auth !== true) {
                     this.OpenController({ urlController: "account/login" });
                     e.preventDefault();
                     return false;
                 }
-            }
-            logoutClick(e) {
+            };
+            Main.prototype.logoutClick = function (e) {
                 this.LogOut();
                 location.reload();
                 e.preventDefault();
                 return false;
-            }
-            langEnClick(e) {
+            };
+            Main.prototype.langEnClick = function (e) {
                 vars._app.changeLocale("en");
                 location.reload();
                 e.preventDefault();
                 return false;
-            }
-            langRuClick(e) {
+            };
+            Main.prototype.langRuClick = function (e) {
                 vars._app.changeLocale("ru");
                 location.reload();
                 e.preventDefault();
                 return false;
-            }
-            basketButtonClick(e) {
+            };
+            Main.prototype.basketButtonClick = function (e) {
                 return this.handleMenuItem(e, "basket/index");
-            }
-            menuSearchButtonClick(e) {
+            };
+            Main.prototype.menuSearchButtonClick = function (e) {
                 return this.handleMenuItem(e, "search/index");
-            }
-            menuAboutButtonClick(e) {
+            };
+            Main.prototype.menuAboutButtonClick = function (e) {
                 return this.handleMenuItem(e, "about/index");
-            }
-            menuNewsButtonClick(e) {
+            };
+            Main.prototype.menuNewsButtonClick = function (e) {
                 return this.handleMenuItem(e, "news/index");
-            }
-            menuFaqButtonClick(e) {
+            };
+            Main.prototype.menuFaqButtonClick = function (e) {
                 return this.handleMenuItem(e, "about/faq");
-            }
-            menuShippingButtonClick(e) {
+            };
+            Main.prototype.menuShippingButtonClick = function (e) {
                 return this.handleMenuItem(e, "about/shipping");
-            }
-            menuPaymentButtonClick(e) {
+            };
+            Main.prototype.menuPaymentButtonClick = function (e) {
                 return this.handleMenuItem(e, "about/payment");
-            }
-            menuContactButtonClick(e) {
+            };
+            Main.prototype.menuContactButtonClick = function (e) {
                 return this.handleMenuItem(e, "about/contact");
-            }
-            userSettingsButtonClick(e) {
+            };
+            Main.prototype.userSettingsButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/settings");
-            }
-            userMessagesButtonClick(e) {
+            };
+            Main.prototype.userMessagesButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/messages");
-            }
-            userGarageButtonClick(e) {
+            };
+            Main.prototype.userGarageButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/garage");
-            }
-            userOrdersButtonClick(e) {
+            };
+            Main.prototype.userOrdersButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/orders");
-            }
-            handleMenuItem(e, urlController) {
+            };
+            Main.prototype.handleMenuItem = function (e, urlController) {
                 this.sideNav.sidenav('close');
                 if (!utils.isNullOrEmpty(urlController))
                     variables_1._app.OpenController({ urlController: urlController });
                 e.preventDefault();
                 return false;
-            }
-        }
+            };
+            return Main;
+        }(ctrl.Controller.BaseContent));
         Controller.Main = Main;
     })(Controller = exports.Controller || (exports.Controller = {}));
 });
