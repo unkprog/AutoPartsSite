@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
-using System.Collections.Generic;
-using AutoPartsSite.Models.GlobalParts;
+using AutoPartsSite.Models.Basket;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -31,20 +30,28 @@ namespace AutoPartsSite.Controllers.Api
            });
 
 
-        public class AddData
-        {
-            public string uid { get; set; }
-            public int id { get; set; }
-        }
         [HttpPost]
         [Route("add")]
-        public async Task<HttpMessage<int>> Add(AddData model)
+        public async Task<HttpMessage<int>> Add(AddToBasketModel model)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   AddToBasket(model.uid, model.id);
+                   AddToBasket(model);
                    int result = GetCount(model.uid);
+                   return CreateResponseOk(result);
+               });
+           });
+
+
+        [HttpGet]
+        [Route("view")]
+        public async Task<HttpMessage<BasketData>> View(string uid)
+           => await TryCatchResponseAsync(async () =>
+           {
+               return await Task.Run(() =>
+               {
+                   BasketData result = GetBasketData(uid);
                    return CreateResponseOk(result);
                });
            });

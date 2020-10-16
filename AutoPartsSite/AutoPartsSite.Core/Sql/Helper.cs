@@ -1,5 +1,6 @@
 ﻿using AutoPartsSite.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
@@ -57,6 +58,19 @@ namespace AutoPartsSite.Core.Sql
                      }
                  }
             );
+        }
+
+        public static void AddParametersWithValues<T>(this SqlCommand cmd, string parameterName, params T[] values)
+        {
+            List<string> parameterNames = new List<string>();
+            for (int i = 0; i < values.Length; i++)
+            {
+                string paramName = parameterName + i;
+                cmd.Parameters.AddWithValue(parameterName + i, values[i]);
+                parameterNames.Add(paramName);
+            }
+
+            cmd.CommandText = cmd.CommandText.Replace(parameterName, string.Join(",", parameterNames));
         }
 
         public static void LoadSqlScript(string file, Action<string> action)

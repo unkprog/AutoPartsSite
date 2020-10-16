@@ -10,6 +10,7 @@ namespace AutoPartsSite.Models
     {
     }
 
+    [DataContract]
     public class BaseDbModel : BaseModel
     {
         /// <summary>
@@ -19,6 +20,7 @@ namespace AutoPartsSite.Models
         public int Id { get; set; }
     }
 
+    [DataContract]
     public class SysDbModel : BaseDbModel
     {
         /// <summary>
@@ -48,6 +50,7 @@ namespace AutoPartsSite.Models
         public int Uu { get; set; }
     }
 
+    [DataContract]
     public class ReferenceDbModel : BaseDbModel
     {
         /// <summary>
@@ -57,6 +60,7 @@ namespace AutoPartsSite.Models
         public string Code { get; set; }
     }
 
+    [DataContract]
     public class ReferenceNamedDbModel : ReferenceDbModel
     {
         /// <summary>

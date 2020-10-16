@@ -1,8 +1,7 @@
-﻿using AutoPartsSite.Core.Sql;
+﻿using System;
+using AutoPartsSite.Core.Sql;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 
 namespace AutoPartsSite.Core.Controllers
 {
@@ -22,8 +21,7 @@ namespace AutoPartsSite.Core.Controllers
         [NonAction]
         protected void ExecQuery(Action<Query> func)
         {
-            using (Query query = CreateQuery())
-                func?.Invoke(query);
+            func?.Invoke(CreateQuery());
         }
     }
 }

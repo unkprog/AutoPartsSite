@@ -53,25 +53,25 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="search\index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="about\index.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\about\faq.ts" DependentUpon="about\faq.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\about\payment.ts" DependentUpon="about\payment.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\about\shipping.ts" DependentUpon="about\shipping.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\about\contact.ts" DependentUpon="about\contact.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\faq.ts" DependentUpon="faq.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\payment.ts" DependentUpon="payment.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\shipping.ts" DependentUpon="shipping.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\contact.ts" DependentUpon="contact.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\news\index.ts" DependentUpon="news\index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\news\index.ts" DependentUpon="index.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\account\login.ts" DependentUpon="account\login.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="account\recovery.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\register.ts" DependentUpon="account\register.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\orders.ts" DependentUpon="account\orders.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\garage.ts" DependentUpon="account\garage.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\messages.ts" DependentUpon="account\messages.html" />
-    <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="account\settings.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\login.ts" DependentUpon="login.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="recovery.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\register.ts" DependentUpon="register.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\orders.ts" DependentUpon="orders.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\garage.ts" DependentUpon="garage.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\messages.ts" DependentUpon="messages.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="basket\index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
 
   </ItemGroup>
 
@@ -87,6 +87,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Basket\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Search\[get_in].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Search\[get].sql">

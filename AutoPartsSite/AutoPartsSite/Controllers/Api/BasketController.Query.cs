@@ -2,6 +2,8 @@
 using AutoPartsSite.Core.Sql;
 using System.Data.SqlClient;
 using System;
+using AutoPartsSite.Models.Basket;
+using AutoPartsSite.Models.GlobalParts;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -28,15 +30,15 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
-        private int AddToBasket(string uid, int id)
+        private int AddToBasket(AddToBasketModel model)
         {
             int result = 0;
             ExecQuery((query) =>
             {
                 query.ExecuteNonQuery(@"[add]", new SqlParameter[] 
                 { 
-                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
-                    new SqlParameter() { ParameterName = "@GoodsID", Value = id },
+                    new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
                     new SqlParameter() { ParameterName = "@Quantity", Value = 1 },
                     new SqlParameter() { ParameterName = "@Price", Value = 0 },
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = 0 }
@@ -44,5 +46,49 @@ namespace AutoPartsSite.Controllers.Api
             });
             return result;
         }
+
+        private BasketData GetBasketData(string uid)
+        {
+            BasketData result = new BasketData();
+            ExecQuery((query) =>
+            {
+                query.Execute(@"[add]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                }
+                , (values) =>
+                {
+                    result.Positions.Add(new BasketGoods()
+                    {
+                        Goods = new Goods() { Id = (int)values[0] },
+                        Quantity = (decimal)values[1],
+                        Price = (decimal)values[2]
+                    });
+                });
+            });
+            FillBasketData(result);
+            return result;
+        }
+
+
+        private void FillBasketData(BasketData data)
+        {
+            //AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
+            //    {
+            //        new SqlParameter() { ParameterName = "@Uid", Value = uid },
+            //    }
+            //    , (values) =>
+            //    {
+            //        result.Positions.Add(new BasketGoods()
+            //        {
+            //            Goods = new Goods() { Id = (int)values[0] },
+            //            Quantity = (decimal)values[1],
+            //            Price = (decimal)values[2]
+            //        });
+            //    });
+            ////AppSettings.Query.GlobalParts.ExecuteQuery()
+            ////     func?.Invoke(query);
+        }
+
     }
 }

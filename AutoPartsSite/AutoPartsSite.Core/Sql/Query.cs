@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace AutoPartsSite.Core.Sql
 {
-    public class Query : Disposable
+    public class Query
     {
         private string connectionString;
         private string path;

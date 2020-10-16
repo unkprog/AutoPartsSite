@@ -15,7 +15,7 @@ namespace AutoPartsSite.Controllers.Api
         [NonAction]
         protected override Query CreateQuery()
         {
-            return new Query(AppSettings.Database.GlobalParts.Connection.ConnectionString, AppSettings.Database.GlobalParts.Path.Query);
+            return AppSettings.Query.GlobalParts;
         }
 
         [NonAction]

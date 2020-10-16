@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AutoPartsSite
 {
-    public static class AppSettings
+    public static partial class AppSettings
     {
         public static string PhysicalApplicationPath => Directory.GetCurrentDirectory();
 
