@@ -1,9 +1,10 @@
-﻿using AutoPartsSite.Models;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Core.Sql
 {
@@ -22,13 +23,51 @@ namespace AutoPartsSite.Core.Sql
             }
         }
 
+        public static void AddParameters(this SqlCommand command, SqlParameter[] sqlParameters = null)
+        {
+            if (sqlParameters != null && sqlParameters.Length > 0)
+                foreach (var p in sqlParameters)
+                {
+                    if (p.Value == null) p.Value = DBNull.Value;
+                    Type t = p.Value.GetType();
+                    if (t.IsArray)
+                    {
+                        if (p.Value is int[])
+                            command.AddParameterArrayValues(p.ParameterName, (int[])p.Value);
+                        else if (p.Value is string[])
+                            command.AddParameterArrayValues(p.ParameterName, (string[])p.Value);
+                        else if (p.Value is decimal[])
+                            command.AddParameterArrayValues(p.ParameterName, (decimal[])p.Value);
+                        else if (p.Value is DateTime[])
+                            command.AddParameterArrayValues(p.ParameterName, (DateTime[])p.Value);
+                        else
+                            command.AddParameterArrayValues(p.ParameterName, (object[])p.Value);
+                    }
+                    else
+                        command.Parameters.Add(p);
+                }
+        }
+
+        public static void AddParameterArrayValues<T>(this SqlCommand command, string parameterName, T[] values)
+        {
+            List<string> parameterNames = new List<string>();
+
+            for (int i = 0; values != null && i < values.Length; i++)
+            {
+                string paramName = parameterName + i;
+                command.Parameters.AddWithValue(parameterName + i, values[i]);
+                parameterNames.Add(paramName);
+            }
+            command.CommandText = command.CommandText.Replace(parameterName, string.Join(",", parameterNames));
+        }
+
         public static void ExecuteNonQuery(string connectionString, string commandText, SqlParameter[] sqlParameters = null)
         {
             CreateCommand(connectionString, commandText,
                  (connection, command) =>
                  {
                      if (sqlParameters != null && sqlParameters.Length > 0)
-                         command.Parameters.AddRange(sqlParameters);
+                         command.AddParameters(sqlParameters);
 
                      command.ExecuteNonQuery();
                  }
@@ -45,7 +84,7 @@ namespace AutoPartsSite.Core.Sql
                  (connection, command) =>
                  {
                      if (sqlParameters != null && sqlParameters.Length > 0)
-                         command.Parameters.AddRange(sqlParameters);
+                         command.AddParameters(sqlParameters);
 
                      using (SqlDataReader reader = command.ExecuteReader())
                      {
@@ -58,19 +97,6 @@ namespace AutoPartsSite.Core.Sql
                      }
                  }
             );
-        }
-
-        public static void AddParametersWithValues<T>(this SqlCommand cmd, string parameterName, params T[] values)
-        {
-            List<string> parameterNames = new List<string>();
-            for (int i = 0; i < values.Length; i++)
-            {
-                string paramName = parameterName + i;
-                cmd.Parameters.AddWithValue(parameterName + i, values[i]);
-                parameterNames.Add(paramName);
-            }
-
-            cmd.CommandText = cmd.CommandText.Replace(parameterName, string.Join(",", parameterNames));
         }
 
         public static void LoadSqlScript(string file, Action<string> action)

@@ -28,7 +28,10 @@ export namespace Controller.Search {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$AutoPartsSite"),
-                "labelAddToCard": vars._statres("label$addToCard")
+                "labelAddToCard": vars._statres("label$addToCard"),
+                "labelBrand": vars._statres("label$brand") + ":",
+                "labelCountry": vars._statres("label$country") + ":",
+                "labelDimensions": vars._statres("label$dimensions") + ":"
             });
         }
         
@@ -131,11 +134,13 @@ export namespace Controller.Search {
                             + '<li class="' + (self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-next" href="#!"><i class="material-icons">chevron_right</i></a></li>'
                             ;
                         $('.search-view-pagination').html(htmlResult).show();
+                        self.rebindModel();
                     }
                     $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
                     $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+
                     vars._app.HideLoading();
                 }
                 else {

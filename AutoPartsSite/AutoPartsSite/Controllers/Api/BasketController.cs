@@ -32,17 +32,41 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("add")]
-        public async Task<HttpMessage<int>> Add(AddToBasketModel model)
+        public async Task<HttpMessage<int>> Add(PartBasketModel model)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   AddToBasket(model);
+                   UpdatePartBasket(model, true);
                    int result = GetCount(model.uid);
                    return CreateResponseOk(result);
                });
            });
 
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<HttpMessage<decimal>> Update(PartBasketModel model)
+           => await TryCatchResponseAsync(async () =>
+           {
+               return await Task.Run(() =>
+               {
+                   decimal result = UpdatePartBasket(model);
+                   return CreateResponseOk(result);
+               });
+           });
+
+        [HttpPost]
+        [Route("delete")]
+        public async Task<HttpMessage<bool>> Delete(PartBasketModel model)
+        => await TryCatchResponseAsync(async () =>
+        {
+            return await Task.Run(() =>
+            {
+                DeletePartBasket(model);
+                return CreateResponseOk(true);
+            });
+        });
 
         [HttpGet]
         [Route("view")]

@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System;
 using AutoPartsSite.Models.Basket;
 using AutoPartsSite.Models.GlobalParts;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -12,7 +14,7 @@ namespace AutoPartsSite.Controllers.Api
         [NonAction]
         protected override Query CreateQuery()
         {
-            return new Query(AppSettings.Database.AutoPartsSite.Basket.Connection.ConnectionString, AppSettings.Database.AutoPartsSite.Basket.Path.Query);
+            return AppSettings.Query.Basket;
         }
 
         [NonAction]
@@ -30,21 +32,31 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
-        private int AddToBasket(AddToBasketModel model)
+        private decimal UpdatePartBasket(PartBasketModel model, bool isAdd = false)
         {
-            int result = 0;
+            decimal result = model.qty;
             ExecQuery((query) =>
             {
-                query.ExecuteNonQuery(@"[add]", new SqlParameter[] 
-                { 
+                query.ExecuteNonQuery(isAdd ? @"[add]" : @"[update]", new SqlParameter[]
+                {
                     new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
                     new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
-                    new SqlParameter() { ParameterName = "@Quantity", Value = 1 },
-                    new SqlParameter() { ParameterName = "@Price", Value = 0 },
-                    new SqlParameter() { ParameterName = "@CurrencyID", Value = 0 }
+                    new SqlParameter() { ParameterName = "@Quantity", Value = model.qty },
                 });
             });
             return result;
+        }
+
+        private void DeletePartBasket(PartBasketModel model)
+        {
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery(@"[del]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
+                });
+            });
         }
 
         private BasketData GetBasketData(string uid)
@@ -52,7 +64,7 @@ namespace AutoPartsSite.Controllers.Api
             BasketData result = new BasketData();
             ExecQuery((query) =>
             {
-                query.Execute(@"[add]", new SqlParameter[]
+                query.Execute(@"[get]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
                 }
@@ -61,8 +73,7 @@ namespace AutoPartsSite.Controllers.Api
                     result.Positions.Add(new BasketGoods()
                     {
                         Goods = new Goods() { Id = (int)values[0] },
-                        Quantity = (decimal)values[1],
-                        Price = (decimal)values[2]
+                        Quantity = (decimal)values[1]
                     });
                 });
             });
@@ -73,21 +84,43 @@ namespace AutoPartsSite.Controllers.Api
 
         private void FillBasketData(BasketData data)
         {
-            //AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
-            //    {
-            //        new SqlParameter() { ParameterName = "@Uid", Value = uid },
-            //    }
-            //    , (values) =>
-            //    {
-            //        result.Positions.Add(new BasketGoods()
-            //        {
-            //            Goods = new Goods() { Id = (int)values[0] },
-            //            Quantity = (decimal)values[1],
-            //            Price = (decimal)values[2]
-            //        });
-            //    });
-            ////AppSettings.Query.GlobalParts.ExecuteQuery()
-            ////     func?.Invoke(query);
+            if (data?.Positions?.Count == 0)
+                return;
+
+            Dictionary<int, Goods> res = new Dictionary<int, Goods>();
+            Goods goods;
+            int id;
+            foreach (var item in data.Positions)
+                if(!res.TryGetValue(item.Goods.Id, out goods))
+                    res.Add(item.Goods.Id, item.Goods);
+
+
+            AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
+            {
+                new SqlParameter() { ParameterName = "@GoodsID", Value = res.Keys.ToArray() }
+            }
+            , (values) =>
+            {
+                id = (int)values[0];
+                if(res.TryGetValue(id, out goods))
+                {
+                    goods.Articul = (string)values[1];
+                    goods.PartNumber = (string)values[2];
+                    goods.Name = (string)values[3];
+                    goods.Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] };
+                    goods.Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] };
+                    goods.Parameters = new GoodsParameters()
+                    {
+                        WeightPhysical = (decimal)values[11],
+                        WeightVolumetric = (decimal)values[12],
+                        VolumetricDivider = (decimal)values[13],
+                        LengthCm = (decimal)values[14],
+                        WidthCm = (decimal)values[15],
+                        HeightCm = (decimal)values[16],
+                        BlockWeightChange = (bool)values[17]
+                    };
+                }
+            });
         }
 
     }

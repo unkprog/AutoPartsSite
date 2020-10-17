@@ -1,0 +1,1 @@
+﻿delete [Basket] where [Uid] = @Uid and [GoodsID] = @GoodsID

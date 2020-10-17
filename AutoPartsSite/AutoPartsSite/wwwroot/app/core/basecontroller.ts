@@ -47,6 +47,12 @@ export namespace Controller {
             this.createEvents();
             return true;
         }
+
+        protected rebindModel() {
+            kendo.unbind(this._view, this._model);
+            kendo.bind(this._view, this._model);
+        }
+
         protected OnViewInit(): void {
         }
 

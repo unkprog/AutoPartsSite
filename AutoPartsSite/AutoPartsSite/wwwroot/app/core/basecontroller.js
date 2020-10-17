@@ -68,6 +68,10 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this.createEvents();
                 return true;
             };
+            Base.prototype.rebindModel = function () {
+                kendo.unbind(this._view, this._model);
+                kendo.bind(this._view, this._model);
+            };
             Base.prototype.OnViewInit = function () {
             };
             Base.prototype.createEvents = function () {

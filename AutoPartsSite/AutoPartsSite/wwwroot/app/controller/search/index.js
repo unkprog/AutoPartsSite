@@ -47,7 +47,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$AutoPartsSite"),
-                        "labelAddToCard": vars._statres("label$addToCard")
+                        "labelAddToCard": vars._statres("label$addToCard"),
+                        "labelBrand": vars._statres("label$brand") + ":",
+                        "labelCountry": vars._statres("label$country") + ":",
+                        "labelDimensions": vars._statres("label$dimensions") + ":"
                     });
                 };
                 Index.prototype.OnViewInit = function () {
@@ -124,6 +127,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                     + htmlResult
                                     + '<li class="' + (self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-next" href="#!"><i class="material-icons">chevron_right</i></a></li>';
                                 $('.search-view-pagination').html(htmlResult).show();
+                                self.rebindModel();
                             }
                             $('.search-view-pagination').find('.search-view-pagination-page').on('click', _this.proxyPage);
                             $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', _this.proxyPagePrev);

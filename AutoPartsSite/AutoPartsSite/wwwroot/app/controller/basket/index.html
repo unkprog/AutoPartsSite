@@ -14,26 +14,43 @@
     </div>
 
     <script type="text/x-kendo-template" id="basket-view-parts-template">
-        <div class="col s12 m12 l6 xl6 padding-075rem">
-            <div class="z-depth-2 hoverable">
-                <div class="card white margin-0">
-                    <div class="card-content padding-075rem">
-                        <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
-                            <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
-                            <div class="card-search-info">
-                                <div class="card-search-partnumber">#=PartNumber#</div>
-                                <div>#=Name#</div>
-                                <div class="row card-search-desc margin-0">
-                                    <div class="col s12 m12 l6 xl6">#=Brand.Code#</div>
-                                    <div class="col s12 m12 l6 xl6">#=Country.Code# (#=Country.Name#)</div>
-                                    <div class="col s12 m12 l6 xl6">#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="card white margin-0_1rem z-depth-2 hoverable">
+                <div class="card-content padding-0_75rem black-text">
+                    <div class="card-search-image left" #if(Goods.Image) {# style="background-image: url(#=Goods.Image#)" #}#></div>
+                    <div class="card-search-info">
+                        <div class="row margin-0">
+                            <div class="col s12 m12 l6 xl6 margin-0">
+                                <div class="card-search-partnumber">#=Goods.PartNumber#</div>
+                                <div>#=Goods.Name#</div>
+                            </div>
+                            <div class="col s12 m12 l6 xl6 card-search-desc margin-0">
+                                <div><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Goods.Brand.Code#</div>
+                                <div><span class="margin-right-1rem" data-bind="text:labelCountry"></span>#=Goods.Country.Code# (#=Goods.Country.Name#)</div>
+                                <div><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Goods.Parameters.LengthCm#cm x #=Goods.Parameters.WidthCm#cm x #=Goods.Parameters.HeightCm# cm</div>
+                            </div>
+                            <div class="col s12 m12 l12 xl12 card-search-desc margin-0">
+                                <div class="row margin-0">
+                                    <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form">
+                                        <div class="input-field col margin-0">
+                                            <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number" value="#=Quantity#">
+                                            <label for="basket-qty-#=Goods.Id#" data-bind="text:labelQty"></label>
+                                        </div>
+                                    </form>
+                                    <div class="input-field col margin-0">
+                                        <input id="basket-price-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Price#">
+                                        <label for="basket-price-#=Goods.Id#" data-bind="text:labelPrice"></label>
+                                    </div>
+                                    <div class="input-field col margin-0">
+                                        <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Sum#">
+                                        <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
+                                    </div>
+                                        <a class="waves-effect waves-light btn input-field col basket-del-btn" data-id="#=Goods.Id#"><i class="material-icons">remove_shopping_cart</i></a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                    <div class="card-action">
-                        <a class="waves-effect waves-light btn card-btn-add-basket" data-id="#=Id#"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
-                    </div>
+                </div>
                 </div>
             </div>
         </div>

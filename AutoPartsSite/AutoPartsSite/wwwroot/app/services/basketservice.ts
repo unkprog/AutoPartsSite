@@ -17,7 +17,19 @@ export namespace Services {
         }
 
         public Add(id: number, Callback: (responseData: any) => void) {
-            this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id }), Callback: Callback });
+            this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: 1 }), Callback: Callback });
+        }
+
+        public Update(id: number, qty: number, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/update", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: qty }), Callback: Callback });
+        }
+
+        public Delete(id: number, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/delete", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: 0 }), Callback: Callback });
+        }
+
+        public View(Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/view", RequestData: { uid: vars._app.Uid }, Callback: Callback });
         }
     }
 }

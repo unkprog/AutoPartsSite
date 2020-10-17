@@ -33,7 +33,16 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 this.GetApi({ Action: "/count", RequestData: { uid: vars._app.Uid }, Callback: Callback });
             };
             BasketService.prototype.Add = function (id, Callback) {
-                this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id }), Callback: Callback });
+                this.PostApi({ Action: "/add", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: 1 }), Callback: Callback });
+            };
+            BasketService.prototype.Update = function (id, qty, Callback) {
+                this.PostApi({ Action: "/update", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: qty }), Callback: Callback });
+            };
+            BasketService.prototype.Delete = function (id, Callback) {
+                this.PostApi({ Action: "/delete", RequestData: JSON.stringify({ uid: vars._app.Uid, id: id, qty: 0 }), Callback: Callback });
+            };
+            BasketService.prototype.View = function (Callback) {
+                this.GetApi({ Action: "/view", RequestData: { uid: vars._app.Uid }, Callback: Callback });
             };
             return BasketService;
         }(base.Services.BaseService));

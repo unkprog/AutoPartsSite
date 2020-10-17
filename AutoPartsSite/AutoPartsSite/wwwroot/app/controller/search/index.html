@@ -33,33 +33,31 @@
     </div>
 
     <script type="text/x-kendo-template" id="search-view-parts-template">
-        <div class="col s12 m12 l6 xl6 padding-075rem">
-            <div class="z-depth-2 hoverable">
-                <div class="card white margin-0">
-                    <div class="card-content padding-075rem">
-                        <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
-                            <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
-                            <div class="card-search-info">
-                                <div class="card-search-partnumber">#=PartNumber#</div>
-                                <div>#=Name#</div>
-                                <div class="row card-search-desc margin-0">
-                                    <div class="col s12 m12 l6 xl6">#=Brand.Code#</div>
-                                    <div class="col s12 m12 l6 xl6">#=Country.Code# (#=Country.Name#)</div>
-                                    <div class="col s12 m12 l6 xl6">#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
-                                </div>
+        <div class="col s12 m12 l6 xl6 padding-0_75rem">
+            <div class="card white margin-0 z-depth-2 hoverable">
+                <div class="card-content padding-0_75rem">
+                    <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
+                        <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
+                        <div class="card-search-info">
+                            <div class="card-search-partnumber">#=PartNumber#</div>
+                            <div>#=Name#</div>
+                            <div class="row card-search-desc margin-0">
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelCountry"></span>#=Country.Code# (#=Country.Name#)</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
                             </div>
-                        </a>
-                    </div>
-                    <div class="card-action">
-                        <a class="waves-effect waves-light btn card-btn-add-basket" data-id="#=Id#"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
-                    </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card-action">
+                    <a class="waves-effect waves-light btn card-btn-add-basket" data-id="#=Id#"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
                 </div>
             </div>
         </div>
     </script>
 
     <script type="text/x-kendo-template" id="search-view-brand-catalogs-template">
-        <div class="col s6 m6 l4 xl2 padding-075rem center">
+        <div class="col s6 m6 l4 xl2 padding-0_75rem center">
             <div class="z-depth-2 hoverable">
                 <a title="Online Catalog #=Code# OEM Parts" href="" style="text-decoration: none;">
                     <div style="min-height:110px">

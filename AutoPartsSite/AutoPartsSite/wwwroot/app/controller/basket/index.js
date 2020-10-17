@@ -38,12 +38,76 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$basket")
+                        "Header": vars._statres("label$basket"),
+                        "labelBrand": vars._statres("label$brand") + ":",
+                        "labelCountry": vars._statres("label$country") + ":",
+                        "labelDimensions": vars._statres("label$dimensions") + ":",
+                        "labelQty": vars._statres("label$qty") + ":",
+                        "labelPrice": vars._statres("label$price") + ":",
+                        "labelSum": vars._statres("label$sum") + ":"
                     });
+                };
+                Index.prototype.OnViewInit = function () {
+                    var self = this;
+                    this.BasketService.View(function (responseData) {
+                        self.setupBasketData(responseData);
+                    });
+                };
+                Index.prototype.setupBasketData = function (responseData) {
+                    var self = this;
+                    if (responseData.Result === 0) {
+                        var templateContent = self.View.find('#basket-view-parts-template').html();
+                        var template = vars.getTemplate(templateContent);
+                        var htmlResult = '';
+                        var items = responseData.Data.Positions;
+                        for (var i = 0, icount = items.length; i < icount; i++) {
+                            items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                            htmlResult = (htmlResult + template(items[i]));
+                        }
+                        self.View.find('#basket-view-parts').html(htmlResult);
+                        self.rebindModel();
+                        M.updateTextFields();
+                        self.qtyForm = self.View.find(".basket-qty-form");
+                        if (self.qtyForm) {
+                            self.proxyQtyForm = $.proxy(self.changeQty, self);
+                            self.qtyForm.on('submit', self.proxyQtyForm);
+                        }
+                        self.deleteBtn = self.View.find(".basket-del-btn");
+                        if (self.deleteBtn) {
+                            self.proxyDelete = $.proxy(self.deletePart, self);
+                            self.deleteBtn.on('click', self.proxyDelete);
+                        }
+                    }
+                    else
+                        vars._app.ShowError(responseData.Error);
+                };
+                Index.prototype.deletePart = function (e) {
+                    var self = this;
+                    e.preventDefault();
+                    return false;
+                };
+                Index.prototype.changeQty = function (e) {
+                    var self = this;
+                    var formid = e.target.id;
+                    var id = parseInt(formid.replace('basket-qty-form-', ''));
+                    var qty = parseFloat($(e.target).find('#basket-qty-' + id).val());
+                    var price = parseFloat($(e.target).parent().find('#basket-price-' + id).val());
+                    self.BasketService.Update(id, qty, function (responseData) {
+                        if (responseData.Result === 0)
+                            $(e.target).parent().find('#basket-sum-' + id).html('' + (qty * (price && price > 0 ? price : 1)));
+                        else
+                            vars._app.ShowError(responseData.Error);
+                    });
+                    e.preventDefault();
+                    return false;
                 };
                 Index.prototype.createEvents = function () {
                 };
                 Index.prototype.destroyEvents = function () {
+                    if (this.deleteBtn)
+                        this.deleteBtn.off('click', this.proxyDelete);
+                    if (this.qtyForm)
+                        this.qtyForm.off('submit', this.proxyQtyForm);
                 };
                 return Index;
             }(base.Controller.Base));

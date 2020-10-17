@@ -1,3 +1,3 @@
-﻿select [GoodsID], [Quantity], [Price]
+﻿select [GoodsID], [Quantity]
 from [Basket] with(nolock)
 where [Uid] = @Uid
