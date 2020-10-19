@@ -14,7 +14,7 @@
     </div>
 
     <script type="text/x-kendo-template" id="basket-view-parts-template">
-        <div class="col s12 m12 l12 xl12">
+        <div id="basket-view-item-#=Goods.Id#" class="col s12 m12 l12 xl12">
             <div class="card white margin-0_1rem z-depth-2 hoverable">
                 <div class="card-content padding-0_75rem black-text">
                     <div class="card-search-image left" #if(Goods.Image) {# style="background-image: url(#=Goods.Image#)" #}#></div>
@@ -45,12 +45,11 @@
                                         <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Sum#">
                                         <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
                                     </div>
-                                        <a class="waves-effect waves-light btn input-field col basket-del-btn" data-id="#=Goods.Id#"><i class="material-icons">remove_shopping_cart</i></a>
+                                    <a class="waves-effect waves-light btn input-field col basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>

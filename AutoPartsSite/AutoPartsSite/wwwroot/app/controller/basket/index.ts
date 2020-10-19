@@ -27,15 +27,19 @@ export namespace Controller.Basket {
                 "labelDimensions": vars._statres("label$dimensions") + ":",
                 "labelQty": vars._statres("label$qty") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
-                "labelSum": vars._statres("label$sum") + ":"
+                "labelSum": vars._statres("label$sum") + ":",
+
+                "basketData": {}
             });
         }
 
 
         protected OnViewInit(): void {
+            vars._app.ShowLoading();
             let self = this;
             this.BasketService.View((responseData) => {
                 self.setupBasketData(responseData);
+                vars._app.HideLoading();
             });
         }
 
@@ -47,12 +51,17 @@ export namespace Controller.Basket {
         private setupBasketData(responseData) {
             let self = this;
             if (responseData.Result === 0) {
+
+                this.Model.set("basketData", responseData.Data.Positions);
+
                 let templateContent = self.View.find('#basket-view-parts-template').html();
                 let template = vars.getTemplate(templateContent);
                 let htmlResult = '';
                 let items: any[] = responseData.Data.Positions;
 
+
                 for (let i = 0, icount = items.length; i < icount; i++) {
+                    items[i].deleteLabel = vars._statres("button$label$delete");
                     items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                     htmlResult = (htmlResult + template(items[i]));
                 }
@@ -71,6 +80,8 @@ export namespace Controller.Basket {
                 if (self.deleteBtn) {
                     self.proxyDelete = $.proxy(self.deletePart, self);
                     self.deleteBtn.on('click', self.proxyDelete);
+                    self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
+                    self.deleteBtn.tooltip();
                 }
             }
             else
@@ -78,24 +89,42 @@ export namespace Controller.Basket {
         }
 
         private deletePart(e: any): boolean {
+            vars._app.ShowLoading();
             let self = this;
+            let id: number = $(e.currentTarget).data('id');
+            self.BasketService.Delete(id, (responseData) => {
+                if (responseData.Result === 0) {
+                    $("#basket-view-item-" + id).remove();
+                    let count: number = responseData.Data;
+                    if (count > 0) $('.app-basket-counter').html('' + count).show();
+                    else $('.app-basket-counter').html('0').hide();
+                }
+                else
+                    vars._app.ShowError(responseData.Error);
+                vars._app.HideLoading();
+            });
             e.preventDefault();
             return false;
         }
 
         private changeQty(e: any): boolean {
+            vars._app.ShowLoading();
             let self = this;
 
-            let formid: string = e.target.id;
+            let formid: string = e.currentTarget.id;
             let id: number = parseInt(formid.replace('basket-qty-form-', ''));
             let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
             let price: number = parseFloat($(e.target).parent().find('#basket-price-' + id).val() as string);
 
             self.BasketService.Update(id, qty, (responseData) => {
-                if (responseData.Result === 0)
-                    $(e.target).parent().find('#basket-sum-' + id).html('' + (qty * (price && price > 0 ? price : 1)))
+                if (responseData.Result === 0) {
+                    //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                    $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
+                }
                 else
                     vars._app.ShowError(responseData.Error);
+
+                vars._app.HideLoading();
             });
             e.preventDefault();
             return false;

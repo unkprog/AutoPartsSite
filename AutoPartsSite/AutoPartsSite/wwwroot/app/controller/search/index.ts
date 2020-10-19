@@ -154,7 +154,7 @@ export namespace Controller.Search {
 
         private searchPage(e: any): boolean {
             let self = this;
-            self.currentPage = parseInt($(e.target).html());
+            self.currentPage = parseInt($(e.currentTarget).html());
             return self.search(e);
         }
 
@@ -185,7 +185,7 @@ export namespace Controller.Search {
         private addToCard(e: any): boolean {
             vars._app.ShowLoading();
             let self = this;
-            let id: number = $(e.target).data('id');
+            let id: number = $(e.currentTarget).data('id');
             this.BasketService.Add(id, self.setBasketCount);
             e.preventDefault();
             return false;

@@ -58,13 +58,14 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("delete")]
-        public async Task<HttpMessage<bool>> Delete(PartBasketModel model)
+        public async Task<HttpMessage<int>> Delete(PartBasketModel model)
         => await TryCatchResponseAsync(async () =>
         {
             return await Task.Run(() =>
             {
                 DeletePartBasket(model);
-                return CreateResponseOk(true);
+                int result = GetCount(model.uid);
+                return CreateResponseOk(result);
             });
         });
 

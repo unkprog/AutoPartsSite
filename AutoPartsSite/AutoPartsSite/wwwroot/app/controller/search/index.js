@@ -145,7 +145,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.searchPage = function (e) {
                     var self = this;
-                    self.currentPage = parseInt($(e.target).html());
+                    self.currentPage = parseInt($(e.currentTarget).html());
                     return self.search(e);
                 };
                 Index.prototype.searchPagePrev = function (e) {
@@ -175,7 +175,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.addToCard = function (e) {
                     vars._app.ShowLoading();
                     var self = this;
-                    var id = $(e.target).data('id');
+                    var id = $(e.currentTarget).data('id');
                     this.BasketService.Add(id, self.setBasketCount);
                     e.preventDefault();
                     return false;
