@@ -110,5 +110,12 @@ define({
     "label$basket": "Basket",
     "label$qty": "Qty",
     "label$price": "Price",
-    "label$sum": "Sum"
+    "label$sum": "Sum",
+
+    "label$total$goods$sum": "Total goods for the amount",
+    "button$label$continueShopping": "Сontinue shopping",
+    "button$label$checkout": "Checkout",
+
+    "label$delivery": "Delivery",
+    "label$payment": "Payment"
 });

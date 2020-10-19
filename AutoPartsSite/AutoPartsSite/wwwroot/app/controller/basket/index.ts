@@ -28,7 +28,11 @@ export namespace Controller.Basket {
                 "labelQty": vars._statres("label$qty") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
                 "labelSum": vars._statres("label$sum") + ":",
+                "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
+                "TotalSumValue": "0$",
 
+                "labelContinueShopping": vars._statres("button$label$continueShopping"),
+                "labelCheckout": vars._statres("button$label$checkout"),
                 "basketData": {}
             });
         }
@@ -37,6 +41,7 @@ export namespace Controller.Basket {
         protected OnViewInit(): void {
             vars._app.ShowLoading();
             let self = this;
+
             this.BasketService.View((responseData) => {
                 self.setupBasketData(responseData);
                 vars._app.HideLoading();
@@ -59,14 +64,16 @@ export namespace Controller.Basket {
                 let htmlResult = '';
                 let items: any[] = responseData.Data.Positions;
 
-
+                let sum: number = 0;
                 for (let i = 0, icount = items.length; i < icount; i++) {
                     items[i].deleteLabel = vars._statres("button$label$delete");
                     items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                    sum += items[i].Sum;
                     htmlResult = (htmlResult + template(items[i]));
                 }
 
                 self.View.find('#basket-view-parts').html(htmlResult);
+                self.Model.set("TotalSumValue", '' + sum + "$");
                 self.rebindModel();
                 M.updateTextFields();
 
@@ -88,6 +95,27 @@ export namespace Controller.Basket {
                 vars._app.ShowError(responseData.Error);
         }
 
+        private updatePositions(id: number, isRemove: boolean, qty: number) {
+            let items: any[] = this.Model.get("basketData");
+            let sum: number = 0;
+          
+            for (let i = items.length - 1; i >= 0; i--) {
+                if (isRemove === true && items[i].Goods.Id === id) {
+                    items.splice(i, 1);
+                }
+                else {
+                    if (items[i].Goods.Id === id) {
+                        items[i].Quantity = qty;
+                    }
+                    items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                    sum += items[i].Sum;
+                }
+            }
+
+            this.Model.set("TotalSumValue", '' + sum + "$");
+            this.Model.set("basketData", items);
+        }
+
         private deletePart(e: any): boolean {
             vars._app.ShowLoading();
             let self = this;
@@ -95,6 +123,7 @@ export namespace Controller.Basket {
             self.BasketService.Delete(id, (responseData) => {
                 if (responseData.Result === 0) {
                     $("#basket-view-item-" + id).remove();
+                    self.updatePositions(id, true, 0);
                     let count: number = responseData.Data;
                     if (count > 0) $('.app-basket-counter').html('' + count).show();
                     else $('.app-basket-counter').html('0').hide();
@@ -118,8 +147,10 @@ export namespace Controller.Basket {
 
             self.BasketService.Update(id, qty, (responseData) => {
                 if (responseData.Result === 0) {
+                    self.updatePositions(id, false, qty);
                     //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                     $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
+
                 }
                 else
                     vars._app.ShowError(responseData.Error);
@@ -131,12 +162,32 @@ export namespace Controller.Basket {
         }
 
         protected createEvents(): void {
-            
+            this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
+            this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
         }
 
         protected destroyEvents(): void {
             if (this.deleteBtn) this.deleteBtn.off('click', this.proxyDelete);
             if (this.qtyForm) this.qtyForm.off('submit', this.proxyQtyForm);
+
+            this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
+            this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+        }
+
+        public SearchButtonClick: { (e: any): void; };
+        private searchButtonClick(e) {
+            vars._app.OpenController({ urlController: "search/index" });
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        public DoneButtonClick: { (e: any): void; };
+        private doneButtonClick(e) {
+            vars._app.OpenController({ urlController: "basket/delivery" });
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
     }
 }

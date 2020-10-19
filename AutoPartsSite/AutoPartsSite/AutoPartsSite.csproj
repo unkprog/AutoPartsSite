@@ -72,6 +72,8 @@
     <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
   </ItemGroup>
 

@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col s12 m12 l12 xl12">
 
-            <div class="section">
-                <h1 data-bind="text:Header"></h1>
+            <div class="section center">
+                <h5 data-bind="text:Header"></h5>
             </div>
             <div class="divider"></div>
         </div>
@@ -13,7 +13,20 @@
 
     </div>
 
+    <div class="row">
+        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+            <div class="basket-total-sum center"><span data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
+        </div>
+    </div>
 
+    <div id="basket-view-buttons" class="row">
+        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
+            <a id="basket-search-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">search</i><span data-bind="text:labelContinueShopping"></span></a>
+        </div>
+        <div class="col s6 m4 l4 xl3">
+            <a id="basket-done-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">done_outline</i><span data-bind="text:labelCheckout"></span></a>
+        </div>
+    </div>
 
     <script type="text/x-kendo-template" id="basket-view-parts-template">
         <div id="basket-view-item-#=Goods.Id#" class="col s12 m12 l12 xl12">
@@ -32,18 +45,18 @@
                                 <div><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Goods.Parameters.LengthCm#cm x #=Goods.Parameters.WidthCm#cm x #=Goods.Parameters.HeightCm# cm</div>
                             </div>
                             <div class="col s12 m12 l12 xl12 card-search-desc margin-0">
-                                <div class="row margin-0">
+                                <div class="">
                                     <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form">
-                                        <div class="input-field col margin-0">
+                                        <div class="input-field col">
                                             <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number" value="#=Quantity#">
                                             <label for="basket-qty-#=Goods.Id#" data-bind="text:labelQty"></label>
                                         </div>
                                     </form>
-                                    <div class="input-field col margin-0">
+                                    <div class="input-field col">
                                         <input id="basket-price-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Price#">
                                         <label for="basket-price-#=Goods.Id#" data-bind="text:labelPrice"></label>
                                     </div>
-                                    <div class="input-field col margin-0">
+                                    <div class="input-field col">
                                         <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Sum#">
                                         <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
                                     </div>

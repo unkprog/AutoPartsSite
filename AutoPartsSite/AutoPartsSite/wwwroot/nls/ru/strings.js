@@ -111,5 +111,13 @@ define({
     "label$basket": "Корзина",
     "label$qty": "Кол-во",
     "label$price": "Цена",
-    "label$sum": "Сумма"
+    "label$sum": "Сумма",
+    "label$total$goods$sum": "Всего товаров на сумму",
+
+    "button$label$continueShopping": "Продолжить покупки",
+    "button$label$checkout": "Оформить заказ",
+
+    "label$delivery": "Доставка",
+    "label$payment": "Оплата"
+
 });

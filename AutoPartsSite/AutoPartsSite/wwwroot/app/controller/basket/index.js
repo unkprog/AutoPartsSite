@@ -45,6 +45,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelQty": vars._statres("label$qty") + ":",
                         "labelPrice": vars._statres("label$price") + ":",
                         "labelSum": vars._statres("label$sum") + ":",
+                        "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
+                        "TotalSumValue": "0$",
+                        "labelContinueShopping": vars._statres("button$label$continueShopping"),
+                        "labelCheckout": vars._statres("button$label$checkout"),
                         "basketData": {}
                     });
                 };
@@ -64,12 +68,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         var template = vars.getTemplate(templateContent);
                         var htmlResult = '';
                         var items = responseData.Data.Positions;
+                        var sum = 0;
                         for (var i = 0, icount = items.length; i < icount; i++) {
                             items[i].deleteLabel = vars._statres("button$label$delete");
                             items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                            sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#basket-view-parts').html(htmlResult);
+                        self.Model.set("TotalSumValue", '' + sum + "$");
                         self.rebindModel();
                         M.updateTextFields();
                         self.qtyForm = self.View.find(".basket-qty-form");
@@ -88,6 +95,24 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                 };
+                Index.prototype.updatePositions = function (id, isRemove, qty) {
+                    var items = this.Model.get("basketData");
+                    var sum = 0;
+                    for (var i = items.length - 1; i >= 0; i--) {
+                        if (isRemove === true && items[i].Goods.Id === id) {
+                            items.splice(i, 1);
+                        }
+                        else {
+                            if (items[i].Goods.Id === id) {
+                                items[i].Quantity = qty;
+                            }
+                            items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                            sum += items[i].Sum;
+                        }
+                    }
+                    this.Model.set("TotalSumValue", '' + sum + "$");
+                    this.Model.set("basketData", items);
+                };
                 Index.prototype.deletePart = function (e) {
                     vars._app.ShowLoading();
                     var self = this;
@@ -95,6 +120,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     self.BasketService.Delete(id, function (responseData) {
                         if (responseData.Result === 0) {
                             $("#basket-view-item-" + id).remove();
+                            self.updatePositions(id, true, 0);
                             var count = responseData.Data;
                             if (count > 0)
                                 $('.app-basket-counter').html('' + count).show();
@@ -117,6 +143,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var price = parseFloat($(e.target).parent().find('#basket-price-' + id).val());
                     self.BasketService.Update(id, qty, function (responseData) {
                         if (responseData.Result === 0) {
+                            self.updatePositions(id, false, qty);
                             //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                             $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
                         }
@@ -128,12 +155,28 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.createEvents = function () {
+                    this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
+                    this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
                 };
                 Index.prototype.destroyEvents = function () {
                     if (this.deleteBtn)
                         this.deleteBtn.off('click', this.proxyDelete);
                     if (this.qtyForm)
                         this.qtyForm.off('submit', this.proxyQtyForm);
+                    this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
+                    this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+                };
+                Index.prototype.searchButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "search/index" });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
+                Index.prototype.doneButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "basket/delivery" });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 return Index;
             }(base.Controller.Base));
