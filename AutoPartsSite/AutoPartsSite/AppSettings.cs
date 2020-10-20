@@ -81,6 +81,27 @@ namespace AutoPartsSite
                         public static string Query => string.Concat(PhysicalApplicationPath, Settings["AutoPartsSite.Basket:Path:Query"]);
                     }
                 }
+
+                public static class Cms
+                {
+                    static Cms()
+                    {
+                        Connection = new Connection()
+                        {
+                            DataSource = Settings["AutoPartsSite.Cms:DataSource"],
+                            InitialCatalog = Settings["AutoPartsSite.Cms:InitialCatalog"],
+                            IsSSPI = Settings.GetValue<bool>("AutoPartsSite.Cms:IsSSPI"),
+                            UserID = Settings["AutoPartsSite.Cms:UserID"],
+                            Password = Settings["AutoPartsSite.Cms:Password"]
+                        };
+                    }
+                    public static Connection Connection { get; }
+
+                    public static class Path
+                    {
+                        public static string Query => string.Concat(PhysicalApplicationPath, Settings["AutoPartsSite.Cms:Path:Query"]);
+                    }
+                }
             }
         }
     }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace AutoPartsSite.Models.News
+namespace AutoPartsSite.Models.Cms
 {
     [DataContract]
-    public class New : BaseDbModel
+    public class New : ContentModel
     {
         /// <summary>
         /// Заголовок новости
@@ -15,16 +15,9 @@ namespace AutoPartsSite.Models.News
         public string Header { get; set; }
 
         /// <summary>
-        /// Заголовок новости
+        /// Дата публикации новости
         /// </summary>
         [DataMember]
         public DateTime ReleaseDate { get; set; }
-
-        /// <summary>
-        /// Содержимое новости
-        /// </summary>
-        [DataMember]
-        public string Content { get; set; }
-
     }
 }

@@ -18,5 +18,15 @@
     "Path": {
       "Query": "\\Database\\AutoPartsSite\\Basket"
     }
+  },
+  "AutoPartsSite.Cms": {
+    "DataSource": ".",
+    "InitialCatalog": "AutoPartsSite.Cms",
+    "IsSSPI": true,
+    "UserID": "",
+    "Password": "",
+    "Path": {
+      "Query": "\\Database\\AutoPartsSite\\Cms"
+    }
   }
 }

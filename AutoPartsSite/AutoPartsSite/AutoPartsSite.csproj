@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Database\Reorganization\News\**" />
+    <Content Remove="Database\Reorganization\News\**" />
+    <EmbeddedResource Remove="Database\Reorganization\News\**" />
+    <None Remove="Database\Reorganization\News\**" />
+    <TypeScriptCompile Remove="Database\Reorganization\News\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -178,12 +186,14 @@
 
     <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
-	  <TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
+
+    <TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
 
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Reorganization\News\" />
+    <Folder Include="Database\AutoPartsSite\Cms\" />
   </ItemGroup>
 
   <ItemGroup>
