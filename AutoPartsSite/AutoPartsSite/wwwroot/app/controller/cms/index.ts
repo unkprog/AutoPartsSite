@@ -13,7 +13,16 @@ export namespace Controller.Cms {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": "CMS"
+                "Header": "CMS",
+                "labelPages": vars._statres("label$site$pages"),
+                "labelAbout": vars._statres("label$aboutUs"),
+                "labelPayment": vars._statres("label$payment"),
+                "labelShipping": vars._statres("label$shipping"),
+                "labelContacts": vars._statres("label$contacts"),
+
+                "labelNewsFaq": vars._statres("label$news") + ', ' + vars._statres("label$faq"),
+                "labelNews": vars._statres("label$news"),
+                "labelFaq": vars._statres("label$faq")
             });
         }
 
