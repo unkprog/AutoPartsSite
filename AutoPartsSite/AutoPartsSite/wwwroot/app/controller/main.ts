@@ -293,6 +293,7 @@ export namespace Controller {
             if (!utils.isNullOrEmpty(urlController))
                 _app.OpenController({ urlController: urlController });
             e.preventDefault();
+            e.stopPropagation();
             return false;
         }
     }

@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils"], function (require, exports, vars, base, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -41,8 +41,45 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     });
                 };
                 Index.prototype.createEvents = function () {
+                    this.AboutButtonClick = this.createClickEvent("cms-view-btn-about", this.aboutButtonClick);
+                    this.PaymentButtonClick = this.createClickEvent("cms-view-btn-payment", this.paymentButtonClick);
+                    this.ShippingButtonClick = this.createClickEvent("cms-view-btn-shipping", this.shippingButtonClick);
+                    this.ContactsButtonClick = this.createClickEvent("cms-view-btn-contacts", this.contactsButtonClick);
+                    this.NewsButtonClick = this.createClickEvent("cms-view-btn-news", this.newsButtonClick);
+                    this.FaqButtonClick = this.createClickEvent("cms-view-btn-faq", this.faqButtonClick);
                 };
                 Index.prototype.destroyEvents = function () {
+                    this.destroyClickEvent("cms-view-btn-faq", this.FaqButtonClick);
+                    this.destroyClickEvent("cms-view-btn-news", this.NewsButtonClick);
+                    this.destroyClickEvent("cms-view-btn-contacts", this.ContactsButtonClick);
+                    this.destroyClickEvent("cms-view-btn-shipping", this.ShippingButtonClick);
+                    this.destroyClickEvent("cms-view-btn-payment", this.PaymentButtonClick);
+                    this.destroyClickEvent("cms-view-btn-about", this.AboutButtonClick);
+                };
+                Index.prototype.aboutButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.paymentButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.shippingButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.contactsButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.faqButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.newsButtonClick = function (e) {
+                    return false;
+                };
+                Index.prototype.handleButtonItem = function (e, urlController) {
+                    if (!utils.isNullOrEmpty(urlController))
+                        vars._app.OpenController({ urlController: urlController });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 return Index;
             }(base.Controller.Base));

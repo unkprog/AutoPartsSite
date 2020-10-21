@@ -225,6 +225,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 if (!utils.isNullOrEmpty(urlController))
                     variables_1._app.OpenController({ urlController: urlController });
                 e.preventDefault();
+                e.stopPropagation();
                 return false;
             };
             return Main;
