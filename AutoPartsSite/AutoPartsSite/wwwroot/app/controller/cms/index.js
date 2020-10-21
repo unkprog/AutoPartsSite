@@ -57,7 +57,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("cms-view-btn-about", this.AboutButtonClick);
                 };
                 Index.prototype.aboutButtonClick = function (e) {
-                    return false;
+                    localStorage.setItem('editorItem', "label$aboutUs");
+                    return this.handleButtonItem(e, 'cms/editor');
                 };
                 Index.prototype.paymentButtonClick = function (e) {
                     return false;

@@ -96,7 +96,7 @@ export namespace Controller {
                 return;
 
             if (vars._identity.Cms === true) {
-                this.menuCms = $('<li><a id="main-view-btn-cms"><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
+                this.menuCms = $('<li><a id="main-view-btn-cms" href><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
                 $('#main-view-slide').append(this.menuCms);
                 this.CmsButtonClick = this.createClickEvent("main-view-btn-cms", this.cmsButtonClick);
             }
@@ -116,6 +116,7 @@ export namespace Controller {
                 this.menuCms.remove();
             }
         }
+
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
             this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });

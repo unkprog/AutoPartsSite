@@ -10,6 +10,7 @@ requirejs.config({
         "kendo.data.odata": "lib/kendo/kendo.data.odata.es5.min",
         "kendo.data.xml": "lib/kendo/kendo.data.xml.es5.min",
         "kendo.binder": "lib/kendo/kendo.binder.es5.min",
+        "summernote": "lib/summernote-0.8.18-dist/summernote-lite.min",
         "i18n": "lib/i18n.es5.min",
         "domReady": "lib/require/domReady.es5.min"
     },

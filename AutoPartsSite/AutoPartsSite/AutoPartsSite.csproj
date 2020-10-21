@@ -188,7 +188,8 @@
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
-    <TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor.ts" DependentUpon="editor.html" />
 
   </ItemGroup>
 

@@ -49,7 +49,8 @@ export namespace Controller.Cms {
 
         public AboutButtonClick: { (e: any): void; };
         private aboutButtonClick(e: any): boolean {
-            return false;
+            localStorage.setItem('editorItem', "label$aboutUs");
+            return this.handleButtonItem(e, 'cms/editor');
         }
 
         public PaymentButtonClick: { (e: any): void; };

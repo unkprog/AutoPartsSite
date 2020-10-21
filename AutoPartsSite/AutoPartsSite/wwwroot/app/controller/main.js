@@ -82,7 +82,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 if (vars._identity.Auth !== true)
                     return;
                 if (vars._identity.Cms === true) {
-                    this.menuCms = $('<li><a id="main-view-btn-cms"><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
+                    this.menuCms = $('<li><a id="main-view-btn-cms" href><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
                     $('#main-view-slide').append(this.menuCms);
                     this.CmsButtonClick = this.createClickEvent("main-view-btn-cms", this.cmsButtonClick);
                 }
