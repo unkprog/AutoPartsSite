@@ -28,7 +28,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
            
         [HttpPost]
         [Route("login")]
-        public HttpMessage<User> Login(LoginUser login)
+        public HttpMessage<UserWithRole> Login(LoginUser login)
         {
             return TryCatchResponse(() =>
             {
@@ -45,8 +45,10 @@ namespace AutoPartsSite.Accounts.Controllers.Api
                 if (user == null || user.D != 0)
                     throw new Exception("Пользователь не найден.");
 
+                UserWithRole result = new UserWithRole() { Id = user.Id, Email = user.Email };
+                result.Roles = GetUserRoles(user.Id);
 
-                return CreateResponseOk(user);
+                return CreateResponseOk(result);
             });
         }
 

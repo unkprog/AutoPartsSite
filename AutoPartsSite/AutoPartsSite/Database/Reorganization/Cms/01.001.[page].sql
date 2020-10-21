@@ -5,8 +5,8 @@ if not exists (select * from [sys].[objects] where [object_id] = object_id(N'[Pa
 begin
   create table [Page]
   (
-	[Id]   [int]            identity(1,1) not null,
-	[Page] [nvarchar](1000) not null default (N''),
+	[Id]   [int]           identity(1,1) not null,
+	[Page] [nvarchar](500) not null default (N''),
 	primary key clustered ([Id])
   )
 end
@@ -19,5 +19,4 @@ if exists(select * from [sys].[indexes] where [name] = 'page_idx_1')
 go
 
 create nonclustered index [page_idx_1] ON [Page] ([Page])
-
 

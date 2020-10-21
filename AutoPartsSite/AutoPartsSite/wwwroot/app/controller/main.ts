@@ -54,6 +54,7 @@ export namespace Controller {
         private sideNavBarRight: JQuery;
         private buttonMenu: JQuery;
         private userMenu: JQuery;
+        private menuCms: JQuery;
 
         public ViewInit(view: JQuery): boolean {
             _app.SetControlNavigation(this);
@@ -94,22 +95,26 @@ export namespace Controller {
             if (vars._identity.Auth !== true)
                 return;
 
+            if (vars._identity.Cms === true) {
+                this.menuCms = $('<li><a id="main-view-btn-cms"><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
+                $('#main-view-slide').append(this.menuCms);
+                this.CmsButtonClick = this.createClickEvent("main-view-btn-cms", this.cmsButtonClick);
+            }
+
             this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger" data-target="app-dropdown-user-menu"><i class="material-icons">account_circle</i></a></li>');
             this.menuRight.find('#app-btn-login').remove();
             this.sideNavBarRight.append(this.userMenu);
 
             this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
             this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
-
         }
 
         public LogOut(): void {
-            vars._identity = { Auth: false, Token: '', User: null };
-            //if (this.userMenu) {
-            //    //this.userMenu.find('#app-btn-user-menu').dropdown('destroy');
-            //    this.userMenu.remove();
-            //}
-            ////this.initLogIn();
+            vars._identity = { Auth: false, Cms: false, Token: '', User: null };
+            if (this.menuCms) {
+                this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
+                this.menuCms.remove();
+            }
         }
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
@@ -258,6 +263,11 @@ export namespace Controller {
            return this.handleMenuItem(e, "about/contact");
         }
 
+        public CmsButtonClick: { (e: any): void; };
+        private cmsButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "cms/index");
+        }
+
         public UserSettingsButtonClick: { (e: any): void; };
         private userSettingsButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/settings");
@@ -267,10 +277,12 @@ export namespace Controller {
         private userMessagesButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/messages");
         }
+
         public UserGarageButtonClick: { (e: any): void; };
         private userGarageButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/garage");
         }
+
         public UserOrdersButtonClick: { (e: any): void; };
         private userOrdersButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/orders");

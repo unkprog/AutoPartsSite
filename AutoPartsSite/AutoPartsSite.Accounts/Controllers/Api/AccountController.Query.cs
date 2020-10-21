@@ -99,6 +99,25 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         }
 
         [NonAction]
+        private List<User_Role> GetUserRoles(int id)
+        {
+            List<User_Role> result = new List<User_Role>();
+            ExecQuery((query) =>
+            {
+                query.Execute(@"user\role\[get]", new SqlParameter[] { new SqlParameter() { ParameterName = "@id", Value = id } }
+                , (values) =>
+                {
+                    result.Add(new User_Role()
+                    {
+                        Id = (int)values[0],
+                        Role = (int)values[1]
+                    });
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
         private User GetUserByPass(string pass, List<User> users)
         {
             User result = null;

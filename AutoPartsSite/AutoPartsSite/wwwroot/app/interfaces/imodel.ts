@@ -14,10 +14,12 @@
     }
 
     export interface IUserModel extends IRegisterModel  {
+
     }
 
     export interface IIdentity {
         Auth: boolean;
+        Cms: boolean;
         Token: string;
         User: IUserModel;
     }

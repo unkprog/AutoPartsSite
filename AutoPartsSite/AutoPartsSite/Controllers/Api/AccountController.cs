@@ -10,6 +10,7 @@ using AutoPartsSite.Managers;
 using AutoPartsSite.Handlers;
 using AutoPartsSite.Core.Http;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -40,14 +41,14 @@ namespace AutoPartsSite.Controllers.Api
         public async Task<HttpMessage<IdentityResult>> Login(LoginUser login)
             => await TryCatchResponseAsync(async () =>
             {
-                HttpMessage<User> postResult = await Json.PostAsync<HttpMessage<User>, LoginUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
+                HttpMessage<UserWithRole> postResult = await Json.PostAsync<HttpMessage<UserWithRole>, LoginUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/login", login,
                     onError: (e) =>
                     {
-                        postResult = CreateResponseError<User>(e);
+                        postResult = CreateResponseError<UserWithRole>(e);
                     });
 
 
-                User user = postResult?.Data;
+                UserWithRole user = postResult?.Data;
 
                 if (user == null)
                        throw new Exception("Невозможно произвести авторизацию!");
@@ -56,7 +57,9 @@ namespace AutoPartsSite.Controllers.Api
                 AuthUserManager.LogIn(principal);
                 AuthorizationHeaderHandler.SetPrincipal(principal);
 
-                return CreateResponseOk(new IdentityResult() { Auth = true, Token = principal.GetKey(), User = user });
+                bool Cms = user.Roles != null && user.Roles.Count > 0 && user.Roles.FirstOrDefault(f => f.Role == 1) != null;
+
+                return CreateResponseOk(new IdentityResult() { Auth = true, Cms = Cms, Token = principal.GetKey(), User = user });
             });
 
         [HttpPost]

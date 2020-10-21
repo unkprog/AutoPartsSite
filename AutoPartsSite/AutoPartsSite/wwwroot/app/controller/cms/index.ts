@@ -1,7 +1,7 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 
-export namespace Controller.CMS {
+export namespace Controller.Cms {
     export class Index extends base.Controller.Base {
         constructor() {
             super();
@@ -13,7 +13,7 @@ export namespace Controller.CMS {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$news")
+                "Header": "CMS"
             });
         }
 
@@ -27,4 +27,4 @@ export namespace Controller.CMS {
     }
 }
 
-vars.registerController("cms/index", function (module: any): Interfaces.IController { return new module.Controller.CMS.Index(); });
+vars.registerController("cms/index", function (module: any): Interfaces.IController { return new module.Controller.Cms.Index(); });

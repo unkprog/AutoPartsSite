@@ -17,8 +17,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var CMS;
-        (function (CMS) {
+        var Cms;
+        (function (Cms) {
             var Index = /** @class */ (function (_super) {
                 __extends(Index, _super);
                 function Index() {
@@ -29,7 +29,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 };
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$news")
+                        "Header": "CMS"
                     });
                 };
                 Index.prototype.createEvents = function () {
@@ -38,9 +38,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 };
                 return Index;
             }(base.Controller.Base));
-            CMS.Index = Index;
-        })(CMS = Controller.CMS || (Controller.CMS = {}));
+            Cms.Index = Index;
+        })(Cms = Controller.Cms || (Controller.Cms = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("cms/index", function (module) { return new module.Controller.CMS.Index(); });
+    vars.registerController("cms/index", function (module) { return new module.Controller.Cms.Index(); });
 });
 //# sourceMappingURL=index.js.map

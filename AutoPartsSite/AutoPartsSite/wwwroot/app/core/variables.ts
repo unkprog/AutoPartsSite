@@ -32,7 +32,7 @@ export namespace App {
 const staticResources = new App.StaticResources();
 _statres = (id: string) => { return staticResources.GetString(id); }
 _showError = (error: string) => { _app.ShowError(error); }
-_identity = { Auth: false, Token: '', User: null };
+_identity = { Auth: false, Cms: false, Token: '', User: null };
 
 export declare let _controllers: any;
 _controllers = {};

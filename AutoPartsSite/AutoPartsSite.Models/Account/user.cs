@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Models.Account
 {
@@ -24,4 +25,14 @@ namespace AutoPartsSite.Models.Account
         [DataMember]
         public string Email { get; set; }
     }
+
+    public class UserWithRole : User
+    {
+        /// <summary>
+        /// E-mail
+        /// </summary>
+        [DataMember]
+        public List<User_Role> Roles { get; set; }
+    }
+
 }
