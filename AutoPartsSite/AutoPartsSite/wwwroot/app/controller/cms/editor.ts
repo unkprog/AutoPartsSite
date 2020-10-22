@@ -1,8 +1,8 @@
 ﻿import vars = require('app/core/variables');
-import base = require('app/core/basecontroller');
+import cms = require('app/controller/cms/cms');
 
 export namespace Controller.Cms {
-    export class Editor extends base.Controller.Base {
+    export class Editor extends cms.Controller.Cms.Cms {
         constructor() {
             super();
         }
@@ -23,8 +23,11 @@ export namespace Controller.Cms {
 
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
-            require(["summernote"], function (_summernote) {
-                $('#editor-view-summernote').summernote();
+            require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
+                $('#editor-view-tabs').tabs();
+                $('#editor-view-summernote-en').summernote();
+                $('#editor-view-summernote-ru').summernote();
+                M.Tabs.updateTabIndicator();
             });
             return result;
         }

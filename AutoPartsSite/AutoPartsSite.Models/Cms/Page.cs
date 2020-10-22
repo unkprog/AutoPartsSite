@@ -3,7 +3,7 @@
 namespace AutoPartsSite.Models.Cms
 {
     [DataContract]
-    public class ContentModel : BaseDbModel
+    public class Page : BaseDbModel
     {
         /// <summary>
         /// Содержимое

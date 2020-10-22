@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], function (require, exports, vars, cms) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -37,8 +37,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 };
                 Editor.prototype.ViewShow = function (e) {
                     var result = _super.prototype.ViewShow.call(this, e);
-                    require(["summernote"], function (_summernote) {
-                        $('#editor-view-summernote').summernote();
+                    require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
+                        $('#editor-view-tabs').tabs();
+                        $('#editor-view-summernote-en').summernote();
+                        $('#editor-view-summernote-ru').summernote();
+                        M.Tabs.updateTabIndicator();
                     });
                     return result;
                 };
@@ -47,7 +50,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 Editor.prototype.destroyEvents = function () {
                 };
                 return Editor;
-            }(base.Controller.Base));
+            }(cms.Controller.Cms.Cms));
             Cms.Editor = Editor;
         })(Cms = Controller.Cms || (Controller.Cms = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));

@@ -8,8 +8,6 @@ namespace AutoPartsSite.Controllers.Api
 {
     public partial class SearchController
     {
-      
-
         [NonAction]
         protected override Query CreateQuery()
         {
