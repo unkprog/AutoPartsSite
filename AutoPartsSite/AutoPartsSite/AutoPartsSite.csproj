@@ -105,6 +105,12 @@
     <None Update="Database\AutoPartsSite\Basket\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Cms\[del_page_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\[set_page_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Cms\[get_page_content].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

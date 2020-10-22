@@ -34,7 +34,7 @@ namespace AutoPartsSite.Controllers.Api
           {
               return await Task.Run(() =>
               {
-                 // PageEdit result = GetPageEdit(page);
+                  SetPageEditContent(page);
                   return CreateResponseOk(true);
               });
           });
