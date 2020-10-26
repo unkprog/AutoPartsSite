@@ -105,16 +105,28 @@
     <None Update="Database\AutoPartsSite\Basket\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\[del_page_content].sql">
+    <None Update="Database\AutoPartsSite\Cms\New\[del_content].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\[set_page_content].sql">
+    <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\[get_page_content].sql">
+    <None Update="Database\AutoPartsSite\Cms\New\[get_content].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\[get_page].sql">
+    <None Update="Database\AutoPartsSite\Cms\New\[set_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\Page\[del_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\Page\[set_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\Page\[get_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\Page\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Search\[get_in].sql">

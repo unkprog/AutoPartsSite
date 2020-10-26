@@ -22,7 +22,7 @@ namespace AutoPartsSite.Controllers.Api
             PageEdit result = null;
             ExecQuery((query) =>
             {
-                query.Execute(@"Cms\[get_page]", new SqlParameter[]
+                query.Execute(@"Cms\Page\[get]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Page", Value = page }
                 }
@@ -49,7 +49,7 @@ namespace AutoPartsSite.Controllers.Api
 
             ExecQuery((query) =>
             {
-                query.Execute(@"Cms\[get_page_content]", new SqlParameter[]
+                query.Execute(@"Cms\Page\[get_content]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = page.Id }
                 }
@@ -137,9 +137,9 @@ namespace AutoPartsSite.Controllers.Api
         {
             ExecQuery((query) =>
             {
-                List<(int, string, string)> list = GetChangeListContent(query, page.Id, @"Cms\[get_page_content]");
+                List<(int, string, string)> list = GetChangeListContent(query, page.Id, @"Cms\Page\[get_content]");
                 BuildChangeListContent(page.ContentEn, page.ContentRu, list);
-                SaveChangeListContent(query, page.Id, list, @"Cms\[set_page_content]", @"Cms\[del_page_content]");
+                SaveChangeListContent(query, page.Id, list, @"Cms\Page\[set_content]", @"Cms\Page\[del_content]");
             });
         }
     }
