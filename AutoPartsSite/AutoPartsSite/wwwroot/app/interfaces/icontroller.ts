@@ -5,6 +5,10 @@
         Id: string;
     }
 
+    export interface IControllerPageOptions extends IControllerOptions {
+        Page: string;
+    }
+
     export interface IController {
         Options: IControllerOptions;
         Model: kendo.data.ObservableObject;

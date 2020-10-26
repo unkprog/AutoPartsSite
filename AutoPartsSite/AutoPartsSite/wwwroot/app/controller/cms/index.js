@@ -57,27 +57,36 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("cms-view-btn-about", this.AboutButtonClick);
                 };
                 Index.prototype.aboutButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "label$aboutUs");
-                    return this.handleButtonItem(e, 'cms/editor');
+                    localStorage.setItem('editorItem', "/about/index");
+                    localStorage.setItem('editorItemHeader', "label$aboutUs");
+                    return this.handleButtonItem(e, 'cms/editorpage');
                 };
                 Index.prototype.paymentButtonClick = function (e) {
-                    return false;
+                    localStorage.setItem('editorItem', "/about/payment");
+                    localStorage.setItem('editorItemHeader', "label$payment");
+                    return this.handleButtonItem(e, 'cms/editorpage');
                 };
                 Index.prototype.shippingButtonClick = function (e) {
-                    return false;
+                    localStorage.setItem('editorItem', "/about/shipping");
+                    localStorage.setItem('editorItemHeader', "label$shipping");
+                    return this.handleButtonItem(e, 'cms/editorpage');
                 };
                 Index.prototype.contactsButtonClick = function (e) {
-                    return false;
+                    localStorage.setItem('editorItem', "/about/contact");
+                    localStorage.setItem('editorItemHeader', "label$contacts");
+                    return this.handleButtonItem(e, 'cms/editorpage');
                 };
                 Index.prototype.faqButtonClick = function (e) {
-                    return false;
+                    localStorage.setItem('editorItem', "/about/faq");
+                    localStorage.setItem('editorItemHeader', "label$faq");
+                    return this.handleButtonItem(e, 'cms/editorpage');
                 };
                 Index.prototype.newsButtonClick = function (e) {
                     return false;
                 };
                 Index.prototype.handleButtonItem = function (e, urlController) {
                     if (!utils.isNullOrEmpty(urlController))
-                        vars._app.OpenController({ urlController: urlController });
+                        vars._app.OpenController({ urlController: urlController, backController: this });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

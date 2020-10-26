@@ -1,1 +1,4 @@
-﻿select [Id], [ReleaseDate], [HeaderEn], [HeaderRu] from [New] [n] with(nolock) where [n].[Id] = @Id
+﻿if not exists(select [Id], [Page] from [Page] [p] with(nolock) where [p].[Page] = @Page)
+  insert into [Page]([Page]) values(@Page)
+
+select [Id], [Page] from [Page] [p] with(nolock) where [p].[Page] = @Page

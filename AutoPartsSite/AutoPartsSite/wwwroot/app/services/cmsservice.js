@@ -29,6 +29,15 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
                 enumerable: false,
                 configurable: true
             });
+            CmsService.prototype.PageEdit = function (page, Callback) {
+                this.GetApi({ Action: "/editpage", RequestData: { page: page }, Callback: Callback });
+            };
+            CmsService.prototype.PageEditPost = function (model, Callback) {
+                this.PostApi({ Action: "/editpage", RequestData: JSON.stringify(model), Callback: Callback });
+            };
+            CmsService.prototype.Page = function (lang, page, Callback) {
+                this.GetApi({ Action: "/page", RequestData: { lang: lang, page: page }, Callback: Callback });
+            };
             return CmsService;
         }(base.Services.BaseService));
         Services.CmsService = CmsService;

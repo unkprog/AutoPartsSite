@@ -85,7 +85,7 @@
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
 	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor.ts" DependentUpon="editor.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\editorpage.ts" DependentUpon="editorpage.html" />
 
   </ItemGroup>
 
@@ -105,28 +105,28 @@
     <None Update="Database\AutoPartsSite\Basket\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\New\[del_content].sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\AutoPartsSite\Cms\New\[get_content].sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\AutoPartsSite\Cms\New\[set_content].sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Database\AutoPartsSite\Cms\Page\[del_content].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\Page\[set_content].sql">
+    <None Update="Database\AutoPartsSite\Cms\Page\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Cms\Page\[get_content].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\AutoPartsSite\Cms\Page\[get].sql">
+    <None Update="Database\AutoPartsSite\Cms\Page\[set_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\New\[del_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\New\[set_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\New\[get_content].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Search\[get_in].sql">
@@ -135,6 +135,10 @@
     <None Update="Database\GlobalParts\Query\Search\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\app\controller\cms\editorpage.ts" DependentUpon="editor.html" />
   </ItemGroup>
   
 </Project>

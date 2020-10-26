@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/controller/about/aboutview"], function (require, exports, vars, base) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -25,19 +25,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     return _super.call(this) || this;
                 }
                 Contact.prototype.createOptions = function () {
-                    return { Url: "/app/controller/about/contact.html", Id: "contact-view" };
-                };
-                Contact.prototype.createModel = function () {
-                    return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$contacts")
-                    });
-                };
-                Contact.prototype.createEvents = function () {
-                };
-                Contact.prototype.destroyEvents = function () {
+                    var options = { Url: "/app/controller/about/contact.html", Id: "contact-view", Page: "/about/contact" };
+                    return options;
                 };
                 return Contact;
-            }(base.Controller.Base));
+            }(base.Controller.About.AboutView));
             About.Contact = Contact;
         })(About = Controller.About || (Controller.About = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));

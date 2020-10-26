@@ -1,28 +1,15 @@
 ﻿import vars = require('app/core/variables');
-import base = require('app/core/basecontroller');
+import base = require('app/controller/about/aboutview');
 
 export namespace Controller.About {
-    export class Index extends base.Controller.Base {
+    export class Index extends base.Controller.About.AboutView {
         constructor() {
             super();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/about/index.html", Id: "about-view" };
-        }
-
-        protected createModel(): kendo.data.ObservableObject {
-            return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$aboutUs")
-            });
-        }
-
-        protected createEvents(): void {
-            
-        }
-
-        protected destroyEvents(): void {
-            
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/about/index.html", Id: "about-view", Page: "/about/index" };
+            return options;
         }
     }
 }

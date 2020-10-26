@@ -40,4 +40,34 @@
     export interface IReportFilter extends IDateParams {
 
     }
+
+    export interface IContent {
+        Content: string;
+    }
+
+    export interface IPage extends IContent {
+
+    }
+
+    export interface INew extends IPage {
+        Header: string;
+        ReleaseDate: Date;
+    }
+
+    export interface IBaseDbModel {
+        Id: Number;
+    }
+
+    export interface IPageEdit extends IBaseDbModel {
+        Page: string;
+        ContentEn: string;
+        ContentRu: string;
+    }
+
+    export interface INewEdit extends IPageEdit
+    {
+        HeaderEn: string;
+        HeaderRu: string;
+        ReleaseDate: Date;
+    }
 }

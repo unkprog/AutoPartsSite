@@ -22,7 +22,7 @@ namespace AutoPartsSite.Controllers.Api
             PageEdit result = null;
             ExecQuery((query) =>
             {
-                query.Execute(@"Cms\Page\[get]", new SqlParameter[]
+                query.Execute(@"Page\[get]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Page", Value = page }
                 }
@@ -49,7 +49,7 @@ namespace AutoPartsSite.Controllers.Api
 
             ExecQuery((query) =>
             {
-                query.Execute(@"Cms\Page\[get_content]", new SqlParameter[]
+                query.Execute(@"Page\[get_content]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = page.Id }
                 }
@@ -91,7 +91,7 @@ namespace AutoPartsSite.Controllers.Api
               , lenEn = string.IsNullOrEmpty(contentEn) ? 0 : contentEn.Length
               , lenRu = string.IsNullOrEmpty(contentRu) ? 0 : contentRu.Length;
 
-            while (lenEn > lenContentMax || lenRu > lenContentMax)
+            while (lenEn > 0 || lenRu > 0)
             {
                 if (index < list.Count)
                     list[index] = (index + 1, lenEn > lenContentMax ? contentEn.Substring(0, lenContentMax) : contentEn, lenRu > lenContentMax ? contentRu.Substring(0, lenContentMax) : contentRu);
@@ -137,9 +137,9 @@ namespace AutoPartsSite.Controllers.Api
         {
             ExecQuery((query) =>
             {
-                List<(int, string, string)> list = GetChangeListContent(query, page.Id, @"Cms\Page\[get_content]");
+                List<(int, string, string)> list = GetChangeListContent(query, page.Id, @"Page\[get_content]");
                 BuildChangeListContent(page.ContentEn, page.ContentRu, list);
-                SaveChangeListContent(query, page.Id, list, @"Cms\Page\[set_content]", @"Cms\Page\[del_content]");
+                SaveChangeListContent(query, page.Id, list, @"Page\[set_content]", @"Page\[del_content]");
             });
         }
     }

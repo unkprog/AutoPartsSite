@@ -16,12 +16,13 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpGet]
         [Route("editpage")]
-        public async Task<HttpMessage<PageEdit>> PageEdit(string page)
+        public async Task<HttpMessage<PageEdit>> EditPage(string page)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
                   PageEdit result = GetPageEdit(page);
+                  //if(result == null)
                   result = GetPageEditContent(result);
                   return CreateResponseOk(result);
               });
@@ -36,6 +37,21 @@ namespace AutoPartsSite.Controllers.Api
               {
                   SetPageEditContent(page);
                   return CreateResponseOk(true);
+              });
+          });
+
+
+        [HttpGet]
+        [Route("page")]
+        public async Task<HttpMessage<Page>> Page(string lang, string page)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  PageEdit pageEdit = GetPageEdit(page);
+                  pageEdit = GetPageEditContent(pageEdit);
+                  Page result = new Page() { Content = lang == "ru" ? pageEdit.ContentRu : pageEdit.ContentEn };
+                  return CreateResponseOk(result);
               });
           });
     }
