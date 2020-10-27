@@ -59,30 +59,30 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.aboutButtonClick = function (e) {
                     localStorage.setItem('editorItem', "/about/index");
                     localStorage.setItem('editorItemHeader', "label$aboutUs");
-                    return this.handleButtonItem(e, 'cms/editorpage');
+                    return this.handleButtonItem(e, 'cms/editor/page');
                 };
                 Index.prototype.paymentButtonClick = function (e) {
                     localStorage.setItem('editorItem', "/about/payment");
                     localStorage.setItem('editorItemHeader', "label$payment");
-                    return this.handleButtonItem(e, 'cms/editorpage');
+                    return this.handleButtonItem(e, 'cms/editor/page');
                 };
                 Index.prototype.shippingButtonClick = function (e) {
                     localStorage.setItem('editorItem', "/about/shipping");
                     localStorage.setItem('editorItemHeader', "label$shipping");
-                    return this.handleButtonItem(e, 'cms/editorpage');
+                    return this.handleButtonItem(e, 'cms/editor/page');
                 };
                 Index.prototype.contactsButtonClick = function (e) {
                     localStorage.setItem('editorItem', "/about/contact");
                     localStorage.setItem('editorItemHeader', "label$contacts");
-                    return this.handleButtonItem(e, 'cms/editorpage');
+                    return this.handleButtonItem(e, 'cms/editor/page');
                 };
                 Index.prototype.faqButtonClick = function (e) {
                     localStorage.setItem('editorItem', "/about/faq");
                     localStorage.setItem('editorItemHeader', "label$faq");
-                    return this.handleButtonItem(e, 'cms/editorpage');
+                    return this.handleButtonItem(e, 'cms/editor/page');
                 };
                 Index.prototype.newsButtonClick = function (e) {
-                    return false;
+                    return this.handleButtonItem(e, 'cms/card/new');
                 };
                 Index.prototype.handleButtonItem = function (e, urlController) {
                     if (!utils.isNullOrEmpty(urlController))

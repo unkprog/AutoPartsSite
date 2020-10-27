@@ -1,14 +1,14 @@
 ﻿import vars = require('app/core/variables');
 import cms = require('app/controller/cms/cms');
 
-export namespace Controller.Cms {
-    export class EditorPage extends cms.Controller.Cms.Cms {
+export namespace Controller.Cms.Editor {
+    export class Page extends cms.Controller.Cms.Cms {
         constructor() {
             super();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/cms/editorpage.html", Id: "editorpage-view" };
+            return { Url: "/app/controller/cms/editor/page.html", Id: "page-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
@@ -28,9 +28,9 @@ export namespace Controller.Cms {
             let result = super.ViewShow(e);
             let self = this;
             require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
-                $('#editorpage-view-tabs').tabs();
-                $('#editorpage-view-summernote-en').summernote();
-                $('#editorpage-view-summernote-ru').summernote();
+                $('#page-view-tabs').tabs();
+                $('#page-view-summernote-en').summernote();
+                $('#page-view-summernote-ru').summernote();
                 //M.Tabs.updateTabIndicator();
                 self.loadData();
             });
@@ -45,8 +45,8 @@ export namespace Controller.Cms {
                 if (responseData.Result === 0) {
                     let model: Interfaces.Model.IPageEdit = responseData.Data;
                     self.Model.set("EditData", model);
-                    $('#editorpage-view-summernote-en').summernote('code', model.ContentEn);
-                    $('#editorpage-view-summernote-ru').summernote('code', model.ContentRu);
+                    $('#page-view-summernote-en').summernote('code', model.ContentEn);
+                    $('#page-view-summernote-ru').summernote('code', model.ContentRu);
                 }
                 else
                     vars._app.ShowError(responseData.Error);
@@ -59,8 +59,8 @@ export namespace Controller.Cms {
             let self = this;
             vars._app.ShowLoading();
             let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
-            model.ContentEn = $('#editorpage-view-summernote-en').summernote('code');
-            model.ContentRu = $('#editorpage-view-summernote-ru').summernote('code');
+            model.ContentEn = $('#page-view-summernote-en').summernote('code');
+            model.ContentRu = $('#page-view-summernote-ru').summernote('code');
             if (this.validate()) {
 
                 self.CmsService.PageEditPost(model, (responseData) => {
@@ -81,15 +81,15 @@ export namespace Controller.Cms {
         }
 
         protected createEvents(): void {
-            this.SaveButtonClick = this.createClickEvent("editorpage-btn-save", this.saveButtonClick);
-            this.CancelButtonClick = this.createClickEvent("editorpage-btn-cancel", this.cancelButtonClick);
+            this.SaveButtonClick = this.createClickEvent("page-btn-save", this.saveButtonClick);
+            this.CancelButtonClick = this.createClickEvent("page-btn-cancel", this.cancelButtonClick);
         }
 
 
         protected destroyEvents(): void {
 
-            this.destroyClickEvent("editorpage-btn-save", this.SaveButtonClick);
-            this.destroyClickEvent("editorpage-btn-cancel", this.CancelButtonClick);
+            this.destroyClickEvent("page-btn-save", this.SaveButtonClick);
+            this.destroyClickEvent("page-btn-cancel", this.CancelButtonClick);
         }
 
         public SaveButtonClick: { (e: any): void; };
@@ -110,4 +110,4 @@ export namespace Controller.Cms {
     }
 }
 
-vars.registerController("cms/editorpage", function (module: any): Interfaces.IController { return new module.Controller.Cms.EditorPage(); });
+vars.registerController("cms/editor/page", function (module: any): Interfaces.IController { return new module.Controller.Cms.Editor.Page(); });

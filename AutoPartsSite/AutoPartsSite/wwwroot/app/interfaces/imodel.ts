@@ -37,6 +37,14 @@
         dateto: string;
     }
 
+    export interface ICardParams extends IDateParams {
+        id: number;
+        doctype: number;
+    }
+
+    export interface ICardFilter extends IDateParams {
+    }
+
     export interface IReportFilter extends IDateParams {
 
     }

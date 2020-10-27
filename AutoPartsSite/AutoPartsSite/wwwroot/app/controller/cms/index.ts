@@ -51,40 +51,40 @@ export namespace Controller.Cms {
         private aboutButtonClick(e: any): boolean {
             localStorage.setItem('editorItem', "/about/index");
             localStorage.setItem('editorItemHeader', "label$aboutUs");
-            return this.handleButtonItem(e, 'cms/editorpage');
+            return this.handleButtonItem(e, 'cms/editor/page');
         }
 
         public PaymentButtonClick: { (e: any): void; };
         private paymentButtonClick(e: any): boolean {
             localStorage.setItem('editorItem', "/about/payment");
             localStorage.setItem('editorItemHeader', "label$payment");
-            return this.handleButtonItem(e, 'cms/editorpage');
+            return this.handleButtonItem(e, 'cms/editor/page');
         }
 
         public ShippingButtonClick: { (e: any): void; };
         private shippingButtonClick(e: any): boolean {
             localStorage.setItem('editorItem', "/about/shipping");
             localStorage.setItem('editorItemHeader', "label$shipping");
-            return this.handleButtonItem(e, 'cms/editorpage');
+            return this.handleButtonItem(e, 'cms/editor/page');
         }
 
         public ContactsButtonClick: { (e: any): void; };
         private contactsButtonClick(e: any): boolean {
             localStorage.setItem('editorItem', "/about/contact");
             localStorage.setItem('editorItemHeader', "label$contacts");
-            return this.handleButtonItem(e, 'cms/editorpage')
+            return this.handleButtonItem(e, 'cms/editor/page')
         }
 
         public FaqButtonClick: { (e: any): void; };
         private faqButtonClick(e: any): boolean {
             localStorage.setItem('editorItem', "/about/faq");
             localStorage.setItem('editorItemHeader', "label$faq");
-            return this.handleButtonItem(e, 'cms/editorpage')
+            return this.handleButtonItem(e, 'cms/editor/page')
         }
 
         public NewsButtonClick: { (e: any): void; };
         private newsButtonClick(e: any): boolean {
-            return false;
+            return this.handleButtonItem(e, 'cms/card/new');
         }
 
         private handleButtonItem(e: any, urlController: string): boolean {

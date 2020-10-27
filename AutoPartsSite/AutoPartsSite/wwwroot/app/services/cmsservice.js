@@ -38,6 +38,18 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             CmsService.prototype.Page = function (lang, page, Callback) {
                 this.GetApi({ Action: "/page", RequestData: { lang: lang, page: page }, Callback: Callback });
             };
+            CmsService.prototype.GetDocuments = function (model, Callback) {
+                this.PostApi({ Action: "/get_docs", RequestData: JSON.stringify(model), Callback: Callback });
+            };
+            CmsService.prototype.GetDocument = function (id, Callback) {
+                this.GetApi({ Action: "/get_doc", RequestData: { id: id }, Callback: Callback });
+            };
+            //public SetDocument(model: Interfaces.Model.IDocumentModel, Callback: (responseData: any) => void) {
+            //    this.PostApi({ Action: "/post_doc", RequestData: JSON.stringify(model), Callback: Callback });
+            //}
+            CmsService.prototype.DelDocument = function (id, Callback) {
+                this.GetApi({ Action: "/del_doc", RequestData: { id: id }, Callback: Callback });
+            };
             return CmsService;
         }(base.Services.BaseService));
         Services.CmsService = CmsService;

@@ -54,5 +54,27 @@ namespace AutoPartsSite.Controllers.Api
                   return CreateResponseOk(result);
               });
           });
+
+
+        //[HttpPost]
+        //[Route("get_docs")]
+        //public Task<HttpMessage<Page>> GetDocuments(CardParams docpar)
+        //{
+        //    return TryCatchResponseQuery((query) =>
+        //    {
+        //        return this.CreateResponse(HttpStatusCode.OK, Document.GetDocuments(query, docpar));
+        //    });
+        //}
+
+        //[HttpGet]
+        //[ActionName("get_doc")]
+        //public HttpResponseMessage GetDocument(int id)
+        //{
+        //    return TryCatchResponseQuery((query) =>
+        //    {
+        //        document result = Document.GetDocument(query, id);
+        //        return this.CreateResponse(HttpStatusCode.OK, new { record = result });
+        //    });
+        //}
     }
 }

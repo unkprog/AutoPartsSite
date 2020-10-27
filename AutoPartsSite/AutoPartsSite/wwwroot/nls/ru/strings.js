@@ -118,6 +118,8 @@ define({
     "button$label$checkout": "Оформить заказ",
 
     "label$delivery": "Доставка",
-    "label$payment": "Оплата"
+    "label$payment": "Оплата",
+
+    "label$header": "Заголовок"
 
 });

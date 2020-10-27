@@ -23,5 +23,21 @@ export namespace Services {
         public Page(lang:string, page: string, Callback: (responseData: any) => void): void {
             this.GetApi({ Action: "/page", RequestData: { lang: lang, page: page }, Callback: Callback });
         }
+
+        public GetDocuments(model: Interfaces.Model.ICardParams, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/get_docs", RequestData: JSON.stringify(model), Callback: Callback });
+        }
+
+        public GetDocument(id: number, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/get_doc", RequestData: { id: id }, Callback: Callback });
+        }
+
+        //public SetDocument(model: Interfaces.Model.IDocumentModel, Callback: (responseData: any) => void) {
+        //    this.PostApi({ Action: "/post_doc", RequestData: JSON.stringify(model), Callback: Callback });
+        //}
+
+        public DelDocument(id: number, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/del_doc", RequestData: { id: id }, Callback: Callback });
+        }
     }
 }

@@ -78,7 +78,7 @@ define({
 
     "label$basket": "Basket",
 
-    "label$account": "Аккаунт",
+    "label$account": "Account",
     "label$aboutUs": "About us",
     "label$faq": "FAQ",
     "label$news": "News",
@@ -117,5 +117,7 @@ define({
     "button$label$checkout": "Checkout",
 
     "label$delivery": "Delivery",
-    "label$payment": "Payment"
+    "label$payment": "Payment",
+
+    "label$header": "Header"
 });

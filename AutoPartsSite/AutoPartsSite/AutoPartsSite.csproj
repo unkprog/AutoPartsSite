@@ -85,7 +85,9 @@
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
 	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\cms\editorpage.ts" DependentUpon="editorpage.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor\page.ts" DependentUpon="page.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\cms\card\card.ts" DependentUpon="card.html" />
+
 
   </ItemGroup>
 
@@ -135,10 +137,6 @@
     <None Update="Database\GlobalParts\Query\Search\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\app\controller\cms\editorpage.ts" DependentUpon="editor.html" />
   </ItemGroup>
   
 </Project>
