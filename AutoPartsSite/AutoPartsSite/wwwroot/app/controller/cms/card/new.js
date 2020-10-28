@@ -32,9 +32,23 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
                             "cardModel": []
                         });
                     };
+                    Object.defineProperty(New.prototype, "LoadProxy", {
+                        get: function () {
+                            return $.proxy(this.CmsService.CardNews, this.CmsService);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(New.prototype, "DeleteProxy", {
+                        get: function () {
+                            return $.proxy(this.CmsService.DelNew, this.CmsService);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
                     New.prototype.columns = function () {
                         var result = [
-                            { Header: vars._statres("label$date"), Field: "date", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
+                            { Header: vars._statres("label$date"), Field: "ReleaseDate", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
                             { Header: vars._statres("label$header") + " En", Field: "HeaderEn" },
                             { Header: vars._statres("label$header") + " Ru", Field: "HeaderRu" },
                         ];
@@ -61,13 +75,9 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
                         enumerable: false,
                         configurable: true
                     });
-                    Object.defineProperty(New.prototype, "DocType", {
-                        get: function () {
-                            return 50;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
+                    //protected get DocType(): number {
+                    //    return 50;
+                    //}
                     New.prototype.ViewInit = function (view) {
                         var result = _super.prototype.ViewInit.call(this, view);
                         return result;

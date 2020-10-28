@@ -48,6 +48,7 @@ define({
     "label$description": "Description",
     "label$group": "Group",
     "label$notselected": "Not chosen",
+    "label$date": "Date",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Авторизация                                                                //

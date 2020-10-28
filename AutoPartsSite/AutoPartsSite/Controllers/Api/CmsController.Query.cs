@@ -41,15 +41,15 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private PageEdit GetPageEditContent(PageEdit page)
+        private T GetEditContent<T>(string command, T page) where T : PageEdit
         {
-            PageEdit result = page;
+            T result = page;
             result.ContentEn = string.Empty;
             result.ContentRu = string.Empty;
 
             ExecQuery((query) =>
             {
-                query.Execute(@"Page\[get_content]", new SqlParameter[]
+                query.Execute(command, new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = page.Id }
                 }
@@ -133,13 +133,57 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private void SetPageEditContent(PageEdit page)
+        private void SetEditContent<T>(string changeCmd, string setCmd, string delCmd, T page) where T : PageEdit
         {
             ExecQuery((query) =>
             {
-                List<(int, string, string)> list = GetChangeListContent(query, page.Id, @"Page\[get_content]");
+                List<(int, string, string)> list = GetChangeListContent(query, page.Id, changeCmd);
                 BuildChangeListContent(page.ContentEn, page.ContentRu, list);
-                SaveChangeListContent(query, page.Id, list, @"Page\[set_content]", @"Page\[del_content]");
+                SaveChangeListContent(query, page.Id, list, setCmd, delCmd);
+            });
+        }
+
+        [NonAction]
+        private NewEdit GetNewEdit(int id)
+        {
+            NewEdit result = null;
+            ExecQuery((query) =>
+            {
+                query.Execute(@"New\[get]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Id", Value = id }
+                }
+                , (values) =>
+                {
+                    result = new NewEdit()
+                    {
+                        Id = (int)values[0],
+                        ReleaseDate = (DateTime)values[1],
+                        HeaderEn = (string)values[2],
+                        HeaderRu = (string)values[3]
+                    };
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
+        private List<NewEdit> GetCardNews()
+        {
+            List<NewEdit> result = new List<NewEdit>();
+
+            return result;
+        }
+
+        [NonAction]
+        private void DeleteNew(int Id)
+        { 
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery(@"New\[del]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Id", Value = Id }
+                });
             });
         }
     }

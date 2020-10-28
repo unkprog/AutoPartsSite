@@ -17,9 +17,17 @@ export namespace Controller.Cms.Card {
             });
         }
 
+        protected get LoadProxy(): any {
+            return $.proxy(this.CmsService.CardNews, this.CmsService);
+        }
+
+        protected get DeleteProxy(): any {
+            return $.proxy(this.CmsService.DelNew, this.CmsService);
+        }
+
         protected columns(): Interfaces.Control.IBaseColumn[] {
             let result: Interfaces.Control.IBaseColumn[] = [
-                { Header: vars._statres("label$date"), Field: "date", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
+                { Header: vars._statres("label$date"), Field: "ReleaseDate", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
                 { Header: vars._statres("label$header") + " En", Field: "HeaderEn" },
                 { Header: vars._statres("label$header") + " Ru", Field: "HeaderRu" },
             ];
@@ -39,9 +47,9 @@ export namespace Controller.Cms.Card {
             return "cms/editor/new";
         }
 
-        protected get DocType(): number {
-            return 50;
-        }
+        //protected get DocType(): number {
+        //    return 50;
+        //}
 
         public ViewInit(view: JQuery): boolean {
             let result: boolean = super.ViewInit(view);

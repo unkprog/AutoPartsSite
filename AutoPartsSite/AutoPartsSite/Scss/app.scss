@@ -106,6 +106,10 @@ body, html {
     box-shadow: none;
 }
 
+div.navbar-fixed.editor-header {
+    z-index:990;
+}
+
 .editor-section {
     padding-top: 0;
     padding-bottom: 0;

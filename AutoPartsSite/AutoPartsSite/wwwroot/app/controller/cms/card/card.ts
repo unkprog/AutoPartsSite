@@ -157,13 +157,6 @@ export namespace Controller.Cms.Card {
             return this.cmsService;
         }
 
-        //private documentService: svc.Services.DocumentService;
-        //protected get Service(): svc.Services.DocumentService {
-        //    if (!this.documentService)
-        //        this.documentService = new svc.Services.DocumentService();
-        //    return this.documentService;
-        //}
-
         protected createOptions(): Interfaces.IControllerOptions {
             return { Url: "/app/controller/cms/card/card.html", Id: "card-view" };
         }
@@ -174,11 +167,47 @@ export namespace Controller.Cms.Card {
 
         protected createCardSettings(): Interfaces.Control.ICardSettings {
             return {
-                FieldId: "id", FilterSettings: this.createCardFilterSettings(), ValueIdNew: -1, EditIdName: this.EditIdName, EditController: this.EditController,
-                IsAdd: true, IsAddCopy: false, IsEdit: true, IsDelete: true, IsSelect: false,
-                Load: $.proxy(this.getDocs, this), Delete: $.proxy(this.CmsService.DelDocument, this.CmsService),
+                FieldId: this.FieldId, FilterSettings: this.CreateCardFilterSettings, ValueIdNew: -1, EditIdName: this.EditIdName, EditController: this.EditController,
+                IsAdd: this.IsAdd, IsAddCopy: this.IsAddCopy, IsEdit: this.IsEdit, IsDelete: this.IsDelete, IsSelect: this.IsSelect,
+                Load: this.LoadProxy, Delete: this.DeleteProxy,
                 Columns: this.Columns
             };
+        }
+
+        protected get FieldId(): string {
+            return "id";
+        }
+
+        protected get IsAdd(): boolean {
+            return true;
+        }
+
+        protected get IsAddCopy(): boolean {
+            return false;
+        }
+
+        protected get IsEdit(): boolean {
+            return true;
+        }
+
+        protected get IsDelete(): boolean {
+            return true;
+        }
+
+        protected get IsSelect(): boolean {
+            return false;
+        }
+       
+        protected get CreateCardFilterSettings(): any {
+            return undefined; //this.createCardFilterSettings()
+        }
+
+        protected get LoadProxy(): any {
+            return undefined; //$.proxy(this.getRecords, this);
+        }
+
+        protected get DeleteProxy(): any {
+            return undefined; //$.proxy(this.CmsService.DelDocument, this.CmsService);
         }
 
         protected get Columns(): Interfaces.Control.IBaseColumn[] {
@@ -201,30 +230,30 @@ export namespace Controller.Cms.Card {
             return "CardFilterSettings";
         }
 
-        protected get DocType(): number {
-            return 0;
-        }
+        //protected get DocType(): number {
+        //    return 0;
+        //}
 
-        protected get DateFrom(): string {
-            let settings: CardFilterSettings = this.CardSettings.FilterSettings as CardFilterSettings;
-            let date: string = (settings ? settings.Model.get("datefrom") : undefined);
-            return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
-        }
+        //protected get DateFrom(): string {
+        //    let settings: CardFilterSettings = this.CardSettings.FilterSettings as CardFilterSettings;
+        //    let date: string = (settings ? settings.Model.get("datefrom") : undefined);
+        //    return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
+        //}
 
-        protected get DateTo(): string {
-            let settings: CardFilterSettings = this.CardSettings.FilterSettings as CardFilterSettings;
-            let date: string = (settings ? settings.Model.get("dateto") : undefined);
-            return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
-        }
+        //protected get DateTo(): string {
+        //    let settings: CardFilterSettings = this.CardSettings.FilterSettings as CardFilterSettings;
+        //    let date: string = (settings ? settings.Model.get("dateto") : undefined);
+        //    return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
+        //}
 
-        private getDocs(Callback: (responseData: any) => void) {
-            this.CardSettings.FilterSettings.saveFilter();
-            let params: Interfaces.Model.ICardParams = { id: 0, doctype: this.DocType, datefrom: this.DateFrom, dateto: this.DateTo }
-            this.CmsService.GetDocuments(params, (responseData: any) => {
-                if (Callback)
-                    Callback(responseData);
-            });
-        }
+        //private getRecords(Callback: (responseData: any) => void) {
+        //    this.CardSettings.FilterSettings.saveFilter();
+        //    let params: Interfaces.Model.ICardParams = { id: 0, doctype: this.DocType, datefrom: this.DateFrom, dateto: this.DateTo }
+        //    this.CmsService.GetDocuments(params, (responseData: any) => {
+        //        if (Callback)
+        //            Callback(responseData);
+        //    });
+        //}
 
     }
 }

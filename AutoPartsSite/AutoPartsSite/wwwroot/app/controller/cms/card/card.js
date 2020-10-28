@@ -162,12 +162,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                         enumerable: false,
                         configurable: true
                     });
-                    //private documentService: svc.Services.DocumentService;
-                    //protected get Service(): svc.Services.DocumentService {
-                    //    if (!this.documentService)
-                    //        this.documentService = new svc.Services.DocumentService();
-                    //    return this.documentService;
-                    //}
                     Card.prototype.createOptions = function () {
                         return { Url: "/app/controller/cms/card/card.html", Id: "card-view" };
                     };
@@ -176,12 +170,75 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                     };
                     Card.prototype.createCardSettings = function () {
                         return {
-                            FieldId: "id", FilterSettings: this.createCardFilterSettings(), ValueIdNew: -1, EditIdName: this.EditIdName, EditController: this.EditController,
-                            IsAdd: true, IsAddCopy: false, IsEdit: true, IsDelete: true, IsSelect: false,
-                            Load: $.proxy(this.getDocs, this), Delete: $.proxy(this.CmsService.DelDocument, this.CmsService),
+                            FieldId: this.FieldId, FilterSettings: this.CreateCardFilterSettings, ValueIdNew: -1, EditIdName: this.EditIdName, EditController: this.EditController,
+                            IsAdd: this.IsAdd, IsAddCopy: this.IsAddCopy, IsEdit: this.IsEdit, IsDelete: this.IsDelete, IsSelect: this.IsSelect,
+                            Load: this.LoadProxy, Delete: this.DeleteProxy,
                             Columns: this.Columns
                         };
                     };
+                    Object.defineProperty(Card.prototype, "FieldId", {
+                        get: function () {
+                            return "id";
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "IsAdd", {
+                        get: function () {
+                            return true;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "IsAddCopy", {
+                        get: function () {
+                            return false;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "IsEdit", {
+                        get: function () {
+                            return true;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "IsDelete", {
+                        get: function () {
+                            return true;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "IsSelect", {
+                        get: function () {
+                            return false;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "CreateCardFilterSettings", {
+                        get: function () {
+                            return undefined; //this.createCardFilterSettings()
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "LoadProxy", {
+                        get: function () {
+                            return undefined; //$.proxy(this.getRecords, this);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(Card.prototype, "DeleteProxy", {
+                        get: function () {
+                            return undefined; //$.proxy(this.CmsService.DelDocument, this.CmsService);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
                     Object.defineProperty(Card.prototype, "Columns", {
                         get: function () {
                             return this.columns();
@@ -213,39 +270,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                         enumerable: false,
                         configurable: true
                     });
-                    Object.defineProperty(Card.prototype, "DocType", {
-                        get: function () {
-                            return 0;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Object.defineProperty(Card.prototype, "DateFrom", {
-                        get: function () {
-                            var settings = this.CardSettings.FilterSettings;
-                            var date = (settings ? settings.Model.get("datefrom") : undefined);
-                            return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Object.defineProperty(Card.prototype, "DateTo", {
-                        get: function () {
-                            var settings = this.CardSettings.FilterSettings;
-                            var date = (settings ? settings.Model.get("dateto") : undefined);
-                            return (utils.isNullOrEmpty(date) ? '30.12.1899' : date);
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Card.prototype.getDocs = function (Callback) {
-                        this.CardSettings.FilterSettings.saveFilter();
-                        var params = { id: 0, doctype: this.DocType, datefrom: this.DateFrom, dateto: this.DateTo };
-                        this.CmsService.GetDocuments(params, function (responseData) {
-                            if (Callback)
-                                Callback(responseData);
-                        });
-                    };
                     return Card;
                 }(base.Controller.BaseCard));
                 Card_1.Card = Card;

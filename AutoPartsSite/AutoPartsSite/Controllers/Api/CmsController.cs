@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Models.Cms;
+using System.Collections.Generic;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -13,68 +14,5 @@ namespace AutoPartsSite.Controllers.Api
         public CmsController(ILogger<CmsController> logger) : base(logger)
         {
         }
-
-        [HttpGet]
-        [Route("editpage")]
-        public async Task<HttpMessage<PageEdit>> EditPage(string page)
-          => await TryCatchResponseAsync(async () =>
-          {
-              return await Task.Run(() =>
-              {
-                  PageEdit result = GetPageEdit(page);
-                  //if(result == null)
-                  result = GetPageEditContent(result);
-                  return CreateResponseOk(result);
-              });
-          });
-
-        [HttpPost]
-        [Route("editpage")]
-        public async Task<HttpMessage<bool>> PageEditPost(PageEdit page)
-          => await TryCatchResponseAsync(async () =>
-          {
-              return await Task.Run(() =>
-              {
-                  SetPageEditContent(page);
-                  return CreateResponseOk(true);
-              });
-          });
-
-
-        [HttpGet]
-        [Route("page")]
-        public async Task<HttpMessage<Page>> Page(string lang, string page)
-          => await TryCatchResponseAsync(async () =>
-          {
-              return await Task.Run(() =>
-              {
-                  PageEdit pageEdit = GetPageEdit(page);
-                  pageEdit = GetPageEditContent(pageEdit);
-                  Page result = new Page() { Content = lang == "ru" ? pageEdit.ContentRu : pageEdit.ContentEn };
-                  return CreateResponseOk(result);
-              });
-          });
-
-
-        //[HttpPost]
-        //[Route("get_docs")]
-        //public Task<HttpMessage<Page>> GetDocuments(CardParams docpar)
-        //{
-        //    return TryCatchResponseQuery((query) =>
-        //    {
-        //        return this.CreateResponse(HttpStatusCode.OK, Document.GetDocuments(query, docpar));
-        //    });
-        //}
-
-        //[HttpGet]
-        //[ActionName("get_doc")]
-        //public HttpResponseMessage GetDocument(int id)
-        //{
-        //    return TryCatchResponseQuery((query) =>
-        //    {
-        //        document result = Document.GetDocument(query, id);
-        //        return this.CreateResponse(HttpStatusCode.OK, new { record = result });
-        //    });
-        //}
     }
 }
