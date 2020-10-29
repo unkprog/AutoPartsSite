@@ -178,7 +178,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                     };
                     Object.defineProperty(Card.prototype, "FieldId", {
                         get: function () {
-                            return "id";
+                            return "Id";
                         },
                         enumerable: false,
                         configurable: true

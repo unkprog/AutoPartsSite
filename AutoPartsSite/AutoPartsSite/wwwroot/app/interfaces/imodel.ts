@@ -62,11 +62,7 @@
         ReleaseDate: Date;
     }
 
-    export interface IBaseDbModel {
-        Id: Number;
-    }
-
-    export interface IPageEdit extends IBaseDbModel {
+    export interface IPageEdit extends IEditorModel {
         Page: string;
         ContentEn: string;
         ContentRu: string;

@@ -40,7 +40,8 @@ namespace AutoPartsSite.Controllers.Api
             {
                 return await Task.Run(() =>
                 {
-                    SetEditContent(@"New\[get_content]", @"New\[set_content]", @"New\[del_content]", page);
+                    NewEdit result = SetNewEdit(page);
+                    SetEditContent(@"New\[get_content]", @"New\[set_content]", @"New\[del_content]", result);
                     return CreateResponseOk(true);
                 });
             });

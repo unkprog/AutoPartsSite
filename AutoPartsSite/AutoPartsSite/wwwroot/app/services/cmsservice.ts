@@ -31,7 +31,7 @@ export namespace Services {
             this.GetApi({ Action: "/editnew", RequestData: { id: id }, Callback: Callback });
         }
 
-        public EditNewPost(model: Interfaces.Model.IPageEdit, Callback: (responseData: any) => void) {
+        public EditNewPost(model: Interfaces.Model.INewEdit, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/editnew", RequestData: JSON.stringify(model), Callback: Callback });
         }
 

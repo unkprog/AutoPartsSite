@@ -10,16 +10,16 @@ namespace AutoPartsSite.Models.Cms
         /// Заголовок новости En
         /// </summary>
         [DataMember]
-        public string HeaderEn { get; set; }
+        public string HeaderEn { get; set; } = string.Empty;
         /// <summary>
         /// Заголовок новости Ru
         /// </summary>
         [DataMember]
-        public string HeaderRu { get; set; }
+        public string HeaderRu { get; set; } = string.Empty;
         /// <summary>
         /// Дата публикации новости
         /// </summary>
         [DataMember]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; } = DateTime.Now;
     }
 }

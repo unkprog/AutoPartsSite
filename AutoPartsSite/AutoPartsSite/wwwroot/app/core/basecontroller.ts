@@ -828,7 +828,7 @@ export namespace Controller {
             let controller = this;
             if (this.CardSettings && this.CardSettings.Load) {
                 this.CardSettings.Load((responseData) => {
-                    controller.Model.set("cardModel", responseData);
+                    controller.Model.set("cardModel", responseData.Data);
                     controller.afterLoad();
                 });
                 return false;

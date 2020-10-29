@@ -39,56 +39,20 @@ export namespace Controller.Cms.Editor {
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
             let self = this;
-            require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
+            //require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                 $('#new-view-tabs').tabs();
-                $('#new-view-summernote-en').summernote();
-                $('#new-view-summernote-ru').summernote();
-                //M.Tabs.updateTabIndicator();
-                //self.loadData();
-            });
+                M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
+                //$('#new-view-summernote-en').summernote();
+                //$('#new-view-summernote-ru').summernote();
+            //});
 
             return result;
         }
 
-        //protected loadData(): boolean {
-        //    let self = this;
-        //    vars._app.ShowLoading();
-        //    self.CmsService.PageEdit(self.Model.get("Page"), (responseData) => {
-        //        if (responseData.Result === 0) {
-        //            let model: Interfaces.Model.INewEdit = responseData.Data;
-        //            self.Model.set("EditData", model);
-        //            $('#new-view-summernote-en').summernote('code', model.ContentEn);
-        //            $('#new-view-summernote-ru').summernote('code', model.ContentRu);
-        //        }
-        //        else
-        //            vars._app.ShowError(responseData.Error);
-        //        vars._app.HideLoading();
-        //    });
-        //    return true;
-        //}
-
-        //protected saveData(): boolean {
-        //    let self = this;
-        //    vars._app.ShowLoading();
-        //    let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
-        //    model.ContentEn = $('#new-view-summernote-en').summernote('code');
-        //    model.ContentRu = $('#new-view-summernote-ru').summernote('code');
-        //    if (this.validate()) {
-
-        //        self.CmsService.PageEditPost(model, (responseData) => {
-        //            if (responseData.Result === 0) {
-        //                vars._main.ControllerBack(self);
-        //            }
-        //            else
-        //                vars._app.ShowError(responseData.Error);
-        //            vars._app.HideLoading();
-        //        });
-        //    }
-           
-        //    return true;
-        //}
-
         protected validate(): boolean {
+            let model: kendo.data.ObservableObject = this.Model;
+            this.Model.set("editModel.ContentEn", $('#new-view-summernote-en').summernote('code'));
+            this.Model.set("editModel.ContentRu", $('#new-view-summernote-ru').summernote('code'));
             return true;
         }
 
@@ -99,6 +63,19 @@ export namespace Controller.Cms.Editor {
         //protected destroyEvents(): void {
         //}
 
+        protected afterLoad(responseData?: any): void {
+            super.afterLoad(responseData);
+            let model: Interfaces.Model.INewEdit = this.EditorModel as Interfaces.Model.INewEdit;
+            require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
+                $('#new-view-tabs').tabs();
+                M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
+                $('#new-view-summernote-en').summernote();
+                $('#new-view-summernote-ru').summernote();
+                $('#new-view-summernote-en').summernote('code', model.ContentEn);
+                $('#new-view-summernote-ru').summernote('code', model.ContentRu);
+            });
+             
+        }
     }
 }
 

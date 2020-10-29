@@ -144,6 +144,27 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        private NewEdit SetNewEdit(NewEdit page)
+        {
+            NewEdit result = page;
+            ExecQuery((query) =>
+            {
+                query.Execute(@"New\[set]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Id", Value = page.Id },
+                    new SqlParameter() { ParameterName = "@ReleaseDate", Value = page.ReleaseDate },
+                    new SqlParameter() { ParameterName = "@HeaderEn", Value = page.HeaderEn },
+                    new SqlParameter() { ParameterName = "@HeaderRu", Value = page.HeaderRu }
+                }
+                , (values) =>
+                {
+                    result.Id = (int)values[0];
+                });
+            });
+            return result ?? new NewEdit();
+        }
+
+        [NonAction]
         private NewEdit GetNewEdit(int id)
         {
             NewEdit result = null;
@@ -171,7 +192,23 @@ namespace AutoPartsSite.Controllers.Api
         private List<NewEdit> GetCardNews()
         {
             List<NewEdit> result = new List<NewEdit>();
-
+            ExecQuery((query) =>
+            {
+                query.Execute(@"New\[get]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Id", Value = 0 }
+                }
+                , (values) =>
+                {
+                    result.Add(new NewEdit()
+                    {
+                        Id = (int)values[0],
+                        ReleaseDate = (DateTime)values[1],
+                        HeaderEn = (string)values[2],
+                        HeaderRu = (string)values[3]
+                    });
+                });
+            });
             return result;
         }
 

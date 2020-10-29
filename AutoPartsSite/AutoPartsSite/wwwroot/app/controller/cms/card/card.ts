@@ -175,7 +175,7 @@ export namespace Controller.Cms.Card {
         }
 
         protected get FieldId(): string {
-            return "id";
+            return "Id";
         }
 
         protected get IsAdd(): boolean {

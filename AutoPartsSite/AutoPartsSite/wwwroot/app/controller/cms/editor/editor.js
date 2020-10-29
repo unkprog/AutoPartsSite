@@ -38,58 +38,6 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
                     Editor.prototype.createOptions = function () {
                         return { Url: "/app/controller/cms/editor/editor.html", Id: "editor-view" };
                     };
-                    Editor.prototype.createModel = function () {
-                        var oo = new kendo.data.ObservableObject({
-                            "Header": this.Header,
-                            "labelDocument": "",
-                            "editModel": {},
-                        });
-                        return oo;
-                    };
-                    Object.defineProperty(Editor.prototype, "EditorModel", {
-                        get: function () {
-                            var model = this.Model.get("editModel").toJSON();
-                            return model;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Editor.prototype.createEditorSettings = function () {
-                        return { EditIdName: this.EditIdName, Load: this.LoadProxy, Save: this.SaveProxy };
-                    };
-                    Editor.prototype.validate = function () {
-                        return true;
-                    };
-                    Object.defineProperty(Editor.prototype, "DocFormatDate", {
-                        get: function () {
-                            return "dd.mm.yyyy";
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Editor.prototype.ViewInit = function (view) {
-                        return _super.prototype.ViewInit.call(this, view);
-                    };
-                    Editor.prototype.ViewShow = function (e) {
-                        return _super.prototype.ViewShow.call(this, e);
-                    };
-                    Editor.prototype.createEvents = function () {
-                        _super.prototype.createEvents.call(this);
-                    };
-                    Editor.prototype.destroyEvents = function () {
-                        _super.prototype.destroyEvents.call(this);
-                    };
-                    Editor.prototype.ViewResize = function (e) {
-                        _super.prototype.ViewResize.call(this, e);
-                    };
-                    Editor.prototype.afterLoad = function (responseData) {
-                        _super.prototype.afterLoad.call(this, responseData);
-                        //let dateTime: Date = new Date(responseData.record.date);
-                        //this.dateControl.val(utils.date_ddmmyyyy(dateTime));
-                        //M.Datepicker.getInstance(this.dateControl[0]).setDate(dateTime, true);
-                        //this.Model.set("documentConduct", ((responseData.record.options & 1) === 1));
-                        //this.setupPositions();
-                    };
                     return Editor;
                 }(base.Controller.BaseEditor));
                 Editor_1.Editor = Editor;
