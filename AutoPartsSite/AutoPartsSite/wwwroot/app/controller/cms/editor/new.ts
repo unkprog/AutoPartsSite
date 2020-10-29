@@ -1,8 +1,8 @@
 ﻿import vars = require('app/core/variables');
-import cms = require('app/controller/cms/cms');
+import editor = require('app/controller/cms/editor/editor');
 
 export namespace Controller.Cms.Editor {
-    export class New extends cms.Controller.Cms.Cms {
+    export class New extends editor.Controller.Cms.Editor.Editor {
         constructor() {
             super();
         }
@@ -19,10 +19,22 @@ export namespace Controller.Cms.Editor {
             });
         }
 
-        protected OnViewInit(): void {
-            this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
-            this.Model.set("Page", localStorage.getItem('editorItem'));
+        protected get EditIdName(): string {
+            return "id_new";
         }
+
+        protected get LoadProxy(): any {
+            return $.proxy(this.CmsService.EditNew, this.CmsService);
+        }
+
+        protected get SaveProxy(): any {
+            return $.proxy(this.CmsService.EditNewPost, this.CmsService);
+        }
+
+        //protected OnViewInit(): void {
+        //    this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
+        //    this.Model.set("Page", localStorage.getItem('editorItem'));
+        //}
 
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
@@ -32,81 +44,61 @@ export namespace Controller.Cms.Editor {
                 $('#new-view-summernote-en').summernote();
                 $('#new-view-summernote-ru').summernote();
                 //M.Tabs.updateTabIndicator();
-                self.loadData();
+                //self.loadData();
             });
 
             return result;
         }
 
-        protected loadData(): boolean {
-            let self = this;
-            vars._app.ShowLoading();
-            self.CmsService.PageEdit(self.Model.get("Page"), (responseData) => {
-                if (responseData.Result === 0) {
-                    let model: Interfaces.Model.IPageEdit = responseData.Data;
-                    self.Model.set("EditData", model);
-                    $('#new-view-summernote-en').summernote('code', model.ContentEn);
-                    $('#new-view-summernote-ru').summernote('code', model.ContentRu);
-                }
-                else
-                    vars._app.ShowError(responseData.Error);
-                vars._app.HideLoading();
-            });
-            return true;
-        }
+        //protected loadData(): boolean {
+        //    let self = this;
+        //    vars._app.ShowLoading();
+        //    self.CmsService.PageEdit(self.Model.get("Page"), (responseData) => {
+        //        if (responseData.Result === 0) {
+        //            let model: Interfaces.Model.INewEdit = responseData.Data;
+        //            self.Model.set("EditData", model);
+        //            $('#new-view-summernote-en').summernote('code', model.ContentEn);
+        //            $('#new-view-summernote-ru').summernote('code', model.ContentRu);
+        //        }
+        //        else
+        //            vars._app.ShowError(responseData.Error);
+        //        vars._app.HideLoading();
+        //    });
+        //    return true;
+        //}
 
-        protected saveData(): boolean {
-            let self = this;
-            vars._app.ShowLoading();
-            let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
-            model.ContentEn = $('#new-view-summernote-en').summernote('code');
-            model.ContentRu = $('#new-view-summernote-ru').summernote('code');
-            if (this.validate()) {
+        //protected saveData(): boolean {
+        //    let self = this;
+        //    vars._app.ShowLoading();
+        //    let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
+        //    model.ContentEn = $('#new-view-summernote-en').summernote('code');
+        //    model.ContentRu = $('#new-view-summernote-ru').summernote('code');
+        //    if (this.validate()) {
 
-                self.CmsService.PageEditPost(model, (responseData) => {
-                    if (responseData.Result === 0) {
-                        vars._main.ControllerBack(self);
-                    }
-                    else
-                        vars._app.ShowError(responseData.Error);
-                    vars._app.HideLoading();
-                });
-            }
+        //        self.CmsService.PageEditPost(model, (responseData) => {
+        //            if (responseData.Result === 0) {
+        //                vars._main.ControllerBack(self);
+        //            }
+        //            else
+        //                vars._app.ShowError(responseData.Error);
+        //            vars._app.HideLoading();
+        //        });
+        //    }
            
-            return true;
-        }
+        //    return true;
+        //}
 
         protected validate(): boolean {
             return true;
         }
 
-        protected createEvents(): void {
-            this.SaveButtonClick = this.createClickEvent("new-btn-save", this.saveButtonClick);
-            this.CancelButtonClick = this.createClickEvent("new-btn-cancel", this.cancelButtonClick);
-        }
+        //protected createEvents(): void {
+        //}
 
 
-        protected destroyEvents(): void {
+        //protected destroyEvents(): void {
+        //}
 
-            this.destroyClickEvent("new-btn-save", this.SaveButtonClick);
-            this.destroyClickEvent("new-btn-cancel", this.CancelButtonClick);
-        }
-
-        public SaveButtonClick: { (e: any): void; };
-        private saveButtonClick(e: any): boolean {
-            this.saveData();
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-
-        public CancelButtonClick: { (e: any): void; };
-        private cancelButtonClick(e: any): boolean {
-            vars._main.ControllerBack(this);
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
     }
 }
 

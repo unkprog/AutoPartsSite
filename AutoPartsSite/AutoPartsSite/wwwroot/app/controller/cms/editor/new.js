@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], function (require, exports, vars, cms) {
+define(["require", "exports", "app/core/variables", "app/controller/cms/editor/editor"], function (require, exports, vars, editor) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -36,10 +36,31 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                             "EditData": {}
                         });
                     };
-                    New.prototype.OnViewInit = function () {
-                        this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
-                        this.Model.set("Page", localStorage.getItem('editorItem'));
-                    };
+                    Object.defineProperty(New.prototype, "EditIdName", {
+                        get: function () {
+                            return "id_new";
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(New.prototype, "LoadProxy", {
+                        get: function () {
+                            return $.proxy(this.CmsService.EditNew, this.CmsService);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    Object.defineProperty(New.prototype, "SaveProxy", {
+                        get: function () {
+                            return $.proxy(this.CmsService.EditNewPost, this.CmsService);
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                    //protected OnViewInit(): void {
+                    //    this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
+                    //    this.Model.set("Page", localStorage.getItem('editorItem'));
+                    //}
                     New.prototype.ViewShow = function (e) {
                         var result = _super.prototype.ViewShow.call(this, e);
                         var self = this;
@@ -48,69 +69,49 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                             $('#new-view-summernote-en').summernote();
                             $('#new-view-summernote-ru').summernote();
                             //M.Tabs.updateTabIndicator();
-                            self.loadData();
+                            //self.loadData();
                         });
                         return result;
                     };
-                    New.prototype.loadData = function () {
-                        var self = this;
-                        vars._app.ShowLoading();
-                        self.CmsService.PageEdit(self.Model.get("Page"), function (responseData) {
-                            if (responseData.Result === 0) {
-                                var model = responseData.Data;
-                                self.Model.set("EditData", model);
-                                $('#new-view-summernote-en').summernote('code', model.ContentEn);
-                                $('#new-view-summernote-ru').summernote('code', model.ContentRu);
-                            }
-                            else
-                                vars._app.ShowError(responseData.Error);
-                            vars._app.HideLoading();
-                        });
-                        return true;
-                    };
-                    New.prototype.saveData = function () {
-                        var self = this;
-                        vars._app.ShowLoading();
-                        var model = self.Model.get("EditData");
-                        model.ContentEn = $('#new-view-summernote-en').summernote('code');
-                        model.ContentRu = $('#new-view-summernote-ru').summernote('code');
-                        if (this.validate()) {
-                            self.CmsService.PageEditPost(model, function (responseData) {
-                                if (responseData.Result === 0) {
-                                    vars._main.ControllerBack(self);
-                                }
-                                else
-                                    vars._app.ShowError(responseData.Error);
-                                vars._app.HideLoading();
-                            });
-                        }
-                        return true;
-                    };
+                    //protected loadData(): boolean {
+                    //    let self = this;
+                    //    vars._app.ShowLoading();
+                    //    self.CmsService.PageEdit(self.Model.get("Page"), (responseData) => {
+                    //        if (responseData.Result === 0) {
+                    //            let model: Interfaces.Model.INewEdit = responseData.Data;
+                    //            self.Model.set("EditData", model);
+                    //            $('#new-view-summernote-en').summernote('code', model.ContentEn);
+                    //            $('#new-view-summernote-ru').summernote('code', model.ContentRu);
+                    //        }
+                    //        else
+                    //            vars._app.ShowError(responseData.Error);
+                    //        vars._app.HideLoading();
+                    //    });
+                    //    return true;
+                    //}
+                    //protected saveData(): boolean {
+                    //    let self = this;
+                    //    vars._app.ShowLoading();
+                    //    let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
+                    //    model.ContentEn = $('#new-view-summernote-en').summernote('code');
+                    //    model.ContentRu = $('#new-view-summernote-ru').summernote('code');
+                    //    if (this.validate()) {
+                    //        self.CmsService.PageEditPost(model, (responseData) => {
+                    //            if (responseData.Result === 0) {
+                    //                vars._main.ControllerBack(self);
+                    //            }
+                    //            else
+                    //                vars._app.ShowError(responseData.Error);
+                    //            vars._app.HideLoading();
+                    //        });
+                    //    }
+                    //    return true;
+                    //}
                     New.prototype.validate = function () {
                         return true;
                     };
-                    New.prototype.createEvents = function () {
-                        this.SaveButtonClick = this.createClickEvent("new-btn-save", this.saveButtonClick);
-                        this.CancelButtonClick = this.createClickEvent("new-btn-cancel", this.cancelButtonClick);
-                    };
-                    New.prototype.destroyEvents = function () {
-                        this.destroyClickEvent("new-btn-save", this.SaveButtonClick);
-                        this.destroyClickEvent("new-btn-cancel", this.CancelButtonClick);
-                    };
-                    New.prototype.saveButtonClick = function (e) {
-                        this.saveData();
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                    };
-                    New.prototype.cancelButtonClick = function (e) {
-                        vars._main.ControllerBack(this);
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                    };
                     return New;
-                }(cms.Controller.Cms.Cms));
+                }(editor.Controller.Cms.Editor.Editor));
                 Editor.New = New;
             })(Editor = Cms.Editor || (Cms.Editor = {}));
         })(Cms = Controller.Cms || (Controller.Cms = {}));

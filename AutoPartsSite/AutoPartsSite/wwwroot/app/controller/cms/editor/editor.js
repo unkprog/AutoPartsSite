@@ -17,8 +17,8 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var Document;
-        (function (Document) {
+        var Cms;
+        (function (Cms) {
             var Editor;
             (function (Editor_1) {
                 var Editor = /** @class */ (function (_super) {
@@ -46,13 +46,6 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
                         });
                         return oo;
                     };
-                    Object.defineProperty(Editor.prototype, "DocType", {
-                        get: function () {
-                            return 0;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
                     Object.defineProperty(Editor.prototype, "EditorModel", {
                         get: function () {
                             var model = this.Model.get("editModel").toJSON();
@@ -64,27 +57,6 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
                     Editor.prototype.createEditorSettings = function () {
                         return { EditIdName: this.EditIdName, Load: this.LoadProxy, Save: this.SaveProxy };
                     };
-                    Object.defineProperty(Editor.prototype, "LoadProxy", {
-                        get: function () {
-                            return undefined; //$.proxy(this.Service.GetDocument, this.Service)
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Object.defineProperty(Editor.prototype, "SaveProxy", {
-                        get: function () {
-                            return undefined; //$.proxy(this.Service.SetDocument, this.Service)
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                    Object.defineProperty(Editor.prototype, "EditIdName", {
-                        get: function () {
-                            return "";
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
                     Editor.prototype.validate = function () {
                         return true;
                     };
@@ -121,8 +93,8 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
                     return Editor;
                 }(base.Controller.BaseEditor));
                 Editor_1.Editor = Editor;
-            })(Editor = Document.Editor || (Document.Editor = {}));
-        })(Document = Controller.Document || (Controller.Document = {}));
+            })(Editor = Cms.Editor || (Cms.Editor = {}));
+        })(Cms = Controller.Cms || (Controller.Cms = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
 });
 //# sourceMappingURL=editor.js.map

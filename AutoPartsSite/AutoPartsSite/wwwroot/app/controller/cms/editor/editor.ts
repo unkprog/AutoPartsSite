@@ -3,7 +3,7 @@ import base = require('app/core/basecontroller');
 import utils = require('app/core/utils');
 import cmss = require('app/services/cmsservice')
 
-export namespace Controller.Document.Editor {
+export namespace Controller.Cms.Editor {
     export class Editor extends base.Controller.BaseEditor {
         constructor() {
             super();
@@ -30,10 +30,6 @@ export namespace Controller.Document.Editor {
             return oo;
         }
 
-        protected get DocType(): number {
-            return 0;
-        }
-
         public get EditorModel(): Interfaces.Model.IEditorModel {
             let model: Interfaces.Model.IEditorModel = this.Model.get("editModel").toJSON();
             return model;
@@ -43,17 +39,6 @@ export namespace Controller.Document.Editor {
             return { EditIdName: this.EditIdName, Load: this.LoadProxy, Save: this.SaveProxy };
         }
 
-        public get LoadProxy(): any {
-            return undefined; //$.proxy(this.Service.GetDocument, this.Service)
-        }
-
-        public get SaveProxy(): any {
-            return undefined; //$.proxy(this.Service.SetDocument, this.Service)
-        }
-
-        public get EditIdName(): string {
-            return "";
-        }
 
         protected validate(): boolean {
             return true;
@@ -71,8 +56,6 @@ export namespace Controller.Document.Editor {
         public ViewShow(e: any): boolean {
             return super.ViewShow(e);
         }
-
-        
 
         protected createEvents(): void {
             super.createEvents();

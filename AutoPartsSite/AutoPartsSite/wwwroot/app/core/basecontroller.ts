@@ -315,7 +315,19 @@ export namespace Controller {
         }
 
         protected createEditorSettings(): Interfaces.Control.IEditorSettings {
-            return { EditIdName: "", Load: undefined, Save: undefined };
+            return { EditIdName: this.EditIdName, Load: this.LoadProxy, Save: this.SaveProxy };
+        }
+
+        protected get EditIdName(): string {
+            return "";
+        }
+
+        protected get LoadProxy(): any {
+            return undefined; 
+        }
+
+        protected get SaveProxy(): any {
+            return undefined; 
         }
 
         private navHeader: JQuery;
@@ -414,8 +426,8 @@ export namespace Controller {
                 let id: number = (vars._editorData[controller.EditorSettings.EditIdName] ? vars._editorData[controller.EditorSettings.EditIdName] : 0);
                 controller.EditorSettings.Load(id, (responseData) => {
                     if (vars._editorData.isCopy === true)
-                        responseData.record.id = 0;
-                    controller.Model.set("editModel", responseData.record);
+                        responseData.Data.id = 0;
+                    controller.Model.set("editModel", responseData.Data);
                     controller.afterLoad(responseData);
                     controller.endLoad();
                 });

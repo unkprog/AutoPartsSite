@@ -44,9 +44,9 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             CmsService.prototype.EditNew = function (id, Callback) {
                 this.GetApi({ Action: "/editnew", RequestData: { id: id }, Callback: Callback });
             };
-            //public SetDocument(model: Interfaces.Model.IDocumentModel, Callback: (responseData: any) => void) {
-            //    this.PostApi({ Action: "/post_doc", RequestData: JSON.stringify(model), Callback: Callback });
-            //}
+            CmsService.prototype.EditNewPost = function (model, Callback) {
+                this.PostApi({ Action: "/editnew", RequestData: JSON.stringify(model), Callback: Callback });
+            };
             CmsService.prototype.DelNew = function (id, Callback) {
                 this.GetApi({ Action: "/delnew", RequestData: { id: id }, Callback: Callback });
             };

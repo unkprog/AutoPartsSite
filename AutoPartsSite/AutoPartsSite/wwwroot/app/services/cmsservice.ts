@@ -31,9 +31,9 @@ export namespace Services {
             this.GetApi({ Action: "/editnew", RequestData: { id: id }, Callback: Callback });
         }
 
-        //public SetDocument(model: Interfaces.Model.IDocumentModel, Callback: (responseData: any) => void) {
-        //    this.PostApi({ Action: "/post_doc", RequestData: JSON.stringify(model), Callback: Callback });
-        //}
+        public EditNewPost(model: Interfaces.Model.IPageEdit, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/editnew", RequestData: JSON.stringify(model), Callback: Callback });
+        }
 
         public DelNew(id: number, Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/delnew", RequestData: { id: id }, Callback: Callback });

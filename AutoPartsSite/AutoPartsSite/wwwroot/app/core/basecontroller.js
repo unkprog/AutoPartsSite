@@ -307,8 +307,29 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 configurable: true
             });
             BaseEditor.prototype.createEditorSettings = function () {
-                return { EditIdName: "", Load: undefined, Save: undefined };
+                return { EditIdName: this.EditIdName, Load: this.LoadProxy, Save: this.SaveProxy };
             };
+            Object.defineProperty(BaseEditor.prototype, "EditIdName", {
+                get: function () {
+                    return "";
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(BaseEditor.prototype, "LoadProxy", {
+                get: function () {
+                    return undefined;
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(BaseEditor.prototype, "SaveProxy", {
+                get: function () {
+                    return undefined;
+                },
+                enumerable: false,
+                configurable: true
+            });
             Object.defineProperty(BaseEditor.prototype, "EditorHeader", {
                 get: function () {
                     return (this.editorSettings.ButtonSetings.IsSave === true || this.editorSettings.ButtonSetings.IsCancel === true ? this.navHeader : undefined);
@@ -386,8 +407,8 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     var id = (vars._editorData[controller.EditorSettings.EditIdName] ? vars._editorData[controller.EditorSettings.EditIdName] : 0);
                     controller.EditorSettings.Load(id, function (responseData) {
                         if (vars._editorData.isCopy === true)
-                            responseData.record.id = 0;
-                        controller.Model.set("editModel", responseData.record);
+                            responseData.Data.id = 0;
+                        controller.Model.set("editModel", responseData.Data);
                         controller.afterLoad(responseData);
                         controller.endLoad();
                     });

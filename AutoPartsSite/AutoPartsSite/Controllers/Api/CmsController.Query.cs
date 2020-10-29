@@ -164,7 +164,7 @@ namespace AutoPartsSite.Controllers.Api
                     };
                 });
             });
-            return result;
+            return result?? new NewEdit();
         }
 
         [NonAction]
