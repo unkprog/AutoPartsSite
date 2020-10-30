@@ -12,8 +12,28 @@
                 <li class="tab col s3"><a href="#new-view-ru">Русский</a></li>
             </ul>
 
-            <div id="new-view-en"><div id="new-view-summernote-en">Hello Summernote</div></div>
-            <div id="new-view-ru"><div id="new-view-summernote-ru">Привет Summernote</div></div>
+            <div id="new-view-en">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="new-view-header-en" class="materialize-textarea" data-bind="value:editModel.HeaderEn" data-length="500"></textarea>
+                        <label for="new-view-header-en" data-bind="text:labelHeaderEn">Textarea</label>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div id="new-view-summernote-en"></div>
+                </div>
+            </div>
+            <div id="new-view-ru">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="new-view-header-ru" class="materialize-textarea" data-bind="value:editModel.HeaderRu" data-length="500"></textarea>
+                        <label for="new-view-header-ru" data-bind="text:labelHeaderRu"></label>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div id="new-view-summernote-ru"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

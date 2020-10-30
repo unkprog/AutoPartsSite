@@ -30,10 +30,12 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                         return { Url: "/app/controller/cms/editor/new.html", Id: "new-view" };
                     };
                     New.prototype.createModel = function () {
+                        var model = _super.prototype.createModel.call(this);
                         return new kendo.data.ObservableObject({
                             "Header": "",
-                            "Page": "",
-                            "EditData": {}
+                            "editModel": {},
+                            "labelHeaderEn": vars._statres("label$header") + " En",
+                            "labelHeaderRu": vars._statres("label$header") + " Ru",
                         });
                     };
                     Object.defineProperty(New.prototype, "EditIdName", {
@@ -57,19 +59,10 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                         enumerable: false,
                         configurable: true
                     });
-                    //protected OnViewInit(): void {
-                    //    this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
-                    //    this.Model.set("Page", localStorage.getItem('editorItem'));
-                    //}
                     New.prototype.ViewShow = function (e) {
                         var result = _super.prototype.ViewShow.call(this, e);
-                        var self = this;
-                        //require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                         $('#new-view-tabs').tabs();
                         M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
-                        //$('#new-view-summernote-en').summernote();
-                        //$('#new-view-summernote-ru').summernote();
-                        //});
                         return result;
                     };
                     New.prototype.validate = function () {
@@ -88,6 +81,9 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                         require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                             $('#new-view-tabs').tabs();
                             M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
+                            $('#new-view-header-en, #new-view-header-en').characterCounter();
+                            M.textareaAutoResize($('#new-view-header-en'));
+                            M.textareaAutoResize($('#new-view-header-ru'));
                             $('#new-view-summernote-en').summernote();
                             $('#new-view-summernote-ru').summernote();
                             $('#new-view-summernote-en').summernote('code', model.ContentEn);

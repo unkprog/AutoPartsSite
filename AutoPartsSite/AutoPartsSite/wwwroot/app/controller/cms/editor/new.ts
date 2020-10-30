@@ -12,10 +12,12 @@ export namespace Controller.Cms.Editor {
         }
 
         protected createModel(): kendo.data.ObservableObject {
+            let model = super.createModel();
             return new kendo.data.ObservableObject({
                 "Header": "",
-                "Page": "",
-                "EditData": {}
+                "editModel": {},
+                "labelHeaderEn": vars._statres("label$header") + " En",
+                "labelHeaderRu": vars._statres("label$header") + " Ru",
             });
         }
 
@@ -31,21 +33,10 @@ export namespace Controller.Cms.Editor {
             return $.proxy(this.CmsService.EditNewPost, this.CmsService);
         }
 
-        //protected OnViewInit(): void {
-        //    this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
-        //    this.Model.set("Page", localStorage.getItem('editorItem'));
-        //}
-
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
-            let self = this;
-            //require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
-                $('#new-view-tabs').tabs();
-                M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
-                //$('#new-view-summernote-en').summernote();
-                //$('#new-view-summernote-ru').summernote();
-            //});
-
+            $('#new-view-tabs').tabs();
+            M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
             return result;
         }
 
@@ -69,6 +60,9 @@ export namespace Controller.Cms.Editor {
             require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                 $('#new-view-tabs').tabs();
                 M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
+                $('#new-view-header-en, #new-view-header-en').characterCounter();
+                M.textareaAutoResize($('#new-view-header-en'));
+                M.textareaAutoResize($('#new-view-header-ru'));
                 $('#new-view-summernote-en').summernote();
                 $('#new-view-summernote-ru').summernote();
                 $('#new-view-summernote-en').summernote('code', model.ContentEn);
