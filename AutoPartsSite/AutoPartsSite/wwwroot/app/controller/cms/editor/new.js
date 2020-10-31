@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/controller/cms/editor/editor"], function (require, exports, vars, editor) {
+define(["require", "exports", "app/core/variables", "app/core/utils", "app/controller/cms/editor/editor"], function (require, exports, vars, utils, editor) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -34,6 +34,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                         return new kendo.data.ObservableObject({
                             "Header": "",
                             "editModel": {},
+                            "labelReleaseDate": vars._statres("label$releasedate"),
                             "labelHeaderEn": vars._statres("label$header") + " En",
                             "labelHeaderRu": vars._statres("label$header") + " Ru",
                         });
@@ -59,6 +60,17 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                         enumerable: false,
                         configurable: true
                     });
+                    New.prototype.ViewInit = function (view) {
+                        var self = this;
+                        this.dateControl = view.find("#new-view-date");
+                        this.dateControl.datepicker({
+                            format: "dd.mm.yyyy",
+                            onSelect: function (newDate) {
+                                self.Model.set("editModel.ReleaseDate", utils.date_ddmmyyyy(newDate));
+                            }
+                        });
+                        return _super.prototype.ViewInit.call(this, view);
+                    };
                     New.prototype.ViewShow = function (e) {
                         var result = _super.prototype.ViewShow.call(this, e);
                         $('#new-view-tabs').tabs();
@@ -77,17 +89,23 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/editor/e
                     //}
                     New.prototype.afterLoad = function (responseData) {
                         _super.prototype.afterLoad.call(this, responseData);
+                        var self = this;
                         var model = this.EditorModel;
+                        //let dateTime: Date = new Date(responseData.Data.ReleaseDate);
                         require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                             $('#new-view-tabs').tabs();
                             M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();
                             $('#new-view-header-en, #new-view-header-en').characterCounter();
+                            $('#new-view-header-en, #new-view-header-ru').characterCounter();
                             M.textareaAutoResize($('#new-view-header-en'));
                             M.textareaAutoResize($('#new-view-header-ru'));
                             $('#new-view-summernote-en').summernote();
                             $('#new-view-summernote-ru').summernote();
                             $('#new-view-summernote-en').summernote('code', model.ContentEn);
                             $('#new-view-summernote-ru').summernote('code', model.ContentRu);
+                            self.dateControl.val(model.ReleaseDate);
+                            M.Datepicker.getInstance(self.dateControl[0]).setDate(utils.date_from_ddmmyyyy(model.ReleaseDate), true);
+                            M.updateTextFields();
                         });
                     };
                     return New;

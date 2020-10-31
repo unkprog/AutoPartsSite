@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Utf8Json;
+using Utf8Json.Formatters;
 
 namespace AutoPartsSite.Models.Cms
 {
@@ -20,6 +22,7 @@ namespace AutoPartsSite.Models.Cms
         /// Дата публикации новости
         /// </summary>
         [DataMember]
-        public DateTime ReleaseDate { get; set; } = DateTime.Now;
+        [JsonFormatter(typeof(DateTimeFormatter), "dd.MM.yyyy")]
+        public DateTime ReleaseDate { get; set; } = DateTime.Today;
     }
 }

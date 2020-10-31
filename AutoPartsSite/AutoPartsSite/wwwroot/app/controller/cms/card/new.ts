@@ -27,7 +27,7 @@ export namespace Controller.Cms.Card {
 
         protected columns(): Interfaces.Control.IBaseColumn[] {
             let result: Interfaces.Control.IBaseColumn[] = [
-                { Header: vars._statres("label$date"), Field: "ReleaseDate", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
+                { Header: vars._statres("label$date"), Field: "ReleaseDate"/*, FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#"*/ },
                 { Header: vars._statres("label$header") + " En", Field: "HeaderEn" },
                 { Header: vars._statres("label$header") + " Ru", Field: "HeaderRu" },
             ];

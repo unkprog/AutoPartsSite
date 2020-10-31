@@ -59,7 +59,7 @@
 
     export interface INew extends IPage {
         Header: string;
-        ReleaseDate: Date;
+        ReleaseDate: string;
     }
 
     export interface IPageEdit extends IEditorModel {
@@ -72,6 +72,6 @@
     {
         HeaderEn: string;
         HeaderRu: string;
-        ReleaseDate: Date;
+        ReleaseDate: string;
     }
 }

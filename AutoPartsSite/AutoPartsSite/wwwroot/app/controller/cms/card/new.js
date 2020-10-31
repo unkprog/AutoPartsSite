@@ -48,7 +48,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
                     });
                     New.prototype.columns = function () {
                         var result = [
-                            { Header: vars._statres("label$date"), Field: "ReleaseDate", FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#" },
+                            { Header: vars._statres("label$date"), Field: "ReleaseDate" /*, FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#"*/ },
                             { Header: vars._statres("label$header") + " En", Field: "HeaderEn" },
                             { Header: vars._statres("label$header") + " Ru", Field: "HeaderRu" },
                         ];
