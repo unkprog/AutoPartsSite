@@ -19,28 +19,28 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
     (function (Controller) {
         var News;
         (function (News) {
-            var Index = /** @class */ (function (_super) {
-                __extends(Index, _super);
-                function Index() {
+            var New = /** @class */ (function (_super) {
+                __extends(New, _super);
+                function New() {
                     return _super.call(this) || this;
                 }
-                Index.prototype.createOptions = function () {
-                    return { Url: "/app/controller/news/index.html", Id: "news-view" };
+                New.prototype.createOptions = function () {
+                    return { Url: "/app/controller/news/new.html", Id: "new-view" };
                 };
-                Index.prototype.createModel = function () {
+                New.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$news")
                     });
                 };
-                Index.prototype.createEvents = function () {
+                New.prototype.createEvents = function () {
                 };
-                Index.prototype.destroyEvents = function () {
+                New.prototype.destroyEvents = function () {
                 };
-                return Index;
+                return New;
             }(base.Controller.Base));
-            News.Index = Index;
+            News.New = New;
         })(News = Controller.News || (Controller.News = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("news/index", function (module) { return new module.Controller.News.Index(); });
+    vars.registerController("news/new", function (module) { return new module.Controller.News.New(); });
 });
 //# sourceMappingURL=new.js.map

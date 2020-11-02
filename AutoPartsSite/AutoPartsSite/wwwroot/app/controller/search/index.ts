@@ -68,6 +68,7 @@ export namespace Controller.Search {
                     vars._app.ShowError(responseData.Error);
             });
         }
+
         protected createEvents(): void {
             if (this.searchForm) {
                 this.proxySearch = $.proxy(this.search, this);
@@ -134,8 +135,8 @@ export namespace Controller.Search {
                             + '<li class="' + (self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-next" href="#!"><i class="material-icons">chevron_right</i></a></li>'
                             ;
                         $('.search-view-pagination').html(htmlResult).show();
-                        self.rebindModel();
                     }
+                    self.rebindModel();
                     $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);

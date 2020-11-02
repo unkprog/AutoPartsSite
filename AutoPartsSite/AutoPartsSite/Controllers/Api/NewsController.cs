@@ -17,16 +17,35 @@ namespace AutoPartsSite.Controllers.Api
         {
         }
 
-        [HttpGet][AllowAnonymous]
-        public async Task<HttpMessage<List<New>>> News()
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("news")]
+        public async Task<HttpMessage<List<New>>> News(string lang, int pageRows, int page)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
-                  List<New> result = new List<New>();
-                  for (int i = 1; i < 101; i++)
-                      result.Add(new New() { Id = i, ReleaseDate = DateTime.Now.AddDays(-1), Header = "Auto parts site news #" + i, Content = "" });
+                  List<NewEdit> news = CmsController.GetNews(this, pageRows, page);
+                  List<New> result = new List<New>(news.Count);
+                  for (int i = 0, icount = news.Count; i < icount; i++)
+                  {
+                      result.Add(new New(lang, news[i]));
+                  }
+                   return CreateResponseOk(result);
+              });
+          });
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("new")]
+        public async Task<HttpMessage<New>> New(string lang, int id)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  NewEdit newEdit = CmsController.GetNewEdit(this, id);
+                  newEdit = CmsController.GetEditContent(this, @"New\[get_content]", newEdit);
+                  New result = new New() { Content = lang == "ru" ? newEdit.ContentRu : newEdit.ContentEn };
                   return CreateResponseOk(result);
               });
           });

@@ -27,8 +27,8 @@ namespace AutoPartsSite.Controllers.Api
             {
                 return await Task.Run(() =>
                 {
-                    NewEdit result = GetNewEdit(id);
-                    result = GetEditContent(@"New\[get_content]", result);
+                    NewEdit result = GetNewEdit(this, id);
+                    result = GetEditContent(this, @"New\[get_content]", result);
                     return CreateResponseOk(result);
                 });
             });
@@ -55,20 +55,6 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     DeleteNew(id);
                     return CreateResponseOk(true);
-                });
-            });
-
-        [HttpGet]
-        [Route("new")]
-        public async Task<HttpMessage<New>> New(string lang, int id)
-            => await TryCatchResponseAsync(async () =>
-            {
-                return await Task.Run(() =>
-                {
-                    NewEdit newEdit = GetNewEdit(id);
-                    newEdit = GetEditContent(@"New\[get_content]", newEdit);
-                    New result = new New() { Content = lang == "ru" ? newEdit.ContentRu : newEdit.ContentEn };
-                    return CreateResponseOk(result);
                 });
             });
 

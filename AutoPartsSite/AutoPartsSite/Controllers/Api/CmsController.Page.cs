@@ -16,7 +16,7 @@ namespace AutoPartsSite.Controllers.Api
               {
                   PageEdit result = GetPageEdit(page);
                   //if(result == null)
-                  result = GetEditContent(@"Page\[get_content]", result);
+                  result = GetEditContent(this, @"Page\[get_content]", result);
                   return CreateResponseOk(result);
               });
           });
@@ -42,7 +42,7 @@ namespace AutoPartsSite.Controllers.Api
               return await Task.Run(() =>
               {
                   PageEdit pageEdit = GetPageEdit(page);
-                  pageEdit = GetEditContent(@"Page\[get_content]", pageEdit);
+                  pageEdit = GetEditContent(this, @"Page\[get_content]", pageEdit);
                   Page result = new Page() { Content = lang == "ru" ? pageEdit.ContentRu : pageEdit.ContentEn };
                   return CreateResponseOk(result);
               });

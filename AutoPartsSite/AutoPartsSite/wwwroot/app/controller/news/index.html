@@ -1,23 +1,31 @@
 ﻿<div id="cms-view">
     <div class="row">
         <div class="col s12 m12 l12 xl12">
-
-            <div class="section">
-                <h1 data-bind="text:Header"></h1>
+            <div class="section center">
+                <h1 class="page-header" data-bind="text:Header"></h1>
             </div>
             <div class="divider"></div>
         </div>
     </div>
 
+    <ul class="pagination new-view-pagination">
+    </ul>
+
+    <div id="new-view-items" class="row">
+
+    </div>
+
+    <ul class="pagination new-view-pagination">
+    </ul>
+
     <script type="text/x-kendo-template" id="new-view-item-template">
         <div class="col s12 m12 l6 xl6 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable">
                 <div class="card-content padding-0_75rem">
-                    <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
-                        <span class="card-title">Card Title</span>
+                    <a class="card-search black-text" title="#=Header#" href="new/#=Id#" data-id="#=Id#">
+                        <span class="card-title">#=Header#</span>
                         <p>
-                            I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.
+                            <span>#=labelReleaseDate#</span>#=ReleaseDate#
                         </p>
                     </a>
                 </div>

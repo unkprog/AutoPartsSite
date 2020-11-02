@@ -9,7 +9,7 @@ namespace AutoPartsSite.Core.Controllers
     [ApiController]
     public class ApiControllerBase<T> : ControllerBase
     {
-        protected readonly ILogger<T> _logger;
+        internal readonly ILogger<T> _logger;
 
         public ApiControllerBase(ILogger<T> logger)
         {

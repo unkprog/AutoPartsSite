@@ -112,6 +112,9 @@
     <None Update="Database\AutoPartsSite\Cms\New\[del].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Cms\New\[get_paged].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Cms\New\[set].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

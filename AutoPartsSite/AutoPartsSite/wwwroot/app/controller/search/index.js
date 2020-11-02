@@ -127,8 +127,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                     + htmlResult
                                     + '<li class="' + (self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-next" href="#!"><i class="material-icons">chevron_right</i></a></li>';
                                 $('.search-view-pagination').html(htmlResult).show();
-                                self.rebindModel();
                             }
+                            self.rebindModel();
                             $('.search-view-pagination').find('.search-view-pagination-page').on('click', _this.proxyPage);
                             $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', _this.proxyPagePrev);
                             $('.search-view-pagination').find('.search-view-pagination-next ').on('click', _this.proxyPageNext);

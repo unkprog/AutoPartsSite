@@ -2,13 +2,13 @@
 import base = require('app/core/basecontroller');
 
 export namespace Controller.News {
-    export class Index extends base.Controller.Base {
+    export class New extends base.Controller.Base {
         constructor() {
             super();
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/news/index.html", Id: "news-view" };
+            return { Url: "/app/controller/news/new.html", Id: "new-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
@@ -27,4 +27,4 @@ export namespace Controller.News {
     }
 }
 
-vars.registerController("news/index", function (module: any): Interfaces.IController { return new module.Controller.News.Index(); });
+vars.registerController("news/new", function (module: any): Interfaces.IController { return new module.Controller.News.New(); });

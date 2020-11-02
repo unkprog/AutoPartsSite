@@ -4,6 +4,7 @@ using AutoPartsSite.Models.Cms;
 using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using AutoPartsSite.Core.Controllers;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -41,13 +42,13 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private T GetEditContent<T>(string command, T page) where T : PageEdit
+        internal static T GetEditContent<T, C>(QueryController<C> controller, string command, T page) where T : PageEdit
         {
             T result = page;
             result.ContentEn = string.Empty;
             result.ContentRu = string.Empty;
 
-            ExecQuery((query) =>
+            controller.ExecQuery((query) =>
             {
                 query.Execute(command, new SqlParameter[]
                 {
@@ -165,10 +166,10 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private NewEdit GetNewEdit(int id)
+        internal static NewEdit GetNewEdit<C>(QueryController<C> controller, int id)
         {
             NewEdit result = null;
-            ExecQuery((query) =>
+            controller.ExecQuery((query) =>
             {
                 query.Execute(@"New\[get]", new SqlParameter[]
                 {
@@ -186,6 +187,31 @@ namespace AutoPartsSite.Controllers.Api
                 });
             });
             return result?? new NewEdit();
+        }
+
+        [NonAction]
+        internal static List<NewEdit> GetNews<C>(QueryController<C> controller, int pageRows, int page)
+        {
+            List<NewEdit> result = new List<NewEdit>();
+            controller.ExecQuery((query) =>
+            {
+                query.Execute(@"New\[get_paged]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@RowspPage", Value = pageRows },
+                    new SqlParameter() { ParameterName = "@PageNumber", Value = page }
+                }
+                , (values) =>
+                {
+                    result.Add(new NewEdit()
+                    {
+                        Id = (int)values[0],
+                        ReleaseDate = (DateTime)values[1],
+                        HeaderEn = (string)values[2],
+                        HeaderRu = (string)values[3]
+                    });
+                });
+            });
+            return result;
         }
 
         [NonAction]

@@ -19,7 +19,7 @@ namespace AutoPartsSite.Core.Controllers
         }
 
         [NonAction]
-        protected void ExecQuery(Action<Query> func)
+        public void ExecQuery(Action<Query> func)
         {
             func?.Invoke(CreateQuery());
         }
