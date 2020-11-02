@@ -1,10 +1,17 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
+import ns = require('app/services/newsservice');
 
 export namespace Controller.News {
     export class New extends base.Controller.Base {
         constructor() {
             super();
+            this.newsService = new ns.Services.NewsService();
+        }
+
+        private newsService: ns.Services.NewsService;
+        public get NewsService(): ns.Services.NewsService {
+            return this.newsService;
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
@@ -13,17 +20,36 @@ export namespace Controller.News {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$news")
+                "labelReleaseDate": vars._statres("label$releasedate") + ": ",
+                "New": {
+                    "Header" : "",
+                    "ReleaseDate": "",
+                    "Content": ""
+                }
             });
         }
 
-        protected createEvents(): void {
-            
+        protected OnViewInit(): void {
+            super.OnViewInit();
+            this.loadNew();
         }
 
-        protected destroyEvents(): void {
-            
+        private loadNew(): void {
+            let self = this;
+            let id: number = parseInt(localStorage.getItem('new-view-item'), 0);
+            vars._app.ShowLoading();
+            self.NewsService.New(vars._app.getLocale(), id, (responseData) => {
+                if (responseData.Result === 0) {
+                    self.Model.set("New", responseData.Data);
+                }
+                else {
+                    vars._app.ShowError(responseData.Error);
+                }
+                vars._app.HideLoading();
+            });
         }
+
+       
     }
 }
 

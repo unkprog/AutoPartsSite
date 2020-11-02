@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/newsservice"], function (require, exports, vars, base, ns) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -22,19 +22,47 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             var New = /** @class */ (function (_super) {
                 __extends(New, _super);
                 function New() {
-                    return _super.call(this) || this;
+                    var _this = _super.call(this) || this;
+                    _this.newsService = new ns.Services.NewsService();
+                    return _this;
                 }
+                Object.defineProperty(New.prototype, "NewsService", {
+                    get: function () {
+                        return this.newsService;
+                    },
+                    enumerable: false,
+                    configurable: true
+                });
                 New.prototype.createOptions = function () {
                     return { Url: "/app/controller/news/new.html", Id: "new-view" };
                 };
                 New.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$news")
+                        "labelReleaseDate": vars._statres("label$releasedate") + ": ",
+                        "New": {
+                            "Header": "",
+                            "ReleaseDate": "",
+                            "Content": ""
+                        }
                     });
                 };
-                New.prototype.createEvents = function () {
+                New.prototype.OnViewInit = function () {
+                    _super.prototype.OnViewInit.call(this);
+                    this.loadNew();
                 };
-                New.prototype.destroyEvents = function () {
+                New.prototype.loadNew = function () {
+                    var self = this;
+                    var id = parseInt(localStorage.getItem('new-view-item'), 0);
+                    vars._app.ShowLoading();
+                    self.NewsService.New(vars._app.getLocale(), id, function (responseData) {
+                        if (responseData.Result === 0) {
+                            self.Model.set("New", responseData.Data);
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
                 };
                 return New;
             }(base.Controller.Base));

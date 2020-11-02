@@ -1,11 +1,19 @@
-﻿<div id="new-view">
+﻿<div id="new-view" style="padding:1rem;">
     <div class="row">
         <div class="col s12 m12 l12 xl12">
-
             <div class="section">
-                <h1 data-bind="text:Header"></h1>
+                <h1 class="page-header" data-bind="text:New.Header"></h1>
+                <p style="margin-bottom:0;">
+                    <span data-bind="text:labelReleaseDate"></span><span data-bind="text:New.ReleaseDate"></span>
+                </p>
             </div>
             <div class="divider"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div data-bind="html:New.Content">
+            </div>
         </div>
     </div>
 </div>

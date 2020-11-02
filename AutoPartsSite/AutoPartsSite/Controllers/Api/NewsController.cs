@@ -45,7 +45,7 @@ namespace AutoPartsSite.Controllers.Api
               {
                   NewEdit newEdit = CmsController.GetNewEdit(this, id);
                   newEdit = CmsController.GetEditContent(this, @"New\[get_content]", newEdit);
-                  New result = new New() { Content = lang == "ru" ? newEdit.ContentRu : newEdit.ContentEn };
+                  New result = new New(lang, newEdit);
                   return CreateResponseOk(result);
               });
           });
