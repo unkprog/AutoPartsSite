@@ -148,6 +148,15 @@
     <None Update="Database\GlobalParts\Query\Search\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Settings\[get_currency].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Settings\[get_country].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Settings\[get_lang].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>

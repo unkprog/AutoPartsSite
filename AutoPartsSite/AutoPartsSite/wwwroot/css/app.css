@@ -636,6 +636,9 @@ input[type='number']:hover::-webkit-outer-spin-button {
 #basket-search-btn, #basket-done-btn {
   margin: 0 1rem; }
 
+.view {
+  padding: 1rem; }
+
 .page-header {
   line-height: 2rem;
   font-size: 2rem;

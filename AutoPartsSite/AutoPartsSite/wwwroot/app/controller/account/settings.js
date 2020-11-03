@@ -32,6 +32,10 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "Header": vars._statres("label$settings")
                     });
                 };
+                Settings.prototype.ViewShow = function (e) {
+                    this.View.find('select').formSelect();
+                    return _super.prototype.ViewShow.call(this, e);
+                };
                 Settings.prototype.createEvents = function () {
                 };
                 Settings.prototype.destroyEvents = function () {

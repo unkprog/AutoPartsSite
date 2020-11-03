@@ -19,6 +19,11 @@ export namespace Controller.Account {
             });
         }
 
+        public ViewShow(e: any): boolean {
+            this.View.find('select').formSelect();
+            return super.ViewShow(e);
+        }
+
         protected createEvents(): void {
         }
 
