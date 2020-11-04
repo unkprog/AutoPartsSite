@@ -819,3 +819,14 @@ input[type='number']:hover::-webkit-outer-spin-button {
     font-size: 2rem;
     margin: 0;
 }
+
+.country-code-flag {
+    background-color: #fafafa;
+    border: 1px solid #d8d8d8;
+    width: 32px;
+    text-align: center;
+    line-height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 400;
+}

@@ -148,13 +148,13 @@
     <None Update="Database\GlobalParts\Query\Search\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Settings\[get_currency].sql">
+    <None Update="Database\GlobalParts\Query\Settings\[get_currencies].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Settings\[get_country].sql">
+    <None Update="Database\GlobalParts\Query\Settings\[get_countries].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Settings\[get_lang].sql">
+    <None Update="Database\GlobalParts\Query\Settings\[get_languages].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

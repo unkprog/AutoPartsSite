@@ -124,6 +124,13 @@ define({
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$header": "Header",
-    "label$releasedate": "Release date"
+    "label$releasedate": "Release date",
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Настройки                                                                  //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$shipping$destination": "Shipping destination",
+    "label$language": "Language",
+    "label$currency": "Currency"
 
 });

@@ -3,7 +3,7 @@
 namespace AutoPartsSite.Models.GlobalParts
 {
     [DataContract]
-    public class Currency : ReferenceDbModel
+    public class Currency : ReferenceNamedDbModel
     {
     }
 }

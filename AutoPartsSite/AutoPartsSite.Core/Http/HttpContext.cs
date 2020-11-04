@@ -18,7 +18,7 @@ namespace AutoPartsSite.Core.Http
 
     public static class StaticHttpContextExtensions
     {
-        public static void AddHttpContextAccessor1(this IServiceCollection services)
+        public static void AddHttpContextAccessor(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }

@@ -29,16 +29,77 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Settings.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$settings")
+                        "Header": vars._statres("label$settings"),
+                        "labelShippingDestination": vars._statres("label$shipping$destination"),
+                        "labelLanguage": vars._statres("label$language"),
+                        "labelCurrency": vars._statres("label$currency"),
+                        "labelSave": vars._statres("button$label$save"),
+                        "labelCancel": vars._statres("button$label$cancel"),
+                        "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
                     });
                 };
                 Settings.prototype.ViewShow = function (e) {
-                    this.View.find('select').formSelect();
-                    return _super.prototype.ViewShow.call(this, e);
+                    _super.prototype.ViewShow.call(this, e);
+                    this.loadSettingsData();
+                    return false;
                 };
                 Settings.prototype.createEvents = function () {
+                    this.SaveButtonClick = this.createClickEvent("settings-view-btn-save", this.saveButtonClick);
+                    this.CancelButtonClick = this.createClickEvent("settings-view-btn-cancel", this.cancelButtonClick);
                 };
                 Settings.prototype.destroyEvents = function () {
+                    this.destroyClickEvent("settings-view-btn-save", this.SaveButtonClick);
+                    this.destroyClickEvent("settings-view-btn-cancel", this.CancelButtonClick);
+                };
+                Settings.prototype.saveButtonClick = function (e) {
+                    this.saveSettingsData();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
+                Settings.prototype.cancelButtonClick = function (e) {
+                    vars._main.ControllerBack(this);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
+                Settings.prototype.loadSettingsData = function () {
+                    var self = this;
+                    vars._app.ShowLoading();
+                    self.AccountService.SettingsData(vars._app.getLocale(), function (responseData) {
+                        if (responseData.Result === 0) {
+                            self.Model.set("SettingsData", responseData.Data);
+                            self.setupLists();
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                };
+                Settings.prototype.setupLists = function () {
+                    var settingsData = this.Model.get("SettingsData");
+                    var html = '';
+                    for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                        html = html + '<option value="' + settingsData.Countries[i].Id + '">';
+                        html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
+                    }
+                    $('#settings-view-list-country').html(html);
+                    html = '';
+                    for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
+                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._app.getLocale().toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
+                    }
+                    $('#settings-view-list-lang').html(html);
+                    html = '';
+                    for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                        html = html + '<option value="' + settingsData.Currencies[i].Id + '">';
+                        html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
+                    }
+                    $('#settings-view-list-currency').html(html);
+                    this.View.find('select').formSelect();
+                };
+                Settings.prototype.saveSettingsData = function () {
                 };
                 return Settings;
             }(acc.Controller.Account.Account));

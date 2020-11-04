@@ -4,6 +4,11 @@
         Id: number;
     }
 
+    export interface IReferenceNamedDbModel extends IBaseModel {
+        Code: string;
+        Name: string;
+    }
+
     export interface IRegisterModel {
         Email: string;
     }
@@ -73,5 +78,11 @@
         HeaderEn: string;
         HeaderRu: string;
         ReleaseDate: string;
+    }
+
+    export interface ISettingsData {
+        Countries: IReferenceNamedDbModel[];
+        Languages: IReferenceNamedDbModel[]; 
+        Currencies: IReferenceNamedDbModel[];
     }
 }

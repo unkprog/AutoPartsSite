@@ -10,6 +10,7 @@ using AutoPartsSite.Models.Cms;
 
 namespace AutoPartsSite.Controllers.Api
 {
+    [AllowAnonymous]
     [Route("api/news")]
     public partial class NewsController : QueryController<NewsController>
     {
@@ -18,7 +19,6 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("news")]
         public async Task<HttpMessage<List<New>>> News(string lang, int pageRows, int page)
           => await TryCatchResponseAsync(async () =>
@@ -36,7 +36,6 @@ namespace AutoPartsSite.Controllers.Api
           });
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("new")]
         public async Task<HttpMessage<New>> New(string lang, int id)
           => await TryCatchResponseAsync(async () =>

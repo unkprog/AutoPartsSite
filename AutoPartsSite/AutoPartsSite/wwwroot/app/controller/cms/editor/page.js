@@ -33,7 +33,9 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                         return new kendo.data.ObservableObject({
                             "Header": "",
                             "Page": "",
-                            "EditData": {}
+                            "EditData": {},
+                            "labelSave": vars._statres("button$label$save"),
+                            "labelCancel": vars._statres("button$label$cancel")
                         });
                     };
                     Page.prototype.OnViewInit = function () {

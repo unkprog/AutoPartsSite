@@ -44,7 +44,7 @@ namespace AutoPartsSite
                 options.AllowSynchronousIO = true;
             });
 
-            services.AddHttpContextAccessor1();
+            StaticHttpContextExtensions.AddHttpContextAccessor(services);
            // services.AddHttpContextAccessor();
            // // Or you can also register as follows
            // services.TryAddSingleton<IHttpContextAccessor, HttpContextAccess>();

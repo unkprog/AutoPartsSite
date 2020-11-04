@@ -4,7 +4,7 @@ namespace AutoPartsSite.Models.GlobalParts
 {
 
     [DataContract]
-    public class Lang : ReferenceDbModel
+    public class Lang : ReferenceNamedDbModel
     {
     }
 }

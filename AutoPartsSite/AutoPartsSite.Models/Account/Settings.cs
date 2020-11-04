@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using AutoPartsSite.Models.GlobalParts;
 
 namespace AutoPartsSite.Models.Account
@@ -7,12 +8,12 @@ namespace AutoPartsSite.Models.Account
     public class Settings
     {
         [DataMember]
-        public Country Country { get; set; }
+        public List<Country> Countries { get; set; }
 
         [DataMember]
-        public Lang Language { get; set; }
+        public List<Lang> Languages { get; set; }
 
         [DataMember]
-        public Currency Currency{ get; set; }
+        public List<Currency> Currencies { get; set; }
     }
 }
