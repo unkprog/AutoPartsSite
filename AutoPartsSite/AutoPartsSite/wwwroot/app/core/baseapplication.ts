@@ -90,14 +90,14 @@ export namespace App {
                 this._controllerNavigation = controlNavigation;
         }
 
-        public get Uid(): string {
-            let uid: string = localStorage.getItem('apsUID');
-            if (!uid) {
-                uid = M.guid();
-                localStorage.setItem('apsUID', uid);
-            }
-            return uid;
-        }
+        //public get Uid(): string {
+        //    let uid: string = localStorage.getItem('apsUID');
+        //    if (!uid) {
+        //        uid = M.guid();
+        //        localStorage.setItem('apsUID', uid);
+        //    }
+        //    return uid;
+        //}
 
         private _identity: Interfaces.Model.IIdentity;
         public get Identity(): Interfaces.Model.IIdentity {

@@ -57,7 +57,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.openNew = function (e) {
                     var id = $(e.currentTarget).data('id');
-                    localStorage.setItem('new-view-item', '' + id);
+                    vars._appData.NewViewItemId = id;
                     vars._app.OpenController({ urlController: 'news/new', backController: this });
                     if (e) {
                         e.preventDefault();

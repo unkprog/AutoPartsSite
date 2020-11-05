@@ -74,6 +74,50 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "Uid", {
+                get: function () {
+                    var uid = localStorage.getItem('apsUID');
+                    if (!uid) {
+                        uid = M.guid();
+                        localStorage.setItem('apsUID', uid);
+                    }
+                    return uid;
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(Data.prototype, "PageEditItemHeader", {
+                get: function () {
+                    var pageEditItemHeader = localStorage.getItem('PageEditItemHeader');
+                    return pageEditItemHeader ? pageEditItemHeader : "";
+                },
+                set: function (pageEditItemHeader) {
+                    localStorage.setItem('PageEditItem', pageEditItemHeader);
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(Data.prototype, "PageEditItem", {
+                get: function () {
+                    var pageEditItem = localStorage.getItem('PageEditItem');
+                    return pageEditItem ? pageEditItem : "";
+                },
+                set: function (pageEditItem) {
+                    localStorage.setItem('PageEditItem', pageEditItem);
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(Data.prototype, "NewViewItemId", {
+                get: function () {
+                    return parseInt(localStorage.getItem('new-view-item-id'), 0);
+                },
+                set: function (id) {
+                    localStorage.setItem('new-view-item-id', '' + id);
+                },
+                enumerable: false,
+                configurable: true
+            });
             return Data;
         }());
         App.Data = Data;

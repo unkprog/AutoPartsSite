@@ -49,42 +49,38 @@ export namespace Controller.Cms {
 
         public AboutButtonClick: { (e: any): void; };
         private aboutButtonClick(e: any): boolean {
-            localStorage.setItem('editorItem', "/about/index");
-            localStorage.setItem('editorItemHeader', "label$aboutUs");
-            return this.handleButtonItem(e, 'cms/editor/page');
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/index", "label$aboutUs");
         }
 
         public PaymentButtonClick: { (e: any): void; };
         private paymentButtonClick(e: any): boolean {
-            localStorage.setItem('editorItem', "/about/payment");
-            localStorage.setItem('editorItemHeader', "label$payment");
-            return this.handleButtonItem(e, 'cms/editor/page');
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/payment", "label$payment");
         }
 
         public ShippingButtonClick: { (e: any): void; };
         private shippingButtonClick(e: any): boolean {
-            localStorage.setItem('editorItem', "/about/shipping");
-            localStorage.setItem('editorItemHeader', "label$shipping");
-            return this.handleButtonItem(e, 'cms/editor/page');
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/shipping", "label$shipping");
         }
 
         public ContactsButtonClick: { (e: any): void; };
         private contactsButtonClick(e: any): boolean {
-            localStorage.setItem('editorItem', "/about/contact");
-            localStorage.setItem('editorItemHeader', "label$contacts");
-            return this.handleButtonItem(e, 'cms/editor/page')
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/contact", "label$contacts");
         }
 
         public FaqButtonClick: { (e: any): void; };
         private faqButtonClick(e: any): boolean {
-            localStorage.setItem('editorItem', "/about/faq");
-            localStorage.setItem('editorItemHeader', "label$faq");
-            return this.handleButtonItem(e, 'cms/editor/page')
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/faq", "label$faq")
         }
 
         public NewsButtonClick: { (e: any): void; };
         private newsButtonClick(e: any): boolean {
             return this.handleButtonItem(e, 'cms/card/new');
+        }
+
+        private handleButtonItemPage(e: any, urlController: string, pageEditItem: string, pageEditItemHeader: string) {
+            vars._appData.PageEditItem = pageEditItem;
+            vars._appData.PageEditItemHeader = pageEditItemHeader;
+            return this.handleButtonItem(e, urlController);
         }
 
         private handleButtonItem(e: any, urlController: string): boolean {

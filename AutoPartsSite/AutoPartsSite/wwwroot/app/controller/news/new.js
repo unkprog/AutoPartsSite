@@ -52,7 +52,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 New.prototype.loadNew = function () {
                     var self = this;
-                    var id = parseInt(localStorage.getItem('new-view-item'), 0);
+                    var id = vars._appData.NewViewItemId;
                     vars._app.ShowLoading();
                     self.NewsService.New(vars._appData.Locale, id, function (responseData) {
                         if (responseData.Result === 0) {

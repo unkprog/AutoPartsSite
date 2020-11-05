@@ -99,6 +99,42 @@ export namespace App {
                 location.reload();
             }
         }
+
+        public get Uid(): string {
+            let uid: string = localStorage.getItem('apsUID');
+            if (!uid) {
+                uid = M.guid();
+                localStorage.setItem('apsUID', uid);
+            }
+            return uid;
+        }
+
+        public get PageEditItemHeader(): string {
+            var pageEditItemHeader: string = localStorage.getItem('PageEditItemHeader');
+            return pageEditItemHeader ? pageEditItemHeader : "";
+        }
+
+        public set PageEditItemHeader(pageEditItemHeader: string) {
+            localStorage.setItem('PageEditItem', pageEditItemHeader);
+        }
+
+        public get PageEditItem(): string {
+            var pageEditItem: string = localStorage.getItem('PageEditItem');
+            return pageEditItem ? pageEditItem : "";
+        }
+
+        public set PageEditItem(pageEditItem: string) {
+            localStorage.setItem('PageEditItem', pageEditItem);
+        }
+
+        public get NewViewItemId(): number {
+            return parseInt(localStorage.getItem('new-view-item-id'), 0);
+        }
+
+        public set NewViewItemId(id: number) {
+            localStorage.setItem('new-view-item-id', '' + id);
+        }
+
     }
 }
 

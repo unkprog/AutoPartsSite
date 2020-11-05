@@ -52,7 +52,7 @@ export namespace Controller.News {
 
         private openNew(e: any): boolean {
             let id: number = $(e.currentTarget).data('id');
-            localStorage.setItem('new-view-item', '' + id);
+            vars._appData.NewViewItemId = id;
             vars._app.OpenController({ urlController: 'news/new', backController: this });
             if (e) {
                 e.preventDefault();

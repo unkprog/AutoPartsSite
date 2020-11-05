@@ -57,32 +57,27 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("cms-view-btn-about", this.AboutButtonClick);
                 };
                 Index.prototype.aboutButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "/about/index");
-                    localStorage.setItem('editorItemHeader', "label$aboutUs");
-                    return this.handleButtonItem(e, 'cms/editor/page');
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/index", "label$aboutUs");
                 };
                 Index.prototype.paymentButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "/about/payment");
-                    localStorage.setItem('editorItemHeader', "label$payment");
-                    return this.handleButtonItem(e, 'cms/editor/page');
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/payment", "label$payment");
                 };
                 Index.prototype.shippingButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "/about/shipping");
-                    localStorage.setItem('editorItemHeader', "label$shipping");
-                    return this.handleButtonItem(e, 'cms/editor/page');
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/shipping", "label$shipping");
                 };
                 Index.prototype.contactsButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "/about/contact");
-                    localStorage.setItem('editorItemHeader', "label$contacts");
-                    return this.handleButtonItem(e, 'cms/editor/page');
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/contact", "label$contacts");
                 };
                 Index.prototype.faqButtonClick = function (e) {
-                    localStorage.setItem('editorItem', "/about/faq");
-                    localStorage.setItem('editorItemHeader', "label$faq");
-                    return this.handleButtonItem(e, 'cms/editor/page');
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/faq", "label$faq");
                 };
                 Index.prototype.newsButtonClick = function (e) {
                     return this.handleButtonItem(e, 'cms/card/new');
+                };
+                Index.prototype.handleButtonItemPage = function (e, urlController, pageEditItem, pageEditItemHeader) {
+                    vars._appData.PageEditItem = pageEditItem;
+                    vars._appData.PageEditItemHeader = pageEditItemHeader;
+                    return this.handleButtonItem(e, urlController);
                 };
                 Index.prototype.handleButtonItem = function (e, urlController) {
                     if (!utils.isNullOrEmpty(urlController))

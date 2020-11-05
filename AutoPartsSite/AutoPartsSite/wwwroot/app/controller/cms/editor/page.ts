@@ -22,8 +22,8 @@ export namespace Controller.Cms.Editor {
         }
 
         protected OnViewInit(): void {
-            this.Model.set("Header", vars._statres(localStorage.getItem('editorItemHeader')));
-            this.Model.set("Page", localStorage.getItem('editorItem'));
+            this.Model.set("Header", vars._appData.PageEditItemHeader);
+            this.Model.set("Page", vars._appData.PageEditItem);
         }
 
         public ViewShow(e: any): boolean {
