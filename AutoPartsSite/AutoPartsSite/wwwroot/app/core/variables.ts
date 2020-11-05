@@ -78,3 +78,29 @@ checkTextColor = '#ff9800';
 positionTextColor = '#4caf50';
 
 
+export namespace App {
+    export class Data {
+
+        public get Locale(): string {
+            var locale: string = localStorage.getItem('locale');
+            if (!locale) {
+                locale = "en";
+                localStorage.setItem('locale', locale);
+            }
+            return locale ? locale : "en";
+        }
+
+        public set Locale(newlocale: string) {
+            var locale: string = this.Locale;
+            if (!locale || locale !== newlocale) {
+                localStorage.setItem('locale', newlocale);
+
+                //reload the app
+                location.reload();
+            }
+        }
+    }
+}
+
+export const _appData = new App.Data();
+

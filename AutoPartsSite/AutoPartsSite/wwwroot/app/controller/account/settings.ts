@@ -61,7 +61,7 @@ export namespace Controller.Account {
         private loadSettingsData(): void {
             let self = this;
             vars._app.ShowLoading();
-            self.AccountService.SettingsData(vars._app.getLocale(), (responseData) => {
+            self.AccountService.SettingsData(vars._appData.Locale, (responseData) => {
                 if (responseData.Result === 0) {
                     self.Model.set("SettingsData", responseData.Data);
                     self.setupLists();
@@ -84,7 +84,7 @@ export namespace Controller.Account {
 
             html = '';
             for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._app.getLocale().toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._appData.Locale.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
             }
             $('#settings-view-list-lang').html(html);

@@ -244,22 +244,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             Application.prototype.ShowMessage = function (header, message, onClose) {
                 throw new Error("Method not implemented.");
             };
-            Application.prototype.getLocale = function () {
-                var locale = localStorage.getItem('locale');
-                if (!locale) {
-                    locale = "en";
-                    localStorage.setItem('locale', locale);
-                }
-                return locale ? locale : "en";
-            };
-            Application.prototype.changeLocale = function (newlocale) {
-                var locale = this.getLocale();
-                if (!locale || locale !== newlocale) {
-                    localStorage.setItem('locale', newlocale);
-                    //reload the app
-                    location.reload();
-                }
-            };
             return Application;
         }());
         App.Application = Application;

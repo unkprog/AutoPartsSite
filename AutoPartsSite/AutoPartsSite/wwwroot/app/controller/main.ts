@@ -66,7 +66,7 @@ export namespace Controller {
             $("#app-navbar").find(".left").append(this.menu);
 
             this.sideNavBarRight = $("#app-navbar").find(".right");
-            this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._app.getLocale() + '.svg"/></a></li>');
+            this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale + '.svg"/></a></li>');
             this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
             this.sideNavBarRight.append(this.menuLang).append(this.menuBasket);
             this.menuBasket.find('.app-basket-counter').hide();
@@ -210,7 +210,7 @@ export namespace Controller {
 
         public LangEnClick: { (e: any): void; };
         private langEnClick(e) {
-            vars._app.changeLocale("en");
+            vars._appData.Locale = "en";//            vars._app.changeLocale("en");
             location.reload();
             e.preventDefault();
             return false;
@@ -218,7 +218,7 @@ export namespace Controller {
 
         public LangRuClick: { (e: any): void; };
         private langRuClick(e) {
-            vars._app.changeLocale("ru");
+            vars._appData.Locale = "ru";//            vars._app.changeLocale("ru");
             location.reload();
             e.preventDefault();
             return false;

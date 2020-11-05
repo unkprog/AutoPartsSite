@@ -54,7 +54,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var id = parseInt(localStorage.getItem('new-view-item'), 0);
                     vars._app.ShowLoading();
-                    self.NewsService.New(vars._app.getLocale(), id, function (responseData) {
+                    self.NewsService.New(vars._appData.Locale, id, function (responseData) {
                         if (responseData.Result === 0) {
                             self.Model.set("New", responseData.Data);
                         }

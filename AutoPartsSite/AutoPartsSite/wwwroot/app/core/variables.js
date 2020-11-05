@@ -2,7 +2,7 @@
 define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
+    exports._appData = exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
     var App;
     (function (App) {
         var StaticResources = /** @class */ (function () {
@@ -50,5 +50,34 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
     exports.sumTextColor = '#2196f3';
     exports.checkTextColor = '#ff9800';
     exports.positionTextColor = '#4caf50';
+    (function (App) {
+        var Data = /** @class */ (function () {
+            function Data() {
+            }
+            Object.defineProperty(Data.prototype, "Locale", {
+                get: function () {
+                    var locale = localStorage.getItem('locale');
+                    if (!locale) {
+                        locale = "en";
+                        localStorage.setItem('locale', locale);
+                    }
+                    return locale ? locale : "en";
+                },
+                set: function (newlocale) {
+                    var locale = this.Locale;
+                    if (!locale || locale !== newlocale) {
+                        localStorage.setItem('locale', newlocale);
+                        //reload the app
+                        location.reload();
+                    }
+                },
+                enumerable: false,
+                configurable: true
+            });
+            return Data;
+        }());
+        App.Data = Data;
+    })(App = exports.App || (exports.App = {}));
+    exports._appData = new App.Data();
 });
 //# sourceMappingURL=variables.js.map

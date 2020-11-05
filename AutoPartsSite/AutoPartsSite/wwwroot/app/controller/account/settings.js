@@ -66,7 +66,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 Settings.prototype.loadSettingsData = function () {
                     var self = this;
                     vars._app.ShowLoading();
-                    self.AccountService.SettingsData(vars._app.getLocale(), function (responseData) {
+                    self.AccountService.SettingsData(vars._appData.Locale, function (responseData) {
                         if (responseData.Result === 0) {
                             self.Model.set("SettingsData", responseData.Data);
                             self.setupLists();
@@ -87,7 +87,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     $('#settings-view-list-country').html(html);
                     html = '';
                     for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._app.getLocale().toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._appData.Locale.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
                     }
                     $('#settings-view-list-lang').html(html);
