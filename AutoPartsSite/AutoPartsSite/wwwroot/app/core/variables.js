@@ -1,5 +1,5 @@
 /// <amd-dependency path="i18n!nls/strings" />
-define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
+define(["require", "exports", "./utils", "i18n!nls/strings"], function (require, exports, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports._appData = exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
@@ -86,13 +86,24 @@ define(["require", "exports", "i18n!nls/strings"], function (require, exports) {
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "Settings", {
+                get: function () {
+                    var settings = localStorage.getItem('apsSettings');
+                    return utils_1.isNullOrEmpty(settings) ? null : JSON.parse(settings);
+                },
+                set: function (value) {
+                    localStorage.setItem('Settings', JSON.stringify(value));
+                },
+                enumerable: false,
+                configurable: true
+            });
             Object.defineProperty(Data.prototype, "PageEditItemHeader", {
                 get: function () {
                     var pageEditItemHeader = localStorage.getItem('PageEditItemHeader');
                     return pageEditItemHeader ? pageEditItemHeader : "";
                 },
                 set: function (pageEditItemHeader) {
-                    localStorage.setItem('PageEditItem', pageEditItemHeader);
+                    localStorage.setItem('PageEditItemHeader', pageEditItemHeader);
                 },
                 enumerable: false,
                 configurable: true

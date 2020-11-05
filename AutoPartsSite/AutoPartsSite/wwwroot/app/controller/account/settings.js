@@ -35,7 +35,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelCurrency": vars._statres("label$currency"),
                         "labelSave": vars._statres("button$label$save"),
                         "labelCancel": vars._statres("button$label$cancel"),
-                        "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
+                        "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] },
+                        "Settings": null
                     });
                 };
                 Settings.prototype.ViewShow = function (e) {
@@ -66,7 +67,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 Settings.prototype.loadSettingsData = function () {
                     var self = this;
                     vars._app.ShowLoading();
-                    self.AccountService.SettingsData(vars._appData.Locale, function (responseData) {
+                    self.AccountService.SettingsData(vars._appData.Locale, vars._appData.Settings === null, function (responseData) {
                         if (responseData.Result === 0) {
                             self.Model.set("SettingsData", responseData.Data);
                             self.setupLists();
@@ -79,21 +80,24 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Settings.prototype.setupLists = function () {
                     var settingsData = this.Model.get("SettingsData");
+                    var settings = vars._appData.Settings;
+                    if (settings == null)
+                        settings = settingsData.Current;
                     var html = '';
                     for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Countries[i].Id + '">';
+                        html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
                     }
                     $('#settings-view-list-country').html(html);
                     html = '';
                     for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._appData.Locale.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settings.Language.Code.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
                     }
                     $('#settings-view-list-lang').html(html);
                     html = '';
                     for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Currencies[i].Id + '">';
+                        html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (settings.Currency.Code.toLowerCase() == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
                     }
                     $('#settings-view-list-currency').html(html);

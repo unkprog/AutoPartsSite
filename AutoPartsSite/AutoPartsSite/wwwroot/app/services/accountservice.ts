@@ -23,8 +23,8 @@ export namespace Services {
             this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
-        public SettingsData(lang: string, Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang }, Callback: Callback });
+        public SettingsData(lang: string, isSetup: boolean, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang, isSetup: isSetup }, Callback: Callback });
         }
     }
 }

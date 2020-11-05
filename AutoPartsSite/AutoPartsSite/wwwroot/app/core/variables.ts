@@ -1,5 +1,7 @@
 ﻿/// <amd-dependency path="i18n!nls/strings" />
 
+import { isNullOrEmpty } from "./utils";
+
 export declare let _app: Interfaces.IApplication;
 export declare let _identity: Interfaces.Model.IIdentity;
 export declare let _main: Interfaces.IMainNavigation;
@@ -109,13 +111,22 @@ export namespace App {
             return uid;
         }
 
+        public get Settings(): Interfaces.Model.ISettings {
+            var settings: string = localStorage.getItem('apsSettings');
+            return isNullOrEmpty(settings) ? null : JSON.parse(settings);
+        }
+
+        public set Settings(value: Interfaces.Model.ISettings) {
+            localStorage.setItem('Settings', JSON.stringify(value));
+        }
+
         public get PageEditItemHeader(): string {
             var pageEditItemHeader: string = localStorage.getItem('PageEditItemHeader');
             return pageEditItemHeader ? pageEditItemHeader : "";
         }
 
         public set PageEditItemHeader(pageEditItemHeader: string) {
-            localStorage.setItem('PageEditItem', pageEditItemHeader);
+            localStorage.setItem('PageEditItemHeader', pageEditItemHeader);
         }
 
         public get PageEditItem(): string {

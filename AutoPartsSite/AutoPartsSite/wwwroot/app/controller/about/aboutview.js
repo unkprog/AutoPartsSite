@@ -33,8 +33,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     enumerable: false,
                     configurable: true
                 });
-                AboutView.prototype.createModel = function () {
-                    return new kendo.data.ObservableObject({});
+                AboutView.prototype.OnViewInit = function () {
+                    this.Model.set("Header", vars._statres(vars._appData.PageEditItemHeader));
                 };
                 AboutView.prototype.ViewShow = function (e) {
                     var result = _super.prototype.ViewShow.call(this, e);

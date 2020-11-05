@@ -38,8 +38,8 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             AccountService.prototype.Login = function (model, Callback) {
                 this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
             };
-            AccountService.prototype.SettingsData = function (lang, Callback) {
-                this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang }, Callback: Callback });
+            AccountService.prototype.SettingsData = function (lang, isSetup, Callback) {
+                this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang, isSetup: isSetup }, Callback: Callback });
             };
             return AccountService;
         }(base.Services.BaseService));

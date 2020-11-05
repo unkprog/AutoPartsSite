@@ -73,18 +73,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 if (controlNavigation)
                     this._controllerNavigation = controlNavigation;
             };
-            Object.defineProperty(Application.prototype, "Uid", {
-                get: function () {
-                    var uid = localStorage.getItem('apsUID');
-                    if (!uid) {
-                        uid = M.guid();
-                        localStorage.setItem('apsUID', uid);
-                    }
-                    return uid;
-                },
-                enumerable: false,
-                configurable: true
-            });
             Object.defineProperty(Application.prototype, "Identity", {
                 get: function () {
                     return this._identity;

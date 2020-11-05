@@ -236,7 +236,7 @@ export namespace Controller {
 
         public MenuAboutButtonClick: { (e: any): void; };
         private menuAboutButtonClick(e: any): boolean {
-            return this.handleMenuItem(e, "about/index");
+            return this.handleMenuItemPage(e, "about/index", "label$aboutUs");
         }
 
         public MenuNewsButtonClick: { (e: any): void; };
@@ -246,22 +246,22 @@ export namespace Controller {
 
         public MenuFaqButtonClick: { (e: any): void; };
         private menuFaqButtonClick(e: any): boolean {
-            return this.handleMenuItem(e,"about/faq");
+            return this.handleMenuItemPage(e, "about/faq", "label$faq");
         }
 
         public MenuShippingButtonClick: { (e: any): void; };
         private menuShippingButtonClick(e: any): boolean {
-            return this.handleMenuItem(e, "about/shipping");
+            return this.handleMenuItemPage(e, "about/shipping", "label$shipping");
         }
 
         public MenuPaymentButtonClick: { (e: any): void; };
         private menuPaymentButtonClick(e: any): boolean {
-            return this.handleMenuItem(e, "about/payment");
+            return this.handleMenuItemPage(e, "about/payment", "label$payment");
         }
 
         public MenuContactButtonClick: { (e: any): void; };
         private menuContactButtonClick(e: any): boolean {
-           return this.handleMenuItem(e, "about/contact");
+            return this.handleMenuItemPage(e, "about/contact", "label$contacts");
         }
 
         public CmsButtonClick: { (e: any): void; };
@@ -287,6 +287,11 @@ export namespace Controller {
         public UserOrdersButtonClick: { (e: any): void; };
         private userOrdersButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/orders");
+        }
+
+        private handleMenuItemPage(e: any, urlController: string, pageEditItemHeader: string) {
+            vars._appData.PageEditItemHeader = pageEditItemHeader;
+            return this.handleMenuItem(e, urlController);
         }
 
         private handleMenuItem(e: any, urlController: string): boolean {

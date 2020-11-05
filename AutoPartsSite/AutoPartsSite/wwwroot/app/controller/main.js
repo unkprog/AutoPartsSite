@@ -188,22 +188,22 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return this.handleMenuItem(e, "search/index");
             };
             Main.prototype.menuAboutButtonClick = function (e) {
-                return this.handleMenuItem(e, "about/index");
+                return this.handleMenuItemPage(e, "about/index", "label$aboutUs");
             };
             Main.prototype.menuNewsButtonClick = function (e) {
                 return this.handleMenuItem(e, "news/index");
             };
             Main.prototype.menuFaqButtonClick = function (e) {
-                return this.handleMenuItem(e, "about/faq");
+                return this.handleMenuItemPage(e, "about/faq", "label$faq");
             };
             Main.prototype.menuShippingButtonClick = function (e) {
-                return this.handleMenuItem(e, "about/shipping");
+                return this.handleMenuItemPage(e, "about/shipping", "label$shipping");
             };
             Main.prototype.menuPaymentButtonClick = function (e) {
-                return this.handleMenuItem(e, "about/payment");
+                return this.handleMenuItemPage(e, "about/payment", "label$payment");
             };
             Main.prototype.menuContactButtonClick = function (e) {
-                return this.handleMenuItem(e, "about/contact");
+                return this.handleMenuItemPage(e, "about/contact", "label$contacts");
             };
             Main.prototype.cmsButtonClick = function (e) {
                 return this.handleMenuItem(e, "cms/index");
@@ -219,6 +219,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.userOrdersButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/orders");
+            };
+            Main.prototype.handleMenuItemPage = function (e, urlController, pageEditItemHeader) {
+                vars._appData.PageEditItemHeader = pageEditItemHeader;
+                return this.handleMenuItem(e, urlController);
             };
             Main.prototype.handleMenuItem = function (e, urlController) {
                 this.sideNav.sidenav('close');

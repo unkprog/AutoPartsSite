@@ -5,22 +5,37 @@ using AutoPartsSite.Models.Account;
 using Microsoft.AspNetCore.Http.Features;
 using System.Net;
 using System.IO;
+using System.Text.RegularExpressions;
+using Utf8Json;
+using System.Linq;
 
 namespace AutoPartsSite.Controllers.Api
 {
     public partial class AccountController
     {
-        //http://www.geoplugin.net/json.gp?ip=89.163.220.14
+        //  
         [HttpGet]
         [Route("settingsdata")]
-        public async Task<HttpMessage<Settings>> SettingsData(string lang)
+        public async Task<HttpMessage<SettingsData>> SettingsData(string lang, bool isSetup)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
-                  var ip = GetDebugIPAdress();
-                  var remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
-                  Settings result = new Settings();
+                  SettingsData result = new SettingsData();
+
+                  IPAddress remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
+                  string ip = (remoteIpAddress == null || remoteIpAddress.Equals(IPAddress.IPv6Loopback) || remoteIpAddress.Equals(IPAddress.Loopback) ? GetRemoteIPAdress(): remoteIpAddress.ToString()) ;
+                  if (isSetup)
+                  {
+                      GeoPlugin geo = GetIPGeoPlugin(ip);
+                      result.Current = new Settings()
+                      {
+                          Country = GetCountries(lang, geo.CountryCode).FirstOrDefault(),
+                          Language = GetLanguages(lang, geo.CountryCode).FirstOrDefault(),
+                          Currency = GetCurrencies(lang, geo.CurrencyCode).FirstOrDefault()
+                      };
+                  }
+                
                   result.Countries = GetCountries(lang);
                   result.Languages = GetLanguages(lang);
                   result.Currencies = GetCurrencies(lang);
@@ -28,18 +43,6 @@ namespace AutoPartsSite.Controllers.Api
               });
           });
 
-        [NonAction]
-        string GetDebugIPAdress()
-        {
-            string result = "127.0.0.1";
-            var req = WebRequest.Create(@"http://checkip.dyndns.org");
-            {
-                using (var reader = new StreamReader(req.GetResponse().GetResponseStream()))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-            return result;
-        }
+       
     }
 }

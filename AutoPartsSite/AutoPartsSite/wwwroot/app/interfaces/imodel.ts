@@ -80,7 +80,14 @@
         ReleaseDate: string;
     }
 
+    export interface ISettings {
+        Country: IReferenceNamedDbModel;
+        Language: IReferenceNamedDbModel;
+        Currency: IReferenceNamedDbModel;
+    }
+
     export interface ISettingsData {
+        Current: ISettings;
         Countries: IReferenceNamedDbModel[];
         Languages: IReferenceNamedDbModel[]; 
         Currencies: IReferenceNamedDbModel[];

@@ -21,7 +21,8 @@ export namespace Controller.Account {
                 "labelCurrency": vars._statres("label$currency"),
                 "labelSave": vars._statres("button$label$save"),
                 "labelCancel": vars._statres("button$label$cancel"),
-                "SettingsData": { "Countries": [], "Languages": [], "Currencies":[]}
+                "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] },
+                "Settings": null
             });
         }
 
@@ -61,7 +62,7 @@ export namespace Controller.Account {
         private loadSettingsData(): void {
             let self = this;
             vars._app.ShowLoading();
-            self.AccountService.SettingsData(vars._appData.Locale, (responseData) => {
+            self.AccountService.SettingsData(vars._appData.Locale, vars._appData.Settings === null, (responseData) => {
                 if (responseData.Result === 0) {
                     self.Model.set("SettingsData", responseData.Data);
                     self.setupLists();
@@ -75,23 +76,27 @@ export namespace Controller.Account {
 
         private setupLists():void {
             let settingsData: Interfaces.Model.ISettingsData = this.Model.get("SettingsData");
+            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+            if (settings == null)
+                settings = settingsData.Current;
+
             let html: string = '';
             for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Countries[i].Id + '">';
+                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
             }
             $('#settings-view-list-country').html(html);
 
             html = '';
             for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (vars._appData.Locale.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settings.Language.Code.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
             }
             $('#settings-view-list-lang').html(html);
 
             html = '';
             for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Currencies[i].Id + '">';
+                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (settings.Currency.Code.toLowerCase() == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
             }
             $('#settings-view-list-currency').html(html);

@@ -14,8 +14,8 @@ export namespace Controller.About {
             return this.cmsService;
         }
 
-        protected createModel(): kendo.data.ObservableObject {
-            return new kendo.data.ObservableObject({});
+        protected OnViewInit(): void {
+            this.Model.set("Header", vars._statres(vars._appData.PageEditItemHeader));
         }
 
         public ViewShow(e: any): boolean {
