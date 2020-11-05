@@ -2,6 +2,7 @@
 import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import baseapp = require('app/core/baseapplication');
+import acc = require('app/services/accountservice');
 
 export module App {
     export class Application extends baseapp.App.Application {
@@ -45,6 +46,25 @@ export module App {
         }
 
         protected loadAppView() {
+            let self = this;
+
+            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+            if (settings != null)
+                self.loadAppView_();
+            else {
+                let accountService: acc.Services.AccountService = new acc.Services.AccountService();
+                accountService.Settings((responseData) => {
+                    if (responseData.Result === 0) {
+                        vars._appData.Settings = responseData.Data;
+                        self.loadAppView_();
+                    }
+                    else {
+                        alert(responseData.Error);
+                    }
+                });
+            }
+        }
+        private loadAppView_() {
             let self = this;
             $.when($.ajax({ url: "/app/app.html", cache: false })).done((template) => {
                 try {

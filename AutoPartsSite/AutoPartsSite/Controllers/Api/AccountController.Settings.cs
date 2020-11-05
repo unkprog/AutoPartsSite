@@ -13,7 +13,30 @@ namespace AutoPartsSite.Controllers.Api
 {
     public partial class AccountController
     {
-        //  
+        [HttpGet]
+        [Route("settings")]
+        public async Task<HttpMessage<Settings>> Settings()
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  Settings result = new Settings();
+
+                  IPAddress remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
+                  string ip = (remoteIpAddress == null || remoteIpAddress.Equals(IPAddress.IPv6Loopback) || remoteIpAddress.Equals(IPAddress.Loopback) ? GetRemoteIPAdress() : remoteIpAddress.ToString());
+
+                  GeoPlugin geo = GetIPGeoPlugin(ip);
+                  result.Country = GetCountries(geo.CountryCode, geo.CountryCode).FirstOrDefault();
+                  result.Language = GetLanguages(geo.CountryCode, geo.CountryCode).FirstOrDefault();
+                  result.Currency = GetCurrencies(geo.CountryCode, geo.CurrencyCode).FirstOrDefault();
+
+                  if (result.Language == null)
+                      result.Language = GetLanguages("EN", "EN").FirstOrDefault();
+
+                  return CreateResponseOk(result);
+              });
+          });
+
         [HttpGet]
         [Route("settingsdata")]
         public async Task<HttpMessage<SettingsData>> SettingsData(string lang, bool isSetup)

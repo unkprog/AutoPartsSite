@@ -92,7 +92,10 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                     return utils_1.isNullOrEmpty(settings) ? null : JSON.parse(settings);
                 },
                 set: function (value) {
-                    localStorage.setItem('Settings', JSON.stringify(value));
+                    localStorage.setItem('apsSettings', JSON.stringify(value));
+                    var locale = this.Locale;
+                    if (!locale || locale.toLocaleLowerCase() !== value.Language.Code.toLocaleLowerCase())
+                        this.Locale = value.Language.Code.toLocaleLowerCase();
                 },
                 enumerable: false,
                 configurable: true

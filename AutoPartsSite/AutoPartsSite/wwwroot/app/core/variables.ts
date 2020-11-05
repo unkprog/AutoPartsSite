@@ -117,7 +117,10 @@ export namespace App {
         }
 
         public set Settings(value: Interfaces.Model.ISettings) {
-            localStorage.setItem('Settings', JSON.stringify(value));
+            localStorage.setItem('apsSettings', JSON.stringify(value));
+            var locale: string = this.Locale;
+            if (!locale || locale.toLocaleLowerCase() !== value.Language.Code.toLocaleLowerCase())
+                this.Locale = value.Language.Code.toLocaleLowerCase();
         }
 
         public get PageEditItemHeader(): string {

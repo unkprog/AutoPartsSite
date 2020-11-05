@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/baseapplication"], function (require, exports, utils, vars, baseapp) {
+define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/baseapplication", "app/services/accountservice"], function (require, exports, utils, vars, baseapp, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.App = void 0;
@@ -46,6 +46,24 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 _super.prototype.HideLoading.call(this);
             };
             Application.prototype.loadAppView = function () {
+                var self = this;
+                var settings = vars._appData.Settings;
+                if (settings != null)
+                    self.loadAppView_();
+                else {
+                    var accountService = new acc.Services.AccountService();
+                    accountService.Settings(function (responseData) {
+                        if (responseData.Result === 0) {
+                            vars._appData.Settings = responseData.Data;
+                            self.loadAppView_();
+                        }
+                        else {
+                            alert(responseData.Error);
+                        }
+                    });
+                }
+            };
+            Application.prototype.loadAppView_ = function () {
                 var self = this;
                 $.when($.ajax({ url: "/app/app.html", cache: false })).done(function (template) {
                     try {

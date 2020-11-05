@@ -19,7 +19,7 @@ namespace AutoPartsSite.Controllers.Api
                 }
                 , action: (values) =>
                 {
-                    result.Add(new Country() { Id = (int)values[0], Code = (string)values[1], Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Country() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
                 });
             return result;
         }
@@ -35,7 +35,7 @@ namespace AutoPartsSite.Controllers.Api
                 }
                 , action: (values) =>
                 {
-                    result.Add(new Lang() { Id = (int)values[0], Code = (string)values[1], Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Lang() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
                 });
             return result;
         }
@@ -51,7 +51,7 @@ namespace AutoPartsSite.Controllers.Api
                 }
                 , action: (values) =>
                 {
-                    result.Add(new Currency() { Id = (int)values[0], Code = (string)values[1], Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Currency() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
                 });
             return result;
         }
