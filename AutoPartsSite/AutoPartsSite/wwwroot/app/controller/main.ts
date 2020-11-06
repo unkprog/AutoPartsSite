@@ -149,7 +149,8 @@ export namespace Controller {
             this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
             this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
             this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
-
+            this.MenuSettingsButtonClick = this.createClickEvent("main-view-btn-settings", this.menuSettingsButtonClick);
+            
             this.UserOrdersButtonClick = this.createClickEvent("app-user-orders", this.userOrdersButtonClick);
             this.UserGarageButtonClick = this.createClickEvent("app-user-garage", this.userGarageButtonClick);
             this.UserMessagesButtonClick = this.createClickEvent("app-user-messages", this.userMessagesButtonClick);
@@ -165,6 +166,7 @@ export namespace Controller {
             //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
             this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
 
+            this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
             this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
             this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
             this.destroyClickEvent("main-view-btn-payment", this.MenuPaymentButtonClick);
@@ -262,6 +264,11 @@ export namespace Controller {
         public MenuContactButtonClick: { (e: any): void; };
         private menuContactButtonClick(e: any): boolean {
             return this.handleMenuItemPage(e, "about/contact", "label$contacts");
+        }
+
+        public MenuSettingsButtonClick: { (e: any): void; };
+        private menuSettingsButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/settings");
         }
 
         public CmsButtonClick: { (e: any): void; };

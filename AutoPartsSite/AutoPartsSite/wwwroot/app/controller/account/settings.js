@@ -46,11 +46,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Settings.prototype.createEvents = function () {
                     this.SaveButtonClick = this.createClickEvent("settings-view-btn-save", this.saveButtonClick);
-                    this.CancelButtonClick = this.createClickEvent("settings-view-btn-cancel", this.cancelButtonClick);
+                    //this.CancelButtonClick = this.createClickEvent("settings-view-btn-cancel", this.cancelButtonClick);
                 };
                 Settings.prototype.destroyEvents = function () {
                     this.destroyClickEvent("settings-view-btn-save", this.SaveButtonClick);
-                    this.destroyClickEvent("settings-view-btn-cancel", this.CancelButtonClick);
+                    //this.destroyClickEvent("settings-view-btn-cancel", this.CancelButtonClick);
                 };
                 Settings.prototype.saveButtonClick = function (e) {
                     this.saveSettingsData();
@@ -58,12 +58,13 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     e.stopPropagation();
                     return false;
                 };
-                Settings.prototype.cancelButtonClick = function (e) {
-                    vars._main.ControllerBack(this);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                };
+                //public CancelButtonClick: { (e: any): void; };
+                //private cancelButtonClick(e: any): boolean {
+                //    vars._main.ControllerBack(this);
+                //    e.preventDefault();
+                //    e.stopPropagation();
+                //    return false;
+                //}
                 Settings.prototype.loadSettingsData = function () {
                     var self = this;
                     vars._app.ShowLoading();
@@ -104,6 +105,37 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     this.View.find('select').formSelect();
                 };
                 Settings.prototype.saveSettingsData = function () {
+                    var settingsData = this.Model.get("SettingsData");
+                    var settings = vars._appData.Settings;
+                    var country = parseInt($('#settings-view-list-country').val(), 0);
+                    var lang = parseInt($('#settings-view-list-country').val(), 0);
+                    var currency = parseInt($('#settings-view-list-country').val(), 0);
+                    if (settings.Country.Id !== country) {
+                        for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                            if (settingsData.Countries[i].Id === country) {
+                                settings.Country = settingsData.Countries[i];
+                                break;
+                            }
+                        }
+                    }
+                    if (settings.Currency.Id !== currency) {
+                        for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                            if (settingsData.Currencies[i].Id === currency) {
+                                settings.Currency = settingsData.Currencies[i];
+                                break;
+                            }
+                        }
+                    }
+                    if (settings.Language.Id !== lang) {
+                        for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
+                            if (settingsData.Languages[i].Id === lang) {
+                                settings.Language = settingsData.Languages[i];
+                                break;
+                            }
+                        }
+                    }
+                    vars._appData.Settings = settings;
+                    vars._app.OpenController({ urlController: "search/index" });
                 };
                 return Settings;
             }(acc.Controller.Account.Account));
