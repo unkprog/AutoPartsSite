@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Core.Models.Security;
+using AutoPartsSite.Managers;
 
 namespace AutoPartsSite.Handlers
 {
@@ -24,7 +25,7 @@ namespace AutoPartsSite.Handlers
             // Verification.   
             if (authorization != null && authorization.Scheme == API_KEY_HEADER && !string.IsNullOrEmpty(authorization.Parameter))
             {
-                Principal principal = null;// AuthUser.GetLogIn(authorization.Parameter);
+                Principal principal = AuthUserManager.GetLogIn(authorization.Parameter);
                 if (principal != null)
                 {
                     SetPrincipal(principal);

@@ -110,11 +110,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             var templateContent = _this.View.find('#search-view-parts-template').html();
                             var template = vars.getTemplate(templateContent);
                             var htmlResult = '';
-                            var items = responseData.Data;
+                            var items = responseData.Data.Result;
+                            self.maxPage = responseData.Data.MaxPage;
+                            self.currentPage = responseData.Data.Page;
                             for (var i = 0, icount = items.length; i < icount; i++) {
                                 items[i].labelAddToCard = vars._statres("label$addToCard");
-                                if (i == 0)
-                                    self.maxPage = items[i].MaxPage;
+                                //if (i == 0)
+                                //    self.maxPage = items[i].MaxPage;
                                 htmlResult = (htmlResult + template(items[i]));
                             }
                             self.View.find('#search-view-parts').html(htmlResult);

@@ -114,11 +114,15 @@ export namespace Controller.Search {
                     let templateContent = this.View.find('#search-view-parts-template').html();
                     let template = vars.getTemplate(templateContent);
                     let htmlResult = '';
-                    let items: any[] = responseData.Data;
+                    let items: any[] = responseData.Data.Result;
+
+                    self.maxPage = responseData.Data.MaxPage;
+                    self.currentPage = responseData.Data.Page;
+
                     for (let i = 0, icount = items.length; i < icount; i++) {
                         items[i].labelAddToCard = vars._statres("label$addToCard");
-                        if (i == 0)
-                            self.maxPage = items[i].MaxPage;
+                        //if (i == 0)
+                        //    self.maxPage = items[i].MaxPage;
                         htmlResult = (htmlResult + template(items[i]));
                     }
 

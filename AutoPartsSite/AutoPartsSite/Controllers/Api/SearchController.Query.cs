@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Models.GlobalParts;
+using System.Text;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -15,12 +16,12 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<GoodsSearch> GetGoods(string partNumber, int pageRows, int page)
+        private List<GoodsSearch> GetSearchGoods(string partNumber, int pageRows, int page)
         {
             List<GoodsSearch> result = new List<GoodsSearch>();
             ExecQuery((query) =>
             {
-                query.Execute(@"Search\[get]", new SqlParameter[] 
+                query.Execute(@"Search\[get_search]", new SqlParameter[] 
                 { 
                     new SqlParameter() { ParameterName = "@PartNumber", Value = partNumber },
                     new SqlParameter() { ParameterName = "@RowspPage" , Value = pageRows },
@@ -29,6 +30,44 @@ namespace AutoPartsSite.Controllers.Api
                 , (values) =>
                 {
                     result.Add(new GoodsSearch()
+                    {
+                        Id = (int)values[0],
+                        PartNumber = (string)values[1],
+                        Brand = (string)values[2],
+                        Page = (long)values[3],
+                        MaxPage = (long)values[4]
+                    });
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
+        private List<Goods> GetGoods(List<GoodsSearch> goods, int languageId, int currencyId)
+        {
+            List<Goods> result = new List<Goods>();
+            List<int> goodsId = new List<int>();
+            StringBuilder xmlParts = new StringBuilder();
+            xmlParts.AppendLine("<ROOT>");
+            for (int i = 0, icount = goods.Count; i < icount; i++)
+            {
+                xmlParts.AppendLine(string.Concat("<Part PartNN=", '"', i + 1, '"', "PartId=", '"', '"', " PartNo=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Quantity=", '"', 1, '"', " />"));
+                goodsId.Add(goods[i].Id);
+            }
+            xmlParts.AppendLine("</ROOT>");
+
+            if (goodsId.Count < 1)
+                goodsId.Add(0);
+
+            ExecQuery((query) =>
+            {
+                query.Execute(@"Search\[get_in]", new SqlParameter[]
+                {
+                        new SqlParameter() { ParameterName = "@GoodsID", Value = goodsId.ToArray() },
+                }
+                , (values) =>
+                {
+                    result.Add(new Goods()
                     {
                         Id = (int)values[0],
                         Articul = (string)values[1],
@@ -45,14 +84,52 @@ namespace AutoPartsSite.Controllers.Api
                             WidthCm = (decimal)values[15],
                             HeightCm = (decimal)values[16],
                             BlockWeightChange = (bool)values[17]
-                        },
-                        Page = (long)values[18],
-                        MaxPage = (long)values[19]
+                        }
                     });
                 });
             });
             return result;
         }
 
+
+        //[NonAction]
+        //private List<GoodsSearch> GetGoods(string partNumber, int pageRows, int page)
+        //{
+        //    List<GoodsSearch> result = new List<GoodsSearch>();
+        //    ExecQuery((query) =>
+        //    {
+        //        query.Execute(@"Search\[get]", new SqlParameter[]
+        //        {
+        //            new SqlParameter() { ParameterName = "@PartNumber", Value = partNumber },
+        //            new SqlParameter() { ParameterName = "@RowspPage" , Value = pageRows },
+        //            new SqlParameter() { ParameterName = "@PageNumber", Value = page }
+        //        }
+        //        , (values) =>
+        //        {
+        //            result.Add(new GoodsSearch()
+        //            {
+        //                Id = (int)values[0],
+        //                Articul = (string)values[1],
+        //                PartNumber = (string)values[2],
+        //                Name = (string)values[3],
+        //                Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] },
+        //                Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] },
+        //                Parameters = new GoodsParameters()
+        //                {
+        //                    WeightPhysical = (decimal)values[11],
+        //                    WeightVolumetric = (decimal)values[12],
+        //                    VolumetricDivider = (decimal)values[13],
+        //                    LengthCm = (decimal)values[14],
+        //                    WidthCm = (decimal)values[15],
+        //                    HeightCm = (decimal)values[16],
+        //                    BlockWeightChange = (bool)values[17]
+        //                },
+        //                Page = (long)values[18],
+        //                MaxPage = (long)values[19]
+        //            });
+        //        });
+        //    });
+        //    return result;
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Models.GlobalParts
 {
@@ -13,7 +14,6 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public string Articul { get; set; }
-
         /// <summary>
         /// Номер детали
         /// </summary>
@@ -64,9 +64,35 @@ namespace AutoPartsSite.Models.GlobalParts
         public bool BlockWeightChange { get; set; }
     }
 
+
     [DataContract]
-    public class GoodsSearch : Goods
+    public class GoodsSearch : BaseDbModel
     {
+        /// <summary>
+        /// Номер детали
+        /// </summary>
+        [DataMember]
+        public string PartNumber { get; set; }
+        /// <summary>
+        /// Бренд
+        /// </summary>
+        [DataMember]
+        public string Brand { get; set; }
+        [DataMember]
+        public long Page { get; set; }
+        [DataMember]
+        public long MaxPage { get; set; }
+    }
+
+
+    [DataContract]
+    public class GoodsSearchResult
+    {
+        /// <summary>
+        /// Результат поиска
+        /// </summary>
+        [DataMember]
+        public List<Goods> Result { get; set; }
         [DataMember]
         public long Page { get; set; }
         [DataMember]

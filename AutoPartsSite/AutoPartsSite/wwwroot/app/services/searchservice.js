@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/baseservice"], function (require, exports, base) {
+define(["require", "exports", "app/core/baseservice", "../core/variables"], function (require, exports, base, variables_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -30,7 +30,9 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
                 configurable: true
             });
             SearchService.prototype.PartNumber = function (partNumber, page, Callback) {
-                this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, pageRows: 50, page: page }, Callback: Callback });
+                var languageId = variables_1._appData.Settings.Language.Id;
+                var currencyId = variables_1._appData.Settings.Currency.Id;
+                this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, languageId: languageId, currencyId: currencyId, pageRows: 50, page: page }, Callback: Callback });
             };
             SearchService.prototype.ListBrands = function (Callback) {
                 this.GetApi({ Action: "/listBrands", Callback: Callback });

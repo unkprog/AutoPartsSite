@@ -6,6 +6,7 @@ using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using System.Collections.Generic;
 using AutoPartsSite.Models.GlobalParts;
+using AutoPartsSite.Core.Models.Security;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -49,12 +50,20 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpGet]
         [Route("partNumber")]
-        public async Task<HttpMessage<List<GoodsSearch>>> PartNumber(string partNumber, int pageRows, int page)
+        public async Task<HttpMessage<GoodsSearchResult>> PartNumber(string partNumber, int languageId, int currencyId, int pageRows, int page)
             => await TryCatchResponseAsync(async () =>
             {
                 return await Task.Run(() =>
                 {
-                    List<GoodsSearch> result = GetGoods(partNumber, pageRows, page);
+                    List<GoodsSearch> resultSearch = GetSearchGoods(partNumber, pageRows, page);
+
+                    GoodsSearchResult result = new GoodsSearchResult()
+                    {
+                        Result = GetGoods(resultSearch, languageId, currencyId),
+                        Page = resultSearch.Count > 0 ? resultSearch[0].Page : 0,
+                        MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
+                    };
+
                     return CreateResponseOk(result);
                 });
             });
