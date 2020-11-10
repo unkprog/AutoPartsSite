@@ -9,6 +9,18 @@ namespace AutoPartsSite.Controllers.Api
     public partial class AccountController
     {
         [NonAction]
+        internal void SetUserUid(string uid, int userId = 0)
+        {
+            List<Country> result = new List<Country>();
+            AppSettings.Query.Basket.ExecuteNonQuery(@"Basket\[set_user_uid]"
+                , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@Uid", string.IsNullOrEmpty(uid) ? (object)DBNull.Value : uid),
+                    new SqlParameter("@User", userId)
+                });
+        }
+
+        [NonAction]
         internal List<Country> GetCountries(string lang, string code = null)
         {
             List<Country> result = new List<Country>();

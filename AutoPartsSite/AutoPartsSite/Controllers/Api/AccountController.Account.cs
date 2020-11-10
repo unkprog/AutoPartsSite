@@ -65,6 +65,5 @@ namespace AutoPartsSite.Controllers.Api
                     });
                 return result;
             });
-
     }
 }

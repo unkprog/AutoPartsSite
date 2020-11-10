@@ -1,21 +1,33 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Features;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Models.Account;
-using Microsoft.AspNetCore.Http.Features;
-using System.Net;
-using System.IO;
-using System.Text.RegularExpressions;
-using Utf8Json;
-using System.Linq;
+using AutoPartsSite.Core.Models.Security;
 
 namespace AutoPartsSite.Controllers.Api
 {
     public partial class AccountController
     {
         [HttpGet]
+        [Route("uid")]
+        public async Task<HttpMessage<int>> Uid(string uid)
+         => await TryCatchResponseAsync(async () =>
+         {
+             return await Task.Run(() =>
+             {
+                 Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                 int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                 int result = SetUserUid(uid, userId);
+                 return CreateResponseOk(1);
+             });
+         });
+
+        [HttpGet]
         [Route("settings")]
-        public async Task<HttpMessage<Settings>> Settings()
+        public async Task<HttpMessage<Settings>> Settings(string uid)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>

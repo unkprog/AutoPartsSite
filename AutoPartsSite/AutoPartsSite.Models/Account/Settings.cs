@@ -7,6 +7,8 @@ namespace AutoPartsSite.Models.Account
     public class Settings
     {
         [DataMember]
+        public int UidId { get; set; }
+        [DataMember]
         public Country Country { get; set; }
 
         [DataMember]
