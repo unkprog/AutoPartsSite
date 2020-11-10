@@ -1,6 +1,12 @@
-﻿if not exists(select [Uid], [User] from [User_UID] [uu] with(nolock) where [uu].[Uid] = @Uid or [uu].[User] = @User)
+﻿declare @retId int = isnull((select top 1 [Id] from [User_UID] [uu] with(nolock) where [uu].[Uid] = @Uid or [uu].[User] = @User), 0)
+if @retId = 0
+begin
   insert into [Page_Content] ([Uid], [User])
   values(@Uid, @User)
-else
-  update [User_UID] set [Uid] = @Uid, [User] = @User where  [Uid] = @Uid or [User] = @User
+  select cast(scope_identity() as int)
+end
+else begin
+  update [User_UID] set [Uid] = @Uid, [User] = @User where  [Id] = @retId
+  select @retId
+end
 

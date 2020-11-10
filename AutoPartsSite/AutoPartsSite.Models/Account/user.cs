@@ -3,17 +3,20 @@ using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Models.Account
 {
+    [DataContract]
     public class RegisterUser
     {
         public string Email { get; set; }
     }
 
+    [DataContract]
     public class LoginUser : RegisterUser
     {
         public string Pass { get; set; }
+        public string Uid { get; set; }
     }
 
-
+    [DataContract]
     /// <summary>
     /// Пользователь
     /// </summary>
@@ -26,6 +29,7 @@ namespace AutoPartsSite.Models.Account
         public string Email { get; set; }
     }
 
+    [DataContract]
     public class UserWithRole : User
     {
         /// <summary>

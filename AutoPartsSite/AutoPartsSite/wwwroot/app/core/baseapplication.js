@@ -33,8 +33,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             Application.prototype.GlobalAjaxSetup = function () {
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                     //jqXHR.setRequestHeader("X-Application-Language", _config.Language);
-                    if (vars._identity && vars._identity.Auth && vars._identity.Token) {
-                        jqXHR.setRequestHeader("Authorization", "APS-ApiKey " + vars._identity.Token);
+                    if (vars._appData.Identity && vars._appData.Identity.Auth && vars._appData.Identity.Token) {
+                        jqXHR.setRequestHeader("Authorization", "APS-ApiKey " + vars._appData.Identity.Token);
                     }
                 });
                 // $(document).ajaxError(this.GlobalAjaxErrorHandler);

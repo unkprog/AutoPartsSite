@@ -9,15 +9,20 @@ namespace AutoPartsSite.Controllers.Api
     public partial class AccountController
     {
         [NonAction]
-        internal void SetUserUid(string uid, int userId = 0)
+        internal int SetUserUid(string uid, int userId = 0)
         {
-            List<Country> result = new List<Country>();
-            AppSettings.Query.Basket.ExecuteNonQuery(@"Basket\[set_user_uid]"
+            int result = 0;
+            AppSettings.Query.Basket.Execute(@"Basket\[set_user_uid]"
                 , sqlParameters: new SqlParameter[]
                 {
                     new SqlParameter("@Uid", string.IsNullOrEmpty(uid) ? (object)DBNull.Value : uid),
                     new SqlParameter("@User", userId)
+                }
+                , action: (values) =>
+                {
+                    result = Convert.ToInt32(values[0]);
                 });
+            return result;
         }
 
         [NonAction]

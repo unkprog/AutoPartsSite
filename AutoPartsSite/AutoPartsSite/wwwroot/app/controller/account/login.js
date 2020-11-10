@@ -53,12 +53,13 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     var controller = this;
                     var model = {
                         Email: $('#login-email').val(),
-                        Pass: $('#login-pass').val()
+                        Pass: $('#login-pass').val(),
+                        Uid: vars._appData.Uid
                     };
                     if (this.validate(model)) {
                         controller.AccountService.Login(model, function (responseData) {
                             if (responseData.Result === 0) {
-                                vars._identity = responseData.Data;
+                                vars._appData.Identity = responseData.Identity;
                                 vars._app.OpenController({ urlController: "search/index" });
                                 vars._main.LogIn();
                                 vars._app.HideLoading();

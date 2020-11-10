@@ -16,6 +16,7 @@
     export interface ILoginModel extends IRegisterModel {
         Email: string;
         Pass: string;
+        Uid: string;
     }
 
     export interface IUserModel extends IRegisterModel  {
@@ -27,6 +28,7 @@
         Cms: boolean;
         Token: string;
         User: IUserModel;
+        SiteId: number;
     }
 
     export interface IEditorModel extends IBaseModel {

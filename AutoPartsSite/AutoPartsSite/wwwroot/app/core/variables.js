@@ -19,7 +19,6 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
     var staticResources = new App.StaticResources();
     exports._statres = function (id) { return staticResources.GetString(id); };
     exports._showError = function (error) { exports._app.ShowError(error); };
-    exports._identity = { Auth: false, Cms: false, Token: '', User: null };
     exports._controllers = {};
     exports._controllers["main"] = function (module) { return new module.Controller.Main(); };
     function registerController(crtlId, funcConstructor) {
@@ -53,7 +52,18 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
     (function (App) {
         var Data = /** @class */ (function () {
             function Data() {
+                this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
             }
+            Object.defineProperty(Data.prototype, "Identity", {
+                get: function () {
+                    return this._identity;
+                },
+                set: function (identity) {
+                    this._identity = identity;
+                },
+                enumerable: false,
+                configurable: true
+            });
             Object.defineProperty(Data.prototype, "Locale", {
                 get: function () {
                     var locale = localStorage.getItem('locale');

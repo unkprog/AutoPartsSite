@@ -47,10 +47,11 @@ namespace AutoPartsSite.Controllers.Api
                 Principal principal = new Principal(user);
                 AuthUserManager.LogIn(principal);
                 AuthorizationHeaderHandler.SetPrincipal(principal);
+                int siteId = SetUserUid(login.Uid, user.Id);
 
                 bool Cms = user.Roles != null && user.Roles.Count > 0 && user.Roles.FirstOrDefault(f => f.Role == 1) != null;
 
-                return CreateResponseOk(new IdentityResult() { Auth = true, Cms = Cms, Token = principal.GetKey(), User = user });
+                return CreateResponseOk(new IdentityResult { SiteId = siteId, Auth = true, Cms = Cms, Token = principal.GetKey(), User = user });
             });
 
         [HttpPost]

@@ -67,7 +67,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
                 _super.prototype.ViewInit.call(this, view);
-                this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
+                this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
                 this.initLogIn();
                 variables_1._app.OpenController({ urlController: "search/index" });
                 return false;
@@ -78,10 +78,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, this);
             };
             Main.prototype.LogIn = function () {
-                this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
-                if (vars._identity.Auth !== true)
+                this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
+                if (vars._appData.Identity.Auth !== true)
                     return;
-                if (vars._identity.Cms === true) {
+                if (vars._appData.Identity.Cms === true) {
                     this.menuCms = $('<li><a id="main-view-btn-cms" href><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
                     $('#main-view-slide').append(this.menuCms);
                     this.CmsButtonClick = this.createClickEvent("main-view-btn-cms", this.cmsButtonClick);
@@ -93,7 +93,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
             };
             Main.prototype.LogOut = function () {
-                vars._identity = { Auth: false, Cms: false, Token: '', User: null };
+                vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
                 if (this.menuCms) {
                     this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
                     this.menuCms.remove();
@@ -159,7 +159,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 //this.initAfterLoaded();
             };
             Main.prototype.loginClick = function (e) {
-                if (vars._identity.Auth !== true) {
+                if (vars._appData.Identity.Auth !== true) {
                     this.OpenController({ urlController: "account/login" });
                     e.preventDefault();
                     return false;

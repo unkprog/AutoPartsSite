@@ -76,7 +76,7 @@ export namespace Controller {
             this.contentModal = view.find("#main-view-content-modal");
             super.ViewInit(view);
 
-            this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
+            this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
             this.initLogIn();
 
             _app.OpenController({ urlController: "search/index" });
@@ -91,11 +91,11 @@ export namespace Controller {
 
         public LogIn(): void {
           
-            this.Model.set('labelUserName', (vars._identity.Auth === true ? vars._identity.User.Email : ""));
-            if (vars._identity.Auth !== true)
+            this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
+            if (vars._appData.Identity.Auth !== true)
                 return;
 
-            if (vars._identity.Cms === true) {
+            if (vars._appData.Identity.Cms === true) {
                 this.menuCms = $('<li><a id="main-view-btn-cms" href><i class="material-icons">wysiwyg</i><span>CMS</span></a></li>');
                 $('#main-view-slide').append(this.menuCms);
                 this.CmsButtonClick = this.createClickEvent("main-view-btn-cms", this.cmsButtonClick);
@@ -110,7 +110,7 @@ export namespace Controller {
         }
 
         public LogOut(): void {
-            vars._identity = { Auth: false, Cms: false, Token: '', User: null };
+            vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
             if (this.menuCms) {
                 this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
                 this.menuCms.remove();
@@ -195,7 +195,7 @@ export namespace Controller {
 
         public LoginClick: { (e: any): void; };
         private loginClick(e) {
-            if (vars._identity.Auth !== true) {
+            if (vars._appData.Identity.Auth !== true) {
                 this.OpenController({ urlController: "account/login" });
                 e.preventDefault();
                 return false;

@@ -44,13 +44,14 @@ export namespace Controller.Account {
             let controller = this;
             let model: Interfaces.Model.ILoginModel = {
                 Email: <string>$('#login-email').val(),
-                Pass: <string>$('#login-pass').val()
+                Pass: <string>$('#login-pass').val(),
+                Uid: vars._appData.Uid
             };
 
             if (this.validate(model)) {
                 controller.AccountService.Login(model, (responseData) => {
                     if (responseData.Result === 0) {
-                        vars._identity = responseData.Data;
+                        vars._appData.Identity = responseData.Identity;
                         vars._app.OpenController({ urlController: "search/index" });
                         vars._main.LogIn();
                         vars._app.HideLoading();

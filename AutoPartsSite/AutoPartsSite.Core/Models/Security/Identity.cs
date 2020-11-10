@@ -33,5 +33,7 @@ namespace AutoPartsSite.Core.Models.Security
         public string Token { get; set; }
         [DataMember]
         public User User { get; set; }
+        [DataMember]
+        public int  SiteId { get; set; }
     }
 }

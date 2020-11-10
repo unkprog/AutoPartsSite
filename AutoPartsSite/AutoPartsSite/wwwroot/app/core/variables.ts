@@ -3,7 +3,6 @@
 import { isNullOrEmpty } from "./utils";
 
 export declare let _app: Interfaces.IApplication;
-export declare let _identity: Interfaces.Model.IIdentity;
 export declare let _main: Interfaces.IMainNavigation;
 export declare let _statres: (id: string) => string;
 export declare let _absUrl: (id: string) => string;   //Create absolute ref to resource
@@ -34,7 +33,6 @@ export namespace App {
 const staticResources = new App.StaticResources();
 _statres = (id: string) => { return staticResources.GetString(id); }
 _showError = (error: string) => { _app.ShowError(error); }
-_identity = { Auth: false, Cms: false, Token: '', User: null };
 
 export declare let _controllers: any;
 _controllers = {};
@@ -82,6 +80,18 @@ positionTextColor = '#4caf50';
 
 export namespace App {
     export class Data {
+
+        constructor() {
+            this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
+        }
+
+        private _identity: Interfaces.Model.IIdentity;
+        public get Identity(): Interfaces.Model.IIdentity {
+            return this._identity;
+        }
+        public set Identity(identity: Interfaces.Model.IIdentity) {
+            this._identity = identity;
+        }
 
         public get Locale(): string {
             var locale: string = localStorage.getItem('locale');
