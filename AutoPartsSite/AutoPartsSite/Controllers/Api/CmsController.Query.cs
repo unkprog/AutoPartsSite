@@ -27,6 +27,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Page", Value = page }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result = new PageEdit()
@@ -54,6 +55,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = page.Id }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     string content = values[2] == DBNull.Value ? string.Empty : (string)values[2];
@@ -76,6 +78,7 @@ namespace AutoPartsSite.Controllers.Api
             {
                     new SqlParameter() { ParameterName = "@Id", Value = Id }
             }
+            , onExecute: null
             , (values) =>
             {
                 list.Add((-(int)values[1], (values[2] == DBNull.Value ? string.Empty : (string)values[2]), (values[3] == DBNull.Value ? string.Empty : (string)values[3])));
@@ -157,6 +160,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@HeaderEn", Value = page.HeaderEn },
                     new SqlParameter() { ParameterName = "@HeaderRu", Value = page.HeaderRu }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Id = (int)values[0];
@@ -175,6 +179,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = id }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result = new NewEdit()
@@ -200,6 +205,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@RowspPage", Value = pageRows },
                     new SqlParameter() { ParameterName = "@PageNumber", Value = page }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Add(new NewEdit()
@@ -224,6 +230,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Id", Value = 0 }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Add(new NewEdit()

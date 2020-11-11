@@ -24,7 +24,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             List<User> result = new List<User>();
             ExecQuery((query) =>
             {
-                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "email"), new SqlParameter() { ParameterName = "@id", Value = 0 }, new SqlParameter("@email", email) }
+                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "email"), new SqlParameter() { ParameterName = "@id", Value = 0 }, new SqlParameter("@email", email) }, onExecute: null
                 , (values) =>
                 {
                     result.Add(new User()
@@ -48,7 +48,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             User result = null;
             ExecQuery((query) =>
             {
-                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "id"), new SqlParameter("@id", value: id), new SqlParameter("@email", value: string.Empty) }
+                query.Execute(@"user\[get]", new SqlParameter[] { new SqlParameter("@field", "id"), new SqlParameter("@id", value: id), new SqlParameter("@email", value: string.Empty) }, onExecute: null
                  , (values) =>
                  {
                      result = new User()
@@ -72,7 +72,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             int id = 0;
             ExecQuery((query) =>
             {
-                query.Execute(@"user\[ins]", sqlParameters: new SqlParameter[] { new SqlParameter("@cu", value: 0), new SqlParameter("@uu", value: 0), new SqlParameter("@email", value: user.Email) }
+                query.Execute(@"user\[ins]", sqlParameters: new SqlParameter[] { new SqlParameter("@cu", value: 0), new SqlParameter("@uu", value: 0), new SqlParameter("@email", value: user.Email) }, onExecute: null
                 , action: (values) =>
                 {
                     id = (int)values[0];
@@ -88,7 +88,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             User_Role result = new User_Role() { User = user_role.User, Role = user_role.Role };
             ExecQuery((query) =>
             {
-                query.Execute(@"user\role\[ins]", sqlParameters: new SqlParameter[] { new SqlParameter("@user", value: result.User), new SqlParameter("@role", value: result.Role) }
+                query.Execute(@"user\role\[ins]", sqlParameters: new SqlParameter[] { new SqlParameter("@user", value: result.User), new SqlParameter("@role", value: result.Role) }, onExecute: null
                 , action: (values) =>
                 {
                     result.Id = (int)values[0];
@@ -104,7 +104,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             List<User_Role> result = new List<User_Role>();
             ExecQuery((query) =>
             {
-                query.Execute(@"user\role\[get]", new SqlParameter[] { new SqlParameter() { ParameterName = "@id", Value = id } }
+                query.Execute(@"user\role\[get]", new SqlParameter[] { new SqlParameter() { ParameterName = "@id", Value = id } }, onExecute: null
                 , (values) =>
                 {
                     result.Add(new User_Role()
@@ -125,7 +125,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             {
                 ExecQuery((query) =>
                 {
-                    query.Execute(@"user\sec\[get]", new SqlParameter[] { new SqlParameter("@id", value: users[i].Id) }
+                    query.Execute(@"user\sec\[get]", new SqlParameter[] { new SqlParameter("@id", value: users[i].Id) }, onExecute: null
                         , (values) =>
                         {
                             if (pass == (string)values[1])

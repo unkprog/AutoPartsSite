@@ -48,18 +48,18 @@ namespace AutoPartsSite.Controllers.Api
                });
            });
 
-        [HttpGet]
+        [HttpPost]
         [Route("partNumber")]
-        public async Task<HttpMessage<GoodsSearchResult>> PartNumber(string partNumber, int languageId, int currencyId, int pageRows, int page)
+        public async Task<HttpMessage<GoodsSearchResult>> PartNumber(PartNumberQuery pq)
             => await TryCatchResponseAsync(async () =>
             {
                 return await Task.Run(() =>
                 {
-                    List<GoodsSearch> resultSearch = GetSearchGoods(partNumber, pageRows, page);
+                    List<GoodsSearch> resultSearch = GetSearchGoods(pq.partNumber, pq.pageRows, pq.page);
 
                     GoodsSearchResult result = new GoodsSearchResult()
                     {
-                        Result = GetGoods(resultSearch, languageId, currencyId),
+                        Result = GetGoods(resultSearch, pq),
                         Page = resultSearch.Count > 0 ? resultSearch[0].Page : 0,
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };

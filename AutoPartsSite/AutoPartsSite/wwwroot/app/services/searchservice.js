@@ -30,9 +30,15 @@ define(["require", "exports", "app/core/baseservice", "../core/variables"], func
                 configurable: true
             });
             SearchService.prototype.PartNumber = function (partNumber, page, Callback) {
-                var languageId = variables_1._appData.Settings.Language.Id;
-                var currencyId = variables_1._appData.Settings.Currency.Id;
-                this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, languageId: languageId, currencyId: currencyId, pageRows: 50, page: page }, Callback: Callback });
+                var pq = {
+                    partNumber: partNumber,
+                    siteId: variables_1._appData.Identity.SiteId,
+                    countryId: variables_1._appData.Settings.Country.Id,
+                    languageId: variables_1._appData.Settings.Language.Id,
+                    currencyId: variables_1._appData.Settings.Currency.Id,
+                    pageRows: 50, page: page
+                };
+                this.PostApi({ Action: "/partNumber", RequestData: JSON.stringify(pq), Callback: Callback });
             };
             SearchService.prototype.ListBrands = function (Callback) {
                 this.GetApi({ Action: "/listBrands", Callback: Callback });

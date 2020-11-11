@@ -23,7 +23,7 @@ namespace AutoPartsSite.Controllers.Api
             int result = 0;
             ExecQuery((query) =>
             {
-                query.Execute(@"[count]", new SqlParameter[] { new SqlParameter() { ParameterName = "@Uid", Value = uid } }
+                query.Execute(@"[count]", new SqlParameter[] { new SqlParameter() { ParameterName = "@Uid", Value = uid } }, onExecute: null
                 , (values) =>
                 {
                     result = Convert.ToInt32(values[0]);
@@ -68,6 +68,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Positions.Add(new BasketGoods()
@@ -99,6 +100,7 @@ namespace AutoPartsSite.Controllers.Api
             {
                 new SqlParameter() { ParameterName = "@GoodsID", Value = res.Keys.ToArray() }
             }
+            , onExecute: null
             , (values) =>
             {
                 id = (int)values[0];

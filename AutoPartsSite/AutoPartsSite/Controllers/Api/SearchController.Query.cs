@@ -27,6 +27,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@RowspPage" , Value = pageRows },
                     new SqlParameter() { ParameterName = "@PageNumber", Value = page }
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Add(new GoodsSearch()
@@ -43,7 +44,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<Goods> GetGoods(List<GoodsSearch> goods, int languageId, int currencyId)
+        private List<Goods> GetGoods(List<GoodsSearch> goods, PartNumberQuery pq)
         {
             List<Goods> result = new List<Goods>();
             List<int> goodsId = new List<int>();
@@ -65,6 +66,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                         new SqlParameter() { ParameterName = "@GoodsID", Value = goodsId.ToArray() },
                 }
+                , onExecute: null
                 , (values) =>
                 {
                     result.Add(new Goods()

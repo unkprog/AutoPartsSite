@@ -75,7 +75,7 @@ namespace AutoPartsSite.Core.Sql
         }
 
 
-        public static void ExecuteQuery(string connectionString, string commandText, SqlParameter[] sqlParameters, Action<object[]> action)
+        public static void ExecuteQuery(string connectionString, string commandText, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action)
         {
             if (action == null)
                 return;

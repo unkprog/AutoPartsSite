@@ -18,6 +18,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter("@Uid", string.IsNullOrEmpty(uid) ? (object)DBNull.Value : uid),
                     new SqlParameter("@User", userId)
                 }
+                , onExecute: null
                 , action: (values) =>
                 {
                     result = Convert.ToInt32(values[0]);
@@ -34,6 +35,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
+                , onExecute: null
                 , action: (values) =>
                 {
                     result.Add(new Country() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
@@ -50,6 +52,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
+                , onExecute: null
                 , action: (values) =>
                 {
                     result.Add(new Lang() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
@@ -66,6 +69,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
+                , onExecute: null
                 , action: (values) =>
                 {
                     result.Add(new Currency() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });

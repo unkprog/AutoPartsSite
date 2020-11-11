@@ -13,9 +13,15 @@ export namespace Services {
         }
 
         public PartNumber(partNumber: string, page: number, Callback: (responseData: any) => void) {
-            let languageId: number = _appData.Settings.Language.Id;
-            let currencyId: number = _appData.Settings.Currency.Id;
-            this.GetApi({ Action: "/partNumber", RequestData: { partNumber: partNumber, languageId: languageId, currencyId: currencyId, pageRows: 50, page: page }, Callback: Callback });
+            let pq = {
+                partNumber: partNumber,
+                siteId: _appData.Identity.SiteId,
+                countryId: _appData.Settings.Country.Id,
+                languageId: _appData.Settings.Language.Id,
+                currencyId: _appData.Settings.Currency.Id,
+                pageRows: 50, page: page
+            };
+            this.PostApi({ Action: "/partNumber", RequestData: JSON.stringify(pq), Callback: Callback });
         }
 
         public ListBrands(Callback: (responseData: any) => void) {
