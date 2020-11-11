@@ -1,7 +1,7 @@
 ﻿declare @retId int = isnull((select top 1 [Id] from [User_UID] [uu] with(nolock) where [uu].[Uid] = @Uid or [uu].[User] = @User), 0)
 if @retId = 0
 begin
-  insert into [Page_Content] ([Uid], [User])
+  insert into [User_UID] ([Uid], [User])
   values(@Uid, @User)
   select cast(scope_identity() as int)
 end

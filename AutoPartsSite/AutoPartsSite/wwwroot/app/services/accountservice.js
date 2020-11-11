@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/baseservice"], function (require, exports, base) {
+define(["require", "exports", "app/core/baseservice", "../core/variables"], function (require, exports, base, variables_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -37,6 +37,9 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             };
             AccountService.prototype.Login = function (model, Callback) {
                 this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
+            };
+            AccountService.prototype.Uid = function (Callback) {
+                this.GetApi({ Action: "/uid", RequestData: { uid: variables_1._appData.Uid }, Callback: Callback });
             };
             AccountService.prototype.Settings = function (Callback) {
                 this.GetApi({ Action: "/settings", Callback: Callback });

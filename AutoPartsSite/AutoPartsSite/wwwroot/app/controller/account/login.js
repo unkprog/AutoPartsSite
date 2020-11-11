@@ -59,7 +59,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     if (this.validate(model)) {
                         controller.AccountService.Login(model, function (responseData) {
                             if (responseData.Result === 0) {
-                                vars._appData.Identity = responseData.Identity;
+                                vars._appData.Identity = responseData.Data;
                                 vars._app.OpenController({ urlController: "search/index" });
                                 vars._main.LogIn();
                                 vars._app.HideLoading();

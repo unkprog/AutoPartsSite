@@ -12,7 +12,7 @@ namespace AutoPartsSite.Controllers.Api
         internal int SetUserUid(string uid, int userId = 0)
         {
             int result = 0;
-            AppSettings.Query.Basket.Execute(@"Basket\[set_user_uid]"
+            AppSettings.Query.Basket.Execute(@"[set_user_uid]"
                 , sqlParameters: new SqlParameter[]
                 {
                     new SqlParameter("@Uid", string.IsNullOrEmpty(uid) ? (object)DBNull.Value : uid),

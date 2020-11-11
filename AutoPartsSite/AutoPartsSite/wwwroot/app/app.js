@@ -47,21 +47,24 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             Application.prototype.loadAppView = function () {
                 var self = this;
-                var settings = vars._appData.Settings;
-                if (settings != null)
-                    self.loadAppView_();
-                else {
-                    var accountService = new acc.Services.AccountService();
-                    accountService.Settings(function (responseData) {
-                        if (responseData.Result === 0) {
-                            vars._appData.Settings = responseData.Data;
-                            self.loadAppView_();
-                        }
-                        else {
-                            alert(responseData.Error);
-                        }
-                    });
-                }
+                var accountService = new acc.Services.AccountService();
+                accountService.Uid(function (responseData) {
+                    vars._appData.Identity.SiteId = responseData.Data;
+                    var settings = vars._appData.Settings;
+                    if (settings != null)
+                        self.loadAppView_();
+                    else {
+                        accountService.Settings(function (responseData) {
+                            if (responseData.Result === 0) {
+                                vars._appData.Settings = responseData.Data;
+                                self.loadAppView_();
+                            }
+                            else {
+                                alert(responseData.Error);
+                            }
+                        });
+                    }
+                });
             };
             Application.prototype.loadAppView_ = function () {
                 var self = this;

@@ -1,4 +1,5 @@
 ﻿import base = require("app/core/baseservice");
+import { _appData } from "../core/variables";
 
 export namespace Services {
     export class AccountService extends base.Services.BaseService {
@@ -21,6 +22,11 @@ export namespace Services {
 
         public Login(model: Interfaces.Model.ILoginModel, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
+        }
+
+
+        public Uid(Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/uid", RequestData: { uid: _appData.Uid }, Callback: Callback });
         }
 
         public Settings(Callback: (responseData: any) => void) {

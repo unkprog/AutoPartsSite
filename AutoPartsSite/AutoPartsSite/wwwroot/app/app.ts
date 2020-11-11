@@ -47,23 +47,29 @@ export module App {
 
         protected loadAppView() {
             let self = this;
+            let accountService: acc.Services.AccountService = new acc.Services.AccountService();
 
-            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
-            if (settings != null)
-                self.loadAppView_();
-            else {
-                let accountService: acc.Services.AccountService = new acc.Services.AccountService();
-                accountService.Settings((responseData) => {
-                    if (responseData.Result === 0) {
-                        vars._appData.Settings = responseData.Data;
-                        self.loadAppView_();
-                    }
-                    else {
-                        alert(responseData.Error);
-                    }
-                });
-            }
+            accountService.Uid((responseData) => {
+                vars._appData.Identity.SiteId = responseData.Data;
+                let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+                if (settings != null)
+                    self.loadAppView_();
+                else {
+
+                    accountService.Settings((responseData) => {
+                        if (responseData.Result === 0) {
+                            vars._appData.Settings = responseData.Data;
+                            self.loadAppView_();
+                        }
+                        else {
+                            alert(responseData.Error);
+                        }
+                    });
+                }
+
+            });
         }
+
         private loadAppView_() {
             let self = this;
             $.when($.ajax({ url: "/app/app.html", cache: false })).done((template) => {

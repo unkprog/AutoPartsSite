@@ -21,13 +21,13 @@ namespace AutoPartsSite.Controllers.Api
                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
                  int result = SetUserUid(uid, userId);
-                 return CreateResponseOk(1);
+                 return CreateResponseOk(result);
              });
          });
 
         [HttpGet]
         [Route("settings")]
-        public async Task<HttpMessage<Settings>> Settings(string uid)
+        public async Task<HttpMessage<Settings>> Settings()
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
