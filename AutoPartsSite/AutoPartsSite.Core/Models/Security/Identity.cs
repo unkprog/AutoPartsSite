@@ -34,6 +34,6 @@ namespace AutoPartsSite.Core.Models.Security
         [DataMember]
         public User User { get; set; }
         [DataMember]
-        public int  SiteId { get; set; }
+        public int  SiteUserId { get; set; }
     }
 }

@@ -28,7 +28,7 @@
         Cms: boolean;
         Token: string;
         User: IUserModel;
-        SiteId: number;
+        SiteUserId: number;
     }
 
     export interface IEditorModel extends IBaseModel {

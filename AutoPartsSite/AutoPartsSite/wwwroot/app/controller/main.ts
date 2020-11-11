@@ -110,7 +110,7 @@ export namespace Controller {
         }
 
         public LogOut(): void {
-            vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
+            vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
             if (this.menuCms) {
                 this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
                 this.menuCms.remove();

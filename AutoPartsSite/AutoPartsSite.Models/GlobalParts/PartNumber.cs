@@ -8,7 +8,7 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public string partNumber { get; set; }
         [DataMember]
-        public int siteId { get; set; }
+        public int siteUserId { get; set; }
         [DataMember]
         public int countryId { get; set; }
         [DataMember]

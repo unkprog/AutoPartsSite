@@ -82,7 +82,7 @@ export namespace App {
     export class Data {
 
         constructor() {
-            this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
+            this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
         }
 
         private _identity: Interfaces.Model.IIdentity;

@@ -52,7 +52,7 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
     (function (App) {
         var Data = /** @class */ (function () {
             function Data() {
-                this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteId: 0 };
+                this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
             }
             Object.defineProperty(Data.prototype, "Identity", {
                 get: function () {

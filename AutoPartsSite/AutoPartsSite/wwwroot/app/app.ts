@@ -50,7 +50,7 @@ export module App {
             let accountService: acc.Services.AccountService = new acc.Services.AccountService();
 
             accountService.Uid((responseData) => {
-                vars._appData.Identity.SiteId = responseData.Data;
+                vars._appData.Identity.SiteUserId = responseData.Data;
                 let settings: Interfaces.Model.ISettings = vars._appData.Settings;
                 if (settings != null)
                     self.loadAppView_();

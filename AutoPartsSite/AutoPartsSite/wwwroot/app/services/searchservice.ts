@@ -15,7 +15,7 @@ export namespace Services {
         public PartNumber(partNumber: string, page: number, Callback: (responseData: any) => void) {
             let pq = {
                 partNumber: partNumber,
-                siteId: _appData.Identity.SiteId,
+                siteUserId: _appData.Identity.SiteUserId,
                 countryId: _appData.Settings.Country.Id,
                 languageId: _appData.Settings.Language.Id,
                 currencyId: _appData.Settings.Currency.Id,
