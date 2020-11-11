@@ -1,5 +1,6 @@
 ﻿var locale = localStorage.getItem('locale') || 'en';
 
+
 requirejs.config({
     baseUrl: "/",
     paths: {
@@ -42,8 +43,7 @@ requirejs.config({
 require(["domReady", "jquery"], function (domReady, _jquery) {
     $("#progress-container").show();
     require(["materialize", "kendo.binder", "i18n"], function (_materialize, _kendoBinder, _i18n) {
-        //i18n.locale = 'root';
-        //i18n.translations = { root };
+
         domReady(function () {
             require(["app/app"], function (app) {
                 var _app = new app.App.Application();

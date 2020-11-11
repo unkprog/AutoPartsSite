@@ -108,13 +108,17 @@ export namespace Controller.Account {
             let settingsData: Interfaces.Model.ISettingsData = this.Model.get("SettingsData");
             let settings: Interfaces.Model.ISettings = vars._appData.Settings;
             let country: number = parseInt($('#settings-view-list-country').val() as string, 0);
-            let lang: number = parseInt($('#settings-view-list-country').val() as string, 0);
-            let currency: number = parseInt($('#settings-view-list-country').val() as string, 0);
+            let lang: number = parseInt($('#settings-view-list-lang').val() as string, 0);
+            let currency: number = parseInt($('#settings-view-list-currency').val() as string, 0);
 
             if (settings.Country.Id !== country) {
                 for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
                     if (settingsData.Countries[i].Id === country) {
-                        settings.Country = settingsData.Countries[i];
+                        settings.Country = {
+                            Id: settingsData.Countries[i].Id,
+                            Code: settingsData.Countries[i].Code,
+                            Name: settingsData.Countries[i].Name
+                        }
                         break;
 
                     }
@@ -124,7 +128,11 @@ export namespace Controller.Account {
             if (settings.Currency.Id !== currency) {
                 for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
                     if (settingsData.Currencies[i].Id === currency) {
-                        settings.Currency = settingsData.Currencies[i];
+                        settings.Currency = {
+                            Id: settingsData.Currencies[i].Id,
+                            Code: settingsData.Currencies[i].Code,
+                            Name: settingsData.Currencies[i].Name
+                        };
                         break;
                     }
                 }
@@ -133,7 +141,11 @@ export namespace Controller.Account {
             if (settings.Language.Id !== lang) {
                 for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
                     if (settingsData.Languages[i].Id === lang) {
-                        settings.Language = settingsData.Languages[i];
+                        settings.Language = {
+                            Id: settingsData.Languages[i].Id,
+                            Code: settingsData.Languages[i].Code,
+                            Name: settingsData.Languages[i].Name
+                        };
                         break;
                     }
                 }

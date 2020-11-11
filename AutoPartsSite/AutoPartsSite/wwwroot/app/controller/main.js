@@ -111,25 +111,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.menu.remove();
             };
             Main.prototype.createEvents = function () {
-                this.OpenMenuButtonClick = this.createTouchClickEvent(this.buttonMenu, this.openMenuButtonClick);
                 var self = this;
-                this.AppTitleClick = utils.createClickEvent("app-title", this.appTitleClick, self);
-                this.LangEnClick = this.createClickEvent("app-lang-en", this.langEnClick);
-                this.LangRuClick = this.createClickEvent("app-lang-ru", this.langRuClick);
-                this.BasketButtonClick = this.createClickEvent(this.menuBasket.find("#app-btn-basket"), this.basketButtonClick);
+                self.AppTitleClick = utils.createClickEvent($("#app-title"), self.appTitleClick, self);
+                self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
+                self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
+                self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
+                self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
                 //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
-                this.MenuSearchButtonClick = this.createClickEvent("main-view-btn-search", this.menuSearchButtonClick);
-                this.MenuAboutButtonClick = this.createClickEvent("main-view-btn-about", this.menuAboutButtonClick);
-                this.MenuNewsButtonClick = this.createClickEvent("main-view-btn-news", this.menuNewsButtonClick);
-                this.MenuFaqButtonClick = this.createClickEvent("main-view-btn-faq", this.menuFaqButtonClick);
-                this.MenuPaymentButtonClick = this.createClickEvent("main-view-btn-payment", this.menuPaymentButtonClick);
-                this.MenuShippingButtonClick = this.createClickEvent("main-view-btn-shipping", this.menuShippingButtonClick);
-                this.MenuContactButtonClick = this.createClickEvent("main-view-btn-contact", this.menuContactButtonClick);
-                this.MenuSettingsButtonClick = this.createClickEvent("main-view-btn-settings", this.menuSettingsButtonClick);
-                this.UserOrdersButtonClick = this.createClickEvent("app-user-orders", this.userOrdersButtonClick);
-                this.UserGarageButtonClick = this.createClickEvent("app-user-garage", this.userGarageButtonClick);
-                this.UserMessagesButtonClick = this.createClickEvent("app-user-messages", this.userMessagesButtonClick);
-                this.UserSettingsButtonClick = this.createClickEvent("app-user-settings", this.userSettingsButtonClick);
+                self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
+                self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
+                self.MenuNewsButtonClick = self.createClickEvent("main-view-btn-news", self.menuNewsButtonClick);
+                self.MenuFaqButtonClick = self.createClickEvent("main-view-btn-faq", self.menuFaqButtonClick);
+                self.MenuPaymentButtonClick = self.createClickEvent("main-view-btn-payment", self.menuPaymentButtonClick);
+                self.MenuShippingButtonClick = self.createClickEvent("main-view-btn-shipping", self.menuShippingButtonClick);
+                self.MenuContactButtonClick = self.createClickEvent("main-view-btn-contact", self.menuContactButtonClick);
+                self.MenuSettingsButtonClick = self.createClickEvent("main-view-btn-settings", self.menuSettingsButtonClick);
+                self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
+                self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
+                self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
+                self.UserSettingsButtonClick = self.createClickEvent("app-user-settings", self.userSettingsButtonClick);
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
@@ -156,7 +156,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav.sidenav('open');
             };
             Main.prototype.appTitleClick = function (e) {
-                //this.initAfterLoaded();
+                this.handleMenuItem(e, "search/index");
             };
             Main.prototype.loginClick = function (e) {
                 if (vars._appData.Identity.Auth !== true) {

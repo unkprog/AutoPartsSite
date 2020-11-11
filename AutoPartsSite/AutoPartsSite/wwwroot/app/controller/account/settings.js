@@ -108,12 +108,16 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     var settingsData = this.Model.get("SettingsData");
                     var settings = vars._appData.Settings;
                     var country = parseInt($('#settings-view-list-country').val(), 0);
-                    var lang = parseInt($('#settings-view-list-country').val(), 0);
-                    var currency = parseInt($('#settings-view-list-country').val(), 0);
+                    var lang = parseInt($('#settings-view-list-lang').val(), 0);
+                    var currency = parseInt($('#settings-view-list-currency').val(), 0);
                     if (settings.Country.Id !== country) {
                         for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
                             if (settingsData.Countries[i].Id === country) {
-                                settings.Country = settingsData.Countries[i];
+                                settings.Country = {
+                                    Id: settingsData.Countries[i].Id,
+                                    Code: settingsData.Countries[i].Code,
+                                    Name: settingsData.Countries[i].Name
+                                };
                                 break;
                             }
                         }
@@ -121,7 +125,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     if (settings.Currency.Id !== currency) {
                         for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
                             if (settingsData.Currencies[i].Id === currency) {
-                                settings.Currency = settingsData.Currencies[i];
+                                settings.Currency = {
+                                    Id: settingsData.Currencies[i].Id,
+                                    Code: settingsData.Currencies[i].Code,
+                                    Name: settingsData.Currencies[i].Name
+                                };
                                 break;
                             }
                         }
@@ -129,7 +137,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     if (settings.Language.Id !== lang) {
                         for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
                             if (settingsData.Languages[i].Id === lang) {
-                                settings.Language = settingsData.Languages[i];
+                                settings.Language = {
+                                    Id: settingsData.Languages[i].Id,
+                                    Code: settingsData.Languages[i].Code,
+                                    Name: settingsData.Languages[i].Name
+                                };
                                 break;
                             }
                         }
