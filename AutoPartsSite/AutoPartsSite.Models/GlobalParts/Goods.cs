@@ -35,12 +35,27 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public Brand Brand { get; set; }
         /// <summary>
-        /// Бренд
+        /// Страна назначения
         /// </summary>
         [DataMember]
         public Country Country { get; set; }
         /// <summary>
-        /// Бренд
+        /// Валюта
+        /// </summary>
+        [DataMember]
+        public Currency Currency { get; set; }
+        /// <summary>
+        /// Цена
+        /// </summary>
+        [DataMember]
+        public decimal Price { get; set; }
+        /// <summary>
+        /// Цена
+        /// </summary>
+        [DataMember]
+        public int ShipInDays { get; set; }
+        /// <summary>
+        /// Параметры товара
         /// </summary>
         [DataMember]
         public GoodsParameters Parameters { get; set; }

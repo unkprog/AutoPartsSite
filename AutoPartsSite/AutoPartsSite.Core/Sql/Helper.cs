@@ -88,6 +88,7 @@ namespace AutoPartsSite.Core.Sql
 
                      using (SqlDataReader reader = command.ExecuteReader())
                      {
+                         onExecute?.Invoke(reader);
                          object[] values = new object[reader.FieldCount];
                          while (reader.Read())
                          {

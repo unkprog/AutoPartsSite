@@ -9,7 +9,7 @@ namespace AutoPartsSite.Controllers.Api
     public partial class AccountController
     {
         [NonAction]
-        internal int SetUserUid(string uid, int userId = 0)
+        internal static int SetUserUid(string uid, int userId = 0)
         {
             int result = 0;
             AppSettings.Query.Basket.Execute(@"[set_user_uid]"

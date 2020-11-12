@@ -30,8 +30,9 @@ export namespace Controller.Search {
                 "Header": vars._statres("label$AutoPartsSite"),
                 "labelAddToCard": vars._statres("label$addToCard"),
                 "labelBrand": vars._statres("label$brand") + ":",
-                "labelCountry": vars._statres("label$country") + ":",
-                "labelDimensions": vars._statres("label$dimensions") + ":"
+                "labelShipIn": vars._statres("label$shipin") + ":",
+                "labelDimensions": vars._statres("label$dimensions") + ":",
+                "labelWeight": vars._statres("label$weight") + ":"
             });
         }
         

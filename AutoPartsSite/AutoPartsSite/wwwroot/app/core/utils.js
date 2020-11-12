@@ -138,6 +138,8 @@ define(["require", "exports"], function (require, exports) {
     window.date_from_ddmmyyyy = date_from_ddmmyyyy;
     function numberToString(value, decimal) {
         var result = "";
+        if (!decimal)
+            decimal = 0;
         if (value || value === 0) {
             if (value === 0)
                 result = '-';

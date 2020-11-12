@@ -1,5 +1,6 @@
 using AutoPartsSite.Core.Formatters;
 using AutoPartsSite.Core.Http;
+using AutoPartsSite.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 using Utf8Json.Resolvers;
 
 namespace AutoPartsSite
@@ -45,6 +47,8 @@ namespace AutoPartsSite
             });
 
             StaticHttpContextExtensions.AddHttpContextAccessor(services);
+
+            
            // services.AddHttpContextAccessor();
            // // Or you can also register as follows
            // services.TryAddSingleton<IHttpContextAccessor, HttpContextAccess>();
@@ -77,6 +81,36 @@ namespace AutoPartsSite
                 endpoints.MapControllers();
             });
 
+            app.Use(async (context, next) =>
+            {
+
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    StringValues auth = context.Request.Headers["Authorization"];
+                    // Initialization.   
+                    //AuthenticationHeaderValue authorization = context.Request.Headers.Authorization;
+                    //// Verification.   
+                    //if (authorization != null && authorization.Scheme == API_KEY_HEADER && !string.IsNullOrEmpty(authorization.Parameter))
+                    //{
+                    //    Principal principal = AuthUserManager.GetLogIn(authorization.Parameter);
+                    //    if (principal != null)
+                    //    {
+                    //        SetPrincipal(principal);
+                    //    }
+                    //}
+                }
+                //var cultureQuery = context.Request.Query["culture"];
+                //if (!string.IsNullOrWhiteSpace(cultureQuery))
+                //{
+                //    var culture = new CultureInfo(cultureQuery);
+
+                //    CultureInfo.CurrentCulture = culture;
+                //    CultureInfo.CurrentUICulture = culture;
+                //}
+
+                // Call the next delegate/middleware in the pipeline
+                await next();
+            });
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Auto parts site" + System.Environment.NewLine + AppSettings.PhysicalApplicationPath);

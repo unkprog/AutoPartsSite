@@ -56,10 +56,13 @@ namespace AutoPartsSite.Controllers.Api
                 return await Task.Run(() =>
                 {
                     List<GoodsSearch> resultSearch = GetSearchGoods(pq.partNumber, pq.pageRows, pq.page);
+                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                    bool isGuest = principal == null || principal.User == null || principal.User.Id  == 0 ? true : false;
+                   
 
                     GoodsSearchResult result = new GoodsSearchResult()
                     {
-                        Result = GetGoods(resultSearch, pq),
+                        Result = GetGoods(resultSearch, pq, isGuest),
                         Page = resultSearch.Count > 0 ? resultSearch[0].Page : 0,
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };
