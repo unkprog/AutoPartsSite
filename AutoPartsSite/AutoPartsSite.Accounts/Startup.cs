@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Utf8Json.Resolvers;
 using AutoPartsSite.Core.Formatters;
+using System.Net.Http.Headers;
 
 namespace AutoPartsSite.Accounts
 {

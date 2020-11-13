@@ -73,6 +73,14 @@ namespace AutoPartsSite
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            app.UseApiAuth();
+            //app.Use(async (context, next) =>
+            //{
+            //    var h = context.Request.Headers;
+            //    var authorization = h["Authorization"];
+            //    await next();
+            //});
+
             app.UseRouting();
             app.UseAuthorization();
 
