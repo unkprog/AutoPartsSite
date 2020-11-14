@@ -16,8 +16,8 @@ namespace AutoPartsSite.Managers
             else
             {
                 authorizedList[key] = principal;
-                AuthorizationHeaderHandler.SetPrincipal(principal);
             }
+            AuthorizationMiddleware.SetPrincipal(principal);
         }
 
         public static void LogOut(string key)

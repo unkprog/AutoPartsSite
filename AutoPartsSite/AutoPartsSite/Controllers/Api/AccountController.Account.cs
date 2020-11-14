@@ -46,7 +46,6 @@ namespace AutoPartsSite.Controllers.Api
 
                 Principal principal = new Principal(user);
                 AuthUserManager.LogIn(principal);
-                AuthorizationHeaderHandler.SetPrincipal(principal);
                 int siteUserId = SetUserUid(login.Uid, user.Id);
 
                 bool Cms = user.Roles != null && user.Roles.Count > 0 && user.Roles.FirstOrDefault(f => f.Role == 1) != null;

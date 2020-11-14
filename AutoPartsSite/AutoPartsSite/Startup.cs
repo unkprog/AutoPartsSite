@@ -73,13 +73,7 @@ namespace AutoPartsSite
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            app.UseApiAuth();
-            //app.Use(async (context, next) =>
-            //{
-            //    var h = context.Request.Headers;
-            //    var authorization = h["Authorization"];
-            //    await next();
-            //});
+            app.UseApiAuthorization();
 
             app.UseRouting();
             app.UseAuthorization();
@@ -89,36 +83,6 @@ namespace AutoPartsSite
                 endpoints.MapControllers();
             });
 
-            app.Use(async (context, next) =>
-            {
-
-                if (context.Request.Headers.ContainsKey("Authorization"))
-                {
-                    StringValues auth = context.Request.Headers["Authorization"];
-                    // Initialization.   
-                    //AuthenticationHeaderValue authorization = context.Request.Headers.Authorization;
-                    //// Verification.   
-                    //if (authorization != null && authorization.Scheme == API_KEY_HEADER && !string.IsNullOrEmpty(authorization.Parameter))
-                    //{
-                    //    Principal principal = AuthUserManager.GetLogIn(authorization.Parameter);
-                    //    if (principal != null)
-                    //    {
-                    //        SetPrincipal(principal);
-                    //    }
-                    //}
-                }
-                //var cultureQuery = context.Request.Query["culture"];
-                //if (!string.IsNullOrWhiteSpace(cultureQuery))
-                //{
-                //    var culture = new CultureInfo(cultureQuery);
-
-                //    CultureInfo.CurrentCulture = culture;
-                //    CultureInfo.CurrentUICulture = culture;
-                //}
-
-                // Call the next delegate/middleware in the pipeline
-                await next();
-            });
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Auto parts site" + System.Environment.NewLine + AppSettings.PhysicalApplicationPath);

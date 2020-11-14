@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutoPartsSite.Handlers
@@ -26,8 +24,6 @@ namespace AutoPartsSite.Handlers
 
         public async Task Invoke(HttpContext context)
         {
-            _logger.LogInformation("Handling API key for: " + context.Request.Path);
-
             StringValues authorization = context.Request.Headers["Authorization"];
             if(authorization.Count > 0)
             {
@@ -44,24 +40,32 @@ namespace AutoPartsSite.Handlers
                         {
                             Principal principal = AuthUserManager.GetLogIn(val);
                             if (principal != null)
-                            {
-                                AuthorizationHeaderHandler.SetPrincipal(principal);
-                            }
+                                SetPrincipal(principal);
                         }
                     }
                 }
             }
             
-
             await _next.Invoke(context);
+        }
 
-            _logger.LogInformation("Finished handling api key.");
+        public static void SetPrincipal(Principal principal)
+        {
+            // setting.   
+            Thread.CurrentPrincipal = principal;
+            // Verification.   
+
+            if (Core.Http.HttpContext.Current != null)
+            {
+                // Setting.   
+                Core.Http.HttpContext.Current.User = principal;
+            }
         }
     }
 
-    public static class AuthorizationMiddlewareExt
+    public static class AuthorizationMiddlewareExtension
     {
-        public static IApplicationBuilder UseApiAuth(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseApiAuthorization(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<AuthorizationMiddleware>();
         }
