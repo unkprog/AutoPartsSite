@@ -46,57 +46,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<Goods> GetGoodsOld(List<GoodsSearch> goods, PartNumberQuery pq)
-        {
-            List<Goods> result = new List<Goods>();
-            List<int> goodsId = new List<int>();
-            StringBuilder xmlParts = new StringBuilder();
-            xmlParts.AppendLine("<ROOT>");
-            for (int i = 0, icount = goods.Count; i < icount; i++)
-            {
-                xmlParts.AppendLine(string.Concat("<Part PartNN=", '"', i + 1, '"', "PartId=", '"', '"', " PartNo=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Quantity=", '"', 1, '"', " />"));
-                goodsId.Add(goods[i].Id);
-            }
-            xmlParts.AppendLine("</ROOT>");
-
-            if (goodsId.Count < 1)
-                goodsId.Add(0);
-
-            ExecQuery((query) =>
-            {
-                query.Execute(@"Search\[get_in]", new SqlParameter[]
-                {
-                        new SqlParameter() { ParameterName = "@GoodsID", Value = goodsId.ToArray() },
-                }
-                , onExecute: null
-                , (values) =>
-                {
-                    result.Add(new Goods()
-                    {
-                        Id = (int)values[0],
-                        Articul = (string)values[1],
-                        PartNumber = (string)values[2],
-                        Name = (string)values[3],
-                        Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] },
-                        Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] },
-                        Parameters = new GoodsParameters()
-                        {
-                            WeightPhysical = (decimal)values[11],
-                            WeightVolumetric = (decimal)values[12],
-                            VolumetricDivider = (decimal)values[13],
-                            LengthCm = (decimal)values[14],
-                            WidthCm = (decimal)values[15],
-                            HeightCm = (decimal)values[16],
-                            BlockWeightChange = (bool)values[17]
-                        }
-                    });
-                });
-            });
-            return result;
-        }
-
-        [NonAction]
-        private string BuildPartsXML(List<GoodsSearch> goods)
+        internal static string BuildPartsXML(List<GoodsSearch> goods)
         {
             StringBuilder xmlParts = new StringBuilder();
             xmlParts.AppendLine("<ROOT>");
@@ -105,6 +55,7 @@ namespace AutoPartsSite.Controllers.Api
             xmlParts.AppendLine("</ROOT>");
             return xmlParts.ToString();
         }
+
         [NonAction]
         private List<Goods> GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool isGuest)
         {
