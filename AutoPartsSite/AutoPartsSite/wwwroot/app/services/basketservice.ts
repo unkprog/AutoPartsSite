@@ -29,7 +29,14 @@ export namespace Services {
         }
 
         public View(Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/view", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
+            let pq = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id
+            };
+            this.GetApi({ Action: "/view", RequestData: pq, Callback: Callback });
         }
     }
 }

@@ -7,6 +7,7 @@ using AutoPartsSite.Models.GlobalParts;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using AutoPartsSite.Core.Extensions;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -64,7 +65,7 @@ namespace AutoPartsSite.Controllers.Api
 
 
         [NonAction]
-        private BasketData GetBasketData(BasketQuery pq, bool isGuest)
+        private BasketData GetBasketData(BasketQuery pq)
         {
             BasketData result = new BasketData();
             ExecQuery((query) =>
@@ -116,7 +117,7 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
-        private void FillBasketData(BasketData data, List<GoodsSearch> goodsS)
+        private void FillBasketData(BasketData data, List<GoodsSearch> goodsS, BasketQuery pq, bool isGuest)
         {
             if (data?.Positions?.Count == 0)
                 return;
@@ -143,32 +144,82 @@ namespace AutoPartsSite.Controllers.Api
             int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
 
 
-            AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
+            AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
             {
-                new SqlParameter() { ParameterName = "@GoodsID", Value = result.Keys.ToArray() }
+                 new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
+                 new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
+                 new SqlParameter() { ParameterName = "@IsGuest", Value = isGuest },
+                 new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
+                 new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
+                 new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
+                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = false }
             }
-            , onExecute: null
+            , onExecute: (reader) =>
+            {
+                string fname;
+                for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                {
+                    fname = reader.GetName(i);
+                    if (fname == "GoodsID") f_Id = i;
+                    else if (fname == "RequestedPartNumber") f_PartNumber = i;
+                    else if (fname == "Artikul") f_Articul = i;
+                    else if (fname == "Descr") f_Name = i;
+                    else if (fname == "Brand") f_BrandCode = i;
+                    else if (fname == "Price") f_Price = i;
+                    else if (fname == "ShipInDays") f_ShipInDays = i;
+
+                    else if (fname == "CountryID") f_CountryId = i;
+                    else if (fname == "CountryCode") f_CountryCode = i;
+                    else if (fname == "CountryDescr") f_CountryName = i;
+
+                    else if (fname == "CurrencyID") f_CurrencyId = i;
+                    else if (fname == "CurrencyCode") f_CurrencyCode = i;
+                    else if (fname == "CurrencyName") f_CurrencyName = i;
+                    else if (fname == "CurrencySymbol") f_CurrencySymbol = i;
+
+                    else if (fname == "WeightPhysical") f_WeightPhysical = i;
+                    else if (fname == "WeightVolumetric") f_WeightVolumetric = i;
+                    else if (fname == "LengthCm") f_LengthCm = i;
+                    else if (fname == "WidthCm") f_WidthCm = i;
+                    else if (fname == "HeightCm") f_HeightCm = i;
+                }
+            }
             , (values) =>
             {
-                //id = (int)values[0];
-                //if(result.TryGetValue(id, out goods))
-                //{
-                //    goods.Goods.Articul = (string)values[1];
-                //    goods.Goods.PartNumber = (string)values[2];
-                //    goods.Name = (string)values[3];
-                //    goods.Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] };
-                //    goods.Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] };
-                //    goods.Parameters = new GoodsParameters()
-                //    {
-                //        WeightPhysical = (decimal)values[11],
-                //        WeightVolumetric = (decimal)values[12],
-                //        VolumetricDivider = (decimal)values[13],
-                //        LengthCm = (decimal)values[14],
-                //        WidthCm = (decimal)values[15],
-                //        HeightCm = (decimal)values[16],
-                //        BlockWeightChange = (bool)values[17]
-                //    };
-                //}
+                int id = 0;
+                if (f_Id > -1) id = values[f_Id].ToInt();
+                if (id > 0)
+                {
+                    BasketGoods item = null;
+                    if (!result.TryGetValue(id, out item))
+                    {
+                        item = new BasketGoods() { Goods = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() } };
+                        result.Add(id, item);
+                    }
+                    if (f_PartNumber > -1) item.Goods.PartNumber = values[f_PartNumber].ToStr();
+                    if (f_Name       > -1) item.Goods.Name = values[f_Name].ToStr();
+                    if (f_Articul    > -1) item.Goods.Articul = values[f_Articul].ToStr();
+                    if (f_Price      > -1) item.Goods.Price = values[f_Price].ToDecimal();
+                    if (f_ShipInDays > -1) item.Goods.ShipInDays = values[f_ShipInDays].ToInt();
+
+                    if (f_BrandId   > -1) item.Goods.Brand.Id = values[f_BrandId].ToInt();
+                    if (f_BrandCode > -1) item.Goods.Brand.Code = values[f_BrandCode].ToStr();
+
+                    if (f_CountryId   > -1) item.Goods.Country.Id = values[f_CountryId].ToInt();
+                    if (f_CountryCode > -1) item.Goods.Country.Code = values[f_CountryCode].ToStr();
+                    if (f_CountryName > -1) item.Goods.Country.Name = values[f_CountryName].ToStr();
+
+                    if (f_CurrencyId     > -1) item.Goods.Currency.Id = values[f_CurrencyId].ToInt();
+                    if (f_CurrencyCode   > -1) item.Goods.Currency.Code = values[f_CurrencyCode].ToStr();
+                    if (f_CurrencyName   > -1) item.Goods.Currency.Name = values[f_CurrencyName].ToStr();
+                    if (f_CurrencySymbol > -1) item.Goods.Currency.Symbol = values[f_CurrencySymbol].ToStr();
+
+                    if (f_WeightPhysical   > -1) item.Goods.Parameters.WeightPhysical = values[f_WeightPhysical].ToDecimal();
+                    if (f_WeightVolumetric > -1) item.Goods.Parameters.WeightVolumetric = values[f_WeightVolumetric].ToDecimal();
+                    if (f_LengthCm         > -1) item.Goods.Parameters.LengthCm = values[f_LengthCm].ToDecimal();
+                    if (f_WidthCm          > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
+                    if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
+                }
             });
         }
 

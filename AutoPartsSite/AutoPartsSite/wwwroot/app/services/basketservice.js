@@ -42,7 +42,14 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 this.PostApi({ Action: "/delete", RequestData: JSON.stringify({ uid: vars._appData.Uid, id: id, qty: 0 }), Callback: Callback });
             };
             BasketService.prototype.View = function (Callback) {
-                this.GetApi({ Action: "/view", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
+                var pq = {
+                    uid: vars._appData.Uid,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id
+                };
+                this.GetApi({ Action: "/view", RequestData: pq, Callback: Callback });
             };
             return BasketService;
         }(base.Services.BaseService));

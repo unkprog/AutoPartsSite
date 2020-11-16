@@ -81,11 +81,10 @@ namespace AutoPartsSite.Controllers.Api
                {
                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
-
-                   
-                   BasketData basketData = GetBasketData(pq, isGuest);
-                   List<GoodsSearch> goodsSearch = GetBasketGoods(basketData);
-
+                  
+                   BasketData result = GetBasketData(pq);
+                   List<GoodsSearch> goodsSearch = GetBasketGoods(result);
+                   FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);
                });
            });
