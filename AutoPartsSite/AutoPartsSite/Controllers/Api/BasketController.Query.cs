@@ -6,6 +6,7 @@ using AutoPartsSite.Models.Basket;
 using AutoPartsSite.Models.GlobalParts;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -32,6 +33,7 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
+        [NonAction]
         private decimal UpdatePartBasket(PartBasketModel model, bool isAdd = false)
         {
             decimal result = model.qty;
@@ -47,6 +49,7 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
+        [NonAction]
         private void DeletePartBasket(PartBasketModel model)
         {
             ExecQuery((query) =>
@@ -59,14 +62,16 @@ namespace AutoPartsSite.Controllers.Api
             });
         }
 
-        private BasketData GetBasketData(string uid)
+
+        [NonAction]
+        private BasketData GetBasketData(BasketQuery pq, bool isGuest)
         {
             BasketData result = new BasketData();
             ExecQuery((query) =>
             {
                 query.Execute(@"[get]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                    new SqlParameter() { ParameterName = "@Uid", Value = pq.uid },
                 }
                 , onExecute: null
                 , (values) =>
@@ -78,50 +83,92 @@ namespace AutoPartsSite.Controllers.Api
                     });
                 });
             });
-            FillBasketData(result);
             return result;
         }
 
+        [NonAction]
+        private List<GoodsSearch> GetBasketGoods(BasketData data)
+        {
+            List<GoodsSearch> result = new List<GoodsSearch>();
+            List<int> ids = new List<int>();
+            foreach (var id in data.Positions)
+                ids.Add(id.Goods.Id);
 
-        private void FillBasketData(BasketData data)
+            ExecQuery((query) =>
+            {
+                query.Execute(@"Search\[get_in]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = ids.ToArray() },
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result.Add(new GoodsSearch()
+                    {
+                        Id = (int)values[0],
+                        PartNumber = (string)values[1],
+                        Brand = (string)values[2],
+                        Page = (long)values[3],
+                        MaxPage = (long)values[4]
+                    });
+                });
+            });
+            return result;
+        }
+
+        private void FillBasketData(BasketData data, List<GoodsSearch> goodsS)
         {
             if (data?.Positions?.Count == 0)
                 return;
 
-            Dictionary<int, Goods> res = new Dictionary<int, Goods>();
-            Goods goods;
+            Dictionary<int, BasketGoods> result = new Dictionary<int, BasketGoods>();
+            BasketGoods goods;
             int id;
             foreach (var item in data.Positions)
-                if(!res.TryGetValue(item.Goods.Id, out goods))
-                    res.Add(item.Goods.Id, item.Goods);
+                if(!result.TryGetValue(item.Goods.Id, out goods))
+                    result.Add(item.Goods.Id, item);
+
+            foreach (var item in goodsS)
+                if (result.TryGetValue(item.Id, out goods))
+                {
+                    item.Quantity = goods.Quantity;
+                }
+
+            string partsXML = SearchController.BuildPartsXML(goodsS);
+
+            int f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
+            int f_BrandId = -1, f_BrandCode = -1;
+            int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
+            int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
+            int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
 
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
             {
-                new SqlParameter() { ParameterName = "@GoodsID", Value = res.Keys.ToArray() }
+                new SqlParameter() { ParameterName = "@GoodsID", Value = result.Keys.ToArray() }
             }
             , onExecute: null
             , (values) =>
             {
-                id = (int)values[0];
-                if(res.TryGetValue(id, out goods))
-                {
-                    goods.Articul = (string)values[1];
-                    goods.PartNumber = (string)values[2];
-                    goods.Name = (string)values[3];
-                    goods.Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] };
-                    goods.Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] };
-                    goods.Parameters = new GoodsParameters()
-                    {
-                        WeightPhysical = (decimal)values[11],
-                        WeightVolumetric = (decimal)values[12],
-                        VolumetricDivider = (decimal)values[13],
-                        LengthCm = (decimal)values[14],
-                        WidthCm = (decimal)values[15],
-                        HeightCm = (decimal)values[16],
-                        BlockWeightChange = (bool)values[17]
-                    };
-                }
+                //id = (int)values[0];
+                //if(result.TryGetValue(id, out goods))
+                //{
+                //    goods.Goods.Articul = (string)values[1];
+                //    goods.Goods.PartNumber = (string)values[2];
+                //    goods.Name = (string)values[3];
+                //    goods.Brand = new Brand() { Id = (int)values[5], Code = (string)values[6] };
+                //    goods.Country = new Country() { Id = (int)values[7], Code = (string)values[8], Name = (string)values[9] };
+                //    goods.Parameters = new GoodsParameters()
+                //    {
+                //        WeightPhysical = (decimal)values[11],
+                //        WeightVolumetric = (decimal)values[12],
+                //        VolumetricDivider = (decimal)values[13],
+                //        LengthCm = (decimal)values[14],
+                //        WidthCm = (decimal)values[15],
+                //        HeightCm = (decimal)values[16],
+                //        BlockWeightChange = (bool)values[17]
+                //    };
+                //}
             });
         }
 

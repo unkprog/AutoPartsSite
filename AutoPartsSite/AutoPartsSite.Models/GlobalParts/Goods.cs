@@ -97,6 +97,8 @@ namespace AutoPartsSite.Models.GlobalParts
         public long Page { get; set; }
         [DataMember]
         public long MaxPage { get; set; }
+        [DataMember]
+        public decimal Quantity { get; set; }
     }
 
 

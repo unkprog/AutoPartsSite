@@ -1,12 +1,10 @@
 ﻿using System.Runtime.Serialization;
 
-namespace AutoPartsSite.Models.GlobalParts
+namespace AutoPartsSite.Models
 {
     [DataContract]
-    public class PartNumberQuery
+    public class QueryWithSettings
     {
-        [DataMember]
-        public string partNumber { get; set; }
         [DataMember]
         public int siteUserId { get; set; }
         [DataMember]
@@ -15,9 +13,6 @@ namespace AutoPartsSite.Models.GlobalParts
         public int languageId { get; set; }
         [DataMember]
         public int currencyId { get; set; }
-        [DataMember]
-        public int pageRows { get; set; }
-        [DataMember]
-        public int page { get; set; }
+
     }
 }

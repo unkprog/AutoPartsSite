@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Models.Basket;
+using AutoPartsSite.Models.GlobalParts;
+using AutoPartsSite.Core.Models.Security;
+using System.Collections.Generic;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -71,12 +74,18 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpGet]
         [Route("view")]
-        public async Task<HttpMessage<BasketData>> View(string uid)
+        public async Task<HttpMessage<BasketData>> View(BasketQuery pq)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   BasketData result = GetBasketData(uid);
+                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                   bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
+
+                   
+                   BasketData basketData = GetBasketData(pq, isGuest);
+                   List<GoodsSearch> goodsSearch = GetBasketGoods(basketData);
+
                    return CreateResponseOk(result);
                });
            });
