@@ -198,6 +198,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_Name       > -1) item.Goods.Name = values[f_Name].ToStr();
                     if (f_Articul    > -1) item.Goods.Articul = values[f_Articul].ToStr();
                     if (f_Price      > -1) item.Goods.Price = values[f_Price].ToDecimal();
+                    item.Price = item.Goods.Price;
                     if (f_ShipInDays > -1) item.Goods.ShipInDays = values[f_ShipInDays].ToInt();
 
                     if (f_BrandId   > -1) item.Goods.Brand.Id = values[f_BrandId].ToInt();

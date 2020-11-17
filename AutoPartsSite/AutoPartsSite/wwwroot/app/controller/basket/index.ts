@@ -24,7 +24,9 @@ export namespace Controller.Basket {
                 "Header": vars._statres("label$basket"),
                 "labelBrand": vars._statres("label$brand") + ":",
                 "labelCountry": vars._statres("label$country") + ":",
+                "labelShipIn": vars._statres("label$shipin") + ":",
                 "labelDimensions": vars._statres("label$dimensions") + ":",
+                "labelWeight": vars._statres("label$weight") + ":",
                 "labelQty": vars._statres("label$qty") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
                 "labelSum": vars._statres("label$sum") + ":",
@@ -74,6 +76,8 @@ export namespace Controller.Basket {
 
                 self.View.find('#basket-view-parts').html(htmlResult);
                 self.Model.set("TotalSumValue", '' + sum + "$");
+                self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
+
                 self.rebindModel();
                 M.updateTextFields();
 
@@ -98,6 +102,7 @@ export namespace Controller.Basket {
         private updatePositions(id: number, isRemove: boolean, qty: number) {
             let items: any[] = this.Model.get("basketData");
             let sum: number = 0;
+            let currencySymbol: string = '$';
           
             for (let i = items.length - 1; i >= 0; i--) {
                 if (isRemove === true && items[i].Goods.Id === id) {
@@ -112,7 +117,7 @@ export namespace Controller.Basket {
                 }
             }
 
-            this.Model.set("TotalSumValue", '' + sum + "$");
+            this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
             this.Model.set("basketData", items);
         }
 

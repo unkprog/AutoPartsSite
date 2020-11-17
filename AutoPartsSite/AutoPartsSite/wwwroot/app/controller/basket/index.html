@@ -38,11 +38,12 @@
                             <div class="col s12 m12 l6 xl6 margin-0">
                                 <div class="card-search-partnumber">#=Goods.PartNumber#</div>
                                 <div>#=Goods.Name#</div>
+                                <div><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Goods.Brand.Code#</div>
                             </div>
                             <div class="col s12 m12 l6 xl6 card-search-desc margin-0">
-                                <div><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Goods.Brand.Code#</div>
-                                <div><span class="margin-right-1rem" data-bind="text:labelCountry"></span>#=Goods.Country.Code# (#=Goods.Country.Name#)</div>
+                                <div><span class="margin-right-1rem" data-bind="text:labelShipIn"></span>#=Goods.ShipInDays#</div>
                                 <div><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Goods.Parameters.LengthCm#cm x #=Goods.Parameters.WidthCm#cm x #=Goods.Parameters.HeightCm# cm</div>
+                                <div><span class="margin-right-1rem" data-bind="text:labelWeight"></span>#=numberToString(Goods.Parameters.WeightPhysical,2)# kg</div>
                             </div>
                             <div class="col s12 m12 l12 xl12 card-search-desc margin-0">
                                 <div class="">
@@ -53,11 +54,11 @@
                                         </div>
                                     </form>
                                     <div class="input-field col">
-                                        <input id="basket-price-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Price#">
+                                        <input id="basket-price-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=numberToString(Price,2)#">#=Goods.Currency.Symbol#
                                         <label for="basket-price-#=Goods.Id#" data-bind="text:labelPrice"></label>
                                     </div>
                                     <div class="input-field col">
-                                        <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=Sum#">
+                                        <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=numberToString(Sum,2)#">#=Goods.Currency.Symbol#
                                         <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
                                     </div>
                                     <a class="waves-effect waves-light btn input-field col basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>

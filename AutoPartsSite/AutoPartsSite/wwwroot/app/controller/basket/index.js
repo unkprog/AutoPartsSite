@@ -41,7 +41,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$basket"),
                         "labelBrand": vars._statres("label$brand") + ":",
                         "labelCountry": vars._statres("label$country") + ":",
+                        "labelShipIn": vars._statres("label$shipin") + ":",
                         "labelDimensions": vars._statres("label$dimensions") + ":",
+                        "labelWeight": vars._statres("label$weight") + ":",
                         "labelQty": vars._statres("label$qty") + ":",
                         "labelPrice": vars._statres("label$price") + ":",
                         "labelSum": vars._statres("label$sum") + ":",
@@ -77,6 +79,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         }
                         self.View.find('#basket-view-parts').html(htmlResult);
                         self.Model.set("TotalSumValue", '' + sum + "$");
+                        self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
                         self.rebindModel();
                         M.updateTextFields();
                         self.qtyForm = self.View.find(".basket-qty-form");
@@ -98,6 +101,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.updatePositions = function (id, isRemove, qty) {
                     var items = this.Model.get("basketData");
                     var sum = 0;
+                    var currencySymbol = '$';
                     for (var i = items.length - 1; i >= 0; i--) {
                         if (isRemove === true && items[i].Goods.Id === id) {
                             items.splice(i, 1);
@@ -110,7 +114,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             sum += items[i].Sum;
                         }
                     }
-                    this.Model.set("TotalSumValue", '' + sum + "$");
+                    this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
                     this.Model.set("basketData", items);
                 };
                 Index.prototype.deletePart = function (e) {
