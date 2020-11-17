@@ -65,21 +65,21 @@ namespace AutoPartsSite.Controllers.Api
 
 
         [NonAction]
-        private BasketData GetBasketData(BasketQuery pq)
+        private BasketData GetBasketData(string uid)
         {
             BasketData result = new BasketData();
             ExecQuery((query) =>
             {
                 query.Execute(@"[get]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@Uid", Value = pq.uid },
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
                 }
                 , onExecute: null
                 , (values) =>
                 {
                     result.Positions.Add(new BasketGoods()
                     {
-                        Goods = new Goods() { Id = (int)values[0] },
+                        Goods = new Goods() { Id = (int)values[0], Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() },
                         Quantity = (decimal)values[1]
                     });
                 });
@@ -95,9 +95,7 @@ namespace AutoPartsSite.Controllers.Api
             foreach (var id in data.Positions)
                 ids.Add(id.Goods.Id);
 
-            ExecQuery((query) =>
-            {
-                query.Execute(@"Search\[get_in]", new SqlParameter[]
+            AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@GoodsID", Value = ids.ToArray() },
                 }
@@ -109,11 +107,11 @@ namespace AutoPartsSite.Controllers.Api
                         Id = (int)values[0],
                         PartNumber = (string)values[1],
                         Brand = (string)values[2],
-                        Page = (long)values[3],
-                        MaxPage = (long)values[4]
+                        Page = (int)values[3],
+                        MaxPage = (int)values[4]
                     });
                 });
-            });
+            
             return result;
         }
 

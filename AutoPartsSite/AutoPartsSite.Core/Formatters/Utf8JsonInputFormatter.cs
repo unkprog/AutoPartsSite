@@ -30,11 +30,12 @@ namespace AutoPartsSite.Core.Formatters
         public Task<InputFormatterResult> ReadAsync(InputFormatterContext context)
         {
             var request = context.HttpContext.Request;
-
-            var reader = new StreamReader(request.Body);
-            var rawMessage = reader.ReadToEnd();
-            var result = JsonSerializer.NonGeneric.Deserialize(context.ModelType, rawMessage, resolver);
-            return InputFormatterResult.SuccessAsync(result);
+            using (var reader = new StreamReader(request.Body))
+            {
+                var rawMessage = reader.ReadToEnd();
+                var result = string.IsNullOrEmpty(rawMessage) ? null : JsonSerializer.NonGeneric.Deserialize(context.ModelType, rawMessage, resolver);
+                return InputFormatterResult.SuccessAsync(result);
+            }
         }
     }
 }

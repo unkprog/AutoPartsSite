@@ -43,13 +43,12 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             };
             BasketService.prototype.View = function (Callback) {
                 var pq = {
-                    uid: vars._appData.Uid,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id
                 };
-                this.GetApi({ Action: "/view", RequestData: pq, Callback: Callback });
+                this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(pq), Callback: Callback });
             };
             return BasketService;
         }(base.Services.BaseService));

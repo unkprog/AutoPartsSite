@@ -72,9 +72,9 @@ namespace AutoPartsSite.Controllers.Api
             });
         });
 
-        [HttpGet]
+        [HttpPost]
         [Route("view")]
-        public async Task<HttpMessage<BasketData>> View(BasketQuery pq)
+        public async Task<HttpMessage<BasketData>> View(string uid, BasketQuery pq)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
@@ -82,7 +82,7 @@ namespace AutoPartsSite.Controllers.Api
                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
                   
-                   BasketData result = GetBasketData(pq);
+                   BasketData result = GetBasketData(uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result);
                    FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);
