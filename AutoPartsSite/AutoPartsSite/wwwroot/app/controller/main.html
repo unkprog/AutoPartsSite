@@ -28,4 +28,45 @@
         <li class="divider" tabindex="-1"></li>
         <li><a id="app-user-settings" href="/account/settings"><i class="material-icons">settings</i><span data-bind="text:labelSettings"></span></a></li>
     </ul>
+
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l4 s12">
+                    <h5 class="white-text">Customer service</h5>
+                    <ul>
+                        <li><a id="footer-view-btn-contact" class="grey-text text-lighten-3" href="/about/contact"><span data-bind="text:labelContacts"></span></a></li>
+                        <li><a id="footer-view-btn-faq" class="grey-text text-lighten-3" href="/about/faq"><span data-bind="text:labelFaq"></span></a></li>
+                    </ul>
+                </div>
+                <div class="col l4 s12">
+                    <h5 class="white-text">Information</h5>
+                    <ul>
+                        <li><a id="footer-view-btn-about" class="grey-text text-lighten-3" href="/about/index"><span data-bind="text:labelAbout"></span></a></li>
+                        <li><a id="footer-view-btn-policies" class="grey-text text-lighten-3" href=""><span data-bind="text:labelPolicies">Policies</span></a></li>
+                        <li><a id="footer-view-btn-terms" class="grey-text text-lighten-3" href=""><span data-bind="text:labelTermsConditions">Terms & Conditions</span></a></li>
+                        <li><a id="footer-view-btn-news" class="grey-text text-lighten-3" href="/news/index"><span data-bind="text:labelNews"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2020 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
 </div>
+

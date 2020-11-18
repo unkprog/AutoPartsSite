@@ -28,6 +28,9 @@ export namespace Controller {
                 "labelShipping": vars._statres("label$shipping"),
                 "labelContacts": vars._statres("label$contacts"),
 
+                "labelPolicies": "Policies",
+                "labelTermsConditions": "Terms & Conditions",
+
                 "labelUserName": "",
                 "labelOrders": vars._statres("label$orders"),
                 "labelGarage": vars._statres("label$garage"),
