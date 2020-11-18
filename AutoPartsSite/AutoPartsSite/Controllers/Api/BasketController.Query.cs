@@ -158,7 +158,7 @@ namespace AutoPartsSite.Controllers.Api
                 for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                 {
                     fname = reader.GetName(i);
-                         if (fname == "ParnNn")              f_PartNn = i;
+                         if (fname == "PartNn")              f_PartNn = i;
                     else if (fname == "GoodsID")             f_Id = i;
                     else if (fname == "RequestedPartNumber") f_PartNumber = i;
                     else if (fname == "Artikul")             f_Articul = i;
@@ -190,7 +190,7 @@ namespace AutoPartsSite.Controllers.Api
                 if (id > 0)
                 {
                     int partNn = -1;
-                    if (f_PartNn > -1) partNn = values[f_PartNumber].ToInt();
+                    if (f_PartNn > -1) partNn = values[f_PartNn].ToInt();
                     if (partNn < 1)
                         return;
 
