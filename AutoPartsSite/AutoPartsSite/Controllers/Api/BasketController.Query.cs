@@ -122,7 +122,7 @@ namespace AutoPartsSite.Controllers.Api
 
             Dictionary<int, BasketGoods> result = new Dictionary<int, BasketGoods>();
             BasketGoods goods;
-            int id;
+
             foreach (var item in data.Positions)
                 if(!result.TryGetValue(item.Goods.Id, out goods))
                     result.Add(item.Goods.Id, item);
@@ -135,7 +135,7 @@ namespace AutoPartsSite.Controllers.Api
 
             string partsXML = SearchController.BuildPartsXML(goodsS);
 
-            int f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
+            int f_PartNn = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
             int f_BrandId = -1, f_BrandCode = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
@@ -158,28 +158,29 @@ namespace AutoPartsSite.Controllers.Api
                 for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                 {
                     fname = reader.GetName(i);
-                    if (fname == "GoodsID") f_Id = i;
+                         if (fname == "ParnNn")              f_PartNn = i;
+                    else if (fname == "GoodsID")             f_Id = i;
                     else if (fname == "RequestedPartNumber") f_PartNumber = i;
-                    else if (fname == "Artikul") f_Articul = i;
-                    else if (fname == "Descr") f_Name = i;
-                    else if (fname == "Brand") f_BrandCode = i;
-                    else if (fname == "Price") f_Price = i;
-                    else if (fname == "ShipInDays") f_ShipInDays = i;
+                    else if (fname == "Artikul")             f_Articul = i;
+                    else if (fname == "Descr")               f_Name = i;
+                    else if (fname == "Brand")               f_BrandCode = i;
+                    else if (fname == "Price")               f_Price = i;
+                    else if (fname == "ShipInDays")          f_ShipInDays = i;
 
-                    else if (fname == "CountryID") f_CountryId = i;
-                    else if (fname == "CountryCode") f_CountryCode = i;
-                    else if (fname == "CountryDescr") f_CountryName = i;
+                    else if (fname == "CountryID")           f_CountryId = i;
+                    else if (fname == "CountryCode")         f_CountryCode = i;
+                    else if (fname == "CountryDescr")        f_CountryName = i;
 
-                    else if (fname == "CurrencyID") f_CurrencyId = i;
-                    else if (fname == "CurrencyCode") f_CurrencyCode = i;
-                    else if (fname == "CurrencyName") f_CurrencyName = i;
-                    else if (fname == "CurrencySymbol") f_CurrencySymbol = i;
+                    else if (fname == "CurrencyID")          f_CurrencyId = i;
+                    else if (fname == "CurrencyCode")        f_CurrencyCode = i;
+                    else if (fname == "CurrencyName")        f_CurrencyName = i;
+                    else if (fname == "CurrencySymbol")      f_CurrencySymbol = i;
 
-                    else if (fname == "WeightPhysical") f_WeightPhysical = i;
-                    else if (fname == "WeightVolumetric") f_WeightVolumetric = i;
-                    else if (fname == "LengthCm") f_LengthCm = i;
-                    else if (fname == "WidthCm") f_WidthCm = i;
-                    else if (fname == "HeightCm") f_HeightCm = i;
+                    else if (fname == "WeightPhysical")      f_WeightPhysical = i;
+                    else if (fname == "WeightVolumetric")    f_WeightVolumetric = i;
+                    else if (fname == "LengthCm")            f_LengthCm = i;
+                    else if (fname == "WidthCm")             f_WidthCm = i;
+                    else if (fname == "HeightCm")            f_HeightCm = i;
                 }
             }
             , (values) =>
@@ -188,6 +189,11 @@ namespace AutoPartsSite.Controllers.Api
                 if (f_Id > -1) id = values[f_Id].ToInt();
                 if (id > 0)
                 {
+                    int partNn = -1;
+                    if (f_PartNn > -1) partNn = values[f_PartNumber].ToInt();
+                    if (partNn < 1)
+                        return;
+
                     BasketGoods item = null;
                     if (!result.TryGetValue(id, out item))
                     {

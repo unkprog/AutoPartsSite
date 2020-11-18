@@ -54,11 +54,11 @@
                                         </div>
                                     </form>
                                     <div class="input-field col">
-                                        <input id="basket-price-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=numberToString(Price,2)#">#=Goods.Currency.Symbol#
+                                        <input id="basket-price-#=Goods.Id#" disabled class="validate input-number" value="#=numberToString(Price,2)#">#=Goods.Currency.Symbol#
                                         <label for="basket-price-#=Goods.Id#" data-bind="text:labelPrice"></label>
                                     </div>
                                     <div class="input-field col">
-                                        <input id="basket-sum-#=Goods.Id#" disabled type="number" class="validate input-number" value="#=numberToString(Sum,2)#">#=Goods.Currency.Symbol#
+                                        <input id="basket-sum-#=Goods.Id#" disabled class="validate input-number" value="#=numberToString(Sum,2)#">#=Goods.Currency.Symbol#
                                         <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
                                     </div>
                                     <a class="waves-effect waves-light btn input-field col basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>

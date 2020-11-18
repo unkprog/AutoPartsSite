@@ -56,5 +56,17 @@ namespace AutoPartsSite.Models.Basket
         /// </summary>
         [DataMember]
         public decimal TotalSum { get; set; }
+
+        /// <summary>
+        /// Символ валюты
+        /// </summary>
+        [DataMember]
+        public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        ///  Символ валюты слева
+        /// </summary>
+        [DataMember]
+        public bool CurrencySymbolShowLeft { get; set; }
     }
 }
