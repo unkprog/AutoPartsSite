@@ -128,6 +128,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.MenuShippingButtonClick = self.createClickEvent("main-view-btn-shipping", self.menuShippingButtonClick);
                 self.MenuContactButtonClick = self.createClickEvent("main-view-btn-contact", self.menuContactButtonClick);
                 self.MenuSettingsButtonClick = self.createClickEvent("main-view-btn-settings", self.menuSettingsButtonClick);
+                self.FContactButtonClick = self.createClickEvent("footer-view-btn-contact", self.fContactButtonClick);
+                self.FFaqButtonClick = self.createClickEvent("footer-view-btn-faq", self.fFaqButtonClick);
+                self.FAboutButtonClick = self.createClickEvent("footer-view-btn-about", self.fAboutButtonClick);
+                self.FNewsButtonClick = self.createClickEvent("footer-view-btn-news", self.fNewsButtonClick);
                 self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
                 self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
                 self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
@@ -147,6 +151,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("main-view-btn-news", this.MenuNewsButtonClick);
                 this.destroyClickEvent("main-view-btn-about", this.MenuAboutButtonClick);
                 this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
+                this.destroyClickEvent("footer-view-btn-contact", this.FContactButtonClick);
+                this.destroyClickEvent("footer-view-btn-faq", this.FFaqButtonClick);
+                this.destroyClickEvent("footer-view-btn-about", this.FAboutButtonClick);
+                this.destroyClickEvent("footer-view-btn-news", this.FNewsButtonClick);
                 this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
                 this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
@@ -214,6 +222,18 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.cmsButtonClick = function (e) {
                 return this.handleMenuItem(e, "cms/index");
+            };
+            Main.prototype.fContactButtonClick = function (e) {
+                return this.handleMenuItemPage(e, "about/contact", "label$contacts");
+            };
+            Main.prototype.fFaqButtonClick = function (e) {
+                return this.handleMenuItemPage(e, "about/faq", "label$faq");
+            };
+            Main.prototype.fAboutButtonClick = function (e) {
+                return this.handleMenuItemPage(e, "about/index", "label$aboutUs");
+            };
+            Main.prototype.fNewsButtonClick = function (e) {
+                return this.handleMenuItem(e, "news/index");
             };
             Main.prototype.userSettingsButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/settings");
