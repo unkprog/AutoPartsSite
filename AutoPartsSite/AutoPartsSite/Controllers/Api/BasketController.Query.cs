@@ -121,6 +121,7 @@ namespace AutoPartsSite.Controllers.Api
                 return;
 
             Dictionary<int, BasketGoods> result = new Dictionary<int, BasketGoods>();
+            Dictionary<int, DeliveryInfo> resultDelivery = new Dictionary<int, DeliveryInfo>();
             BasketGoods goods;
 
             foreach (var item in data.Positions)
@@ -141,6 +142,8 @@ namespace AutoPartsSite.Controllers.Api
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
             int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
 
+            int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
+            int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
             {
@@ -181,13 +184,42 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "LengthCm")            f_LengthCm = i;
                     else if (fname == "WidthCm")             f_WidthCm = i;
                     else if (fname == "HeightCm")            f_HeightCm = i;
+
+                    else if (fname == "DeliveryTariffID")    f_DeliveryTariffID = i;
+                    else if (fname == "DeliveryTariffCode")  f_DeliveryTariffCode = i;
+                    else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
+                    else if (fname == "Amount")              f_Amount = i;
+                    else if (fname == "DeliveryAmount")      f_DeliveryAmount = i;
+                    else if (fname == "VatAmount")           f_VatAmount = i;
+                    else if (fname == "TotalAmount")         f_TotalAmount = i;
+
                 }
             }
             , (values) =>
             {
                 int id = 0;
                 if (f_Id > -1) id = values[f_Id].ToInt();
-                if (id > 0)
+                if (id < 0)
+                {
+                    //int deliveryTariffID = -1;
+                    //if (f_DeliveryTariffID > -1) deliveryTariffID = values[f_DeliveryTariffID].ToInt();
+                    //if (deliveryTariffID > 0)
+                    //{
+                    //    DeliveryInfo deliveryInfo;
+                    //    if (!resultDelivery.TryGetValue(deliveryTariffID, out deliveryInfo))
+                    //    {
+                    //        deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID };
+                    //        resultDelivery.Add(deliveryTariffID, deliveryInfo);
+                    //        if (f_DeliveryTariffCode  > -1) deliveryInfo.Code           = values[f_DeliveryTariffCode].ToStr();
+                    //        if (f_DeliveryTariffDescr > -1) deliveryInfo.Name           = values[f_DeliveryTariffDescr].ToStr();
+                    //        if (f_Amount              > -1) deliveryInfo.Amount         = values[f_Amount].ToDecimal();
+                    //        if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount = values[f_DeliveryAmount].ToDecimal();
+                    //        if (f_VatAmount           > -1) deliveryInfo.VatAmount      = values[f_VatAmount].ToDecimal();
+                    //        if (f_TotalAmount         > -1) deliveryInfo.TotalAmount    = values[f_TotalAmount].ToDecimal();
+                    //    }
+                    //}
+                }
+                else
                 {
                     int partNn = -1;
                     if (f_PartNn > -1) partNn = values[f_PartNn].ToInt();

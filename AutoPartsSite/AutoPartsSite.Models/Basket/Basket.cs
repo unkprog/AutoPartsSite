@@ -37,13 +37,19 @@ namespace AutoPartsSite.Models.Basket
         public BasketData()
         {
             Positions = new List<BasketGoods>();
-
+            Deliveries = new List<DeliveryInfo>();
         }
         /// <summary>
-        /// Идентификатор пользователя
+        /// Позиции корзины
         /// </summary>
         [DataMember]
         public List<BasketGoods> Positions { get; set; }
+
+        /// <summary>
+        /// Варианты доставки
+        /// </summary>
+        [DataMember]
+        public List<DeliveryInfo> Deliveries { get; set; }
 
         /// <summary>
         /// Итоговое количество

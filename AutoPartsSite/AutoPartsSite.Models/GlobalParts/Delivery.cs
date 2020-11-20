@@ -15,11 +15,32 @@ namespace AutoPartsSite.Models.GlobalParts
         /// Доставка дней, от
         /// </summary>
         [DataMember]
-        public int DeliveryDaysMin { get; set; }
+        public int DaysMin { get; set; }
         /// <summary>
         /// Доставка дней, до
         /// </summary>
         [DataMember]
-        public int DeliveryDaysMax { get; set; }
+        public int DaysMax { get; set; }
+
+        /// <summary>
+        /// Сумма доставки
+        /// </summary>
+        [DataMember]
+        public decimal Amount { get; set; }
+        /// <summary>
+        /// Сумма доставки
+        /// </summary>
+        [DataMember]
+        public decimal DeliveryAmount { get; set; }
+        /// <summary>
+        /// Сумма НДС
+        /// </summary>
+        [DataMember]
+        public decimal VatAmount { get; set; }
+        /// <summary>
+        /// Сумма Итого
+        /// </summary>
+        [DataMember]
+        public decimal TotalAmount { get; set; }
     }
 }
