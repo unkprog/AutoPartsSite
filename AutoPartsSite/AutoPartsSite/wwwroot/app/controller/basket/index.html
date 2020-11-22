@@ -1,10 +1,11 @@
-﻿<div id="basket-view">
+﻿<div id="basket-view" class="view">
     <div class="row">
         <div class="col s12 m12 l12 xl12">
-
-            <div class="section center">
-                <h5 data-bind="text:Header"></h5>
+            <div class="section left">
+                <h1 class="page-header" data-bind="text:Header"></h1>
             </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
             <div class="divider"></div>
         </div>
     </div>
@@ -15,7 +16,28 @@
 
     <div class="row">
         <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-            <div class="basket-total-sum center"><span data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
+            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="section left">
+                <h1 class="page-header" data-bind="text:labelDelivery"></h1>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="basket-view-delivery" class="row">
+
+    </div>
+
+    <div class="row">
+        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum-delivery" data-bind="text:TotalSumValue"></span></div>
         </div>
     </div>
 
@@ -38,32 +60,54 @@
                             <div class="col s12 m12 l6 xl6 margin-0">
                                 <div class="card-search-partnumber">#=Goods.PartNumber#</div>
                                 <div>#=Goods.Name#</div>
-                                <div><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Goods.Brand.Code#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Goods.Brand.Code#</div>
                             </div>
                             <div class="col s12 m12 l6 xl6 card-search-desc margin-0">
-                                <div><span class="margin-right-1rem" data-bind="text:labelShipIn"></span>#=Goods.ShipInDays#</div>
-                                <div><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Goods.Parameters.LengthCm#cm x #=Goods.Parameters.WidthCm#cm x #=Goods.Parameters.HeightCm# cm</div>
-                                <div><span class="margin-right-1rem" data-bind="text:labelWeight"></span>#=numberToString(Goods.Parameters.WeightPhysical,2)# kg</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=Goods.ShipInDays#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelDimensions"></span>#=Goods.Parameters.LengthCm#cm x #=Goods.Parameters.WidthCm#cm x #=Goods.Parameters.HeightCm# cm</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Goods.Parameters.WeightPhysical,2)# kg</div>
                             </div>
                             <div class="col s12 m12 l12 xl12 card-search-desc margin-0">
                                 <div class="">
-                                    <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form">
-                                        <div class="input-field col">
-                                            <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number" value="#=Quantity#">
-                                            <label for="basket-qty-#=Goods.Id#" data-bind="text:labelQty"></label>
-                                        </div>
+                                    <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form col">
+                                        <span class="basket-input-label" data-bind="text:labelQty"></span><input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
                                     </form>
-                                    <div class="input-field col">
-                                        <input id="basket-price-#=Goods.Id#" disabled class="validate input-number" value="#=numberToString(Price,2)#">#=Goods.Currency.Symbol#
-                                        <label for="basket-price-#=Goods.Id#" data-bind="text:labelPrice"></label>
+                                    <div class="col">
+                                        <span class="basket-input-label" data-bind="text:labelPrice"></span><input id="basket-price-#=Goods.Id#" disabled class="validate input-number basket-input" value="#=numberToString(Price,2)#"><span class="basket-input-label">#=Goods.Currency.Symbol#</span>
                                     </div>
-                                    <div class="input-field col">
-                                        <input id="basket-sum-#=Goods.Id#" disabled class="validate input-number" value="#=numberToString(Sum,2)#">#=Goods.Currency.Symbol#
-                                        <label for="basket-sum-#=Goods.Id#" data-bind="text:labelSum"></label>
+                                    <div class="col">
+                                        <span class="basket-input-label" data-bind="text:labelSum"></span><input id="basket-sum-#=Goods.Id#" disabled class="validate input-number basket-input" value="#=numberToString(Sum,2)#"><span class="basket-input-label">#=Goods.Currency.Symbol#</span>
                                     </div>
-                                    <a class="waves-effect waves-light btn input-field col basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>
                                 </div>
                             </div>
+                        </div>
+                        <a class="waves-effect waves-light btn col basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-kendo-template" id="basket-view-delivery-template">
+        <div id="basket-view-delivery-#=Id#" class="col s12 m12 l12 xl12">
+            <div class="card white margin-0_1rem z-depth-2 hoverable">
+                <div class="card-content padding-0_75rem black-text">
+                    <div class="card-delivery-image left" #if(Logo) {# style="background-image: url(#=Logo#)" #}#></div>
+                    <div class="row margin-0">
+                        <div class="col s12 m4 l2 xl2">
+                            <div class="card-search-partnumber">#=Name#</div>
+                        </div>
+                        <div class="col">
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelSumParts"></span>#=numberToString(Amount,2)#
+                        </div>
+                        <div class="col">
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelDeliveryAmount"></span>#=numberToString(DeliveryAmount,2)#
+                        </div>
+                        <div class="col">
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelVatAmount"></span>#=numberToString(VatAmount,2)#
+                        </div>
+                        <div class="col">
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelTotalAmount"></span>#=numberToString(TotalAmount,2)#
                         </div>
                     </div>
                 </div>

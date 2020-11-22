@@ -192,12 +192,15 @@ export namespace Controller {
             this._content.scrollTop(0);
         }
 
+        protected OnSetViewSize(e: any) {
+            let height = window.innerHeight;
+            height = height - this._content.offset().top;
+            this._content.height(height);
+        }
+
         public ViewResize(e) {
-            if (this._content) {
-                let heigth = window.innerHeight;
-                heigth = heigth - this._content.offset().top;
-                this._content.height(heigth);
-            }
+            if (this._content) 
+                this.OnSetViewSize(e)
 
             if (this._controller)
                 this._controller.ViewResize(e);

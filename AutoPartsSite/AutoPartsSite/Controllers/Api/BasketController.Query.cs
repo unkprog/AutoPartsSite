@@ -144,6 +144,7 @@ namespace AutoPartsSite.Controllers.Api
 
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
+            int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1;
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
             {
@@ -153,7 +154,7 @@ namespace AutoPartsSite.Controllers.Api
                  new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                  new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                  new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
-                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = false }
+                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = true }
             }
             , onExecute: (reader) =>
             {
@@ -192,6 +193,8 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "DeliveryAmount")      f_DeliveryAmount = i;
                     else if (fname == "VatAmount")           f_VatAmount = i;
                     else if (fname == "TotalAmount")         f_TotalAmount = i;
+                    else if (fname == "DeliveryDaysMin")     f_DeliveryDaysMin = i;
+                    else if (fname == "DeliveryDaysMax")     f_DeliveryDaysMax = i;
 
                 }
             }
@@ -199,25 +202,30 @@ namespace AutoPartsSite.Controllers.Api
             {
                 int id = 0;
                 if (f_Id > -1) id = values[f_Id].ToInt();
-                if (id < 0)
+                if (id == 0)
                 {
-                    //int deliveryTariffID = -1;
-                    //if (f_DeliveryTariffID > -1) deliveryTariffID = values[f_DeliveryTariffID].ToInt();
-                    //if (deliveryTariffID > 0)
-                    //{
-                    //    DeliveryInfo deliveryInfo;
-                    //    if (!resultDelivery.TryGetValue(deliveryTariffID, out deliveryInfo))
-                    //    {
-                    //        deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID };
-                    //        resultDelivery.Add(deliveryTariffID, deliveryInfo);
-                    //        if (f_DeliveryTariffCode  > -1) deliveryInfo.Code           = values[f_DeliveryTariffCode].ToStr();
-                    //        if (f_DeliveryTariffDescr > -1) deliveryInfo.Name           = values[f_DeliveryTariffDescr].ToStr();
-                    //        if (f_Amount              > -1) deliveryInfo.Amount         = values[f_Amount].ToDecimal();
-                    //        if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount = values[f_DeliveryAmount].ToDecimal();
-                    //        if (f_VatAmount           > -1) deliveryInfo.VatAmount      = values[f_VatAmount].ToDecimal();
-                    //        if (f_TotalAmount         > -1) deliveryInfo.TotalAmount    = values[f_TotalAmount].ToDecimal();
-                    //    }
-                    //}
+                    int deliveryTariffID = -1;
+                    if (f_DeliveryTariffID > -1) deliveryTariffID = values[f_DeliveryTariffID].ToInt();
+                    if (deliveryTariffID > 0)
+                    {
+                        DeliveryInfo deliveryInfo;
+                        if (!resultDelivery.TryGetValue(deliveryTariffID, out deliveryInfo))
+                        {
+                            deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID };
+                            resultDelivery.Add(deliveryTariffID, deliveryInfo);
+                                 if (deliveryTariffID == 8) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
+                            else if (deliveryTariffID == 9) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
+
+                            if (f_DeliveryTariffCode  > -1) deliveryInfo.Code           = values[f_DeliveryTariffCode].ToStr();
+                            if (f_DeliveryTariffDescr > -1) deliveryInfo.Name           = values[f_DeliveryTariffDescr].ToStr();
+                            if (f_Amount              > -1) deliveryInfo.Amount         = values[f_Amount].ToDecimal();
+                            if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount = values[f_DeliveryAmount].ToDecimal();
+                            if (f_VatAmount           > -1) deliveryInfo.VatAmount      = values[f_VatAmount].ToDecimal();
+                            if (f_TotalAmount         > -1) deliveryInfo.TotalAmount    = values[f_TotalAmount].ToDecimal();
+                            if (f_DeliveryDaysMin     > -1) deliveryInfo.DaysMin        = values[f_DeliveryDaysMin].ToInt();
+                            if (f_DeliveryDaysMax     > -1) deliveryInfo.DaysMax        = values[f_DeliveryDaysMax].ToInt();
+                        }
+                    }
                 }
                 else
                 {
@@ -258,6 +266,8 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
                 }
             });
+
+            data.Deliveries = resultDelivery.Values.ToList();
         }
 
     }

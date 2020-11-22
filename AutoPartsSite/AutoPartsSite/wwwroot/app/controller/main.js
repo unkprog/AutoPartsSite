@@ -68,6 +68,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
+                this.foother = view.find("#main-view-footer");
                 _super.prototype.ViewInit.call(this, view);
                 this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
                 this.initLogIn();
@@ -111,6 +112,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 _super.prototype.ViewHide.call(this, e);
                 if (this.menu)
                     this.menu.remove();
+            };
+            Main.prototype.OnSetViewSize = function (e) {
+                var content = this.GetContent();
+                var height = window.innerHeight;
+                height = height - content.offset().top - this.foother.innerHeight();
+                //this._content.height(heigth);
+                content.css("min-height", height);
             };
             Main.prototype.createEvents = function () {
                 var self = this;

@@ -58,6 +58,7 @@ export namespace Controller {
         private buttonMenu: JQuery;
         private userMenu: JQuery;
         private menuCms: JQuery;
+        private foother: JQuery;
 
         public ViewInit(view: JQuery): boolean {
             _app.SetControlNavigation(this);
@@ -77,6 +78,7 @@ export namespace Controller {
             this.buttonMenu = this.menu.find("#app-btn-menu");
             this.content = view.find("#main-view-content");
             this.contentModal = view.find("#main-view-content-modal");
+            this.foother = view.find("#main-view-footer");
             super.ViewInit(view);
 
             this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
@@ -131,6 +133,14 @@ export namespace Controller {
             super.ViewHide(e);
             if (this.menu)
                 this.menu.remove();
+        }
+
+        protected OnSetViewSize(e: any) {
+            let content = this.GetContent();
+            let height = window.innerHeight;
+            height = height - content.offset().top - this.foother.innerHeight();
+            //this._content.height(heigth);
+            content.css("min-height", height);
         }
 
         protected createEvents(): void {

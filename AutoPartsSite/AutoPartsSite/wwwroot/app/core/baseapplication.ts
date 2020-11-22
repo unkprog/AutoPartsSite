@@ -58,11 +58,14 @@ export namespace App {
 
         public Resize: { (e: any): void; };
         protected resize(e) {
-            let heigth = window.innerHeight;
+            let height = window.innerHeight;
 
-            heigth = heigth - (this.navbarControl ? this.navbarControl.height() : 0);
-            if (this.contentControl)
-                this.contentControl.height(heigth);
+            height = height - (this.navbarControl ? this.navbarControl.height() : 0);
+            if (this.contentControl) {
+                this.contentControl.height(height);
+                //this.contentControl.css("min-height", height);
+                //this.contentControl.css("height", "auto"); //
+            }
 
             if (this._controller)
                 this._controller.ViewResize(e);

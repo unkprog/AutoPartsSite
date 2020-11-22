@@ -5,7 +5,11 @@ namespace AutoPartsSite.Models.GlobalParts
     [DataContract]
     public class Delivery : ReferenceNamedDbModel
     {
-
+        /// <summary>
+        /// Логотип бренда
+        /// </summary>
+        [DataMember]
+        public string Logo { get; set; }
     }
 
     [DataContract]

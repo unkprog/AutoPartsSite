@@ -48,10 +48,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 app.loadAppView();
             };
             Application.prototype.resize = function (e) {
-                var heigth = window.innerHeight;
-                heigth = heigth - (this.navbarControl ? this.navbarControl.height() : 0);
-                if (this.contentControl)
-                    this.contentControl.height(heigth);
+                var height = window.innerHeight;
+                height = height - (this.navbarControl ? this.navbarControl.height() : 0);
+                if (this.contentControl) {
+                    this.contentControl.height(height);
+                    //this.contentControl.css("min-height", height);
+                    //this.contentControl.css("height", "auto"); //
+                }
                 if (this._controller)
                     this._controller.ViewResize(e);
             };

@@ -192,12 +192,14 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             BaseContent.prototype.ResetScroll = function () {
                 this._content.scrollTop(0);
             };
+            BaseContent.prototype.OnSetViewSize = function (e) {
+                var height = window.innerHeight;
+                height = height - this._content.offset().top;
+                this._content.height(height);
+            };
             BaseContent.prototype.ViewResize = function (e) {
-                if (this._content) {
-                    var heigth = window.innerHeight;
-                    heigth = heigth - this._content.offset().top;
-                    this._content.height(heigth);
-                }
+                if (this._content)
+                    this.OnSetViewSize(e);
                 if (this._controller)
                     this._controller.ViewResize(e);
             };

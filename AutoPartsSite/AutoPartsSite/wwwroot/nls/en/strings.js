@@ -122,6 +122,11 @@ define({
     "label$delivery": "Delivery",
     "label$payment": "Payment",
 
+    "label$sum$parts": "Sum of parts",
+    "label$delivery$ammount": "Delivery amount",
+    "label$vat": "VAT",
+    "label$total": "Total",
+
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////
