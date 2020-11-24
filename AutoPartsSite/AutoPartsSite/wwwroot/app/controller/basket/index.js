@@ -73,6 +73,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.setupBasketData = function (responseData) {
                     var self = this;
+                    self.destroyCardsItems();
                     if (responseData.Result === 0) {
                         this.Model.set("basketData", responseData.Data.Positions);
                         var templateContent = self.View.find('#basket-view-parts-template').html();
@@ -94,9 +95,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         template = vars.getTemplate(templateContent);
                         items = responseData.Data.Deliveries;
                         for (var i = 0, icount = items.length; i < icount; i++) {
-                            //items[i].deleteLabel = vars._statres("button$label$delete");
-                            //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                            //sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#basket-view-delivery').html(htmlResult);
@@ -113,6 +111,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             self.deleteBtn.on('click', self.proxyDelete);
                             self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
                             self.deleteBtn.tooltip();
+                        }
+                        self.deliveryCards = self.View.find(".basket-view-delivery-card");
+                        if (self.deliveryCards) {
+                            self.proxyDeliveryClick = $.proxy(self.deliveryClick, self);
+                            self.deliveryCards.on('click', self.proxyDeliveryClick);
+                            //self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
+                            //self.deleteBtn.tooltip();
                         }
                     }
                     else
@@ -136,6 +141,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     }
                     this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
                     this.Model.set("basketData", items);
+                };
+                Index.prototype.deliveryClick = function (e) {
+                    e.preventDefault();
+                    return false;
                 };
                 Index.prototype.deletePart = function (e) {
                     vars._app.ShowLoading();
@@ -182,11 +191,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
                     this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
                 };
-                Index.prototype.destroyEvents = function () {
+                Index.prototype.destroyCardsItems = function () {
+                    if (this.deliveryCards)
+                        this.deliveryCards.off('click', this.proxyDeliveryClick);
                     if (this.deleteBtn)
                         this.deleteBtn.off('click', this.proxyDelete);
                     if (this.qtyForm)
                         this.qtyForm.off('submit', this.proxyQtyForm);
+                };
+                Index.prototype.destroyEvents = function () {
+                    this.destroyCardsItems();
                     this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
                     this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
                 };

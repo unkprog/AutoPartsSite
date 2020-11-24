@@ -89,7 +89,7 @@
     </script>
 
     <script type="text/x-kendo-template" id="basket-view-delivery-template">
-        <div id="basket-view-delivery-#=Id#" class="col s12 m12 l12 xl12">
+        <div id="basket-view-delivery-#=Id#" class="basket-view-delivery-card col s12 m12 l12 xl12">
             <div class="card white margin-0_1rem z-depth-2 hoverable">
                 <div class="card-content padding-0_75rem black-text">
                     <div class="card-delivery-image left" #if(Logo) {# style="background-image: url(#=Logo#)" #}#></div>
@@ -99,11 +99,11 @@
                                 <input type="checkbox" />
                             </label>
                         </div>
-                        <div class="col s12 m4 l2 xl2" style="margin-left:0;">
-                            <div class="card-search-partnumber">
+                        <div class="col s12 m4 l3 xl2" style="margin-left:0;">
+                            <div>
                                 <label>
                                     <input type="checkbox" />
-                                    <span>#=Name#</span>
+                                    <span class="card-delivery-item">#=Name#</span>
                                 </label>
                             </div>
                         </div>

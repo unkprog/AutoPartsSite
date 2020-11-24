@@ -64,9 +64,12 @@ export namespace Controller.Basket {
         private proxyQtyForm;
         private deleteBtn: JQuery;
         private proxyDelete;
+        private deliveryCards: JQuery;
+        private proxyDeliveryClick;
 
         private setupBasketData(responseData) {
             let self = this;
+            self.destroyCardsItems();
             if (responseData.Result === 0) {
 
                 this.Model.set("basketData", responseData.Data.Positions);
@@ -94,9 +97,6 @@ export namespace Controller.Basket {
                 items = responseData.Data.Deliveries;
                 
                 for (let i = 0, icount = items.length; i < icount; i++) {
-                    //items[i].deleteLabel = vars._statres("button$label$delete");
-                    //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                    //sum += items[i].Sum;
                     htmlResult = (htmlResult + template(items[i]));
                 }
                 self.View.find('#basket-view-delivery').html(htmlResult);
@@ -117,6 +117,15 @@ export namespace Controller.Basket {
                     self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
                     self.deleteBtn.tooltip();
                 }
+
+                self.deliveryCards = self.View.find(".basket-view-delivery-card");
+                if (self.deliveryCards) {
+                    self.proxyDeliveryClick = $.proxy(self.deliveryClick, self);
+                    self.deliveryCards.on('click', self.proxyDeliveryClick);
+                    //self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
+                    //self.deleteBtn.tooltip();
+                }
+                
             }
             else
                 vars._app.ShowError(responseData.Error);
@@ -142,6 +151,11 @@ export namespace Controller.Basket {
 
             this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
             this.Model.set("basketData", items);
+        }
+
+        private deliveryClick(e: any): boolean {
+            e.preventDefault();
+            return false;
         }
 
         private deletePart(e: any): boolean {
@@ -194,9 +208,14 @@ export namespace Controller.Basket {
             this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
         }
 
-        protected destroyEvents(): void {
+        private destroyCardsItems() {
+            if (this.deliveryCards) this.deliveryCards.off('click', this.proxyDeliveryClick);
             if (this.deleteBtn) this.deleteBtn.off('click', this.proxyDelete);
             if (this.qtyForm) this.qtyForm.off('submit', this.proxyQtyForm);
+        }
+
+        protected destroyEvents(): void {
+            this.destroyCardsItems();
 
             this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
             this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
