@@ -37,7 +37,7 @@
 
     <div class="row">
         <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum-delivery" data-bind="text:TotalSumValue"></span></div>
+            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSumDelivery"></span><span id="basket-view-sum-delivery" data-bind="text:TotalSum"></span></div>
         </div>
     </div>
 
@@ -89,20 +89,15 @@
     </script>
 
     <script type="text/x-kendo-template" id="basket-view-delivery-template">
-        <div id="basket-view-delivery-#=Id#" class="basket-view-delivery-card col s12 m12 l12 xl12">
-            <div class="card white margin-0_1rem z-depth-2 hoverable">
+        <div id="basket-view-delivery-#=Id#" data-id="#=Id#" class="basket-view-delivery-card col s12 m12 l12 xl12">
+            <div class="card white margin-0_1rem z-depth-2 hoverable" style="cursor:pointer">
                 <div class="card-content padding-0_75rem black-text">
                     <div class="card-delivery-image left" #if(Logo) {# style="background-image: url(#=Logo#)" #}#></div>
                     <div class="row margin-0 valign-wrapper">
-                        <div class="col">
-                            <label>
-                                <input type="checkbox" />
-                            </label>
-                        </div>
                         <div class="col s12 m4 l3 xl2" style="margin-left:0;">
                             <div>
                                 <label>
-                                    <input type="checkbox" />
+                                    <input id="basket-view-delivery-input-#=Id#" type="checkbox" />
                                     <span class="card-delivery-item">#=Name#</span>
                                 </label>
                             </div>

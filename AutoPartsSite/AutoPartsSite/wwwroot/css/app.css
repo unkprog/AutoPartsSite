@@ -630,7 +630,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
   font-size: 1.5rem;
   font-weight: bold; }
 
-#basket-view-sum {
+#basket-view-sum, #basket-view-sum-delivery {
   margin-left: 3rem; }
 
 .basket-del-btn {

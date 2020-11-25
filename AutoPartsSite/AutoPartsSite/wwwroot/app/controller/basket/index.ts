@@ -33,6 +33,9 @@ export namespace Controller.Basket {
                 "labelSum": vars._statres("label$sum") + ":",
                 "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
                 "TotalSumValue": "0$",
+                "curSymbol": "$",
+                "labelTotalSumDelivery": vars._statres("label$total") + ":",
+                "TotalSum": "0$",
 
                 "labelSumParts": vars._statres("label$sum$parts") + ":",
                 "labelDeliveryAmount": vars._statres("label$delivery$ammount") + ":",
@@ -72,15 +75,17 @@ export namespace Controller.Basket {
             self.destroyCardsItems();
             if (responseData.Result === 0) {
 
-                this.Model.set("basketData", responseData.Data.Positions);
+                this.Model.set("basketData", responseData.Data);
 
                 let templateContent = self.View.find('#basket-view-parts-template').html();
                 let template = vars.getTemplate(templateContent);
                 let htmlResult = '';
                 let items: any[] = responseData.Data.Positions;
+                let curSymbol: string = vars._appData.Settings.Currency.Code;
 
                 let sum: number = 0;
                 for (let i = 0, icount = items.length; i < icount; i++) {
+                    curSymbol = items[i].Goods.Currency.Symbol;
                     items[i].deleteLabel = vars._statres("button$label$delete");
                     items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                     sum += items[i].Sum;
@@ -88,19 +93,23 @@ export namespace Controller.Basket {
                 }
 
                 self.View.find('#basket-view-parts').html(htmlResult);
-                self.Model.set("TotalSumValue", '' + sum + "$");
-                self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
+                self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+                self.Model.set("curSymbol", curSymbol);
 
                 htmlResult = '';
                 templateContent = self.View.find('#basket-view-delivery-template').html();
                 template = vars.getTemplate(templateContent);
                 items = responseData.Data.Deliveries;
-                
+                sum = 0;
                 for (let i = 0, icount = items.length; i < icount; i++) {
+                    if (self.deliveryId == items[i].Id) {
+                        sum = items[i].TotalAmount;
+                    }
                     htmlResult = (htmlResult + template(items[i]));
                 }
                 self.View.find('#basket-view-delivery').html(htmlResult);
-
+                self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+                
                 self.rebindModel();
                 //M.updateTextFields();
 
@@ -132,7 +141,8 @@ export namespace Controller.Basket {
         }
 
         private updatePositions(id: number, isRemove: boolean, qty: number) {
-            let items: any[] = this.Model.get("basketData");
+            let data = this.Model.get("basketData");
+            let items: any[] = data.get("Positions");
             let sum: number = 0;
             let currencySymbol: string = '$';
           
@@ -148,12 +158,36 @@ export namespace Controller.Basket {
                     sum += items[i].Sum;
                 }
             }
-
             this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
-            this.Model.set("basketData", items);
+            data.set("Positions", items);
+            //this.Model.set("basketData", items);
         }
 
+        private deliveryId: number = 0;
         private deliveryClick(e: any): boolean {
+            let self = this;
+            let cur: JQuery = $(e.currentTarget);
+            let id: number = cur.data('id');
+
+            if (this.deliveryId == id)
+                return;
+
+            if (this.deliveryId != 0) 
+                self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
+
+            self.deliveryId = id;
+            cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
+
+            let data = this.Model.get("basketData");
+            let items: any[] = data.Deliveries;
+           
+            for (let i = 0, icount = items.length; i < icount; i++) {
+                if (self.deliveryId == items[i].Id) {
+                    self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                }
+            }
+
+
             e.preventDefault();
             return false;
         }

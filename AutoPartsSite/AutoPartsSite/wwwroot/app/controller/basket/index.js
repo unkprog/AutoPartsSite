@@ -23,6 +23,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 __extends(Index, _super);
                 function Index() {
                     var _this = _super.call(this) || this;
+                    _this.deliveryId = 0;
                     _this.basketService = new bsk.Services.BasketService();
                     return _this;
                 }
@@ -50,6 +51,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelSum": vars._statres("label$sum") + ":",
                         "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
                         "TotalSumValue": "0$",
+                        "curSymbol": "$",
+                        "labelTotalSumDelivery": vars._statres("label$total") + ":",
+                        "TotalSum": "0$",
                         "labelSumParts": vars._statres("label$sum$parts") + ":",
                         "labelDeliveryAmount": vars._statres("label$delivery$ammount") + ":",
                         "labelVatAmount": vars._statres("label$vat") + ":",
@@ -75,29 +79,36 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     self.destroyCardsItems();
                     if (responseData.Result === 0) {
-                        this.Model.set("basketData", responseData.Data.Positions);
+                        this.Model.set("basketData", responseData.Data);
                         var templateContent = self.View.find('#basket-view-parts-template').html();
                         var template = vars.getTemplate(templateContent);
                         var htmlResult = '';
                         var items = responseData.Data.Positions;
+                        var curSymbol = vars._appData.Settings.Currency.Code;
                         var sum = 0;
                         for (var i = 0, icount = items.length; i < icount; i++) {
+                            curSymbol = items[i].Goods.Currency.Symbol;
                             items[i].deleteLabel = vars._statres("button$label$delete");
                             items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                             sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#basket-view-parts').html(htmlResult);
-                        self.Model.set("TotalSumValue", '' + sum + "$");
-                        self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
+                        self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+                        self.Model.set("curSymbol", curSymbol);
                         htmlResult = '';
                         templateContent = self.View.find('#basket-view-delivery-template').html();
                         template = vars.getTemplate(templateContent);
                         items = responseData.Data.Deliveries;
+                        sum = 0;
                         for (var i = 0, icount = items.length; i < icount; i++) {
+                            if (self.deliveryId == items[i].Id) {
+                                sum = items[i].TotalAmount;
+                            }
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#basket-view-delivery').html(htmlResult);
+                        self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                         self.rebindModel();
                         //M.updateTextFields();
                         self.qtyForm = self.View.find(".basket-qty-form");
@@ -124,7 +135,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         vars._app.ShowError(responseData.Error);
                 };
                 Index.prototype.updatePositions = function (id, isRemove, qty) {
-                    var items = this.Model.get("basketData");
+                    var data = this.Model.get("basketData");
+                    var items = data.get("Positions");
                     var sum = 0;
                     var currencySymbol = '$';
                     for (var i = items.length - 1; i >= 0; i--) {
@@ -140,9 +152,26 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         }
                     }
                     this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
-                    this.Model.set("basketData", items);
+                    data.set("Positions", items);
+                    //this.Model.set("basketData", items);
                 };
                 Index.prototype.deliveryClick = function (e) {
+                    var self = this;
+                    var cur = $(e.currentTarget);
+                    var id = cur.data('id');
+                    if (this.deliveryId == id)
+                        return;
+                    if (this.deliveryId != 0)
+                        self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
+                    self.deliveryId = id;
+                    cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
+                    var data = this.Model.get("basketData");
+                    var items = data.Deliveries;
+                    for (var i = 0, icount = items.length; i < icount; i++) {
+                        if (self.deliveryId == items[i].Id) {
+                            self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                        }
+                    }
                     e.preventDefault();
                     return false;
                 };
