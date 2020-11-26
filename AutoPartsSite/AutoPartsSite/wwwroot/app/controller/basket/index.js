@@ -138,8 +138,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var data = this.Model.get("basketData");
                     var items = data.get("Positions");
                     var sum = 0;
-                    var currencySymbol = '$';
+                    var curSymbol = vars._appData.Settings.Currency.Code;
                     for (var i = items.length - 1; i >= 0; i--) {
+                        curSymbol = items[i].Goods.Currency.Symbol;
                         if (isRemove === true && items[i].Goods.Id === id) {
                             items.splice(i, 1);
                         }
@@ -152,6 +153,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         }
                     }
                     this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
+                    this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                     data.set("Positions", items);
                     //this.Model.set("basketData", items);
                 };
@@ -240,7 +242,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.doneButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "basket/delivery" });
+                    vars._app.OpenController({ urlController: "basket/delivery", backController: this });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

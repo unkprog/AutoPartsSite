@@ -144,9 +144,10 @@ export namespace Controller.Basket {
             let data = this.Model.get("basketData");
             let items: any[] = data.get("Positions");
             let sum: number = 0;
-            let currencySymbol: string = '$';
+            let curSymbol: string = vars._appData.Settings.Currency.Code;
           
             for (let i = items.length - 1; i >= 0; i--) {
+                curSymbol = items[i].Goods.Currency.Symbol;
                 if (isRemove === true && items[i].Goods.Id === id) {
                     items.splice(i, 1);
                 }
@@ -159,6 +160,7 @@ export namespace Controller.Basket {
                 }
             }
             this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
+            this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
             data.set("Positions", items);
             //this.Model.set("basketData", items);
         }
@@ -265,7 +267,7 @@ export namespace Controller.Basket {
 
         public DoneButtonClick: { (e: any): void; };
         private doneButtonClick(e) {
-            vars._app.OpenController({ urlController: "basket/delivery" });
+            vars._app.OpenController({ urlController: "basket/delivery", backController: this });
             e.preventDefault();
             e.stopPropagation();
             return false;
