@@ -88,5 +88,18 @@ namespace AutoPartsSite.Controllers.Api
                    return CreateResponseOk(result);
                });
            });
+
+
+        [HttpGet]
+        [Route("deliveryData")]
+        public async Task<HttpMessage<List<Country>>> DeliveryData(string lang)
+           => await TryCatchResponseAsync(async () =>
+           {
+               return await Task.Run(() =>
+               {
+                   List<Country> result = AccountController.GetCountries(lang);
+                   return CreateResponseOk(result);
+               });
+           });
     }
 }

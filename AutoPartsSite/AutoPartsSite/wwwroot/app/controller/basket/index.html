@@ -11,42 +11,44 @@
     </div>
 
     <div id="basket-view-parts" class="row">
-
+        <div class="center" style="font-size: 1.7rem;" data-bind="text:labelEmptyBasket"></div>
     </div>
 
-    <div class="row">
-        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12 m12 l12 xl12">
-            <div class="section left">
-                <h1 class="page-header" data-bind="text:labelDelivery"></h1>
+    <div id="basket-view-additional">
+        <div class="row">
+            <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+                <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
             </div>
         </div>
-        <div class="col s12 m12 l12 xl12">
-            <div class="divider"></div>
+
+        <div class="row">
+            <div class="col s12 m12 l12 xl12">
+                <div class="section left">
+                    <h1 class="page-header" data-bind="text:labelDelivery"></h1>
+                </div>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <div class="divider"></div>
+            </div>
         </div>
-    </div>
 
-    <div id="basket-view-delivery" class="row">
+        <div id="basket-view-delivery" class="row">
 
-    </div>
-
-    <div class="row">
-        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSumDelivery"></span><span id="basket-view-sum-delivery" data-bind="text:TotalSum"></span></div>
         </div>
-    </div>
 
-    <div id="basket-view-buttons" class="row">
-        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
-            <a id="basket-search-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">search</i><span data-bind="text:labelContinueShopping"></span></a>
+        <div class="row">
+            <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+                <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSumDelivery"></span><span id="basket-view-sum-delivery" data-bind="text:TotalSum"></span></div>
+            </div>
         </div>
-        <div class="col s6 m4 l4 xl3">
-            <a id="basket-done-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">done_outline</i><span data-bind="text:labelCheckout"></span></a>
+
+        <div id="basket-view-buttons" class="row">
+            <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
+                <a id="basket-search-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">search</i><span data-bind="text:labelContinueShopping"></span></a>
+            </div>
+            <div class="col s6 m4 l4 xl3">
+                <a id="basket-done-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">done_outline</i><span data-bind="text:labelCheckout"></span></a>
+            </div>
         </div>
     </div>
 

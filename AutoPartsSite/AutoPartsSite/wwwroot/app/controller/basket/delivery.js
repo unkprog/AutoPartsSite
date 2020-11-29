@@ -45,7 +45,33 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelTotalSum": 0
                     });
                 };
+                Delivery.prototype.ViewInit = function (view) {
+                    _super.prototype.ViewInit.call(this, view);
+                    return false;
+                };
                 Delivery.prototype.OnViewInit = function () {
+                    vars._app.ShowLoading();
+                    var self = this;
+                    this.BasketService.DeliveryData(function (responseData) {
+                        if (responseData.Result === 0) {
+                            self.setupDeliveryData(responseData);
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                };
+                Delivery.prototype.setupDeliveryData = function (responseData) {
+                    var settings = vars._appData.Settings;
+                    var countries = responseData.Data;
+                    var html = '';
+                    for (var i = 0, icount = countries.length; i < icount; i++) {
+                        html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+                    }
+                    $('#delivery-view-country').html(html);
+                    this.View.find('select').formSelect();
                 };
                 Delivery.prototype.createEvents = function () {
                     this.PaymentButtonClick = this.createClickEvent("basket-payment-btn", this.paymentButtonClick);

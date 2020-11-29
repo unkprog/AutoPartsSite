@@ -27,7 +27,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        internal List<Country> GetCountries(string lang, string code = null)
+        internal static List<Country> GetCountries(string lang, string code = null)
         {
             List<Country> result = new List<Country>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_countries]"

@@ -29,13 +29,42 @@ export namespace Controller.Basket {
             });
         }
 
+        public ViewInit(view: JQuery): boolean {
+            super.ViewInit(view);
+            return false;
+        }
 
         protected OnViewInit(): void {
+            vars._app.ShowLoading();
+            let self = this;
+
+            this.BasketService.DeliveryData((responseData) => {
+
+                if (responseData.Result === 0) {
+                    self.setupDeliveryData(responseData);
+                }
+                else {
+                    vars._app.ShowError(responseData.Error);
+                }
+                vars._app.HideLoading();
+            });
         }
-     
+
+        private setupDeliveryData(responseData) {
+            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+            let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data;
+
+            let html: string = '';
+            for (let i = 0, icount = countries.length; i < icount; i++) {
+                html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+            }
+            $('#delivery-view-country').html(html);
+            this.View.find('select').formSelect();
+        }   
+        
         protected createEvents(): void {
             this.PaymentButtonClick = this.createClickEvent("basket-payment-btn", this.paymentButtonClick);
-
         }
 
         protected destroyEvents(): void {

@@ -37,5 +37,10 @@ export namespace Services {
             };
             this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(pq), Callback: Callback });
         }
+
+        public DeliveryData(Callback: (responseData: any) => void) {
+            let locale: string = vars._appData.Locale;
+            this.GetApi({ Action: "/deliveryData", RequestData: { lang: locale }, Callback: Callback });
+        }
     }
 }

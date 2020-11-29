@@ -97,7 +97,7 @@ namespace AutoPartsSite.Controllers.Api
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@GoodsID", Value = ids.ToArray() },
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = ids.Count == 0 ? new int[] { 0 } : ids.ToArray() },
                 }
                 , onExecute: null
                 , (values) =>

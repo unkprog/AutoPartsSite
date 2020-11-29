@@ -40,6 +40,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$basket"),
+                        "labelEmptyBasket": vars._statres("label$empty$basket"),
                         "labelDelivery": vars._statres("label$shipping"),
                         "labelBrand": vars._statres("label$brand") + ":",
                         "labelCountry": vars._statres("label$country") + ":",
@@ -78,15 +79,21 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.setupBasketData = function (responseData) {
                     var self = this;
                     self.destroyCardsItems();
+                    self.View.find('#basket-view-additional').hide();
                     if (responseData.Result === 0) {
                         this.Model.set("basketData", responseData.Data);
+                        var items = responseData.Data.Positions;
+                        var icount = items.length;
+                        if (icount > 0)
+                            self.View.find('#basket-view-additional').show();
+                        else
+                            return;
                         var templateContent = self.View.find('#basket-view-parts-template').html();
                         var template = vars.getTemplate(templateContent);
                         var htmlResult = '';
-                        var items = responseData.Data.Positions;
                         var curSymbol = vars._appData.Settings.Currency.Code;
                         var sum = 0;
-                        for (var i = 0, icount = items.length; i < icount; i++) {
+                        for (var i = 0; i < icount; i++) {
                             curSymbol = items[i].Goods.Currency.Symbol;
                             items[i].deleteLabel = vars._statres("button$label$delete");
                             items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
@@ -101,7 +108,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         template = vars.getTemplate(templateContent);
                         items = responseData.Data.Deliveries;
                         sum = 0;
-                        for (var i = 0, icount = items.length; i < icount; i++) {
+                        for (var i = 0, icount_1 = items.length; i < icount_1; i++) {
                             if (self.deliveryId == items[i].Id) {
                                 sum = items[i].TotalAmount;
                             }
@@ -111,25 +118,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                         self.rebindModel();
                         //M.updateTextFields();
-                        self.qtyForm = self.View.find(".basket-qty-form");
-                        if (self.qtyForm) {
-                            self.proxyQtyForm = $.proxy(self.changeQty, self);
-                            self.qtyForm.on('submit', self.proxyQtyForm);
-                        }
-                        self.deleteBtn = self.View.find(".basket-del-btn");
-                        if (self.deleteBtn) {
-                            self.proxyDelete = $.proxy(self.deletePart, self);
-                            self.deleteBtn.on('click', self.proxyDelete);
-                            self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
-                            self.deleteBtn.tooltip();
-                        }
-                        self.deliveryCards = self.View.find(".basket-view-delivery-card");
-                        if (self.deliveryCards) {
-                            self.proxyDeliveryClick = $.proxy(self.deliveryClick, self);
-                            self.deliveryCards.on('click', self.proxyDeliveryClick);
-                            //self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
-                            //self.deleteBtn.tooltip();
-                        }
+                        self.createCardsItems();
                     }
                     else
                         vars._app.ShowError(responseData.Error);
@@ -221,6 +210,26 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.createEvents = function () {
                     this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
                     this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
+                };
+                Index.prototype.createCardsItems = function () {
+                    var self = this;
+                    self.qtyForm = self.View.find(".basket-qty-form");
+                    if (self.qtyForm) {
+                        self.proxyQtyForm = $.proxy(self.changeQty, self);
+                        self.qtyForm.on('submit', self.proxyQtyForm);
+                    }
+                    self.deleteBtn = self.View.find(".basket-del-btn");
+                    if (self.deleteBtn) {
+                        self.proxyDelete = $.proxy(self.deletePart, self);
+                        self.deleteBtn.on('click', self.proxyDelete);
+                        self.deleteBtn.data("tooltip", vars._statres("button$label$delete"));
+                        self.deleteBtn.tooltip();
+                    }
+                    self.deliveryCards = self.View.find(".basket-view-delivery-card");
+                    if (self.deliveryCards) {
+                        self.proxyDeliveryClick = $.proxy(self.deliveryClick, self);
+                        self.deliveryCards.on('click', self.proxyDeliveryClick);
+                    }
                 };
                 Index.prototype.destroyCardsItems = function () {
                     if (this.deliveryCards)
