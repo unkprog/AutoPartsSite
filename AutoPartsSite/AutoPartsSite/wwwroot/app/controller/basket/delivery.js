@@ -40,6 +40,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$delivery"),
                         "labelPayment": vars._statres("label$payment"),
+                        "labelBack": vars._statres("label$back"),
                         "labelTotalSumValue": 0,
                         "labelTotalSumDelivery": 0,
                         "labelTotalSum": 0
@@ -74,10 +75,18 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.View.find('select').formSelect();
                 };
                 Delivery.prototype.createEvents = function () {
-                    this.PaymentButtonClick = this.createClickEvent("basket-payment-btn", this.paymentButtonClick);
+                    this.PaymentButtonClick = this.createClickEvent("delivery-payment-btn", this.paymentButtonClick);
+                    this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
                 };
                 Delivery.prototype.destroyEvents = function () {
-                    this.destroyClickEvent("basket-payment-btn", this.PaymentButtonClick);
+                    this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
+                    this.destroyClickEvent("delivery-payment-btn", this.PaymentButtonClick);
+                };
+                Delivery.prototype.backButtonClick = function (e) {
+                    vars._app.ControllerBack(e);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 Delivery.prototype.paymentButtonClick = function (e) {
                     vars._app.OpenController({ urlController: "basket/payment" });

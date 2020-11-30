@@ -28,6 +28,7 @@ define({
     "button$label$select": "Select",
     "button$label$find": "Find",
     "button$label$print": "Print",
+    "label$back": "Back",
 
     "button$label$register": "Register",
     "button$label$forgot": "Forgot password?",
@@ -128,6 +129,7 @@ define({
     "label$vat": "VAT",
     "label$total": "Total",
 
+    "msg$delivery$choosecompany": "Choose a delivery company",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,7 @@ export namespace Controller.Basket {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$delivery"),
                 "labelPayment": vars._statres("label$payment"),
+                "labelBack": vars._statres("label$back"),
                 "labelTotalSumValue": 0,
                 "labelTotalSumDelivery": 0,
                 "labelTotalSum": 0
@@ -64,11 +65,21 @@ export namespace Controller.Basket {
         }   
         
         protected createEvents(): void {
-            this.PaymentButtonClick = this.createClickEvent("basket-payment-btn", this.paymentButtonClick);
+            this.PaymentButtonClick = this.createClickEvent("delivery-payment-btn", this.paymentButtonClick);
+            this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
         }
 
         protected destroyEvents(): void {
-            this.destroyClickEvent("basket-payment-btn", this.PaymentButtonClick);
+            this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
+            this.destroyClickEvent("delivery-payment-btn", this.PaymentButtonClick);
+        }
+
+        public BackButtonClick: { (e: any): void; };
+        private backButtonClick(e) {
+            vars._app.ControllerBack(e);
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
 
         public PaymentButtonClick: { (e: any): void; };

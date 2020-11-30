@@ -116,6 +116,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         }
                         self.View.find('#basket-view-delivery').html(htmlResult);
                         self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+                        if (self.deliveryId !== 0) {
+                            self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
+                        }
                         self.rebindModel();
                         //M.updateTextFields();
                         self.createCardsItems();
@@ -251,10 +254,19 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.doneButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                    if (this.Validate() === true) {
+                        vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                    }
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
+                };
+                Index.prototype.Validate = function () {
+                    if (this.deliveryId == 0) {
+                        M.toast({ html: vars._statres('msg$delivery$choosecompany') });
+                        return false;
+                    }
+                    return true;
                 };
                 return Index;
             }(base.Controller.Base));
