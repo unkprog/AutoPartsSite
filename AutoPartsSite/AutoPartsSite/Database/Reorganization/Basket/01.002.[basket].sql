@@ -8,6 +8,7 @@ begin
 	[Uid]        [nvarchar](50)   not null default (N''),
 	[GoodsID]    [int]            not null,
 	[Quantity]   [numeric](6, 0)  not null default (0),
+	[DeliveryID] [int]            null,
   )
 end
 
