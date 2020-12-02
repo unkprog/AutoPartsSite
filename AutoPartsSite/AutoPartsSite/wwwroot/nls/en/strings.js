@@ -29,6 +29,7 @@ define({
     "button$label$find": "Find",
     "button$label$print": "Print",
     "label$back": "Back",
+    "button$label$сheckout": "Checkout",
 
     "button$label$register": "Register",
     "button$label$forgot": "Forgot password?",

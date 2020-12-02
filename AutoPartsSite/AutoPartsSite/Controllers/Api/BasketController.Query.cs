@@ -270,5 +270,42 @@ namespace AutoPartsSite.Controllers.Api
             data.Deliveries = resultDelivery.Values.ToList();
         }
 
+        [NonAction]
+        private int AddDelivery(BasketDeilvery model)
+        {
+            int result = 0;
+            ExecQuery((query) =>
+            {
+                query.Execute(@"[add_delivery]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@FirstName", Value = model.FirstName },
+                    new SqlParameter() { ParameterName = "@LastName", Value = model.LastName },
+                    new SqlParameter() { ParameterName = "@CountryID", Value = model.CountryID },
+                    new SqlParameter() { ParameterName = "@City", Value = model.City },
+                    new SqlParameter() { ParameterName = "@Zipcode", Value = model.Zipcode },
+                    new SqlParameter() { ParameterName = "@Street", Value = model.Street },
+                    new SqlParameter() { ParameterName = "@Phone", Value = model.Phone }
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result = Convert.ToInt32(values[0]);
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
+        private void SetBasketDelivery(string uid, int delivery)
+        {
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery(@"[update_delivery]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                    new SqlParameter() { ParameterName = "@DeliveryID", Value = delivery },
+                });
+            });
+        }
     }
 }

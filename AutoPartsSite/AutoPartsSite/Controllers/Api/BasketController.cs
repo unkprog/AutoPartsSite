@@ -91,7 +91,7 @@ namespace AutoPartsSite.Controllers.Api
 
 
         [HttpGet]
-        [Route("deliveryData")]
+        [Route("deliverydata")]
         public async Task<HttpMessage<List<Country>>> DeliveryData(string lang)
            => await TryCatchResponseAsync(async () =>
            {
@@ -101,5 +101,18 @@ namespace AutoPartsSite.Controllers.Api
                    return CreateResponseOk(result);
                });
            });
+
+        [HttpPost]
+        [Route("setdeilvery")]
+        public async Task<HttpMessage<int>> SetDelivery(string uid, BasketDeilvery delivery)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  int deliveryId = AddDelivery(delivery);
+                  SetBasketDelivery(uid, deliveryId);
+                  return CreateResponseOk(deliveryId);
+              });
+          });
     }
 }

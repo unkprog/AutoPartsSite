@@ -94,4 +94,15 @@
         Languages: IReferenceNamedDbModel[]; 
         Currencies: IReferenceNamedDbModel[];
     }
+
+    export interface IBasketDeilvery
+    {
+        FirstName: string;
+        LastName: string;
+        CountryID: number;
+        City: string;
+        Zipcode: string;
+        Street: string;
+        Phone: string;
+    }
 }

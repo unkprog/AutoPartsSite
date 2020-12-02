@@ -40,7 +40,12 @@ export namespace Services {
 
         public DeliveryData(Callback: (responseData: any) => void) {
             let locale: string = vars._appData.Locale;
-            this.GetApi({ Action: "/deliveryData", RequestData: { lang: locale }, Callback: Callback });
+            this.GetApi({ Action: "/deliverydata", RequestData: { lang: locale }, Callback: Callback });
         }
+
+        public SetDelivery(delivery: Interfaces.Model.IBasketDeilvery, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+        }
+
     }
 }

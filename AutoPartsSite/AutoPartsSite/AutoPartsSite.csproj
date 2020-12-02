@@ -103,6 +103,9 @@
     <None Update="Database\AutoPartsSite\Basket\[del].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Basket\[update_delivery].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Basket\[update].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

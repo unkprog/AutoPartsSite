@@ -30,6 +30,7 @@ define({
     "button$label$find": "Поиск",
     "button$label$print": "Печать",
     "label$back": "Назад",
+    "button$label$сheckout": "Оформить",
 
     "button$label$register": "Регистрация",
     "button$label$forgot": "Забыли пароль?",

@@ -52,7 +52,10 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             };
             BasketService.prototype.DeliveryData = function (Callback) {
                 var locale = vars._appData.Locale;
-                this.GetApi({ Action: "/deliveryData", RequestData: { lang: locale }, Callback: Callback });
+                this.GetApi({ Action: "/deliverydata", RequestData: { lang: locale }, Callback: Callback });
+            };
+            BasketService.prototype.SetDelivery = function (delivery, Callback) {
+                this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
             };
             return BasketService;
         }(base.Services.BaseService));

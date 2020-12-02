@@ -24,6 +24,7 @@ export namespace Controller.Basket {
                 "Header": vars._statres("label$delivery"),
                 "labelPayment": vars._statres("label$payment"),
                 "labelBack": vars._statres("label$back"),
+                "labelCheckout": vars._statres("button$label$сheckout"),
                 "labelTotalSumValue": 0,
                 "labelTotalSumDelivery": 0,
                 "labelTotalSum": 0
@@ -65,13 +66,17 @@ export namespace Controller.Basket {
         }   
         
         protected createEvents(): void {
+            this.CheckoutButtonClick = this.createClickEvent("delivery-checkout-btn", this.checkoutButtonClick);
             this.PaymentButtonClick = this.createClickEvent("delivery-payment-btn", this.paymentButtonClick);
             this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
+
+            
         }
 
         protected destroyEvents(): void {
             this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
             this.destroyClickEvent("delivery-payment-btn", this.PaymentButtonClick);
+            this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
         }
 
         public BackButtonClick: { (e: any): void; };
@@ -88,6 +93,33 @@ export namespace Controller.Basket {
             e.preventDefault();
             e.stopPropagation();
             return false;
+        }
+
+        public CheckoutButtonClick: { (e: any): void; };
+        private checkoutButtonClick(e) {
+            let delivery: Interfaces.Model.IBasketDeilvery;
+            if (this.validate(delivery)) {
+                this.BasketService.SetDelivery(delivery, (responseData) => {
+                    if (responseData.Result === 0) {
+                        vars._app.OpenController({ urlController: "basket/index" });
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
+
+                
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        private validate(delivery: Interfaces.Model.IBasketDeilvery): boolean {
+            let result: boolean = false;
+
+            return result;
         }
     }
 }
