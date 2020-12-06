@@ -150,11 +150,12 @@ namespace AutoPartsSite.Controllers.Api
             {
                  new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
                  new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
-                 new SqlParameter() { ParameterName = "@IsGuest", Value = isGuest },
+                 new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
                  new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                  new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                  new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
-                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = true }
+                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = true },
+                 new SqlParameter() { ParameterName = "@ComparePrices", Value = true }
             }
             , onExecute: (reader) =>
             {
@@ -175,10 +176,10 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "CountryCode")         f_CountryCode = i;
                     else if (fname == "CountryDescr")        f_CountryName = i;
 
-                    else if (fname == "CurrencyID")          f_CurrencyId = i;
-                    else if (fname == "CurrencyCode")        f_CurrencyCode = i;
-                    else if (fname == "CurrencyName")        f_CurrencyName = i;
-                    else if (fname == "CurrencySymbol")      f_CurrencySymbol = i;
+                    else if (fname == "OrderCurrencyID")          f_CurrencyId = i;
+                    else if (fname == "OrderCurrencyCode")        f_CurrencyCode = i;
+                    else if (fname == "OrderCurrencyName")        f_CurrencyName = i;
+                    else if (fname == "OrderCurrencySymbol")      f_CurrencySymbol = i;
 
                     else if (fname == "WeightPhysical")      f_WeightPhysical = i;
                     else if (fname == "WeightVolumetric")    f_WeightVolumetric = i;

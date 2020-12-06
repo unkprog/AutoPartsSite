@@ -43,6 +43,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             };
             BasketService.prototype.View = function (Callback) {
                 var pq = {
+                    uid: vars._appData.Uid,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,

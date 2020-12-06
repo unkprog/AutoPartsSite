@@ -2,15 +2,16 @@
 declare @SiteID int = (select top 1 [SiteID] from dbo.GetSites(@LocaleLanguageID, 0, @SiteCode))
 
 select * 
-from [dbo].[GetPricesRetail] 
+from [dbo].[r_PriceGet]
    (
      @SiteID
    , @SiteUserID
-   , @IsGuest
+        , @SiteUserUID
    , @LocaleLanguageID
    , @CountryID
    , @CurrencyID
    , @PartsXML
    , @IsShowTotal
+        , @ComparePrices
    )
 order by [DeliveryTariffCode], [PartNn]

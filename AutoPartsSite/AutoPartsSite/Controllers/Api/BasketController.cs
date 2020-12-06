@@ -41,6 +41,8 @@ namespace AutoPartsSite.Controllers.Api
                return await Task.Run(() =>
                {
                    UpdatePartBasket(model, true);
+
+
                    int result = GetCount(model.uid);
                    return CreateResponseOk(result);
                });

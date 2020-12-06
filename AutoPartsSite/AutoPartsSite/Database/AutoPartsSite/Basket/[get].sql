@@ -1,3 +1,3 @@
 ﻿select [GoodsID], [Quantity]
-from [Basket] with(nolock)
+from [Basket_Item] with(nolock)
 where [Uid] = @Uid

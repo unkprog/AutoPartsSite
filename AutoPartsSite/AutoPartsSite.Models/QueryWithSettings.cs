@@ -6,6 +6,8 @@ namespace AutoPartsSite.Models
     public class QueryWithSettings
     {
         [DataMember]
+        public string uid { get; set; }
+        [DataMember]
         public int siteUserId { get; set; }
         [DataMember]
         public int countryId { get; set; }

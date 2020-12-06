@@ -30,6 +30,7 @@ export namespace Services {
 
         public View(Callback: (responseData: any) => void) {
             let pq = {
+                uid: vars._appData.Uid,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
