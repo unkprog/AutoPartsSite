@@ -6,12 +6,14 @@ from [dbo].[r_PriceGet]
    (
      @SiteID
    , @SiteUserID
-        , @SiteUserUID
+   , @SiteUserUID
    , @LocaleLanguageID
    , @CountryID
    , @CurrencyID
    , @PartsXML
+   , @WithSubst
    , @IsShowTotal
-        , @ComparePrices
+   , @ComparePrices
+   , @PromoCode
    )
-order by [DeliveryTariffCode], [PartNn]
+order by [DeliveryTariffCode], [RowNumber]

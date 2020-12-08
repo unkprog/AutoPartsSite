@@ -51,7 +51,7 @@ namespace AutoPartsSite.Controllers.Api
             StringBuilder xmlParts = new StringBuilder();
             xmlParts.AppendLine("<ROOT>");
             for (int i = 0, icount = goods.Count; i < icount; i++)
-                xmlParts.AppendLine(string.Concat("    <Part PartNN=", '"', i + 1, '"', " PartId=", '"', '"', " PartNo=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Quantity=", '"', goods[i].Quantity > 0 ? goods[i].Quantity : 1, '"', " />"));
+                xmlParts.AppendLine(string.Concat("    <Part RowNumber=", '"', i + 1, '"', " GoodsId=", '"', '"', " PartNumber=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Qty=", '"', goods[i].Quantity > 0 ? goods[i].Quantity : 1, '"', " />"));
             xmlParts.AppendLine("</ROOT>");
             return xmlParts.ToString();
         }
@@ -80,8 +80,10 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                     new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
+                    new SqlParameter() { ParameterName = "@WithSubst", Value = false },
                     new SqlParameter() { ParameterName = "@IsShowTotal", Value = false },
-                    new SqlParameter() { ParameterName = "@ComparePrices", Value = false }
+                    new SqlParameter() { ParameterName = "@ComparePrices", Value = false },
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty }
                 }
                 , onExecute: (reader) =>
                 {
@@ -94,7 +96,7 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "Artikul") f_Articul = i;
                         else if (fname == "Descr") f_Name = i;
                         else if (fname == "Brand") f_BrandCode = i;
-                        else if (fname == "Price") f_Price = i;
+                        else if (fname == "CartPrice") f_Price = i;
                         else if (fname == "ShipInDays") f_ShipInDays = i;
 
                         else if (fname == "CountryID")   f_CountryId = i;
