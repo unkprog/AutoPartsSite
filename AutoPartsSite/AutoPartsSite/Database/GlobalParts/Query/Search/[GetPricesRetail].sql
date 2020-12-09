@@ -12,8 +12,8 @@ from [dbo].[r_PriceGet]
    , @CurrencyID
    , @PartsXML
    , @WithSubst
-   , @IsShowTotal
-   , @ComparePrices
+   , @WithTotal
+   , @WithCompare
    , @PromoCode
    )
 order by [DeliveryTariffCode], [RowNumber]

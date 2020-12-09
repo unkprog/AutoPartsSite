@@ -81,8 +81,8 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                     new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
                     new SqlParameter() { ParameterName = "@WithSubst", Value = false },
-                    new SqlParameter() { ParameterName = "@IsShowTotal", Value = false },
-                    new SqlParameter() { ParameterName = "@ComparePrices", Value = false },
+                    new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                    new SqlParameter() { ParameterName = "@WithCompare", Value = false },
                     new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty }
                 }
                 , onExecute: (reader) =>
@@ -96,7 +96,7 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "Artikul") f_Articul = i;
                         else if (fname == "Descr") f_Name = i;
                         else if (fname == "Brand") f_BrandCode = i;
-                        else if (fname == "CartPrice") f_Price = i;
+                        else if (fname == "OrderPriceRaw") f_Price = i;
                         else if (fname == "ShipInDays") f_ShipInDays = i;
 
                         else if (fname == "CountryID")   f_CountryId = i;
