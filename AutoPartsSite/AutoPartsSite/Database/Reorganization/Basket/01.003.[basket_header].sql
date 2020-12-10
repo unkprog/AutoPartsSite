@@ -15,7 +15,7 @@ begin
 	[CartCurrencyRate] [numeric](15, 4) not null,
 	[InvoiceCurrencyID] [int] not null default(0),
 	[InvoiceCurrencyRate] [numeric](15, 4) not null default(1),
-	[AccountingCurrencyID] [int] not null,   
+	[AccountingCurrencyID] [int] not null, 
 	primary key clustered ([Id] asc)
   )
 end
