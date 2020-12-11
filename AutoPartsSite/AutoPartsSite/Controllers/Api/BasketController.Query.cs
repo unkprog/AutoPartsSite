@@ -45,6 +45,15 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
                     new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
                     new SqlParameter() { ParameterName = "@Quantity", Value = model.qty },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.languageId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserUID", Value = model.uid },
+                    new SqlParameter() { ParameterName = "@CountryID", Value = model.countryId },
+                    new SqlParameter() { ParameterName = "@CurrencyID", Value = model.currencyId },
+                    new SqlParameter() { ParameterName = "@WithSubst", Value = false },
+                    new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                    new SqlParameter() { ParameterName = "@WithCompare", Value = false },
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty }
                 });
             });
             return result;
