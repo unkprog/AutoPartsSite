@@ -44,20 +44,28 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 this.PostApi({ Action: "/add", RequestData: JSON.stringify(bq), Callback: Callback });
             };
             BasketService.prototype.Update = function (id, qty, Callback) {
-                this.PostApi({ Action: "/update", RequestData: JSON.stringify({ uid: vars._appData.Uid, id: id, qty: qty }), Callback: Callback });
+                var bq = {
+                    uid: vars._appData.Uid,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id,
+                    id: id, qty: qty
+                };
+                this.PostApi({ Action: "/update", RequestData: JSON.stringify(bq), Callback: Callback });
             };
             BasketService.prototype.Delete = function (id, Callback) {
                 this.PostApi({ Action: "/delete", RequestData: JSON.stringify({ uid: vars._appData.Uid, id: id, qty: 0 }), Callback: Callback });
             };
             BasketService.prototype.View = function (Callback) {
-                var pq = {
+                var bq = {
                     uid: vars._appData.Uid,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id
                 };
-                this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(pq), Callback: Callback });
+                this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(bq), Callback: Callback });
             };
             BasketService.prototype.DeliveryData = function (Callback) {
                 var locale = vars._appData.Locale;

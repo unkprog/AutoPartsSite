@@ -29,7 +29,15 @@ export namespace Services {
         }
 
         public Update(id: number, qty: number, Callback: (responseData: any) => void) {
-            this.PostApi({ Action: "/update", RequestData: JSON.stringify({ uid: vars._appData.Uid, id: id, qty: qty }), Callback: Callback });
+            let bq = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id,
+                id: id, qty: qty
+            };
+            this.PostApi({ Action: "/update", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
         public Delete(id: number, Callback: (responseData: any) => void) {
@@ -37,14 +45,14 @@ export namespace Services {
         }
 
         public View(Callback: (responseData: any) => void) {
-            let pq = {
+            let bq = {
                 uid: vars._appData.Uid,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id
             };
-            this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(pq), Callback: Callback });
+            this.PostApi({ Action: "/view?uid=" + vars._appData.Uid, RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
         public DeliveryData(Callback: (responseData: any) => void) {
