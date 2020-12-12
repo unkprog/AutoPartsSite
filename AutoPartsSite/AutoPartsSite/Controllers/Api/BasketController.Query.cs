@@ -362,10 +362,10 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "DeliveryTariffID")    f_DeliveryTariffID = i;
                     else if (fname == "DeliveryTariffCode")  f_DeliveryTariffCode = i;
                     else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
-                    else if (fname == "Amount")              f_Amount = i;
-                    else if (fname == "DeliveryAmount")      f_DeliveryAmount = i;
-                    else if (fname == "VatAmount")           f_VatAmount = i;
-                    else if (fname == "TotalAmount")         f_TotalAmount = i;
+                    else if (fname == "CartAmount")          f_Amount = i;
+                    else if (fname == "CartDeliveryAmount")  f_DeliveryAmount = i;
+                    else if (fname == "CartVatAmount")       f_VatAmount = i;
+                    else if (fname == "CartTotalAmount")     f_TotalAmount = i;
                     else if (fname == "DeliveryDaysMin")     f_DeliveryDaysMin = i;
                     else if (fname == "DeliveryDaysMax")     f_DeliveryDaysMax = i;
 
