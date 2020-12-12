@@ -324,7 +324,7 @@ namespace AutoPartsSite.Controllers.Api
                  new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                  new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
                  new SqlParameter() { ParameterName = "@WithSubst", Value = false },
-                 new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                 new SqlParameter() { ParameterName = "@WithTotal", Value = true },
                  new SqlParameter() { ParameterName = "@WithCompare", Value = false },
                  new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
                  new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
@@ -335,7 +335,7 @@ namespace AutoPartsSite.Controllers.Api
                 for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                 {
                     fname = reader.GetName(i);
-                         if (fname == "PartNn")              f_PartNn = i;
+                         if (fname == "RowNumber")              f_PartNn = i;
                     else if (fname == "GoodsID")             f_Id = i;
                     else if (fname == "RequestedPartNumber") f_PartNumber = i;
                     else if (fname == "Artikul")             f_Articul = i;
