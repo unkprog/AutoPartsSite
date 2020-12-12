@@ -1,0 +1,1 @@
+﻿select top 1 [DeliveryTariffID] = isnull([DeliveryTariffID], 0) from [Basket_Header] with(nolock) where [Uid] = @Uid

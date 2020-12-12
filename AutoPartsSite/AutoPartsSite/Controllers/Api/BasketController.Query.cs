@@ -38,9 +38,136 @@ namespace AutoPartsSite.Controllers.Api
         private decimal UpdatePartBasket(PartBasketModel model, bool isAdd = false)
         {
             decimal result = model.qty;
+            
+            List<BasketGoods> positions = new List<BasketGoods>();
+            positions.Add(new BasketGoods() { Goods = new Goods() { Id = model.id }, Quantity = model.qty });
+            List<GoodsSearch> goods = GetBasketGoods(positions);
+            string partsXML = string.Empty;// SearchController.BuildPartsXML(goods);
+            int DeliveryTariffID = GetBasketDelivery(model, out partsXML);
+
+            List<BasketItemsModel> basketItemsModels = GetBasketPrices(model, DeliveryTariffID, partsXML);
+            if(basketItemsModels.Count > 0)
+                ExecQuery((query) =>
+                {
+                    query.ExecuteNonQuery(isAdd ? @"[add]" : @"[update]", new SqlParameter[]
+                    {
+                        new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
+                        new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
+                        new SqlParameter() { ParameterName = "@Quantity", Value = model.qty },
+                        new SqlParameter() { ParameterName = "@Brand", Value = basketItemsModels[0].Brand },
+                        new SqlParameter() { ParameterName = "@Articul", Value = basketItemsModels[0].Articul },
+                        new SqlParameter() { ParameterName = "@Descr", Value = basketItemsModels[0].Descr },
+                        new SqlParameter() { ParameterName = "@WeightPhysical", Value = basketItemsModels[0].WeightPhysical },
+                        new SqlParameter() { ParameterName = "@WeightVolumetric", Value = basketItemsModels[0].WeightVolumetric },
+                        new SqlParameter() { ParameterName = "@VolumetricDivider", Value = basketItemsModels[0].VolumetricDivider },
+                        new SqlParameter() { ParameterName = "@PromoCouponRate", Value = basketItemsModels[0].PromoCouponRate },
+                        new SqlParameter() { ParameterName = "@VatRate", Value = basketItemsModels[0].VatRate },
+                        new SqlParameter() { ParameterName = "@OrderPriceRaw", Value = basketItemsModels[0].OrderPriceRaw },
+                        new SqlParameter() { ParameterName = "@OrderAmountRaw", Value = basketItemsModels[0].OrderAmountRaw },
+                        new SqlParameter() { ParameterName = "@OrderDiscounts", Value = basketItemsModels[0].OrderDiscounts },
+                        new SqlParameter() { ParameterName = "@OrderDiscountsAmount", Value = basketItemsModels[0].OrderDiscountsAmount },
+                        new SqlParameter() { ParameterName = "@OrderPrice", Value = basketItemsModels[0].OrderPrice },
+                        new SqlParameter() { ParameterName = "@OrderAmount", Value = basketItemsModels[0].OrderAmount },
+                        new SqlParameter() { ParameterName = "@OrderDeliveryAmount", Value = basketItemsModels[0].OrderDeliveryAmount },
+                        new SqlParameter() { ParameterName = "@OrderTotalAmount", Value = basketItemsModels[0].OrderTotalAmount },
+                        new SqlParameter() { ParameterName = "@OrderVatAmount", Value = basketItemsModels[0].OrderVatAmount },
+                        new SqlParameter() { ParameterName = "@OrderVatTotalAmount", Value = basketItemsModels[0].OrderVatTotalAmount },
+                        new SqlParameter() { ParameterName = "@CartPriceRaw", Value = basketItemsModels[0].CartPriceRaw },
+                        new SqlParameter() { ParameterName = "@CartAmountRaw", Value = basketItemsModels[0].CartAmountRaw },
+                        new SqlParameter() { ParameterName = "@CartDiscounts", Value = basketItemsModels[0].CartDiscounts },
+                        new SqlParameter() { ParameterName = "@CartDiscountsAmount", Value = basketItemsModels[0].CartDiscountsAmount },
+                        new SqlParameter() { ParameterName = "@CartPrice", Value = basketItemsModels[0].CartPrice },
+                        new SqlParameter() { ParameterName = "@CartAmount", Value = basketItemsModels[0].CartAmount },
+                        new SqlParameter() { ParameterName = "@CartDeliveryAmount", Value = basketItemsModels[0].CartDeliveryAmount },
+                        new SqlParameter() { ParameterName = "@CartTotalAmount", Value = basketItemsModels[0].CartTotalAmount },
+                        new SqlParameter() { ParameterName = "@CartVatAmount", Value = basketItemsModels[0].CartVatAmount },
+                        new SqlParameter() { ParameterName = "@CartVatTotalAmount", Value = basketItemsModels[0].CartVatTotalAmount },
+                        new SqlParameter() { ParameterName = "@Comment", Value = basketItemsModels[0].Comment },
+                        new SqlParameter() { ParameterName = "@TakeInvoicePrice", Value = (decimal)0 },
+                        new SqlParameter() { ParameterName = "@InvoicePrice", Value = (decimal)0 }
+                    });
+                });
+            return result;
+        }
+
+        [NonAction]
+        private List<BasketItemsModel> GetBasketPrices(PartBasketModel model, int DeliveryTariffID, string partsXML)
+        {
+            List<BasketItemsModel> result = new List<BasketItemsModel>();
+
+            AppSettings.Query.GlobalParts.Execute(@"Basket\[get_prices]", new SqlParameter[]
+            {
+                new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.languageId },
+                new SqlParameter() { ParameterName = "@SiteUserID", Value = model.siteUserId },
+                new SqlParameter() { ParameterName = "@SiteUserUID", Value = model.uid },
+                new SqlParameter() { ParameterName = "@CountryID", Value = model.countryId },
+                new SqlParameter() { ParameterName = "@CurrencyID", Value = model.currencyId },
+                new SqlParameter() { ParameterName = "@DeliveryTariffID", Value = DeliveryTariffID },
+                new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
+                new SqlParameter() { ParameterName = "@WithSubst", Value = false },
+                new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                new SqlParameter() { ParameterName = "@WithCompare", Value = false },
+                new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
+                new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
+            }
+            , onExecute: null
+            , (values) =>
+            {
+                int i = 0;
+                result.Add(new BasketItemsModel()
+                {
+                    GoodsID = model.id,
+                    Uid = model.uid,
+                    Qty = values[++i].ToInt(),
+                    Brand = values[++i].ToStr(),
+                    Articul = values[++i].ToStr(),
+                    Descr = values[++i].ToStr(),
+                    WeightPhysical = values[++i].ToDecimal(),
+                    WeightVolumetric = values[++i].ToDecimal(),
+                    VolumetricDivider = values[++i].ToDecimal(),
+                    PromoCouponRate = values[++i].ToDecimal(),
+                    VatRate = values[++i].ToDecimal(),
+                    OrderPriceRaw = values[++i].ToDecimal(),
+                    OrderAmountRaw = values[++i].ToDecimal(),
+                    OrderDiscounts = values[++i].ToDecimal(),
+                    OrderDiscountsAmount = values[++i].ToDecimal(),
+                    OrderPrice = values[++i].ToDecimal(),
+                    OrderAmount = values[++i].ToDecimal(),
+                    OrderDeliveryAmount = values[++i].ToDecimal(),
+                    OrderTotalAmount = values[++i].ToDecimal(),
+                    OrderVatAmount = values[++i].ToDecimal(),
+                    OrderVatTotalAmount = values[++i].ToDecimal(),
+                    CartPriceRaw = values[++i].ToDecimal(),
+                    CartAmountRaw = values[++i].ToDecimal(),
+                    CartDiscounts = values[++i].ToDecimal(),
+                    CartDiscountsAmount = values[++i].ToDecimal(),
+                    CartPrice = values[++i].ToDecimal(),
+                    CartAmount = values[++i].ToDecimal(),
+                    CartDeliveryAmount = values[++i].ToDecimal(),
+                    CartTotalAmount = values[++i].ToDecimal(),
+                    CartVatAmount = values[++i].ToDecimal(),
+                    CartVatTotalAmount = values[++i].ToDecimal(),
+                    Comment = values[++i].ToStr(),
+                    //TakeInvoicePrice = values[++i].ToDecimal(),
+                    //InvoicePrice = values[++i].ToDecimal()
+                });
+            });
+
+            return result;
+        }
+
+        [NonAction]
+        private int GetBasketDelivery(PartBasketModel model, out string partsXML)
+        {
+            int result = 0;
+            List<BasketGoods> positions = new List<BasketGoods>();
+            positions.Add(new BasketGoods() { Goods = new Goods() { Id = model.id }, Quantity = model.qty });
+            List<GoodsSearch> goods = GetBasketGoods(positions);
+            string pXML = SearchController.BuildPartsXML(goods);
+            partsXML = pXML;
             ExecQuery((query) =>
             {
-                query.ExecuteNonQuery(isAdd ? @"[add]" : @"[update]", new SqlParameter[]
+                query.Execute(@"[get_delivery_tariff]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
                     new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
@@ -50,12 +177,45 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@SiteUserUID", Value = model.uid },
                     new SqlParameter() { ParameterName = "@CountryID", Value = model.countryId },
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = model.currencyId },
+                    new SqlParameter() { ParameterName = "@PartsXML", Value = pXML },
                     new SqlParameter() { ParameterName = "@WithSubst", Value = false },
                     new SqlParameter() { ParameterName = "@WithTotal", Value = false },
                     new SqlParameter() { ParameterName = "@WithCompare", Value = false },
-                    new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty }
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
+                    new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result = values[0].ToInt();
                 });
             });
+
+            if(result == 0)
+            {
+                AppSettings.Query.GlobalParts.Execute(@"Basket\[get_delivery_tariff]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
+                    new SqlParameter() { ParameterName = "@Quantity", Value = model.qty },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.languageId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserUID", Value = model.uid },
+                    new SqlParameter() { ParameterName = "@CountryID", Value = model.countryId },
+                    new SqlParameter() { ParameterName = "@CurrencyID", Value = model.currencyId },
+                    new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
+                    new SqlParameter() { ParameterName = "@WithSubst", Value = false },
+                    new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                    new SqlParameter() { ParameterName = "@WithCompare", Value = false },
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
+                    new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result = values[0].ToInt();
+                });
+            }
             return result;
         }
 
@@ -97,11 +257,11 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<GoodsSearch> GetBasketGoods(BasketData data)
+        private List<GoodsSearch> GetBasketGoods(List<BasketGoods> positions)
         {
             List<GoodsSearch> result = new List<GoodsSearch>();
             List<int> ids = new List<int>();
-            foreach (var id in data.Positions)
+            foreach (var id in positions)
                 ids.Add(id.Goods.Id);
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]

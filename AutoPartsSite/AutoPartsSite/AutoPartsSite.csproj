@@ -97,6 +97,9 @@
     <None Update="Database\AutoPartsSite\Basket\[add_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Basket\[get_delivery_tariff].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Basket\[set_user_uid].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -149,6 +152,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Basket\[get_prices].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Basket\[get_delivery_tariff].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Search\[GetPricesRetail].sql">

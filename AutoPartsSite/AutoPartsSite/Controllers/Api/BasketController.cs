@@ -83,7 +83,7 @@ namespace AutoPartsSite.Controllers.Api
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
                   
                    BasketData result = GetBasketData(uid);
-                   List<GoodsSearch> goodsSearch = GetBasketGoods(result);
+                   List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);
                });
