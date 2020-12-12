@@ -248,8 +248,8 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     result.Positions.Add(new BasketGoods()
                     {
-                        Goods = new Goods() { Id = (int)values[0], Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() },
-                        Quantity = (decimal)values[1]
+                        Goods = new Goods() { Id = values[0].ToInt(), Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() },
+                        Quantity = values[1].ToDecimal(), Price = values[2].ToDecimal()
                     });
                 });
             });
@@ -323,8 +323,11 @@ namespace AutoPartsSite.Controllers.Api
                  new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                  new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                  new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
-                 new SqlParameter() { ParameterName = "@IsShowTotal", Value = true },
-                 new SqlParameter() { ParameterName = "@ComparePrices", Value = true }
+                 new SqlParameter() { ParameterName = "@WithSubst", Value = false },
+                 new SqlParameter() { ParameterName = "@WithTotal", Value = false },
+                 new SqlParameter() { ParameterName = "@WithCompare", Value = false },
+                 new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
+                 new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
             }
             , onExecute: (reader) =>
             {
@@ -338,7 +341,7 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "Artikul")             f_Articul = i;
                     else if (fname == "Descr")               f_Name = i;
                     else if (fname == "Brand")               f_BrandCode = i;
-                    else if (fname == "Price")               f_Price = i;
+                  //  else if (fname == "Price")               f_Price = i;
                     else if (fname == "ShipInDays")          f_ShipInDays = i;
 
                     else if (fname == "CountryID")           f_CountryId = i;
@@ -414,7 +417,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_Name       > -1) item.Goods.Name = values[f_Name].ToStr();
                     if (f_Articul    > -1) item.Goods.Articul = values[f_Articul].ToStr();
                     if (f_Price      > -1) item.Goods.Price = values[f_Price].ToDecimal();
-                    item.Price = item.Goods.Price;
+                    //item.Price = item.Goods.Price;
                     if (f_ShipInDays > -1) item.Goods.ShipInDays = values[f_ShipInDays].ToInt();
 
                     if (f_BrandId   > -1) item.Goods.Brand.Id = values[f_BrandId].ToInt();
