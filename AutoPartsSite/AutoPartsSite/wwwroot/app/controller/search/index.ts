@@ -45,6 +45,9 @@ export namespace Controller.Search {
         private proxyPageNext;
         private proxyAddToCard;
 
+        private qtyForm: JQuery;
+        private proxyQtyForm;
+
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
             this.BasketService.Count(this.setBasketCount);
@@ -88,6 +91,30 @@ export namespace Controller.Search {
 
         }
 
+        private createItems() {
+            let self = this;
+
+            $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
+            $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
+            $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
+            $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+
+            self.qtyForm = self.View.find(".basket-qty-form");
+            if (self.qtyForm) {
+                self.proxyQtyForm = $.proxy(self.addQty, self);
+                self.qtyForm.on('submit', self.proxyQtyForm);
+            }
+        }
+
+        private destroyItems() {
+            if (this.qtyForm) this.qtyForm.off('submit', this.proxyQtyForm);
+            $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
+
+            $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
+            $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
+            $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+        }
+
         private currentPage: number;
         private maxPage: number;
         private lastSearch: string;
@@ -98,11 +125,8 @@ export namespace Controller.Search {
 
             vars._app.ShowLoading();
 
-            $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
-            
-            $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
-            $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
-            $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+            self.destroyItems();
+
             if (self.lastSearch !== partNum) {
                 self.lastSearch = partNum;
                 self.currentPage = 1;
@@ -123,7 +147,7 @@ export namespace Controller.Search {
                     self.currentPage = responseData.Data.Page;
 
                     for (let i = 0, icount = items.length; i < icount; i++) {
-                        items[i].labelAddToCard = vars._statres("button$label$add");
+                        items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
                         //if (i == 0)
                         //    self.maxPage = items[i].MaxPage;
                         htmlResult = (htmlResult + template(items[i]));
@@ -148,6 +172,8 @@ export namespace Controller.Search {
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
                     $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+
+                    self.createItems();
 
                     vars._app.HideLoading();
                 }
@@ -195,6 +221,31 @@ export namespace Controller.Search {
             let self = this;
             let id: number = $(e.currentTarget).data('id');
             this.BasketService.Add(id, self.setBasketCount);
+            e.preventDefault();
+            return false;
+        }
+
+        private addQty(e: any): boolean {
+            vars._app.ShowLoading();
+            let self = this;
+
+            //let formid: string = e.currentTarget.id;
+            //let id: number = parseInt(formid.replace('basket-qty-form-', ''));
+            //let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
+          
+
+            //self.BasketService.Update(id, qty, (responseData) => {
+            //    if (responseData.Result === 0) {
+            //        self.updatePositions(id, false, qty);
+            //        //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+            //        $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
+
+            //    }
+            //    else
+            //        vars._app.ShowError(responseData.Error);
+
+            //    vars._app.HideLoading();
+            //});
             e.preventDefault();
             return false;
         }

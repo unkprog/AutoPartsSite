@@ -93,15 +93,32 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (this.searchForm)
                         this.searchForm.off('submit', this.proxySearch);
                 };
+                Index.prototype.createItems = function () {
+                    var self = this;
+                    $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
+                    $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
+                    $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
+                    $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+                    self.qtyForm = self.View.find(".basket-qty-form");
+                    if (self.qtyForm) {
+                        self.proxyQtyForm = $.proxy(self.addQty, self);
+                        self.qtyForm.on('submit', self.proxyQtyForm);
+                    }
+                };
+                Index.prototype.destroyItems = function () {
+                    if (this.qtyForm)
+                        this.qtyForm.off('submit', this.proxyQtyForm);
+                    $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
+                    $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
+                    $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
+                    $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+                };
                 Index.prototype.search = function (e) {
                     var _this = this;
                     var self = this;
                     var partNum = '' + self.View.find('#search-view-part-number').val();
                     vars._app.ShowLoading();
-                    $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
-                    $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
-                    $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
-                    $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+                    self.destroyItems();
                     if (self.lastSearch !== partNum) {
                         self.lastSearch = partNum;
                         self.currentPage = 1;
@@ -117,7 +134,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             self.maxPage = responseData.Data.MaxPage;
                             self.currentPage = responseData.Data.Page;
                             for (var i = 0, icount = items.length; i < icount; i++) {
-                                items[i].labelAddToCard = vars._statres("button$label$add");
+                                items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
                                 //if (i == 0)
                                 //    self.maxPage = items[i].MaxPage;
                                 htmlResult = (htmlResult + template(items[i]));
@@ -138,6 +155,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', _this.proxyPagePrev);
                             $('.search-view-pagination').find('.search-view-pagination-next ').on('click', _this.proxyPageNext);
                             $('#search-view-parts').find('.card-btn-add-basket').on('click', _this.proxyAddToCard);
+                            self.createItems();
                             vars._app.HideLoading();
                         }
                         else {
@@ -182,6 +200,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var id = $(e.currentTarget).data('id');
                     this.BasketService.Add(id, self.setBasketCount);
+                    e.preventDefault();
+                    return false;
+                };
+                Index.prototype.addQty = function (e) {
+                    vars._app.ShowLoading();
+                    var self = this;
+                    //let formid: string = e.currentTarget.id;
+                    //let id: number = parseInt(formid.replace('basket-qty-form-', ''));
+                    //let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
+                    //self.BasketService.Update(id, qty, (responseData) => {
+                    //    if (responseData.Result === 0) {
+                    //        self.updatePositions(id, false, qty);
+                    //        //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
+                    //        $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
+                    //    }
+                    //    else
+                    //        vars._app.ShowError(responseData.Error);
+                    //    vars._app.HideLoading();
+                    //});
                     e.preventDefault();
                     return false;
                 };

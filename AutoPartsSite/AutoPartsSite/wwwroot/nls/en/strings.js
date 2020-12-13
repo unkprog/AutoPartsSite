@@ -110,6 +110,7 @@ define({
     "label$weight": "Weight",
     "label$addToCard": "Add to card",
     "label$availability": "Availability",
+    "label$not$availability": "Not availability",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //

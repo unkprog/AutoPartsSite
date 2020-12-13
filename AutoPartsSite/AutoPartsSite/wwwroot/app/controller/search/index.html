@@ -51,8 +51,15 @@
                     </a>
                 </div>
                 <div class="card-action">
-                    <span class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</span>
-                    <a class="waves-effect waves-light btn card-btn-add-basket" data-id="#=Id#"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                    <div style="height: 2.45rem;">
+                        <span class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</span>
+                        <a class="waves-effect waves-light btn card-btn-add-basket" style="float:right" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+        #if(StockQty>0) {#
+                        <form id="basket-qty-form-#=Id#" class="basket-qty-form col" style="float:right">
+                            <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
+                        </form>
+        #}#
+                    </div>
                 </div>
             </div>
         </div>
