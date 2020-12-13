@@ -102,12 +102,14 @@ define({
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Поиск                                                                      //
     /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$partnumber": "Part number",
     "label$brand": "Brand",
     "label$country": "Country",
     "label$shipin": "Ship in, days",
     "label$dimensions": "Dimensions",
     "label$weight": "Weight",
     "label$addToCard": "Add to card",
+    "label$availability": "Availability",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //

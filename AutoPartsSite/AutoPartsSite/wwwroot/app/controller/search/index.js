@@ -48,10 +48,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$AutoPartsSite"),
                         "labelAddToCard": vars._statres("label$addToCard"),
+                        "labelPartNumber": vars._statres("label$partnumber") + ":",
                         "labelBrand": vars._statres("label$brand") + ":",
                         "labelShipIn": vars._statres("label$shipin") + ":",
                         "labelDimensions": vars._statres("label$dimensions") + ":",
-                        "labelWeight": vars._statres("label$weight") + ":"
+                        "labelWeight": vars._statres("label$weight") + ":",
+                        "labelAvailability": vars._statres("label$availability") + ":"
                     });
                 };
                 Index.prototype.OnViewInit = function () {
@@ -115,7 +117,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             self.maxPage = responseData.Data.MaxPage;
                             self.currentPage = responseData.Data.Page;
                             for (var i = 0, icount = items.length; i < icount; i++) {
-                                items[i].labelAddToCard = vars._statres("label$addToCard");
+                                items[i].labelAddToCard = vars._statres("button$label$add");
                                 //if (i == 0)
                                 //    self.maxPage = items[i].MaxPage;
                                 htmlResult = (htmlResult + template(items[i]));

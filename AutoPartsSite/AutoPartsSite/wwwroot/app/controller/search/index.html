@@ -39,13 +39,13 @@
                     <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
                         <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
                         <div class="card-search-info">
-                            <div class="card-search-partnumber">#=PartNumber#</div>
-                            <div>#=Name#</div>
+                            <div class="card-search-partnumber">#=Name#</div>
+                            <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
                             <div class="row card-search-desc margin-0">
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelDimensions"></span>#=Parameters.LengthCm#x#=Parameters.WidthCm#x#=Parameters.HeightCm# cm</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)# kg</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
+                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)# kg</div>
                             </div>
                         </div>
                     </a>

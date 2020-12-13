@@ -50,7 +50,12 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public decimal Price { get; set; }
         /// <summary>
-        /// Цена
+        /// Остаток
+        /// </summary>
+        [DataMember]
+        public decimal StockQty { get; set; }
+        /// <summary>
+        /// дней доставка
         /// </summary>
         [DataMember]
         public int ShipInDays { get; set; }

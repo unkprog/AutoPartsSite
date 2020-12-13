@@ -62,7 +62,7 @@ namespace AutoPartsSite.Controllers.Api
            
             string partsXML = BuildPartsXML(goods);
 
-            int f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
+            int f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_StockQty = -1, f_ShipInDays = -1;
             int f_BrandId = -1, f_BrandCode = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
@@ -96,17 +96,18 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "Artikul") f_Articul = i;
                         else if (fname == "Descr") f_Name = i;
                         else if (fname == "Brand") f_BrandCode = i;
-                        else if (fname == "OrderPriceRaw") f_Price = i;
+                        else if (fname == "CartPrice") f_Price = i;
+                        else if (fname == "StockQty") f_StockQty = i;
                         else if (fname == "ShipInDays") f_ShipInDays = i;
 
                         else if (fname == "CountryID")   f_CountryId = i;
                         else if (fname == "CountryCode") f_CountryCode = i;
                         else if (fname == "CountryDescr") f_CountryName = i;
 
-                        else if (fname == "OrderCurrencyID")   f_CurrencyId = i;
-                        else if (fname == "OrderCurrencyCode") f_CurrencyCode = i;
-                        else if (fname == "OrderCurrencyName") f_CurrencyName = i;
-                        else if (fname == "OrderCurrencySymbol") f_CurrencySymbol = i;
+                        else if (fname == "CartCurrencyID")   f_CurrencyId = i;
+                        else if (fname == "CartCurrencyCode") f_CurrencyCode = i;
+                        else if (fname == "CartCurrencyName") f_CurrencyName = i;
+                        else if (fname == "CartCurrencySymbol") f_CurrencySymbol = i;
 
                         else if (fname == "WeightPhysical") f_WeightPhysical = i;
                         else if (fname == "WeightVolumetric") f_WeightVolumetric = i;
@@ -131,6 +132,7 @@ namespace AutoPartsSite.Controllers.Api
                         if (f_Articul    > -1) item.Articul    = values[f_Articul].ToStr();
                         if (f_Name       > -1) item.Name       = values[f_Name].ToStr();
                         if (f_Price      > -1) item.Price      = values[f_Price].ToDecimal();
+                        if (f_StockQty   > -1) item.StockQty   = values[f_StockQty].ToInt();
                         if (f_ShipInDays > -1) item.ShipInDays = values[f_ShipInDays].ToInt();
 
                         if (f_BrandId   > -1) item.Brand.Id   = values[f_BrandId].ToInt();
