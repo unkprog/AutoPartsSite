@@ -141,8 +141,14 @@ export namespace App {
                     self.SetHeader(self._controller);
 
                 let view: any = $(options.template);
-                isInit = self._controller.ViewInit(view);
+                if (view.length > 0) {
+                    for (let i = 0, icount = view.length; i < icount; i++) {
+                        if (self._controller.Options.Id === view[i].id)
+                            view = $(view[i]);
+                    }
+                }
 
+                isInit = self._controller.ViewInit(view);
 
                 if (isModal) {
                     self.OpenViewTemplateIsModal();

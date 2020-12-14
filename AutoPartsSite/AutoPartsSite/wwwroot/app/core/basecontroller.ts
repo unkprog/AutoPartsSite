@@ -265,6 +265,12 @@ export namespace Controller {
                 self.SetHeader(self._controller);
                 try {
                     let view: any = $(options.template);
+                    if (view.length > 0) {
+                        for (let i = 0, icount = view.length; i < icount; i++) {
+                            if (self._controller.Options.Id === view[i].id)
+                                view = $(view[i]);
+                        }
+                    }
                     isInit = self._controller.ViewInit(view);
                     self.ResetScroll();
                     self._content.html(view[0]);

@@ -107,6 +107,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     if (!isModal)
                         self.SetHeader(self._controller);
                     var view = $(options.template);
+                    if (view.length > 0) {
+                        for (var i = 0, icount = view.length; i < icount; i++) {
+                            if (self._controller.Options.Id === view[i].id)
+                                view = $(view[i]);
+                        }
+                    }
                     isInit = self._controller.ViewInit(view);
                     if (isModal) {
                         self.OpenViewTemplateIsModal();
