@@ -13,32 +13,52 @@ namespace AutoPartsSite.Controllers.Api
         private string GetRemoteIPAdress()
         {
             string result = "127.0.0.1", html = "";
-            var req = WebRequest.Create(@"http://checkip.dyndns.org");
+            TryCatch(() =>
             {
-                using (var reader = new StreamReader(req.GetResponse().GetResponseStream()))
+                var req = WebRequest.Create(@"http://checkip.dyndns.org");
                 {
-                    html = reader.ReadToEnd();
+                    using (var reader = new StreamReader(req.GetResponse().GetResponseStream()))
+                    {
+                        html = reader.ReadToEnd();
+                    }
                 }
-            }
-            Regex ipRegex = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-            MatchCollection matches = ipRegex.Matches(html);
-            if (matches.Count > 0)
-                result = matches[0].Value;
+                Regex ipRegex = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                MatchCollection matches = ipRegex.Matches(html);
+                if (matches.Count > 0)
+                    result = matches[0].Value;
+            });
             return result;
         }
 
         [NonAction]
         private GeoPlugin GetIPGeoPlugin(string ip)
         {
-            string result = "";
-            var req = WebRequest.Create(@"http://www.geoplugin.net/json.gp?ip=" + ip);
+            GeoPlugin result = null;
+
+            TryCatch(() =>
             {
-                using (var reader = new StreamReader(req.GetResponse().GetResponseStream()))
+                string data = "";
+                var req = WebRequest.Create(@"http://www.geoplugin.net/json.gp?ip=" + ip);
                 {
-                    result = reader.ReadToEnd();
+                    using (var reader = new StreamReader(req.GetResponse().GetResponseStream()))
+                    {
+                        data = reader.ReadToEnd();
+                    }
                 }
-            }
-            return JsonSerializer.Deserialize<GeoPlugin>(result);
+                result = JsonSerializer.Deserialize<GeoPlugin>(data);
+                if(result.Status != 200)
+                {
+                    if (string.IsNullOrEmpty(result.CountryCode))
+                        result.CountryCode = "EN";
+                    if (string.IsNullOrEmpty(result.CurrencyCode))
+                        result.CurrencyCode = "USD";
+                }
+            },
+            (ex) =>
+            {
+                result = new GeoPlugin() { CountryCode = "EN", CurrencyCode = "USD" };
+            });
+            return result;
         }
     }
 }

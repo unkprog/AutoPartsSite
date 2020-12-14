@@ -23,6 +23,20 @@ namespace AutoPartsSite.Core.Controllers
         }
 
         [NonAction]
+        public void TryCatch(Action action, Action<Exception> errorAction = null)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                WriteError(ex);
+                errorAction?.Invoke(ex);
+            }
+        }
+        
+        [NonAction]
         public HttpMessage<T> TryCatchResponse<T>(Func<HttpMessage<T>> func)
         {
             try
