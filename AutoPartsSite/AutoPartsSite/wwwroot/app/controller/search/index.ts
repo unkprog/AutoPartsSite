@@ -220,7 +220,8 @@ export namespace Controller.Search {
             vars._app.ShowLoading();
             let self = this;
             let id: number = $(e.currentTarget).data('id');
-            this.BasketService.Add(id, self.setBasketCount);
+            let qty: number = parseInt($('#basket-qty-' + id).val() as string);
+            self.BasketService.Add(id, qty, self.setBasketCount);
             e.preventDefault();
             return false;
         }
@@ -228,24 +229,9 @@ export namespace Controller.Search {
         private addQty(e: any): boolean {
             vars._app.ShowLoading();
             let self = this;
-
-            //let formid: string = e.currentTarget.id;
-            //let id: number = parseInt(formid.replace('basket-qty-form-', ''));
-            //let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
-          
-
-            //self.BasketService.Update(id, qty, (responseData) => {
-            //    if (responseData.Result === 0) {
-            //        self.updatePositions(id, false, qty);
-            //        //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-            //        $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
-
-            //    }
-            //    else
-            //        vars._app.ShowError(responseData.Error);
-
-            //    vars._app.HideLoading();
-            //});
+            let id: number = $(e.currentTarget).data('id');
+            let qty: number = parseInt($('#basket-qty-' + id).val() as string);
+            self.BasketService.Add(id, qty, self.setBasketCount);
             e.preventDefault();
             return false;
         }

@@ -199,26 +199,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     vars._app.ShowLoading();
                     var self = this;
                     var id = $(e.currentTarget).data('id');
-                    this.BasketService.Add(id, self.setBasketCount);
+                    var qty = parseInt($('#basket-qty-' + id).val());
+                    self.BasketService.Add(id, qty, self.setBasketCount);
                     e.preventDefault();
                     return false;
                 };
                 Index.prototype.addQty = function (e) {
                     vars._app.ShowLoading();
                     var self = this;
-                    //let formid: string = e.currentTarget.id;
-                    //let id: number = parseInt(formid.replace('basket-qty-form-', ''));
-                    //let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
-                    //self.BasketService.Update(id, qty, (responseData) => {
-                    //    if (responseData.Result === 0) {
-                    //        self.updatePositions(id, false, qty);
-                    //        //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                    //        $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
-                    //    }
-                    //    else
-                    //        vars._app.ShowError(responseData.Error);
-                    //    vars._app.HideLoading();
-                    //});
+                    var id = $(e.currentTarget).data('id');
+                    var qty = parseInt($('#basket-qty-' + id).val());
+                    self.BasketService.Add(id, qty, self.setBasketCount);
                     e.preventDefault();
                     return false;
                 };

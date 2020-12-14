@@ -16,14 +16,14 @@ export namespace Services {
             this.GetApi({ Action: "/count", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
         }
 
-        public Add(id: number, Callback: (responseData: any) => void) {
+        public Add(id: number, qty: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id,
-                id: id, qty: 1
+                id: id, qty: qty
             };
             this.PostApi({ Action: "/add", RequestData: JSON.stringify(bq), Callback: Callback });
         }

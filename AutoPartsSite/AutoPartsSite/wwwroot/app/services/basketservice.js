@@ -32,14 +32,14 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.Count = function (Callback) {
                 this.GetApi({ Action: "/count", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
             };
-            BasketService.prototype.Add = function (id, Callback) {
+            BasketService.prototype.Add = function (id, qty, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id,
-                    id: id, qty: 1
+                    id: id, qty: qty
                 };
                 this.PostApi({ Action: "/add", RequestData: JSON.stringify(bq), Callback: Callback });
             };
