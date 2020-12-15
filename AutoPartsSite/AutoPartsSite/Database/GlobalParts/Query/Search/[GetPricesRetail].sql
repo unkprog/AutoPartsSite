@@ -6,7 +6,7 @@ from [dbo].[r_PriceGet]
    (
      @SiteID
    , @SiteUserID
-   , @SiteUserUID
+   --, @SiteUserUID
    , @LocaleLanguageID
    , @CountryID
    , @CurrencyID

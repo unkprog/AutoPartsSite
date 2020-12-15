@@ -4,7 +4,7 @@ declare @SiteID int = (select top 1 [SiteID] from dbo.GetSites(@LocaleLanguageID
   select top 1 [DeliveryTariffID]
   from [dbo].[r_PriceGet] ( @SiteID
                           , @SiteUserID
-                          , @SiteUserUID
+                         -- , @SiteUserUID
                           , @LocaleLanguageID
                           , @CountryID
                           , @CurrencyID

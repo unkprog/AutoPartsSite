@@ -76,7 +76,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
                     new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
-                    new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
+                    //new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
                     new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                     new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },

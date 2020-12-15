@@ -10,7 +10,7 @@ select [p].[GoodsID], [p].[Qty], [p].[Brand], [p].[Articul], [p].[Descr]
 --     , [p].[TakeInvoicePrice], [p].[InvoicePrice] 
 from [dbo].[r_PriceGet] ( @SiteID
                         , @SiteUserID
-                        , @SiteUserUID
+                        --, @SiteUserUID
                         , @LocaleLanguageID
                         , @CountryID
                         , @CurrencyID
