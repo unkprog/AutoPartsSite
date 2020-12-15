@@ -57,11 +57,16 @@ export namespace Controller.Basket {
         protected OnViewInit(): void {
             vars._app.ShowLoading();
             let self = this;
+            self.BasketService.View((responseData) => self.endCommand(responseData));
+        }
 
-            this.BasketService.View((responseData) => {
+        private endCommand(responseData) {
+            let self = this;
+            if (responseData.Result === 0)
                 self.setupBasketData(responseData);
-                vars._app.HideLoading();
-            });
+            else
+                vars._app.ShowError(responseData.Error);
+            vars._app.HideLoading();
         }
 
         private qtyForm: JQuery;
@@ -131,31 +136,6 @@ export namespace Controller.Basket {
                 vars._app.ShowError(responseData.Error);
         }
 
-        private updatePositions(id: number, isRemove: boolean, qty: number) {
-            let data = this.Model.get("basketData");
-            let items: any[] = data.get("Positions");
-            let sum: number = 0;
-            let curSymbol: string = vars._appData.Settings.Currency.Code;
-          
-            for (let i = items.length - 1; i >= 0; i--) {
-                curSymbol = items[i].Goods.Currency.Symbol;
-                if (isRemove === true && items[i].Goods.Id === id) {
-                    items.splice(i, 1);
-                }
-                else {
-                    if (items[i].Goods.Id === id) {
-                        items[i].Quantity = qty;
-                    }
-                    items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                    sum += items[i].Sum;
-                }
-            }
-            this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
-            this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
-            data.set("Positions", items);
-            //this.Model.set("basketData", items);
-        }
-
         private deliveryId: number = 0;
         private deliveryClick(e: any): boolean {
             let self = this;
@@ -189,18 +169,7 @@ export namespace Controller.Basket {
             vars._app.ShowLoading();
             let self = this;
             let id: number = $(e.currentTarget).data('id');
-            self.BasketService.Delete(id, (responseData) => {
-                if (responseData.Result === 0) {
-                    $("#basket-view-item-" + id).remove();
-                    self.updatePositions(id, true, 0);
-                    let count: number = responseData.Data;
-                    if (count > 0) $('.app-basket-counter').html('' + count).show();
-                    else $('.app-basket-counter').html('0').hide();
-                }
-                else
-                    vars._app.ShowError(responseData.Error);
-                vars._app.HideLoading();
-            });
+            self.BasketService.Delete(id, (responseData) => self.endCommand(responseData));
             e.preventDefault();
             return false;
         }
@@ -212,20 +181,8 @@ export namespace Controller.Basket {
             let formid: string = e.currentTarget.id;
             let id: number = parseInt(formid.replace('basket-qty-form-', ''));
             let qty: number = parseFloat($(e.target).find('#basket-qty-' + id).val() as string);
-            let price: number = parseFloat($(e.target).parent().find('#basket-price-' + id).val() as string);
-
-            self.BasketService.Update(id, qty, (responseData) => {
-                if (responseData.Result === 0) {
-                    self.updatePositions(id, false, qty);
-                    //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                    $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
-
-                }
-                else
-                    vars._app.ShowError(responseData.Error);
-
-                vars._app.HideLoading();
-            });
+           
+            self.BasketService.Update(id, qty, (responseData) => self.endCommand(responseData));
             e.preventDefault();
             return false;
         }

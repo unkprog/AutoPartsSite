@@ -91,13 +91,13 @@ export namespace Controller.Search {
 
         }
 
-        private createItems() {
+        private createEventItems() {
             let self = this;
 
-            $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
-            $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
-            $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
-            $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+            $('.search-view-pagination').find('.search-view-pagination-page').on('click', self.proxyPage);
+            $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', self.proxyPagePrev);
+            $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
+            $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
 
             self.qtyForm = self.View.find(".basket-qty-form");
             if (self.qtyForm) {
@@ -106,13 +106,15 @@ export namespace Controller.Search {
             }
         }
 
-        private destroyItems() {
-            if (this.qtyForm) this.qtyForm.off('submit', this.proxyQtyForm);
-            $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
+        private destroyEventItems() {
+            let self = this;
 
-            $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
-            $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
-            $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+            if (self.qtyForm) self.qtyForm.off('submit', self.proxyQtyForm);
+            $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
+
+            $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
+            $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
+            $('.search-view-pagination').find('.search-view-pagination-next ').off('click', self.proxyPageNext);
         }
 
         private currentPage: number;
@@ -125,7 +127,7 @@ export namespace Controller.Search {
 
             vars._app.ShowLoading();
 
-            self.destroyItems();
+            self.destroyEventItems();
 
             if (self.lastSearch !== partNum) {
                 self.lastSearch = partNum;
@@ -168,12 +170,7 @@ export namespace Controller.Search {
                         $('.search-view-pagination').html(htmlResult).show();
                     }
                     self.rebindModel();
-                    $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
-                    $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
-                    $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
-                    $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
-
-                    self.createItems();
+                    self.createEventItems();
 
                     vars._app.HideLoading();
                 }

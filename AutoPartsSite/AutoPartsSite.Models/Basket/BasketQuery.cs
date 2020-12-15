@@ -5,7 +5,9 @@ namespace AutoPartsSite.Models.Basket
     [DataContract]
     public class BasketQuery : QueryWithSettings
     {
-        //[DataMember]
-        //public int uid { get; set; }
+        [DataMember]
+        public int id { get; set; }
+        [DataMember]
+        public int qty { get; set; }
     }
 }

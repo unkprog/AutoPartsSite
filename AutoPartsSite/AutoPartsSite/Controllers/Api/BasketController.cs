@@ -35,13 +35,13 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("add")]
-        public async Task<HttpMessage<int>> Add(PartBasketModel model)
+        public async Task<HttpMessage<int>> Add(BasketQuery pq)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   UpdatePartBasket(model, true);
-                   int result = GetCount(model.uid);
+                   UpdatePartBasket(pq, true);
+                   int result = GetCount(pq.uid);
                    return CreateResponseOk(result);
                });
            });
@@ -49,32 +49,32 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("update")]
-        public async Task<HttpMessage<decimal>> Update(PartBasketModel model)
+        public async Task<HttpMessage<BasketData>> Update(BasketQuery pq)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   decimal result = UpdatePartBasket(model);
-                   return CreateResponseOk(result);
+                   decimal result = UpdatePartBasket(pq);
+                   return View(pq);
                });
            });
 
         [HttpPost]
         [Route("delete")]
-        public async Task<HttpMessage<int>> Delete(PartBasketModel model)
+        public async Task<HttpMessage<BasketData>> Delete(BasketQuery pq)
         => await TryCatchResponseAsync(async () =>
         {
             return await Task.Run(() =>
             {
-                DeletePartBasket(model);
-                int result = GetCount(model.uid);
-                return CreateResponseOk(result);
+                DeletePartBasket(pq);
+                int result = GetCount(pq.uid);
+                return View(pq);
             });
         });
 
         [HttpPost]
         [Route("view")]
-        public async Task<HttpMessage<BasketData>> View(string uid, BasketQuery pq)
+        public async Task<HttpMessage<BasketData>> View(BasketQuery pq)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
@@ -82,7 +82,7 @@ namespace AutoPartsSite.Controllers.Api
                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
                   
-                   BasketData result = GetBasketData(uid);
+                   BasketData result = GetBasketData(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);

@@ -1,6 +1,6 @@
-﻿declare @Qty int
-select top 1 @Qty = isnull([Qty],0) + @Quantity from [Basket_Item] with(nolock) where [Uid] = @Uid and [GoodsID] = @GoodsID
-select @Qty = isnull(@Qty, 0) + @Quantity
+﻿declare @Qty int = null
+select top 1 @Qty = [Qty] from [Basket_Item] with(nolock) where [Uid] = @Uid and [GoodsID] = @GoodsID
+select @Qty = isnull(@Qty,0) + @Quantity
 
 if exists(select * from [Basket_Item] with(nolock) where [Uid] = @Uid and [GoodsID] = @GoodsID)
   update [t] set [Qty] = @Qty, [Brand] = @Brand, [Articul] = @Articul, [Descr] = @Descr

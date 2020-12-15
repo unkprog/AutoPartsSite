@@ -71,10 +71,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.OnViewInit = function () {
                     vars._app.ShowLoading();
                     var self = this;
-                    this.BasketService.View(function (responseData) {
+                    self.BasketService.View(function (responseData) { return self.endCommand(responseData); });
+                };
+                Index.prototype.endCommand = function (responseData) {
+                    var self = this;
+                    if (responseData.Result === 0)
                         self.setupBasketData(responseData);
-                        vars._app.HideLoading();
-                    });
+                    else
+                        vars._app.ShowError(responseData.Error);
+                    vars._app.HideLoading();
                 };
                 Index.prototype.setupBasketData = function (responseData) {
                     var self = this;
@@ -126,29 +131,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                 };
-                Index.prototype.updatePositions = function (id, isRemove, qty) {
-                    var data = this.Model.get("basketData");
-                    var items = data.get("Positions");
-                    var sum = 0;
-                    var curSymbol = vars._appData.Settings.Currency.Code;
-                    for (var i = items.length - 1; i >= 0; i--) {
-                        curSymbol = items[i].Goods.Currency.Symbol;
-                        if (isRemove === true && items[i].Goods.Id === id) {
-                            items.splice(i, 1);
-                        }
-                        else {
-                            if (items[i].Goods.Id === id) {
-                                items[i].Quantity = qty;
-                            }
-                            items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                            sum += items[i].Sum;
-                        }
-                    }
-                    this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + vars._appData.Settings.Currency.Code);
-                    this.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
-                    data.set("Positions", items);
-                    //this.Model.set("basketData", items);
-                };
                 Index.prototype.deliveryClick = function (e) {
                     var self = this;
                     var cur = $(e.currentTarget);
@@ -173,20 +155,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     vars._app.ShowLoading();
                     var self = this;
                     var id = $(e.currentTarget).data('id');
-                    self.BasketService.Delete(id, function (responseData) {
-                        if (responseData.Result === 0) {
-                            $("#basket-view-item-" + id).remove();
-                            self.updatePositions(id, true, 0);
-                            var count = responseData.Data;
-                            if (count > 0)
-                                $('.app-basket-counter').html('' + count).show();
-                            else
-                                $('.app-basket-counter').html('0').hide();
-                        }
-                        else
-                            vars._app.ShowError(responseData.Error);
-                        vars._app.HideLoading();
-                    });
+                    self.BasketService.Delete(id, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     return false;
                 };
@@ -196,17 +165,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var formid = e.currentTarget.id;
                     var id = parseInt(formid.replace('basket-qty-form-', ''));
                     var qty = parseFloat($(e.target).find('#basket-qty-' + id).val());
-                    var price = parseFloat($(e.target).parent().find('#basket-price-' + id).val());
-                    self.BasketService.Update(id, qty, function (responseData) {
-                        if (responseData.Result === 0) {
-                            self.updatePositions(id, false, qty);
-                            //items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
-                            $(e.currentTarget).parent().find('#basket-sum-' + id).val(qty * (price && price > 0 ? price : 1));
-                        }
-                        else
-                            vars._app.ShowError(responseData.Error);
-                        vars._app.HideLoading();
-                    });
+                    self.BasketService.Update(id, qty, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     return false;
                 };

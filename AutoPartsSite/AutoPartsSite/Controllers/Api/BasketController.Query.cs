@@ -35,25 +35,25 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private decimal UpdatePartBasket(PartBasketModel model, bool isAdd = false)
+        private decimal UpdatePartBasket(BasketQuery pq, bool isAdd = false)
         {
-            decimal result = model.qty;
+            decimal result = pq.qty;
             
             List<BasketGoods> positions = new List<BasketGoods>();
-            positions.Add(new BasketGoods() { Goods = new Goods() { Id = model.id }, Quantity = model.qty });
+            positions.Add(new BasketGoods() { Goods = new Goods() { Id = pq.id }, Quantity = pq.qty });
             List<GoodsSearch> goods = GetBasketGoods(positions);
             string partsXML = string.Empty;// SearchController.BuildPartsXML(goods);
-            int DeliveryTariffID = GetBasketDelivery(model, out partsXML);
+            int DeliveryTariffID = GetBasketDelivery(pq, out partsXML);
 
-            List<BasketItemsModel> basketItemsModels = GetBasketPrices(model, DeliveryTariffID, partsXML);
+            List<BasketItemsModel> basketItemsModels = GetBasketPrices(pq, DeliveryTariffID, partsXML);
             if(basketItemsModels.Count > 0)
                 ExecQuery((query) =>
                 {
                     query.ExecuteNonQuery(isAdd ? @"[add]" : @"[update]", new SqlParameter[]
                     {
-                        new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
-                        new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
-                        new SqlParameter() { ParameterName = "@Quantity", Value = model.qty },
+                        new SqlParameter() { ParameterName = "@Uid", Value = pq.uid },
+                        new SqlParameter() { ParameterName = "@GoodsID", Value = pq.id },
+                        new SqlParameter() { ParameterName = "@Quantity", Value = pq.qty },
                         new SqlParameter() { ParameterName = "@Brand", Value = basketItemsModels[0].Brand },
                         new SqlParameter() { ParameterName = "@Articul", Value = basketItemsModels[0].Articul },
                         new SqlParameter() { ParameterName = "@Descr", Value = basketItemsModels[0].Descr },
@@ -91,7 +91,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<BasketItemsModel> GetBasketPrices(PartBasketModel model, int DeliveryTariffID, string partsXML)
+        private List<BasketItemsModel> GetBasketPrices(BasketQuery model, int DeliveryTariffID, string partsXML)
         {
             List<BasketItemsModel> result = new List<BasketItemsModel>();
 
@@ -157,7 +157,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private int GetBasketDelivery(PartBasketModel model, out string partsXML)
+        private int GetBasketDelivery(BasketQuery model, out string partsXML)
         {
             int result = 0;
             List<BasketGoods> positions = new List<BasketGoods>();
@@ -220,14 +220,14 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private void DeletePartBasket(PartBasketModel model)
+        private void DeletePartBasket(BasketQuery pq)
         {
             ExecQuery((query) =>
             {
                 query.ExecuteNonQuery(@"[del]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@Uid", Value = model.uid },
-                    new SqlParameter() { ParameterName = "@GoodsID", Value = model.id },
+                    new SqlParameter() { ParameterName = "@Uid", Value = pq.uid },
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = pq.id },
                 });
             });
         }

@@ -93,32 +93,33 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (this.searchForm)
                         this.searchForm.off('submit', this.proxySearch);
                 };
-                Index.prototype.createItems = function () {
+                Index.prototype.createEventItems = function () {
                     var self = this;
-                    $('.search-view-pagination').find('.search-view-pagination-page').on('click', this.proxyPage);
-                    $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', this.proxyPagePrev);
-                    $('.search-view-pagination').find('.search-view-pagination-next ').on('click', this.proxyPageNext);
-                    $('#search-view-parts').find('.card-btn-add-basket').on('click', this.proxyAddToCard);
+                    $('.search-view-pagination').find('.search-view-pagination-page').on('click', self.proxyPage);
+                    $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', self.proxyPagePrev);
+                    $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
+                    $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
                     self.qtyForm = self.View.find(".basket-qty-form");
                     if (self.qtyForm) {
                         self.proxyQtyForm = $.proxy(self.addQty, self);
                         self.qtyForm.on('submit', self.proxyQtyForm);
                     }
                 };
-                Index.prototype.destroyItems = function () {
-                    if (this.qtyForm)
-                        this.qtyForm.off('submit', this.proxyQtyForm);
-                    $('#search-view-parts').find('.card-btn-add-basket').off('click', this.proxyAddToCard);
-                    $('.search-view-pagination').find('.search-view-pagination-page').off('click', this.proxyPage);
-                    $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', this.proxyPagePrev);
-                    $('.search-view-pagination').find('.search-view-pagination-next ').off('click', this.proxyPageNext);
+                Index.prototype.destroyEventItems = function () {
+                    var self = this;
+                    if (self.qtyForm)
+                        self.qtyForm.off('submit', self.proxyQtyForm);
+                    $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
+                    $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
+                    $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
+                    $('.search-view-pagination').find('.search-view-pagination-next ').off('click', self.proxyPageNext);
                 };
                 Index.prototype.search = function (e) {
                     var _this = this;
                     var self = this;
                     var partNum = '' + self.View.find('#search-view-part-number').val();
                     vars._app.ShowLoading();
-                    self.destroyItems();
+                    self.destroyEventItems();
                     if (self.lastSearch !== partNum) {
                         self.lastSearch = partNum;
                         self.currentPage = 1;
@@ -151,11 +152,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                 $('.search-view-pagination').html(htmlResult).show();
                             }
                             self.rebindModel();
-                            $('.search-view-pagination').find('.search-view-pagination-page').on('click', _this.proxyPage);
-                            $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', _this.proxyPagePrev);
-                            $('.search-view-pagination').find('.search-view-pagination-next ').on('click', _this.proxyPageNext);
-                            $('#search-view-parts').find('.card-btn-add-basket').on('click', _this.proxyAddToCard);
-                            self.createItems();
+                            self.createEventItems();
                             vars._app.HideLoading();
                         }
                         else {
