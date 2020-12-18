@@ -115,9 +115,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.OnSetViewSize = function (e) {
                 var content = this.GetContent();
-                var height = window.innerHeight;
-                height = height - content.offset().top - this.foother.innerHeight();
-                //this._content.height(heigth);
+                var footerHeight = this.foother.innerHeight(), height = window.innerHeight - footerHeight;
+                //let childsHeight = footerHeight;
+                //content.children().each(function () {
+                //    childsHeight += $(this).innerHeight();
+                //});
+                //;
+                //if (height < childsHeight)
+                //    height = childsHeight;
+                ////content.height(height);
                 content.css("min-height", height);
             };
             Main.prototype.createEvents = function () {

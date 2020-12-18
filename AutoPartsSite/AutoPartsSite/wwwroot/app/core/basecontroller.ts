@@ -193,9 +193,9 @@ export namespace Controller {
         }
 
         protected OnSetViewSize(e: any) {
-            let height = window.innerHeight;
-            height = height - this._content.offset().top;
-            this._content.height(height);
+            //let height = window.innerHeight;
+            //height = height - this._content.offset().top;
+            //this._content.height(height);
         }
 
         public ViewResize(e) {

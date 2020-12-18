@@ -137,9 +137,15 @@ export namespace Controller {
 
         protected OnSetViewSize(e: any) {
             let content = this.GetContent();
-            let height = window.innerHeight;
-            height = height - content.offset().top - this.foother.innerHeight();
-            //this._content.height(heigth);
+            let footerHeight = this.foother.innerHeight(), height = window.innerHeight - footerHeight;
+            //let childsHeight = footerHeight;
+            //content.children().each(function () {
+            //    childsHeight += $(this).innerHeight();
+            //});
+            //;
+            //if (height < childsHeight)
+            //    height = childsHeight;
+            ////content.height(height);
             content.css("min-height", height);
         }
 

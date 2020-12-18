@@ -62,6 +62,7 @@ export namespace Controller.Basket {
 
         private endCommand(responseData) {
             let self = this;
+           
             if (responseData.Result === 0)
                 self.setupBasketData(responseData);
             else
@@ -81,6 +82,7 @@ export namespace Controller.Basket {
             self.destroyCardsItems();
             
             self.View.find('#basket-view-additional').hide();
+            self.View.find('#basket-view-parts').html('<div class="center" style="font-size: 1.7rem;">' + vars._statres("label$empty$basket") + '</div>');
             
             if (responseData.Result === 0) {
 
@@ -90,8 +92,7 @@ export namespace Controller.Basket {
                 let icount = items.length;
                 if (icount > 0)
                     self.View.find('#basket-view-additional').show();
-                else
-                    return;
+             
 
                 let templateContent = self.View.find('#basket-view-parts-template').html();
                 let template = vars.getTemplate(templateContent);
@@ -129,7 +130,6 @@ export namespace Controller.Basket {
                 }
                 
                 self.rebindModel();
-                //M.updateTextFields();
                 self.createCardsItems();
             }
             else

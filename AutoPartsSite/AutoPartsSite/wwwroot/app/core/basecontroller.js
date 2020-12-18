@@ -193,9 +193,9 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this._content.scrollTop(0);
             };
             BaseContent.prototype.OnSetViewSize = function (e) {
-                var height = window.innerHeight;
-                height = height - this._content.offset().top;
-                this._content.height(height);
+                //let height = window.innerHeight;
+                //height = height - this._content.offset().top;
+                //this._content.height(height);
             };
             BaseContent.prototype.ViewResize = function (e) {
                 if (this._content)

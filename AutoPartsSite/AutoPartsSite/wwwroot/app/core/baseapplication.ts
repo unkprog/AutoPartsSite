@@ -60,7 +60,7 @@ export namespace App {
         protected resize(e) {
             let height = window.innerHeight;
 
-            height = height - (this.navbarControl ? this.navbarControl.height() : 0);
+            height = height - (this.navbarControl ? this.navbarControl.innerHeight() : 0);
             if (this.contentControl) {
                 this.contentControl.height(height);
                 //this.contentControl.css("min-height", height);
@@ -161,14 +161,18 @@ export namespace App {
                     self.contentControl.parent().append(content);
                     self._controllersModalStack.Push(self._controller);
                 }
-                else
+                else {
                     self.ResetScroll();
+                    content.html(view[0]);
+                    isInit = self._controller.ViewShow(self) && isInit;
+                    self._controller.ViewResize(self);
 
-                content.html(view[0]);
+                    //content.html(view[0]);
 
-                isInit = self._controller.ViewShow(this) && isInit;
-                //if (isInit == false)
-                //    self._controller.ViewResize({});
+                    //isInit = self._controller.ViewShow(this) && isInit;
+                    ////if (isInit == false)
+                    ////    self._controller.ViewResize({});
+                }
             } finally {
                 if (isInit == true)
                     self.HideLoading();

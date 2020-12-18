@@ -85,14 +85,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     self.destroyCardsItems();
                     self.View.find('#basket-view-additional').hide();
+                    self.View.find('#basket-view-parts').html('<div class="center" style="font-size: 1.7rem;">' + vars._statres("label$empty$basket") + '</div>');
                     if (responseData.Result === 0) {
                         this.Model.set("basketData", responseData.Data);
                         var items = responseData.Data.Positions;
                         var icount = items.length;
                         if (icount > 0)
                             self.View.find('#basket-view-additional').show();
-                        else
-                            return;
                         var templateContent = self.View.find('#basket-view-parts-template').html();
                         var template = vars.getTemplate(templateContent);
                         var htmlResult = '';
@@ -125,7 +124,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
                         }
                         self.rebindModel();
-                        //M.updateTextFields();
                         self.createCardsItems();
                     }
                     else
