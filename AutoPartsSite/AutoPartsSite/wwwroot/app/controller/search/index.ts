@@ -124,8 +124,8 @@ export namespace Controller.Search {
         private search(e: any): boolean {
             let self = this;
             let partNum: string = '' + self.View.find('#search-view-part-number').val();
-
-            vars._app.ShowLoading();
+            vars._app.ResetScroll();
+            vars._app.ShowLoading(true);
 
             self.destroyEventItems();
 
@@ -214,7 +214,7 @@ export namespace Controller.Search {
         }
 
         private addToCard(e: any): boolean {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(false);
             let self = this;
             let id: number = $(e.currentTarget).data('id');
             let qty: number = parseInt($('#basket-qty-' + id).val() as string);
@@ -224,7 +224,7 @@ export namespace Controller.Search {
         }
 
         private addQty(e: any): boolean {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(false);
             let self = this;
             let id: number = $(e.currentTarget).data('id');
             let qty: number = parseInt($('#basket-qty-' + id).val() as string);

@@ -50,6 +50,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelQty": vars._statres("label$qty") + ":",
                         "labelPrice": vars._statres("label$price") + ":",
                         "labelSum": vars._statres("label$sum") + ":",
+                        "labelPromoCode": vars._statres("label$promocode") + ":",
+                        "labelApplyPromocode": vars._statres("label$promocode$apply"),
                         "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
                         "TotalSumValue": "0$",
                         "curSymbol": "$",
@@ -69,7 +71,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.OnViewInit = function () {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(true);
                     var self = this;
                     self.BasketService.View(function (responseData) { return self.endCommand(responseData); });
                 };
@@ -133,24 +135,30 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var cur = $(e.currentTarget);
                     var id = cur.data('id');
-                    if (this.deliveryId == id)
-                        return;
+                    //if (this.deliveryId == id)
+                    //    return;
                     if (this.deliveryId != 0)
                         self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
-                    self.deliveryId = id;
-                    cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
-                    var data = this.Model.get("basketData");
-                    var items = data.Deliveries;
-                    for (var i = 0, icount = items.length; i < icount; i++) {
-                        if (self.deliveryId == items[i].Id) {
-                            self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                    if (this.deliveryId == id) {
+                        self.deliveryId = 0;
+                        self.Model.set("TotalSum", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
+                    }
+                    else {
+                        self.deliveryId = id;
+                        cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
+                        var data = this.Model.get("basketData");
+                        var items = data.Deliveries;
+                        for (var i = 0, icount = items.length; i < icount; i++) {
+                            if (self.deliveryId == items[i].Id) {
+                                self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                            }
                         }
                     }
                     e.preventDefault();
                     return false;
                 };
                 Index.prototype.deletePart = function (e) {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(false);
                     var self = this;
                     var id = $(e.currentTarget).data('id');
                     self.BasketService.Delete(id, function (responseData) { return self.endCommand(responseData); });
@@ -158,7 +166,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.changeQty = function (e) {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(false);
                     var self = this;
                     var formid = e.currentTarget.id;
                     var id = parseInt(formid.replace('basket-qty-form-', ''));
@@ -168,6 +176,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.createEvents = function () {
+                    this.ApplyPromocodeButtonClick = this.createClickEvent("basket-promocode-btn", this.applyPromocodeButtonClick);
                     this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
                     this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
                 };
@@ -203,6 +212,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyCardsItems();
                     this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
                     this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+                    this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
+                };
+                Index.prototype.applyPromocodeButtonClick = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 Index.prototype.searchButtonClick = function (e) {
                     vars._app.OpenController({ urlController: "search/index" });

@@ -37,7 +37,7 @@ export namespace Controller.Basket {
         }
 
         protected OnViewInit(): void {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             let self = this;
 
             this.BasketService.DeliveryData((responseData) => {

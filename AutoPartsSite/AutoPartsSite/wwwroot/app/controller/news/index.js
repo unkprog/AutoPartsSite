@@ -69,7 +69,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var _this = this;
                     var self = this;
                     var newSrch = '';
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(false);
                     $('.new-view-pagination').find('.new-view-pagination-page').off('click', this.proxyPage);
                     $('.new-view-pagination').find('.new-view-pagination-prev').off('click', this.proxyPagePrev);
                     $('.new-view-pagination').find('.new-view-pagination-next').off('click', this.proxyPageNext);

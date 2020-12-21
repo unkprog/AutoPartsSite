@@ -40,7 +40,7 @@ export namespace Controller.Account {
 
         public LoginButtonClick: { (e: any): void; };
         private loginButtonClick(e) {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             let controller = this;
             let model: Interfaces.Model.ILoginModel = {
                 Email: <string>$('#login-email').val(),

@@ -58,7 +58,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 if (this._controller)
                     this._controller.ViewResize(e);
             };
-            Application.prototype.ShowLoading = function () {
+            Application.prototype.ShowLoading = function (isScrollReset) {
+                if (isScrollReset)
+                    this.ResetScroll();
                 if (this.contentControl)
                     this.contentControl.hide();
             };
@@ -225,7 +227,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 }
                 if ($("#" + options.controller.Options.Id).length > 0)
                     return; //Already loaded and current
-                self.ShowLoading();
+                self.ShowLoading(true);
                 //<div id="main-view-content-modal" style="display:none"></div>
                 $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
                     self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });

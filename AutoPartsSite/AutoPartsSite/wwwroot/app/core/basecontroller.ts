@@ -234,7 +234,7 @@ export namespace Controller {
             }
 
             if ($("#" + options.controller.Options.Id).length > 0) return;     //Already loaded and current
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
 
             $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
                 self.OpenViewTemplate({ controller: options.controller, template: template, backController: options.backController, isRestore: options.isRestore });

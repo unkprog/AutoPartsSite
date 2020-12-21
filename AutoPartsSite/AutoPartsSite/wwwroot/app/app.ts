@@ -35,9 +35,9 @@ export module App {
            
         }
 
-        public ShowLoading() {
+        public ShowLoading(isScrollReset: boolean = true) {
             this.progressControl.show();
-            super.ShowLoading();
+            super.ShowLoading(isScrollReset);
         }
 
         public HideLoading() {

@@ -118,7 +118,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var _this = this;
                     var self = this;
                     var partNum = '' + self.View.find('#search-view-part-number').val();
-                    vars._app.ShowLoading();
+                    vars._app.ResetScroll();
+                    vars._app.ShowLoading(true);
                     self.destroyEventItems();
                     if (self.lastSearch !== partNum) {
                         self.lastSearch = partNum;
@@ -193,7 +194,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     vars._app.HideLoading();
                 };
                 Index.prototype.addToCard = function (e) {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(false);
                     var self = this;
                     var id = $(e.currentTarget).data('id');
                     var qty = parseInt($('#basket-qty-' + id).val());
@@ -202,7 +203,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.addQty = function (e) {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(false);
                     var self = this;
                     var id = $(e.currentTarget).data('id');
                     var qty = parseInt($('#basket-qty-' + id).val());

@@ -71,7 +71,10 @@ export namespace App {
                 this._controller.ViewResize(e);
         }
 
-        public ShowLoading(): void {
+        public ShowLoading(isScrollReset: boolean): void {
+            if (isScrollReset)
+                this.ResetScroll();
+
             if (this.contentControl)
                 this.contentControl.hide();
         }
@@ -267,7 +270,7 @@ export namespace App {
             }
 
             if ($("#" + options.controller.Options.Id).length > 0) return;     //Already loaded and current
-            self.ShowLoading();
+            self.ShowLoading(true);
 
             //<div id="main-view-content-modal" style="display:none"></div>
             $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {

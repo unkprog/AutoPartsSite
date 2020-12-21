@@ -14,7 +14,7 @@
     }
 
     export interface IApplication extends IControllerNavigation {
-        ShowLoading(): void;
+        ShowLoading(isScrollReset: boolean): void;
         HideLoading(): void;
         SetControlNavigation(controlNavigation: IControllerNavigation): void;
         HandleError(e: any): void;

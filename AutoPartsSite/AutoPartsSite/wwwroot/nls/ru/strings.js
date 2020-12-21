@@ -121,6 +121,8 @@ define({
     "label$qty": "Кол-во",
     "label$price": "Цена",
     "label$sum": "Сумма",
+    "label$promocode": "Промокод", 
+    "label$promocode$apply": "Применить промокод",
     "label$total$goods$sum": "Всего товаров на сумму",
 
     "button$label$continueShopping": "Продолжить покупки",

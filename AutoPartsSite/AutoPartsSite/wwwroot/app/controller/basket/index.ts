@@ -32,6 +32,8 @@ export namespace Controller.Basket {
                 "labelQty": vars._statres("label$qty") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
                 "labelSum": vars._statres("label$sum") + ":",
+                "labelPromoCode": vars._statres("label$promocode") + ":",
+                "labelApplyPromocode": vars._statres("label$promocode$apply"),
                 "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
                 "TotalSumValue": "0$",
                 "curSymbol": "$",
@@ -55,7 +57,7 @@ export namespace Controller.Basket {
         }
 
         protected OnViewInit(): void {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             let self = this;
             self.BasketService.View((responseData) => self.endCommand(responseData));
         }
@@ -142,31 +144,35 @@ export namespace Controller.Basket {
             let cur: JQuery = $(e.currentTarget);
             let id: number = cur.data('id');
 
-            if (this.deliveryId == id)
-                return;
-
-            if (this.deliveryId != 0) 
+            //if (this.deliveryId == id)
+            //    return;
+            if (this.deliveryId != 0)
                 self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
 
-            self.deliveryId = id;
-            cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
+            if (this.deliveryId == id) {
+                self.deliveryId = 0;
+                self.Model.set("TotalSum", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
+            }
+            else {
+                self.deliveryId = id;
+                cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
 
-            let data = this.Model.get("basketData");
-            let items: any[] = data.Deliveries;
-           
-            for (let i = 0, icount = items.length; i < icount; i++) {
-                if (self.deliveryId == items[i].Id) {
-                    self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                let data = this.Model.get("basketData");
+                let items: any[] = data.Deliveries;
+
+                for (let i = 0, icount = items.length; i < icount; i++) {
+                    if (self.deliveryId == items[i].Id) {
+                        self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
+                    }
                 }
             }
-
 
             e.preventDefault();
             return false;
         }
 
         private deletePart(e: any): boolean {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(false);
             let self = this;
             let id: number = $(e.currentTarget).data('id');
             self.BasketService.Delete(id, (responseData) => self.endCommand(responseData));
@@ -175,7 +181,7 @@ export namespace Controller.Basket {
         }
 
         private changeQty(e: any): boolean {
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(false);
             let self = this;
 
             let formid: string = e.currentTarget.id;
@@ -188,6 +194,7 @@ export namespace Controller.Basket {
         }
 
         protected createEvents(): void {
+            this.ApplyPromocodeButtonClick = this.createClickEvent("basket-promocode-btn", this.applyPromocodeButtonClick);
             this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
             this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
         }
@@ -226,6 +233,15 @@ export namespace Controller.Basket {
 
             this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
             this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+            this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
+        }
+
+        public ApplyPromocodeButtonClick: { (e: any): void; };
+        private applyPromocodeButtonClick(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
 
         public SearchButtonClick: { (e: any): void; };

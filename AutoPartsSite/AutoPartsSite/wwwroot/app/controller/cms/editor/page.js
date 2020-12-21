@@ -56,7 +56,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                     };
                     Page.prototype.loadData = function () {
                         var self = this;
-                        vars._app.ShowLoading();
+                        vars._app.ShowLoading(true);
                         self.CmsService.PageEdit(self.Model.get("Page"), function (responseData) {
                             if (responseData.Result === 0) {
                                 var model = responseData.Data;
@@ -72,7 +72,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                     };
                     Page.prototype.saveData = function () {
                         var self = this;
-                        vars._app.ShowLoading();
+                        vars._app.ShowLoading(true);
                         var model = self.Model.get("EditData");
                         model.ContentEn = $('#page-view-summernote-en').summernote('code');
                         model.ContentRu = $('#page-view-summernote-ru').summernote('code');

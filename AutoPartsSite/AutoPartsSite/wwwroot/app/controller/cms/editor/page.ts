@@ -42,7 +42,7 @@ export namespace Controller.Cms.Editor {
 
         protected loadData(): boolean {
             let self = this;
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             self.CmsService.PageEdit(self.Model.get("Page"), (responseData) => {
                 if (responseData.Result === 0) {
                     let model: Interfaces.Model.IPageEdit = responseData.Data;
@@ -59,7 +59,7 @@ export namespace Controller.Cms.Editor {
 
         protected saveData(): boolean {
             let self = this;
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             let model: Interfaces.Model.IPageEdit = self.Model.get("EditData");
             model.ContentEn = $('#page-view-summernote-en').summernote('code');
             model.ContentRu = $('#page-view-summernote-ru').summernote('code');

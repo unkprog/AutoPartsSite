@@ -52,7 +52,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Delivery.prototype.OnViewInit = function () {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(true);
                     var self = this;
                     this.BasketService.DeliveryData(function (responseData) {
                         if (responseData.Result === 0) {

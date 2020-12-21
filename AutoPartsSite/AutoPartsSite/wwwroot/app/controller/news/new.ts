@@ -37,7 +37,7 @@ export namespace Controller.News {
         private loadNew(): void {
             let self = this;
             let id: number = vars._appData.NewViewItemId;
-            vars._app.ShowLoading();
+            vars._app.ShowLoading(true);
             self.NewsService.New(vars._appData.Locale, id, (responseData) => {
                 if (responseData.Result === 0) {
                     self.Model.set("New", responseData.Data);

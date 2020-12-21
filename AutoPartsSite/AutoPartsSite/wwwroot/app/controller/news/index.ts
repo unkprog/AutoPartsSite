@@ -65,8 +65,7 @@ export namespace Controller.News {
             let self = this;
             let newSrch: string = '';
 
-            vars._app.ShowLoading();
-
+            vars._app.ShowLoading(false);
 
             $('.new-view-pagination').find('.new-view-pagination-page').off('click', this.proxyPage);
             $('.new-view-pagination').find('.new-view-pagination-prev').off('click', this.proxyPagePrev);

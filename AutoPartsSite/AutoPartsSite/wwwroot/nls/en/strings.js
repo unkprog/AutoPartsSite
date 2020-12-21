@@ -120,6 +120,8 @@ define({
     "label$qty": "Qty",
     "label$price": "Price",
     "label$sum": "Sum",
+    "label$promocode": "Promocode", 
+    "label$promocode$apply": "Apply promocode",
 
     "label$total$goods$sum": "Total goods for the amount",
     "button$label$continueShopping": "Сontinue shopping",

@@ -226,7 +226,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
                 if ($("#" + options.controller.Options.Id).length > 0)
                     return; //Already loaded and current
-                vars._app.ShowLoading();
+                vars._app.ShowLoading(true);
                 $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
                     self.OpenViewTemplate({ controller: options.controller, template: template, backController: options.backController, isRestore: options.isRestore });
                 }).fail(function (e) {

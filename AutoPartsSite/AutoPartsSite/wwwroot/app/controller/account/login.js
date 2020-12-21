@@ -49,7 +49,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     this.destroyTouchClickEvent("btn-forgot", this.ForgotButtonClick);
                 };
                 Login.prototype.loginButtonClick = function (e) {
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(true);
                     var controller = this;
                     var model = {
                         Email: $('#login-email').val(),

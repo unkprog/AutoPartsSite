@@ -67,7 +67,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 //}
                 Settings.prototype.loadSettingsData = function () {
                     var self = this;
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(true);
                     self.AccountService.SettingsData(vars._appData.Locale, vars._appData.Settings === null, function (responseData) {
                         if (responseData.Result === 0) {
                             self.Model.set("SettingsData", responseData.Data);

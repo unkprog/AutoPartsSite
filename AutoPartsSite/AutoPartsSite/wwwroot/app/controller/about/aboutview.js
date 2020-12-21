@@ -43,7 +43,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 AboutView.prototype.loadData = function () {
                     var self = this;
-                    vars._app.ShowLoading();
+                    vars._app.ShowLoading(true);
                     var options = this.Options;
                     self.CmsService.Page(vars._appData.Locale, options.Page, function (responseData) {
                         if (responseData.Result === 0) {

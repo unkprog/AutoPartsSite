@@ -37,9 +37,10 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 app.contentControl = $("#app-content");
                 app.appTitle = $("#app-title");
             };
-            Application.prototype.ShowLoading = function () {
+            Application.prototype.ShowLoading = function (isScrollReset) {
+                if (isScrollReset === void 0) { isScrollReset = true; }
                 this.progressControl.show();
-                _super.prototype.ShowLoading.call(this);
+                _super.prototype.ShowLoading.call(this, isScrollReset);
             };
             Application.prototype.HideLoading = function () {
                 this.progressControl.hide();
