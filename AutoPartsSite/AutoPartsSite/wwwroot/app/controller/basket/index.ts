@@ -238,7 +238,9 @@ export namespace Controller.Basket {
 
         public ApplyPromocodeButtonClick: { (e: any): void; };
         private applyPromocodeButtonClick(e) {
-
+            let self = this;
+            let promoCode: string = self.View.find('#basket-promocode').val() as string;
+            self.BasketService.SetPromocode(promoCode, (responseData) => self.endCommand(responseData));
             e.preventDefault();
             e.stopPropagation();
             return false;

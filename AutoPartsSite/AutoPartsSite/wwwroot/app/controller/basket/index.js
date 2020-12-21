@@ -215,6 +215,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
                 };
                 Index.prototype.applyPromocodeButtonClick = function (e) {
+                    var self = this;
+                    var promoCode = self.View.find('#basket-promocode').val();
+                    self.BasketService.SetPromocode(promoCode, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
