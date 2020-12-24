@@ -480,5 +480,18 @@ namespace AutoPartsSite.Controllers.Api
                 });
             });
         }
+
+        [NonAction]
+        private void SetBaskePromoCode(string uid, string promocode)
+        {
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery(@"[set_promocode]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = promocode },
+                });
+            });
+        }
     }
 }

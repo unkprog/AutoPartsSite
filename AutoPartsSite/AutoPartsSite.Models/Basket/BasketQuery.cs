@@ -9,5 +9,7 @@ namespace AutoPartsSite.Models.Basket
         public int id { get; set; }
         [DataMember]
         public int qty { get; set; }
+        [DataMember]
+        public string promoCode { get; set; }
     }
 }

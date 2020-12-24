@@ -89,6 +89,17 @@ namespace AutoPartsSite.Controllers.Api
                });
            });
 
+        [HttpPost]
+        [Route("setpromocode")]
+        public async Task<HttpMessage<BasketData>> PromoCode(BasketQuery pq)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  SetBaskePromoCode(pq.uid, pq.promoCode);
+                  return View(pq);
+              });
+          });
 
         [HttpGet]
         [Route("deliverydata")]
