@@ -36,9 +36,16 @@ namespace AutoPartsSite.Models.Basket
     {
         public BasketData()
         {
+            PromoCode = string.Empty;
             Positions = new List<BasketGoods>();
             Deliveries = new List<DeliveryInfo>();
         }
+        /// <summary>
+        /// Промокод
+        /// </summary>
+        [DataMember]
+        public string PromoCode { get; set; }
+
         /// <summary>
         /// Позиции корзины
         /// </summary>

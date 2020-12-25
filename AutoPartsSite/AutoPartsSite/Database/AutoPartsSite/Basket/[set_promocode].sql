@@ -1,4 +1,4 @@
-﻿declare @retId int = isnull((select top 1 [Id] from [User_UID] [uu] with(nolock) where [uu].[Uid] = @Uid), 0)
+﻿declare @retId int = isnull((select top 1 [Id] from [Basket_Header] [bh] with(nolock) where [bh].[Uid] = @Uid), 0)
 if @retId = 0
 begin
   insert into [Basket_Header] ([Uid], [DeliveryRouteID], [DeliveryTariffID], [DeliveryAddressID], [BillingAddressID], [Comment]

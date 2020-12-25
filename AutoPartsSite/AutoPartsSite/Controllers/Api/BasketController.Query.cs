@@ -482,6 +482,25 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        private string GetBaskePromoCode(string uid)
+        {
+            string result = string.Empty;
+            ExecQuery((query) =>
+            {
+                query.ExecuteQuery(@"[get_promocode]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid }
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result = Convert.ToString(values[0]);
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
         private void SetBaskePromoCode(string uid, string promocode)
         {
             ExecQuery((query) =>
