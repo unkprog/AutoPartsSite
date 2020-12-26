@@ -36,30 +36,30 @@
         <div class="col s12 m12 l6 xl6 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable">
                 <div class="card-content padding-0_75rem">
-                    <a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">
+                    <!--<a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">-->
                         <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
                         <div class="card-search-info">
-                            <div class="card-search-partnumber">#=Name#</div>
-                            <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
-                            <div class="row card-search-desc margin-0">
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
-                                <div class="col s12 m12 l6 xl6"><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)# kg</div>
+                            <div class="col s12 m12 l6 xl6">
+                                <div class="card-search-partnumber">#=Name#</div>
+                                <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
+                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
+                            </div>
+                            <div class="col s12 m12 l6 xl6 center">
+                                <div class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</div>
+                                <div class="card-search-basket-edit">
+                                    <a class="waves-effect waves-light btn card-btn-add-basket right" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                                    #if(StockQty>0) {#
+                                    <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
+                                        <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
+                                    </form>
+                                    #}#
+                                </div>
                             </div>
                         </div>
-                    </a>
-                </div>
-                <div class="card-action">
-                    <div style="height: 2.45rem;">
-                        <span class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</span>
-                        <a class="waves-effect waves-light btn card-btn-add-basket" style="float:right" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
-        #if(StockQty>0) {#
-                        <form id="basket-qty-form-#=Id#" class="basket-qty-form col" style="float:right" data-id="#=Id#">
-                            <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
-                        </form>
-        #}#
-                    </div>
+                    <!--</a>-->
                 </div>
             </div>
         </div>

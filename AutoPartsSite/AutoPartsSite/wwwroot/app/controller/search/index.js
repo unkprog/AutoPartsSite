@@ -188,6 +188,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.app-basket-counter').html('' + count).show();
                         else
                             $('.app-basket-counter').html('0').hide();
+                        M.toast({ html: vars._statres('message$aadded$tocart') });
                     }
                     else
                         vars._app.ShowError(responseData.Error);
@@ -198,7 +199,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var id = $(e.currentTarget).data('id');
                     var qty = parseInt($('#basket-qty-' + id).val());
-                    self.BasketService.Add(id, qty, self.setBasketCount);
+                    if (qty > 0)
+                        self.BasketService.Add(id, qty, self.setBasketCount);
                     e.preventDefault();
                     return false;
                 };

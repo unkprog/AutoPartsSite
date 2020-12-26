@@ -487,7 +487,7 @@ namespace AutoPartsSite.Controllers.Api
             string result = string.Empty;
             ExecQuery((query) =>
             {
-                query.ExecuteQuery(@"[get_promocode]", new SqlParameter[]
+                query.Execute(@"[get_promocode]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid }
                 }
@@ -505,11 +505,11 @@ namespace AutoPartsSite.Controllers.Api
         {
             ExecQuery((query) =>
             {
-                query.ExecuteNonQuery(@"[set_promocode]", new SqlParameter[]
+                query.Execute(@"[set_promocode]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
                     new SqlParameter() { ParameterName = "@PromoCode", Value = promocode },
-                });
+                }, null, (values)=>{ });
             });
         }
     }

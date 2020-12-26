@@ -107,11 +107,11 @@ define({
     "label$country": "Country",
     "label$shipin": "Ship in, days",
     "label$dimensions": "Dimensions",
-    "label$weight": "Weight",
+    "label$weight": "Weight, kg",
     "label$addToCard": "Add to card",
     "label$availability": "Availability",
     "label$not$availability": "Not availability",
-
+    "message$aadded$tocart": "The product has been added to the cart",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

@@ -130,6 +130,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     }
                     else
                         vars._app.ShowError(responseData.Error);
+                    M.updateTextFields();
                 };
                 Index.prototype.deliveryClick = function (e) {
                     var self = this;

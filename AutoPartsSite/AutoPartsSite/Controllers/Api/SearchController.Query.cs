@@ -57,7 +57,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<Goods> GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool isGuest)
+        private List<Goods> GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool WithSubst)
         {
            
             string partsXML = BuildPartsXML(goods);
@@ -74,13 +74,13 @@ namespace AutoPartsSite.Controllers.Api
             {
                 query.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
                     new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
                     //new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                     new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
                     new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
-                    new SqlParameter() { ParameterName = "@WithSubst", Value = false },
+                    new SqlParameter() { ParameterName = "@WithSubst", Value = WithSubst },
                     new SqlParameter() { ParameterName = "@WithTotal", Value = false },
                     new SqlParameter() { ParameterName = "@WithCompare", Value = false },
                     new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty }

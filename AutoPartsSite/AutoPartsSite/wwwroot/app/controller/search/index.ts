@@ -208,6 +208,7 @@ export namespace Controller.Search {
                 let count: number = responseData.Data;
                 if (count > 0) $('.app-basket-counter').html('' + count).show();
                 else           $('.app-basket-counter').html('0').hide();
+                M.toast({ html: vars._statres('message$aadded$tocart') });
             }
             else vars._app.ShowError(responseData.Error);
             vars._app.HideLoading();
@@ -218,7 +219,8 @@ export namespace Controller.Search {
             let self = this;
             let id: number = $(e.currentTarget).data('id');
             let qty: number = parseInt($('#basket-qty-' + id).val() as string);
-            self.BasketService.Add(id, qty, self.setBasketCount);
+            if (qty > 0)
+                self.BasketService.Add(id, qty, self.setBasketCount);
             e.preventDefault();
             return false;
         }

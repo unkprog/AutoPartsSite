@@ -569,8 +569,8 @@ input[type='number']:hover::-webkit-outer-spin-button {
   padding: 0 0.4em; }
 
 .card-search-image {
-  height: 110px !important;
-  width: 110px;
+  height: 144px !important;
+  width: 144px;
   background-image: url(/img/noimage.png);
   background-size: 100%;
   background-repeat: no-repeat;
@@ -593,13 +593,12 @@ input[type='number']:hover::-webkit-outer-spin-button {
   margin-left: 135px; }
 
 .card-search-price {
-  font-size: 1.5rem;
-  float: left !important; }
+  font-size: 1.5rem; }
 
-.card-btn-add-basket {
+.card-search-basket-edit {
+  width: fit-content;
   margin-left: auto;
-  margin-right: 0;
-  display: table; }
+  margin-right: auto; }
 
 .app-flag-icon {
   width: 1.5em;

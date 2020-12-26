@@ -136,6 +136,8 @@ export namespace Controller.Basket {
             }
             else
                 vars._app.ShowError(responseData.Error);
+
+            M.updateTextFields();
         }
 
         private deliveryId: number = 0;
