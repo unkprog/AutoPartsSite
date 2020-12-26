@@ -64,6 +64,18 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public GoodsParameters Parameters { get; set; }
+
+        /// <summary>
+        /// Параметры доставки
+        /// </summary>
+        [DataMember]
+        public DeliveryInfo DefaultDelivery { get; set; }
+        /// <summary>
+        /// Параметры доставки
+        /// </summary>
+        [DataMember]
+        public List<DeliveryInfo> Deliveries { get; set; }
+        
     }
 
     public class GoodsParameters

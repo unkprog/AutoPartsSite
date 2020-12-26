@@ -48,13 +48,18 @@
                                 <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
                             </div>
                             <div class="col s12 m12 l6 xl6 center">
-                                <div class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</div>
+                                <div>
+                                    <span class="margin-right-1rem basket-label" data-bind="text:labelPrice"></span><span class="card-search-price">#=numberToString(Price,2)##=Currency.Symbol#</span>
+                                    <span class="margin-right-1rem basket-label" style="margin-left:3rem;" data-bind="text:labelDelivery"></span><span class="card-search-price">#=numberToString(DefaultDelivery.DeliveryAmount,2)##=Currency.Symbol#</span>
+                                </div>
                                 <div class="card-search-basket-edit">
                                     <a class="waves-effect waves-light btn card-btn-add-basket right" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
                                     #if(StockQty>0) {#
                                     <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
                                         <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
+                                        <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
                                     </form>
+                                    <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket">drive_eta</i>
                                     #}#
                                 </div>
                             </div>

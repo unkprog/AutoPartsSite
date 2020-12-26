@@ -34,7 +34,9 @@ export namespace Controller.Search {
                 "labelShipIn": vars._statres("label$shipin") + ":",
                 "labelDimensions": vars._statres("label$dimensions") + ":",
                 "labelWeight": vars._statres("label$weight") + ":",
-                "labelAvailability": vars._statres("label$availability") + ":"
+                "labelAvailability": vars._statres("label$availability") + ":",
+                "labelPrice": vars._statres("label$price") + ":",
+                "labelDelivery": vars._statres("label$delivery") + ":"
             });
         }
         
@@ -44,6 +46,7 @@ export namespace Controller.Search {
         private proxyPagePrev;
         private proxyPageNext;
         private proxyAddToCard;
+        private proxyWhatCar;
 
         private qtyForm: JQuery;
         private proxyQtyForm;
@@ -84,6 +87,8 @@ export namespace Controller.Search {
             this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
             this.proxyPageNext = $.proxy(this.searchPageNext, this);
             this.proxyAddToCard = $.proxy(this.addToCard, this);
+            this.proxyWhatCar = $.proxy(this.whatCar, this);
+            
         }
 
         protected destroyEvents(): void {
@@ -99,6 +104,8 @@ export namespace Controller.Search {
             $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
             $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
 
+            self.View.find('.card-search-whatcar').on('click', self.proxyWhatCar);
+
             self.qtyForm = self.View.find(".basket-qty-form");
             if (self.qtyForm) {
                 self.proxyQtyForm = $.proxy(self.addQty, self);
@@ -110,6 +117,9 @@ export namespace Controller.Search {
             let self = this;
 
             if (self.qtyForm) self.qtyForm.off('submit', self.proxyQtyForm);
+
+            self.View.find('.card-search-whatcar').off('click', self.proxyWhatCar);
+
             $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
 
             $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
@@ -212,6 +222,13 @@ export namespace Controller.Search {
             }
             else vars._app.ShowError(responseData.Error);
             vars._app.HideLoading();
+        }
+
+        
+        private whatCar(e: any): boolean {
+            vars._app.ShowMessage("What car", "List of cars");
+            e.preventDefault();
+            return false;
         }
 
         private addToCard(e: any): boolean {

@@ -67,6 +67,12 @@ namespace AutoPartsSite.Controllers.Api
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };
 
+                    foreach(var ritem in result.Result)
+                    {
+                        ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
+                        ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
+                    }
+
                     return CreateResponseOk(result);
                 });
             });

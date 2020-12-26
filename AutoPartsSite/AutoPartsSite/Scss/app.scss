@@ -762,12 +762,17 @@ input[type='number']:hover::-webkit-outer-spin-button {
 }
 
 .card-btn-add-basket {
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
 }
 
 .card-search-basket-edit {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    height: 30px;
+    line-height: 30px;
 }
 
 .app-flag-icon {

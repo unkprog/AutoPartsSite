@@ -53,7 +53,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelShipIn": vars._statres("label$shipin") + ":",
                         "labelDimensions": vars._statres("label$dimensions") + ":",
                         "labelWeight": vars._statres("label$weight") + ":",
-                        "labelAvailability": vars._statres("label$availability") + ":"
+                        "labelAvailability": vars._statres("label$availability") + ":",
+                        "labelPrice": vars._statres("label$price") + ":",
+                        "labelDelivery": vars._statres("label$delivery") + ":"
                     });
                 };
                 Index.prototype.OnViewInit = function () {
@@ -88,6 +90,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
                     this.proxyPageNext = $.proxy(this.searchPageNext, this);
                     this.proxyAddToCard = $.proxy(this.addToCard, this);
+                    this.proxyWhatCar = $.proxy(this.whatCar, this);
                 };
                 Index.prototype.destroyEvents = function () {
                     if (this.searchForm)
@@ -99,6 +102,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', self.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
                     $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
+                    self.View.find('.card-search-whatcar').on('click', self.proxyWhatCar);
                     self.qtyForm = self.View.find(".basket-qty-form");
                     if (self.qtyForm) {
                         self.proxyQtyForm = $.proxy(self.addQty, self);
@@ -109,6 +113,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     if (self.qtyForm)
                         self.qtyForm.off('submit', self.proxyQtyForm);
+                    self.View.find('.card-search-whatcar').off('click', self.proxyWhatCar);
                     $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
                     $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
@@ -193,6 +198,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                     vars._app.HideLoading();
+                };
+                Index.prototype.whatCar = function (e) {
+                    vars._app.ShowMessage("What car", "List of cars");
+                    e.preventDefault();
+                    return false;
                 };
                 Index.prototype.addToCard = function (e) {
                     vars._app.ShowLoading(false);

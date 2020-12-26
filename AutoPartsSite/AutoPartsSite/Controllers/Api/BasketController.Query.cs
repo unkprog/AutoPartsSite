@@ -335,13 +335,13 @@ namespace AutoPartsSite.Controllers.Api
                 for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                 {
                     fname = reader.GetName(i);
-                         if (fname == "RowNumber")              f_PartNn = i;
+                         if (fname == "RowNumber")           f_PartNn = i;
                     else if (fname == "GoodsID")             f_Id = i;
                     else if (fname == "RequestedPartNumber") f_PartNumber = i;
                     else if (fname == "Artikul")             f_Articul = i;
                     else if (fname == "Descr")               f_Name = i;
                     else if (fname == "Brand")               f_BrandCode = i;
-                  //  else if (fname == "Price")               f_Price = i;
+                    else if (fname == "CartPrice")           f_Price = i;
                     else if (fname == "ShipInDays")          f_ShipInDays = i;
 
                     else if (fname == "CountryID")           f_CountryId = i;
@@ -410,7 +410,7 @@ namespace AutoPartsSite.Controllers.Api
                     BasketGoods item = null;
                     if (!result.TryGetValue(id, out item))
                     {
-                        item = new BasketGoods() { Goods = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() } };
+                        item = new BasketGoods() { Goods = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters(), Deliveries = new List<DeliveryInfo>() } };
                         result.Add(id, item);
                     }
                     if (f_PartNumber > -1) item.Goods.PartNumber = values[f_PartNumber].ToStr();
