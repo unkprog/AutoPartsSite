@@ -1,1 +1,1 @@
-﻿select [count] = count(*) from [Basket_Item] with(nolock) where [Uid] = @Uid
+﻿select [count] = sum([Qty]) from [Basket_Item] with(nolock) where [Uid] = @Uid

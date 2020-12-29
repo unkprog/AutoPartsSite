@@ -193,7 +193,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.app-basket-counter').html('' + count).show();
                         else
                             $('.app-basket-counter').html('0').hide();
-                        M.toast({ html: vars._statres('message$aadded$tocart') });
+                        M.toast({ html: vars._statres('message$added$tocart') });
                     }
                     else
                         vars._app.ShowError(responseData.Error);

@@ -218,7 +218,7 @@ export namespace Controller.Search {
                 let count: number = responseData.Data;
                 if (count > 0) $('.app-basket-counter').html('' + count).show();
                 else           $('.app-basket-counter').html('0').hide();
-                M.toast({ html: vars._statres('message$aadded$tocart') });
+                M.toast({ html: vars._statres('message$added$tocart') });
             }
             else vars._app.ShowError(responseData.Error);
             vars._app.HideLoading();

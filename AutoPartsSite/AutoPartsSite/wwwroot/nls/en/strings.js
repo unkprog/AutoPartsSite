@@ -111,7 +111,7 @@ define({
     "label$addToCard": "Add to card",
     "label$availability": "Availability",
     "label$not$availability": "Not availability",
-    "message$aadded$tocart": "The product has been added to the cart",
+    "message$added$tocart": "The product has been added to the cart",
     "label$deliveryfrom": "Delivery from",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
