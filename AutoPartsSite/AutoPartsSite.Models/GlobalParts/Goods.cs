@@ -128,6 +128,8 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public List<Goods> Result { get; set; }
         [DataMember]
+        public List<Goods> ResultSub { get; set; }
+        [DataMember]
         public long Page { get; set; }
         [DataMember]
         public long MaxPage { get; set; }

@@ -56,8 +56,13 @@ namespace AutoPartsSite.Controllers.Api
             return xmlParts.ToString();
         }
 
+        public class GoodsResult
+        {
+            public Dictionary<int, Goods> Result = new Dictionary<int, Goods>();
+            public Dictionary<int, Goods> ResultSubs = new Dictionary<int, Goods>();
+        }
         [NonAction]
-        private List<Goods> GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool WithSubst)
+        private GoodsResult GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool WithSubst)
         {
            
             string partsXML = BuildPartsXML(goods);
@@ -67,12 +72,12 @@ namespace AutoPartsSite.Controllers.Api
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
             int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
-
+            int f_SubsTypeID = -1;
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
             int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1;
 
-            Dictionary<int, Goods> result = new Dictionary<int, Goods>();
+            GoodsResult result = new GoodsResult();
 
             ExecQuery((query) =>
             {
@@ -119,6 +124,8 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "WidthCm")  f_WidthCm = i;
                         else if (fname == "HeightCm") f_HeightCm = i;
 
+                        else if (fname == "SubsTypeID") f_SubsTypeID = i;
+
                         else if (fname == "DeliveryTariffID") f_DeliveryTariffID = i;
                         else if (fname == "DeliveryTariffCode") f_DeliveryTariffCode = i;
                         else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
@@ -132,16 +139,27 @@ namespace AutoPartsSite.Controllers.Api
                 }
                 , (values) =>
                 {
-                    int id = 0;
+                    int id = 0, subTypeid = 1; 
                     if (f_Id > -1) id = values[f_Id].ToInt();
+                    if(f_SubsTypeID > -1) subTypeid = values[f_SubsTypeID].ToInt();
                     if (id > 0)
                     {
                         Goods item = null;
-                        if (!result.TryGetValue(id, out item))
+                        if (subTypeid == 1)
+                        {
+                            if (!result.Result.TryGetValue(id, out item))
+                            {
+                                item = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters(), Deliveries = new List<DeliveryInfo>() };
+                                result.Result.Add(id, item);
+                            }
+                        }
+                        else
+                        if (!result.ResultSubs.TryGetValue(id, out item))
                         {
                             item = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters(), Deliveries = new List<DeliveryInfo>() };
-                            result.Add(id, item);
+                            result.ResultSubs.Add(id, item);
                         }
+
                         if (f_PartNumber > -1) item.PartNumber = values[f_PartNumber].ToStr();
                         if (f_Articul > -1) item.Articul = values[f_Articul].ToStr();
                         if (f_Name > -1) item.Name = values[f_Name].ToStr();
@@ -189,7 +207,7 @@ namespace AutoPartsSite.Controllers.Api
                     }
                 });
             });
-            return result.Values.ToList();
+            return result;
         }
 
         //[NonAction]

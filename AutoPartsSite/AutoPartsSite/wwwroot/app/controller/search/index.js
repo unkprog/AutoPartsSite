@@ -119,6 +119,19 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').off('click', self.proxyPageNext);
                 };
+                Index.prototype.htmlItems = function (items, header, template) {
+                    var htmlResult = '';
+                    for (var i = 0, icount = items.length; i < icount; i++) {
+                        if (i == 0) {
+                            htmlResult = htmlResult + '<div class="row">';
+                            htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + header + '</h1></div></div>';
+                            htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                        }
+                        items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                        htmlResult = (htmlResult + template(items[i]));
+                    }
+                    return htmlResult;
+                };
                 Index.prototype.search = function (e) {
                     var _this = this;
                     var self = this;
@@ -136,16 +149,30 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         if (responseData.Result === 0) {
                             var templateContent = _this.View.find('#search-view-parts-template').html();
                             var template = vars.getTemplate(templateContent);
-                            var htmlResult = '';
-                            var items = responseData.Data.Result;
                             self.maxPage = responseData.Data.MaxPage;
                             self.currentPage = responseData.Data.Page;
-                            for (var i = 0, icount = items.length; i < icount; i++) {
-                                items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
-                                //if (i == 0)
-                                //    self.maxPage = items[i].MaxPage;
-                                htmlResult = (htmlResult + template(items[i]));
-                            }
+                            var htmlResult = _this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
+                            //let items: any[] = responseData.Data.Result;
+                            //for (let i = 0, icount = items.length; i < icount; i++) {
+                            //    if (i == 0) {
+                            //        htmlResult = htmlResult + '<div class="row">';
+                            //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$original") + '</h1></div></div>';
+                            //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                            //    }
+                            //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                            //    htmlResult = (htmlResult + template(items[i]));
+                            //}
+                            htmlResult = htmlResult + _this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
+                            //items = responseData.Data.ResultSub;
+                            //for (let i = 0, icount = items.length; i < icount; i++) {
+                            //    if (i == 0) {
+                            //        htmlResult = htmlResult + '<div class="row">';
+                            //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$substitution") + '</h1></div></div>';
+                            //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                            //    }
+                            //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                            //    htmlResult = (htmlResult + template(items[i]));
+                            //}
                             self.View.find('#search-view-parts').html(htmlResult);
                             htmlResult = '';
                             for (var i = 0, icount = self.maxPage; i < icount; i++) {

@@ -131,6 +131,20 @@ export namespace Controller.Search {
         private maxPage: number;
         private lastSearch: string;
 
+        private htmlItems(items: any[], header: string, template: Function): string {
+            let htmlResult: string = '';
+            
+            for (let i = 0, icount = items.length; i < icount; i++) {
+                if (i == 0) {
+                    htmlResult = htmlResult + '<div class="row">';
+                    htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + header + '</h1></div></div>';
+                    htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                }
+                items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                htmlResult = (htmlResult + template(items[i]));
+            }
+            return htmlResult
+        }
         private search(e: any): boolean {
             let self = this;
             let partNum: string = '' + self.View.find('#search-view-part-number').val();
@@ -152,25 +166,39 @@ export namespace Controller.Search {
 
                     let templateContent = this.View.find('#search-view-parts-template').html();
                     let template = vars.getTemplate(templateContent);
-                    let htmlResult = '';
-                    let items: any[] = responseData.Data.Result;
 
                     self.maxPage = responseData.Data.MaxPage;
                     self.currentPage = responseData.Data.Page;
 
-                    for (let i = 0, icount = items.length; i < icount; i++) {
-                        items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
-                        //if (i == 0)
-                        //    self.maxPage = items[i].MaxPage;
-                        htmlResult = (htmlResult + template(items[i]));
-                    }
+                    let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
+                    //let items: any[] = responseData.Data.Result;
+                    //for (let i = 0, icount = items.length; i < icount; i++) {
+                    //    if (i == 0) {
+                    //        htmlResult = htmlResult + '<div class="row">';
+                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$original") + '</h1></div></div>';
+                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                    //    }
+                    //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                    //    htmlResult = (htmlResult + template(items[i]));
+                    //}
+
+                    htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
+                    //items = responseData.Data.ResultSub;
+                    //for (let i = 0, icount = items.length; i < icount; i++) {
+                    //    if (i == 0) {
+                    //        htmlResult = htmlResult + '<div class="row">';
+                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$substitution") + '</h1></div></div>';
+                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
+                    //    }
+                    //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
+                    //    htmlResult = (htmlResult + template(items[i]));
+                    //}
 
                     self.View.find('#search-view-parts').html(htmlResult);
                     htmlResult = ''; 
                     for (let i = 0, icount = self.maxPage; i < icount; i++) {
                         htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
                     }
-
 
                     if (htmlResult !== '') {
                         htmlResult = ' <li class="' + (self.currentPage == 1 || self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-prev" href="#!"><i class="material-icons">chevron_left</i></a></li>'

@@ -113,6 +113,9 @@ define({
     "label$not$availability": "Not availability",
     "message$added$tocart": "The product has been added to the cart",
     "label$deliveryfrom": "Delivery from",
+
+    "label$parts$original": "Original parts",
+    "label$parts$substitution": "Substitutions",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

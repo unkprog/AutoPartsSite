@@ -7,6 +7,7 @@ using AutoPartsSite.Core.Http;
 using System.Collections.Generic;
 using AutoPartsSite.Models.GlobalParts;
 using AutoPartsSite.Core.Models.Security;
+using System.Linq;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -56,13 +57,14 @@ namespace AutoPartsSite.Controllers.Api
                 return await Task.Run(() =>
                 {
                     List<GoodsSearch> resultSearch = GetSearchGoods(pq.partNumber, pq.pageRows, pq.page);
-                    //Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                    //bool isGuest = principal == null || principal.User == null || principal.User.Id  == 0 ? true : false;
-                   
+                //Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                //bool isGuest = principal == null || principal.User == null || principal.User.Id  == 0 ? true : false;
 
+                GoodsResult goodsResult = GetGoods(resultSearch, pq, true);
                     GoodsSearchResult result = new GoodsSearchResult()
                     {
-                        Result = GetGoods(resultSearch, pq, true),
+                        Result = goodsResult.Result.Values.ToList(),
+                        ResultSub = goodsResult.ResultSubs.Values.ToList(),
                         Page = resultSearch.Count > 0 ? resultSearch[0].Page : 0,
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };
@@ -72,7 +74,11 @@ namespace AutoPartsSite.Controllers.Api
                         ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
                         ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
                     }
-
+                    foreach (var ritem in result.ResultSub)
+                    {
+                        ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
+                        ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
+                    }
                     return CreateResponseOk(result);
                 });
             });
