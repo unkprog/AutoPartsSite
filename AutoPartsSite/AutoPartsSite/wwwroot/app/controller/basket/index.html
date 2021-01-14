@@ -11,7 +11,25 @@
     </div>
 
     <div id="basket-view-parts" class="row">
-        <div class="center" style="font-size: 1.7rem;" data-bind="text:labelEmptyBasket"></div>
+        <div id="basket-view-parts-empty" class="col s12 m12 l12 xl12 center" style="font-size: 1.7rem;" data-bind="text:labelEmptyBasket"></div>
+        <div class="col s12 m12 l12 xl12">
+            <table id="basket-view-parts-table">
+                <thead>
+                    <tr>
+                        <th><span data-bind="text:labelBrand"></span></th>
+                        <th><span data-bind="text:labelPartNumber"></span></th>
+                        <th><span data-bind="text:labelName"></span></th>
+                        <th><span data-bind="text:labelShipIn"></span></th>
+                        <th><span data-bind="text:labelPrice"></span></th>
+                        <th><span data-bind="text:labelQty"></span></th>
+                        <th><span data-bind="text:labelSum"></span></th>
+                    </tr>
+                </thead>
+
+                <tbody id="basket-view-parts-rows">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="basket-view-additional">
@@ -69,7 +87,7 @@
         </div>
     </div>
 
-    <script type="text/x-kendo-template" id="basket-view-parts-template">
+    <!--<script type="text/x-kendo-template" id="basket-view-parts-template">
         <div id="basket-view-item-#=Goods.Id#" class="col s12 m12 l12 xl12">
             <div class="card white margin-0_1rem z-depth-2 hoverable">
                 <div class="card-content padding-0_75rem black-text">
@@ -105,6 +123,22 @@
                 </div>
             </div>
         </div>
+    </script>-->
+
+    <script type="text/x-kendo-template" id="basket-view-parts-template">
+        <tr id="basket-view-item-#=Goods.Id#">
+            <td>#=Goods.Brand.Code#</td>
+            <td>#=Goods.PartNumber#</td>
+            <td>#=Goods.Name#</td>
+            <td>#=Goods.ShipInDays#</td>
+            <td>#=numberToString(Price,2)##=Goods.Currency.Symbol#</td>
+            <td>
+                <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form col">
+                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
+                </form>
+            </td>
+            <td>#=numberToString(Sum,2)##=Goods.Currency.Symbol#</td>
+        </tr>
     </script>
 
     <script type="text/x-kendo-template" id="basket-view-delivery-template">

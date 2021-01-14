@@ -103,6 +103,7 @@ define({
     //              Поиск                                                                      //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$partnumber": "Part number",
+    "label$name": "Name",
     "label$brand": "Brand",
     "label$country": "Country",
     "label$shipin": "Ship in, days",

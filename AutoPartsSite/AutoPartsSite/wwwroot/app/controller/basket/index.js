@@ -42,14 +42,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$basket"),
                         "labelEmptyBasket": vars._statres("label$empty$basket"),
                         "labelDelivery": vars._statres("label$shipping"),
-                        "labelBrand": vars._statres("label$brand") + ":",
+                        "labelBrand": vars._statres("label$brand"),
+                        "labelPartNumber": vars._statres("label$partnumber"),
+                        "labelName": vars._statres("label$name"),
                         "labelCountry": vars._statres("label$country") + ":",
-                        "labelShipIn": vars._statres("label$shipin") + ":",
+                        "labelShipIn": vars._statres("label$shipin"),
                         "labelDimensions": vars._statres("label$dimensions") + ":",
                         "labelWeight": vars._statres("label$weight") + ":",
-                        "labelQty": vars._statres("label$qty") + ":",
-                        "labelPrice": vars._statres("label$price") + ":",
-                        "labelSum": vars._statres("label$sum") + ":",
+                        "labelQty": vars._statres("label$qty"),
+                        "labelPrice": vars._statres("label$price"),
+                        "labelSum": vars._statres("label$sum"),
                         "labelPromoCode": vars._statres("label$promocode") + ":",
                         "labelApplyPromocode": vars._statres("label$promocode$apply"),
                         "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
@@ -77,8 +79,22 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.endCommand = function (responseData) {
                     var self = this;
+                    self.BasketService.Count(function (responseData) { return self.setBasketCount(responseData); });
                     if (responseData.Result === 0)
                         self.setupBasketData(responseData);
+                    else
+                        vars._app.ShowError(responseData.Error);
+                    vars._app.HideLoading();
+                };
+                Index.prototype.setBasketCount = function (responseData) {
+                    if (responseData.Result === 0) {
+                        var count = responseData.Data;
+                        if (count > 0)
+                            $('.app-basket-counter').html('' + count).show();
+                        else
+                            $('.app-basket-counter').html('0').hide();
+                        M.toast({ html: vars._statres('message$added$tocart') });
+                    }
                     else
                         vars._app.ShowError(responseData.Error);
                     vars._app.HideLoading();
@@ -86,8 +102,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.setupBasketData = function (responseData) {
                     var self = this;
                     self.destroyCardsItems();
+                    self.View.find("#basket-view-parts-table").hide();
                     self.View.find('#basket-view-additional').hide();
-                    self.View.find('#basket-view-parts').html('<div class="center" style="font-size: 1.7rem;">' + vars._statres("label$empty$basket") + '</div>');
+                    self.View.find("#basket-view-parts-empty").show();
+                    //self.View.find('#basket-view-parts').html('<div class="center" style="font-size: 1.7rem;">' + vars._statres("label$empty$basket") + '</div>');
                     if (responseData.Result === 0) {
                         this.Model.set("basketData", responseData.Data);
                         var items = responseData.Data.Positions;
@@ -106,7 +124,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
                         }
-                        self.View.find('#basket-view-parts').html(htmlResult);
+                        self.View.find("#basket-view-parts-empty").hide();
+                        self.View.find('#basket-view-parts-rows').html(htmlResult);
+                        self.View.find("#basket-view-parts-table").show();
                         self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                         self.Model.set("curSymbol", curSymbol);
                         htmlResult = '';
