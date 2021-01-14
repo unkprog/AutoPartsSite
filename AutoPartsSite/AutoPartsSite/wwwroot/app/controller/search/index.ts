@@ -171,28 +171,7 @@ export namespace Controller.Search {
                     self.currentPage = responseData.Data.Page;
 
                     let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
-                    //let items: any[] = responseData.Data.Result;
-                    //for (let i = 0, icount = items.length; i < icount; i++) {
-                    //    if (i == 0) {
-                    //        htmlResult = htmlResult + '<div class="row">';
-                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$original") + '</h1></div></div>';
-                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
-                    //    }
-                    //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
-                    //    htmlResult = (htmlResult + template(items[i]));
-                    //}
-
                     htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
-                    //items = responseData.Data.ResultSub;
-                    //for (let i = 0, icount = items.length; i < icount; i++) {
-                    //    if (i == 0) {
-                    //        htmlResult = htmlResult + '<div class="row">';
-                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="section left"><h1 class="page-header">' + vars._statres("label$parts$substitution") + '</h1></div></div>';
-                    //        htmlResult = htmlResult + '<div class="col s12 m12 l12 xl12"><div class="divider"></div></div></div>';
-                    //    }
-                    //    items[i].labelAddToCard = items[i].StockQty > 0 ? vars._statres("button$label$add") : vars._statres("label$not$availability");
-                    //    htmlResult = (htmlResult + template(items[i]));
-                    //}
 
                     self.View.find('#search-view-parts').html(htmlResult);
                     htmlResult = ''; 
