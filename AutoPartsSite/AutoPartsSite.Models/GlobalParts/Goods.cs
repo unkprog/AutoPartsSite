@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace AutoPartsSite.Models.GlobalParts
 {
     /// <summary>
-    /// Информация по серийному номеру
+    /// Информация по детали
     /// </summary>
     [DataContract]
     public class Goods : BaseDbModel
@@ -75,7 +75,41 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public List<DeliveryInfo> Deliveries { get; set; }
-        
+
+    }
+
+    [DataContract]
+    public class GoodsBasketInfo : Goods 
+    {
+        /// <summary>
+        /// Цена изменилась
+        /// </summary>
+        [DataMember]
+        public bool PriceChanged { get; set; }
+
+        /// <summary>
+        /// Количество изменилось
+        /// </summary>
+        [DataMember]
+        public bool QtyChanged { get; set; }
+
+        /// <summary>
+        /// Цена CartPriceRaw
+        /// </summary>
+        [DataMember]
+        public decimal CartPriceRaw { get; set; }
+
+        /// <summary>
+        /// Цена OldCartPrice
+        /// </summary>
+        [DataMember]
+        public decimal OldCartPrice { get; set; }
+
+        /// <summary>
+        /// Предыдущее количество
+        /// </summary>
+        [DataMember]
+        public decimal OldQty { get; set; }
     }
 
     public class GoodsParameters

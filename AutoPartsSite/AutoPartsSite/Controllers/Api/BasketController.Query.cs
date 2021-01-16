@@ -306,6 +306,8 @@ namespace AutoPartsSite.Controllers.Api
             string partsXML = SearchController.BuildPartsXML(goodsS);
 
             int f_PartNn = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
+            int f_PriceChanged = -1, f_QtyChanged = -1;
+            int f_CartPriceRaw = -1, f_OldCartPrice = -1, f_OldQty = -1;
             int f_BrandId = -1, f_BrandCode = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
@@ -343,6 +345,13 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "Brand")               f_BrandCode = i;
                     else if (fname == "CartPrice")           f_Price = i;
                     else if (fname == "ShipInDays")          f_ShipInDays = i;
+
+                    else if (fname == "PriceChanged")        f_PriceChanged = i;
+                    else if (fname == "QtyChanged")          f_QtyChanged = i;
+                    else if (fname == "CartPriceRaw")        f_CartPriceRaw = i;
+                    else if (fname == "OldCartPrice")        f_OldCartPrice = i;
+                    else if (fname == "OldQty")              f_OldQty = i;
+
 
                     else if (fname == "CountryID")           f_CountryId = i;
                     else if (fname == "CountryCode")         f_CountryCode = i;
