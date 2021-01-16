@@ -55,6 +55,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelPromoCode": vars._statres("label$promocode") + ":",
                         "labelApplyPromocode": vars._statres("label$promocode$apply"),
                         "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
+                        "labelPriceHasChanged": vars._statres("label$price$haschanged") + ":",
                         "TotalSumValue": "0$",
                         "curSymbol": "$",
                         "labelTotalSumDelivery": vars._statres("label$total") + ":",
@@ -93,7 +94,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.app-basket-counter').html('' + count).show();
                         else
                             $('.app-basket-counter').html('0').hide();
-                        M.toast({ html: vars._statres('message$added$tocart') });
                     }
                     else
                         vars._app.ShowError(responseData.Error);

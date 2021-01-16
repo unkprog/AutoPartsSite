@@ -50,9 +50,11 @@ export namespace Controller.Search {
 
         private qtyForm: JQuery;
         private proxyQtyForm;
+        private setBasketIsInit: Boolean;
 
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
+            this.setBasketIsInit = true;
             this.BasketService.Count(this.setBasketCount);
             this.loadBrands();
         }
@@ -224,10 +226,12 @@ export namespace Controller.Search {
             if (responseData.Result === 0) {
                 let count: number = responseData.Data;
                 if (count > 0) $('.app-basket-counter').html('' + count).show();
-                else           $('.app-basket-counter').html('0').hide();
-                M.toast({ html: vars._statres('message$added$tocart') });
+                else $('.app-basket-counter').html('0').hide();
+                if (this.setBasketIsInit === false)
+                    M.toast({ html: vars._statres('message$added$tocart') });
             }
             else vars._app.ShowError(responseData.Error);
+            this.setBasketIsInit = false;
             vars._app.HideLoading();
         }
 

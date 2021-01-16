@@ -124,6 +124,7 @@ define({
     "label$basket": "Basket",
     "label$qty": "Qty",
     "label$price": "Price",
+    "label$price$haschanged": "Price has changed",
     "label$sum": "Sum",
     "label$promocode": "Promocode", 
     "label$promocode$apply": "Apply promocode",

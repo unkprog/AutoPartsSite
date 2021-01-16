@@ -60,6 +60,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.OnViewInit = function () {
                     this.searchForm = this.View.find("#search-view-form");
+                    this.setBasketIsInit = true;
                     this.BasketService.Count(this.setBasketCount);
                     this.loadBrands();
                 };
@@ -200,10 +201,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.app-basket-counter').html('' + count).show();
                         else
                             $('.app-basket-counter').html('0').hide();
-                        M.toast({ html: vars._statres('message$added$tocart') });
+                        if (this.setBasketIsInit === false)
+                            M.toast({ html: vars._statres('message$added$tocart') });
                     }
                     else
                         vars._app.ShowError(responseData.Error);
+                    this.setBasketIsInit = false;
                     vars._app.HideLoading();
                 };
                 Index.prototype.whatCar = function (e) {

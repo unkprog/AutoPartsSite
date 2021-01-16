@@ -125,6 +125,7 @@ define({
     "label$basket": "Корзина",
     "label$qty": "Кол-во",
     "label$price": "Цена",
+    "label$price$haschanged": "Цена изменилась",
     "label$sum": "Сумма",
     "label$promocode": "Промокод", 
     "label$promocode$apply": "Применить промокод",
