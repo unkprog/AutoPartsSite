@@ -306,12 +306,14 @@ namespace AutoPartsSite.Controllers.Api
             string partsXML = SearchController.BuildPartsXML(goodsS);
 
             int f_PartNn = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
-            int f_PriceChanged = -1, f_QtyChanged = -1;
-            int f_CartPriceRaw = -1, f_OldCartPrice = -1, f_OldQty = -1;
             int f_BrandId = -1, f_BrandCode = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
             int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
+
+            int f_PriceChanged = -1, f_QtyChanged = -1;
+            int f_CartPriceRaw = -1, f_OldCartPrice = -1, f_Qty = -1, f_OldQty = -1;
+            int f_CartAmountRaw = -1, f_CartDiscountsAmount = -1;
 
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
@@ -350,8 +352,10 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "QtyChanged")          f_QtyChanged = i;
                     else if (fname == "CartPriceRaw")        f_CartPriceRaw = i;
                     else if (fname == "OldCartPrice")        f_OldCartPrice = i;
+                    else if (fname == "Qty")                 f_Qty = i;
                     else if (fname == "OldQty")              f_OldQty = i;
-
+                    else if (fname == "CartAmountRaw")       f_CartAmountRaw = i;
+                    else if (fname == "CartDiscountsAmount") f_CartDiscountsAmount = i;
 
                     else if (fname == "CountryID")           f_CountryId = i;
                     else if (fname == "CountryCode")         f_CountryCode = i;
@@ -446,6 +450,15 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_LengthCm         > -1) item.Goods.Parameters.LengthCm = values[f_LengthCm].ToDecimal();
                     if (f_WidthCm          > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
                     if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
+
+                    if (f_PriceChanged > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() == 1;
+                    if (f_QtyChanged > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() == 1;
+                    if (f_CartPriceRaw > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
+                    if (f_OldCartPrice > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
+                    if (f_Qty > -1) item.Qty = values[f_Qty].ToInt();
+                    if (f_OldQty > -1) item.OldQty = values[f_OldQty].ToInt();
+                    if (f_CartAmountRaw > -1) item.CartAmountRaw = values[f_CartDiscountsAmount].ToDecimal();
+                    if (f_CartDiscountsAmount > -1) item.CartDiscountsAmount = values[f_CartDiscountsAmount].ToDecimal();
                 }
             });
 

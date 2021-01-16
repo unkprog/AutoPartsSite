@@ -133,8 +133,10 @@
             <td>#=Goods.ShipInDays#</td>
             <td class="td-right">
                 <span>#=numberToString(Price,2)##=Goods.Currency.Symbol#</span>
+        #if(PriceChanged == true) {#
                 <br/>
                <span class="margin-right-1rem basket-label" data-bind="text:labelPriceHasChanged"></span><span class="basket-label through">#=numberToString(Price,2)##=Goods.Currency.Symbol#</span>
+        #}#
             </td>
             <td class="td-right">
                 <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form col" style="float:right;padding:0">

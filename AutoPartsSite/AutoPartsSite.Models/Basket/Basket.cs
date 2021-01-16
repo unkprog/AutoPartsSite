@@ -23,12 +23,58 @@ namespace AutoPartsSite.Models.Basket
         /// </summary>
         [DataMember]
         public decimal Quantity { get; set; }
-
+        /// <summary>
+        /// Количество
+        /// </summary>
+        [DataMember]
+        public decimal Qty { get; set; }
         /// <summary>
         /// Цена
         /// </summary>
         [DataMember]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Цена изменилась
+        /// </summary>
+        [DataMember]
+        public bool PriceChanged { get; set; }
+
+        /// <summary>
+        /// Количество изменилось
+        /// </summary>
+        [DataMember]
+        public bool QtyChanged { get; set; }
+
+        /// <summary>
+        /// Цена CartPriceRaw
+        /// </summary>
+        [DataMember]
+        public decimal CartPriceRaw { get; set; }
+
+        /// <summary>
+        /// Цена OldCartPrice
+        /// </summary>
+        [DataMember]
+        public decimal OldCartPrice { get; set; }
+
+        /// <summary>
+        /// Предыдущее количество
+        /// </summary>
+        [DataMember]
+        public decimal OldQty { get; set; }
+
+        /// <summary>
+        /// Цена OldCartPrice
+        /// </summary>
+        [DataMember]
+        public decimal CartAmountRaw { get; set; }
+
+        /// <summary>
+        /// Скидка
+        /// </summary>
+        [DataMember]
+        public decimal CartDiscountsAmount { get; set; }
     }
 
     [DataContract]

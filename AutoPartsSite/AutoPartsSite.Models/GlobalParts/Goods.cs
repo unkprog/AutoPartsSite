@@ -110,6 +110,18 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public decimal OldQty { get; set; }
+
+        /// <summary>
+        /// Цена OldCartPrice
+        /// </summary>
+        [DataMember]
+        public decimal CartAmountRaw { get; set; }
+
+        /// <summary>
+        /// Скидка
+        /// </summary>
+        [DataMember]
+        public decimal CartDiscountsAmount { get; set; }
     }
 
     public class GoodsParameters
