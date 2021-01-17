@@ -36,8 +36,11 @@ export namespace Controller.Basket {
                 "labelSum": vars._statres("label$sum"), // + ":",
                 "labelPromoCode": vars._statres("label$promocode") + ":",
                 "labelApplyPromocode": vars._statres("label$promocode$apply"),
-                "labelTotalSum": vars._statres("label$total$goods$sum") + ":",
+                "labelTotalSum": vars._statres("label$items$subtotal") + ":",
                 "labelPriceHasChanged": vars._statres("label$price$haschanged") + ":",
+                "labelWas": vars._statres("label$qty$was") + ":",
+                "labelNoLongerAvailabile": vars._statres("label$no$longeravailable"),
+                "labelSave": vars._statres("label$saving") + ":",
                 "TotalSumValue": "0$",
                 "curSymbol": "$",
                 "labelTotalSumDelivery": vars._statres("label$total") + ":",
@@ -131,6 +134,7 @@ export namespace Controller.Basket {
                 self.View.find("#basket-view-parts-table").show();
                 self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                 self.Model.set("curSymbol", curSymbol);
+                //Items Subtotal
 
                 htmlResult = '';
                 templateContent = self.View.find('#basket-view-delivery-template').html();

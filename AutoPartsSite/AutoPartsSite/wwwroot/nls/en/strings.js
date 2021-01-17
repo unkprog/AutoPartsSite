@@ -123,8 +123,10 @@ define({
     "label$empty$basket": "Your basket is empty",
     "label$basket": "Basket",
     "label$qty": "Qty",
+    "label$qty$was": "Was",
     "label$price": "Price",
     "label$price$haschanged": "Price has changed",
+    "label$no$longeravailable":"No longer available",
     "label$sum": "Sum",
     "label$promocode": "Promocode", 
     "label$promocode$apply": "Apply promocode",
@@ -140,7 +142,8 @@ define({
     "label$delivery$ammount": "Delivery amount",
     "label$vat": "VAT",
     "label$total": "Total",
-
+    "label$items$subtotal": "Items Subtotal",
+    "label$saving": "Save",
     "msg$delivery$choosecompany": "Choose a delivery company",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //

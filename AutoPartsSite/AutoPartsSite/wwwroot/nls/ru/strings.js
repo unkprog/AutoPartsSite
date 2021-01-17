@@ -124,6 +124,8 @@ define({
     "label$empty$basket": "Ваша корзина пуста",
     "label$basket": "Корзина",
     "label$qty": "Кол-во",
+    "label$qty$was": "Было",
+    "label$no$longeravailable": "Больше недоступно",
     "label$price": "Цена",
     "label$price$haschanged": "Цена изменилась",
     "label$sum": "Сумма",
@@ -141,7 +143,8 @@ define({
     "label$delivery$ammount": "Сумма доставки",
     "label$vat": "НДС",
     "label$total": "Итого",
-
+    "label$saving": "Сохранено",
+    "label$items$subtotal": "Итого по позициям",
     "msg$delivery$choosecompany": "Выберите компанию для доставки",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //

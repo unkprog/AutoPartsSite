@@ -633,7 +633,21 @@ input[type='number']:hover::-webkit-outer-spin-button {
   width: 5rem !important; }
 
 .basket-total-sum {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold; }
+
+.basket-item-sum {
+  color: #000;
+  font-weight: bold; }
+
+.basket-item-discount {
+  font-size: 0.9rem;
+  color: #1b5e20;
+  font-weight: bold; }
+
+.basket-item-discount-sum {
+  font-size: 0.9rem;
+  color: #b71c1c;
   font-weight: bold; }
 
 #basket-view-sum, #basket-view-sum-delivery {

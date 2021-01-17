@@ -139,11 +139,30 @@
         #}#
             </td>
             <td class="td-right">
-                <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form col" style="float:right;padding:0">
+        #if(Qty == 0) {#
+                <span class="basket-label" data-bind="text:labelNoLongerAvailabile"></span>
+        #} else {#
+                <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form" style="padding:0">
                     <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
                 </form>
+            #if(QtyChanged == true) {#
+                <br/>
+               <span class="margin-right-1rem basket-label" data-bind="text:labelWas"></span><span class="basket-label through">#=OldQty#</span>
+            #}#
+        #}#
             </td>
-            <td class="td-right">#=numberToString(Sum,2)##=Goods.Currency.Symbol#</td>
+            <td class="td-right">
+        #if(!(CartDiscountsAmount == 0)) {#
+                <span class="basket-label through">#=numberToString(Sum,2)##=Goods.Currency.Symbol#</span>
+                </br>
+        #}#
+                <span class="basket-item-sum">#=numberToString(Sum,2)##=Goods.Currency.Symbol#</span>
+        #if(!(CartDiscountsAmount == 0)) {#
+                </br>
+                <span class="basket-item-discount" data-bind="text:labelSave"></span>
+                <span class="basket-item-discount-sum">-#=numberToString(CartDiscountsAmount,2)##=Goods.Currency.Symbol#</span>
+        #}#
+            </td>
         </tr>
     </script>
 
