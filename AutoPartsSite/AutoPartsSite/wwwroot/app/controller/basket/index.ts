@@ -122,6 +122,10 @@ export namespace Controller.Basket {
 
                 let sum: number = 0;
                 for (let i = 0; i < icount; i++) {
+                    if (i == 0) {
+                        this.Model.set("labelDelivery", (vars._statres("label$delivery$to") + " " + items[i].Goods.Country.Name));
+                    }
+
                     curSymbol = items[i].Goods.Currency.Symbol;
                     items[i].deleteLabel = vars._statres("button$label$delete");
                     items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);

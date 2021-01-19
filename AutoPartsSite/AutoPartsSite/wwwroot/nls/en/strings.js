@@ -86,7 +86,8 @@ define({
     "label$faq": "FAQ",
     "label$news": "News",
     "label$payment": "Payment",
-    "label$shipping": "Shipping",
+    "label$shipping": "Delivery",
+    "label$delivery$to": "Delivery to",
     "label$contacts": "Contacts",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Дни недели                                                                 //

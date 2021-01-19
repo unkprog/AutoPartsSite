@@ -319,6 +319,8 @@ namespace AutoPartsSite.Controllers.Api
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
             int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1;
 
+
+
             AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
             {
                  new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },

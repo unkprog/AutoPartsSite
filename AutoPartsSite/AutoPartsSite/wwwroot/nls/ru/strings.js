@@ -80,6 +80,8 @@ define({
     "label$news": "Новости",
     "label$payment": "Оплата",
     "label$shipping": "Доставка",
+    "label$delivery$to": "Доставка в",
+
     "label$contacts": "Контакты",
 
     "label$basket": "Корзина",
