@@ -27,6 +27,12 @@ namespace AutoPartsSite.Models.GlobalParts
         public int DaysMax { get; set; }
 
         /// <summary>
+        /// Доставка дней, от-до
+        /// </summary>
+        [DataMember]
+        public string DeliveryDays { get; set; }
+
+        /// <summary>
         /// Сумма доставки
         /// </summary>
         [DataMember]
@@ -46,5 +52,12 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public decimal TotalAmount { get; set; }
+
+        /// <summary>
+        /// Валюта
+        /// </summary>
+        [DataMember]
+        public Currency Currency { get; set; }
+        
     }
 }

@@ -108,6 +108,7 @@ define({
     "label$brand": "Brand",
     "label$country": "Country",
     "label$shipin": "Ship in, days",
+    "label$delivery$days": "Delivery, days",
     "label$dimensions": "Dimensions",
     "label$weight": "Weight, kg",
     "label$addToCard": "Add to card",

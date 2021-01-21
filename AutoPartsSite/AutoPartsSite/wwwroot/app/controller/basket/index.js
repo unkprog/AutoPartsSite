@@ -67,6 +67,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelDeliveryAmount": vars._statres("label$delivery$ammount") + ":",
                         "labelVatAmount": vars._statres("label$vat") + ":",
                         "labelTotalAmount": vars._statres("label$total") + ":",
+                        "labelDeliveryDays": vars._statres("label$delivery$days") + ":",
                         "labelContinueShopping": vars._statres("button$label$continueShopping"),
                         "labelCheckout": vars._statres("button$label$checkout"),
                         "basketData": {}

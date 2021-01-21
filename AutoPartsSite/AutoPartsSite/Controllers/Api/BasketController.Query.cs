@@ -317,7 +317,7 @@ namespace AutoPartsSite.Controllers.Api
 
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
-            int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1;
+            int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1, f_DeliveryDays = -1;
 
 
 
@@ -383,6 +383,8 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "CartTotalAmount")     f_TotalAmount = i;
                     else if (fname == "DeliveryDaysMin")     f_DeliveryDaysMin = i;
                     else if (fname == "DeliveryDaysMax")     f_DeliveryDaysMax = i;
+                    else if (fname == "DeliveryDays")        f_DeliveryDays = i;
+                    
 
                 }
             }
@@ -399,19 +401,25 @@ namespace AutoPartsSite.Controllers.Api
                         DeliveryInfo deliveryInfo;
                         if (!resultDelivery.TryGetValue(deliveryTariffID, out deliveryInfo))
                         {
-                            deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID };
+                            deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID, Currency = new Currency() };
                             resultDelivery.Add(deliveryTariffID, deliveryInfo);
                                  if (deliveryTariffID == 8) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
                             else if (deliveryTariffID == 9) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
 
-                            if (f_DeliveryTariffCode  > -1) deliveryInfo.Code           = values[f_DeliveryTariffCode].ToStr();
-                            if (f_DeliveryTariffDescr > -1) deliveryInfo.Name           = values[f_DeliveryTariffDescr].ToStr();
-                            if (f_Amount              > -1) deliveryInfo.Amount         = values[f_Amount].ToDecimal();
-                            if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount = values[f_DeliveryAmount].ToDecimal();
-                            if (f_VatAmount           > -1) deliveryInfo.VatAmount      = values[f_VatAmount].ToDecimal();
-                            if (f_TotalAmount         > -1) deliveryInfo.TotalAmount    = values[f_TotalAmount].ToDecimal();
-                            if (f_DeliveryDaysMin     > -1) deliveryInfo.DaysMin        = values[f_DeliveryDaysMin].ToInt();
-                            if (f_DeliveryDaysMax     > -1) deliveryInfo.DaysMax        = values[f_DeliveryDaysMax].ToInt();
+                            if (f_DeliveryTariffCode  > -1) deliveryInfo.Code            = values[f_DeliveryTariffCode].ToStr();
+                            if (f_DeliveryTariffDescr > -1) deliveryInfo.Name            = values[f_DeliveryTariffDescr].ToStr();
+                            if (f_Amount              > -1) deliveryInfo.Amount          = values[f_Amount].ToDecimal();
+                            if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount  = values[f_DeliveryAmount].ToDecimal();
+                            if (f_VatAmount           > -1) deliveryInfo.VatAmount       = values[f_VatAmount].ToDecimal();
+                            if (f_TotalAmount         > -1) deliveryInfo.TotalAmount     = values[f_TotalAmount].ToDecimal();
+                            if (f_DeliveryDaysMin     > -1) deliveryInfo.DaysMin         = values[f_DeliveryDaysMin].ToInt();
+                            if (f_DeliveryDaysMax     > -1) deliveryInfo.DaysMax         = values[f_DeliveryDaysMax].ToInt();
+                            if (f_DeliveryDays        > -1) deliveryInfo.DeliveryDays    = values[f_DeliveryDays].ToStr();
+                            
+                            if (f_CurrencyId          > -1) deliveryInfo.Currency.Id     = values[f_CurrencyId].ToInt();
+                            if (f_CurrencyCode        > -1) deliveryInfo.Currency.Code   = values[f_CurrencyCode].ToStr();
+                            if (f_CurrencyName        > -1) deliveryInfo.Currency.Name   = values[f_CurrencyName].ToStr();
+                            if (f_CurrencySymbol      > -1) deliveryInfo.Currency.Symbol = values[f_CurrencySymbol].ToStr();
                         }
                     }
                 }

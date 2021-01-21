@@ -110,6 +110,7 @@ define({
     "label$brand": "Бренд",
     "label$country": "Страна",
     "label$shipin": "Доставка, дней",
+    "label$delivery$days": "Доставка, дней",
     "label$dimensions": "Размеры",
     "label$weight": "Вес, кг",
     "label$addToCard": "Добавить в корзину",
