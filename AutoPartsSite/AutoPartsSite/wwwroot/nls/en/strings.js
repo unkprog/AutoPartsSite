@@ -145,6 +145,8 @@ define({
     "label$vat": "VAT",
     "label$total": "Total",
     "label$items$subtotal": "Items Subtotal",
+    "label$total$estimated": "Estimated Total",
+    "label$total$taxvat": "Tax (VAT)",
     "label$saving": "Save",
     "msg$delivery$choosecompany": "Choose a delivery company",
     /////////////////////////////////////////////////////////////////////////////////////////////

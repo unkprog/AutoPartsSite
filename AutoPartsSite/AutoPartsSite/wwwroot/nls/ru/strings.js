@@ -146,6 +146,8 @@ define({
     "label$delivery$ammount": "Сумма доставки",
     "label$vat": "НДС",
     "label$total": "Итого",
+    "label$total$estimated": "Ожидаемая сумма",
+    "label$total$taxvat": "Налог (НДС)",
     "label$saving": "Сохранено",
     "label$items$subtotal": "Итого по позициям",
     "msg$delivery$choosecompany": "Выберите компанию для доставки",

@@ -61,7 +61,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelSave": vars._statres("label$saving") + ":",
                         "TotalSumValue": "0$",
                         "curSymbol": "$",
-                        "labelTotalSumDelivery": vars._statres("label$total") + ":",
+                        "labelTotalVatDelivery": vars._statres("label$total$taxvat") + ":",
+                        "labelTotalSumDelivery": vars._statres("label$total$estimated") + ":",
+                        "TotalVat": "0$",
                         "TotalSum": "0$",
                         "labelSumParts": vars._statres("label$sum$parts") + ":",
                         "labelDeliveryAmount": vars._statres("label$delivery$ammount") + ":",
@@ -142,13 +144,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         template = vars.getTemplate(templateContent);
                         items = responseData.Data.Deliveries;
                         sum = 0;
+                        var vat = 0;
                         for (var i = 0, icount_1 = items.length; i < icount_1; i++) {
                             if (self.deliveryId == items[i].Id) {
+                                vat = items[i].VatAmount;
                                 sum = items[i].TotalAmount;
                             }
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#basket-view-delivery').html(htmlResult);
+                        self.Model.set("TotalVat", '' + window.numberToString(vat, 2) + ' ' + curSymbol);
                         self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
                         if (self.deliveryId !== 0) {
                             self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
@@ -171,6 +176,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (this.deliveryId == id) {
                         self.deliveryId = 0;
                         self.Model.set("TotalSum", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
+                        self.Model.set("TotalVat", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
                     }
                     else {
                         self.deliveryId = id;
@@ -179,6 +185,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         var items = data.Deliveries;
                         for (var i = 0, icount = items.length; i < icount; i++) {
                             if (self.deliveryId == items[i].Id) {
+                                self.Model.set("TotalVat", '' + window.numberToString(items[i].VatAmount, 2) + ' ' + this.Model.get("curSymbol"));
                                 self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
                             }
                         }
