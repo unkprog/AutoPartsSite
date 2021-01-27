@@ -254,8 +254,10 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                         var view = $(options.template);
                         if (view.length > 0) {
                             for (var i = 0, icount = view.length; i < icount; i++) {
-                                if (self._controller.Options.Id === view[i].id)
+                                if (view[i] && self._controller.Options.Id === view[i].id) {
                                     view = $(view[i]);
+                                    break;
+                                }
                             }
                         }
                         isInit = self._controller.ViewInit(view);

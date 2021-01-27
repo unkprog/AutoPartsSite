@@ -23,6 +23,12 @@ export namespace Controller.Account {
             });
         }
 
+        public ViewShow(e: any): boolean {
+            super.ViewShow(e);
+            this.loadSettingsData();
+            return false;
+        }
+
         protected createEvents(): void {
             this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
         }
@@ -63,6 +69,37 @@ export namespace Controller.Account {
 
             return result;
         }
+
+        private loadSettingsData(): void {
+            let self = this;
+            vars._app.ShowLoading(true);
+            self.AccountService.SettingsData(vars._appData.Locale, vars._appData.Settings === null, (responseData) => {
+                if (responseData.Result === 0) {
+                    self.setupLists(responseData.Data);
+                }
+                else {
+                    vars._app.ShowError(responseData.Error);
+                }
+                vars._app.HideLoading();
+            });
+        }
+
+        private setupLists(responseData) {
+            let settingsData: Interfaces.Model.ISettingsData = responseData;
+            let countries: Interfaces.Model.IReferenceNamedDbModel[] = settingsData.Countries;
+            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+            if (settings == null)
+                settings = settingsData.Current;
+
+            let html: string = '';
+            for (let i = 0, icount = countries.length; i < icount; i++) {
+                html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+            }
+            $('#register-view-country').html(html);
+            this.View.find('select').formSelect();
+        }
+
     }
 }
 

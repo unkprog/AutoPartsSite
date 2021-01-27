@@ -36,6 +36,11 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         "labelRegister": vars._statres("button$label$register"),
                     });
                 };
+                Register.prototype.ViewShow = function (e) {
+                    _super.prototype.ViewShow.call(this, e);
+                    this.loadSettingsData();
+                    return false;
+                };
                 Register.prototype.createEvents = function () {
                     this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
                 };
@@ -67,6 +72,33 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         result = false;
                     }
                     return result;
+                };
+                Register.prototype.loadSettingsData = function () {
+                    var self = this;
+                    vars._app.ShowLoading(true);
+                    self.AccountService.SettingsData(vars._appData.Locale, vars._appData.Settings === null, function (responseData) {
+                        if (responseData.Result === 0) {
+                            self.setupLists(responseData.Data);
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                };
+                Register.prototype.setupLists = function (responseData) {
+                    var settingsData = responseData;
+                    var countries = settingsData.Countries;
+                    var settings = vars._appData.Settings;
+                    if (settings == null)
+                        settings = settingsData.Current;
+                    var html = '';
+                    for (var i = 0, icount = countries.length; i < icount; i++) {
+                        html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+                    }
+                    $('#register-view-country').html(html);
+                    this.View.find('select').formSelect();
                 };
                 return Register;
             }(acc.Controller.Account.Account));
