@@ -1,20 +1,62 @@
 ﻿<div id="register-view" class="view">
     <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="section left">
+                <h1 class="page-header" data-bind="text:Header"></h1>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="divider"></div>
+        </div>
     </div>
 
     <div class="row">
-    </div>
-    <div class="row">
-        <div class="col s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
-            <div class="card">
-                <div class="card-content padding-bottom-0">
-                    <span class="card-title" data-bind="text:labelTitle">Регистрация</span>
-                    <div class="input-field">
-                        <i class="material-icons prefix">alternate_email</i>
-                        <input id="register-email" type="tel" class="validate">
-                        <label for="register-email" data-bind="text:labelEmail">Телефон</label>
-                    </div>
+        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+            <div class="row">
+                <div class="input-field col s12 m6 l6 xl6  offset-m3 offset-l3 offset-xl3">
+                    <i class="material-icons prefix">alternate_email</i>
+                    <input id="register-email" type="tel" class="validate">
+                    <label for="register-email" data-bind="text:labelEmail">Телефон</label>
                 </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input id="register-view-first_name" type="text" class="validate">
+                    <label for="register-view-first_name">First Name</label>
+                </div>
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input id="register-view-last_name" type="text" class="validate">
+                    <label for="register-view-last_name">Last Name</label>
+                </div>
+
+                <div class="input-field col s12 m12 l12 xl12">
+                    <select id="register-view-country">
+                        <option>Country 1</option>
+                        <option>Country 2</option>
+                    </select>
+                    <label for="register-view-country">Country</label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input id="register-view-city" type="text" class="validate">
+                    <label for="register-view-city">City</label>
+                </div>
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input id="register-view-zipcode" type="text" class="validate">
+                    <label for="register-view-zipcode">Zipcode</label>
+                </div>
+
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input id="register-view-street" type="text" class="validate">
+                    <label for="register-view-street">Street</label>
+                </div>
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input id="register-view-phone" type="tel" class="validate">
+                    <label for="register-view-phone">Phone</label>
+                </div>
+            </div>
+
+        </div>
                 <div class="card-action padding-bottom-0">
                     <div class="row">
                         <div class="col s12">
@@ -25,4 +67,5 @@
             </div>
         </div>
     </div>
+
 </div>

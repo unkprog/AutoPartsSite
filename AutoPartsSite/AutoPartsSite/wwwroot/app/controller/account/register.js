@@ -29,8 +29,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 };
                 Register.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": "",
-                        "labelTitle": vars._statres("button$label$register"),
+                        "Header": vars._statres("button$label$register"),
                         "labelEmail": vars._statres("label$email"),
                         "labelPassword": vars._statres("label$password"),
                         "labelConfirmPassword": vars._statres("label$confirmPassword"),
