@@ -60,8 +60,12 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         controller.AccountService.Login(model, function (responseData) {
                             if (responseData.Result === 0) {
                                 vars._appData.Identity = responseData.Data;
-                                vars._app.OpenController({ urlController: "search/index" });
                                 vars._main.LogIn();
+                                var basketCheckOut = localStorage.getItem('basketCheckOut');
+                                if (basketCheckOut && basketCheckOut == "true")
+                                    vars._app.ControllerBack(e);
+                                else
+                                    vars._app.OpenController({ urlController: "search/index" });
                                 vars._app.HideLoading();
                             }
                             else

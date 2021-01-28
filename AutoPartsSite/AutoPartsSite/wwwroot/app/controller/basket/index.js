@@ -266,6 +266,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.doneButtonClick = function (e) {
                     if (this.Validate() === true) {
+                        if (vars._appData.Identity.Auth !== true) {
+                            localStorage.setItem('basketCheckOut', "true");
+                            vars._app.OpenController({ urlController: "account/login", backController: this });
+                        }
                         vars._app.OpenController({ urlController: "basket/delivery", backController: this });
                     }
                     e.preventDefault();

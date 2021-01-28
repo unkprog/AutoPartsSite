@@ -101,6 +101,8 @@ export namespace Controller.Basket {
             if (this.validate(delivery)) {
                 this.BasketService.SetDelivery(delivery, (responseData) => {
                     if (responseData.Result === 0) {
+
+                        
                         vars._app.OpenController({ urlController: "basket/index" });
                     }
                     else {
