@@ -23,6 +23,7 @@
                         <th class="td-right"><span data-bind="text:labelPrice"></span></th>
                         <th class="td-right"><span data-bind="text:labelQty"></span></th>
                         <th class="td-right"><span data-bind="text:labelSum"></span></th>
+                        <th class="td-right"></th>
                     </tr>
                 </thead>
 
@@ -163,6 +164,9 @@
                 <span class="basket-item-discount" data-bind="text:labelSave"></span>
                 <span class="basket-item-discount-sum">-#=numberToString(CartDiscountsAmount,2)##=Goods.Currency.Symbol#</span>
         #}#
+            </td>
+            <td class="td-right">
+                <a class="waves-effect waves-light btn basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>
             </td>
         </tr>
     </script>
