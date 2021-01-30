@@ -6,7 +6,7 @@ begin
   select cast(scope_identity() as int)
 end
 else begin
-  update [User_UID] set [Uid] = @Uid, [User] = @User where  [Id] = @retId
+  update [User_UID] set [Uid] = @Uid, [User] = @User where [Id] = @retId
   select @retId
 end
 

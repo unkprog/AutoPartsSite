@@ -3,7 +3,7 @@ import base = require('app/core/basecontroller');
 import bsk = require('app/services/basketservice');
 
 export namespace Controller.Basket {
-    export class Delivery extends base.Controller.Base {
+    export class Billing extends base.Controller.Base {
 
         constructor() {
             super();
@@ -16,15 +16,14 @@ export namespace Controller.Basket {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/basket/delivery.html", Id: "delivery-view" };
+            return { Url: "/app/controller/basket/billing.html", Id: "billing-view" };
         }
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$address$delivery"),
+                "Header": vars._statres("label$address$billing"),
                 "labelBack": vars._statres("label$back"),
                 "labelCheckout": vars._statres("button$label$сheckout"),
-
             });
         }
 
@@ -82,25 +81,25 @@ export namespace Controller.Basket {
             return false;
         }
 
+
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            //let delivery: Interfaces.Model.IBasketDeilvery;
-            //if (this.validate(delivery)) {
-            //    this.BasketService.SetDelivery(delivery, (responseData) => {
-            //        if (responseData.Result === 0) {
+            let delivery: Interfaces.Model.IBasketDeilvery;
+            if (this.validate(delivery)) {
+                this.BasketService.SetDelivery(delivery, (responseData) => {
+                    if (responseData.Result === 0) {
 
                         
-            //            vars._app.OpenController({ urlController: "basket/billing" });
-            //        }
-            //        else {
-            //            vars._app.ShowError(responseData.Error);
-            //        }
-            //        vars._app.HideLoading();
-            //    });
+                        vars._app.OpenController({ urlController: "basket/index" });
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
 
                 
-            //}
-            vars._app.OpenController({ urlController: "basket/billing" });
+            }
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -114,4 +113,4 @@ export namespace Controller.Basket {
     }
 }
 
-vars.registerController("basket/delivery", function (module: any): Interfaces.IController { return new module.Controller.Basket.Delivery(); });
+vars.registerController("basket/billing", function (module: any): Interfaces.IController { return new module.Controller.Basket.Billing(); });

@@ -149,6 +149,8 @@ define({
     "label$total$taxvat": "Tax (VAT)",
     "label$saving": "Save",
     "msg$delivery$choosecompany": "Choose a delivery company",
+    "label$address$delivery": "Delivery address",
+    "label$address$billing": "Billing address",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

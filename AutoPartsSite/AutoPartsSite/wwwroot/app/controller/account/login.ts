@@ -54,8 +54,7 @@ export namespace Controller.Account {
                         vars._appData.Identity = responseData.Data;
                         vars._main.LogIn();
 
-                        var basketCheckOut = localStorage.getItem('basketCheckOut');
-                        if (basketCheckOut && basketCheckOut == "true")
+                        if (vars._appData.IsBasketCheckOut === true)
                             vars._app.ControllerBack(e);
                         else
                             vars._app.OpenController({ urlController: "search/index" });

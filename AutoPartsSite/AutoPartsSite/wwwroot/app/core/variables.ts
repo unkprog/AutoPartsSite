@@ -159,6 +159,18 @@ export namespace App {
             localStorage.setItem('new-view-item-id', '' + id);
         }
 
+        public get IsBasketCheckOut(): boolean {
+            var basketCheckOut = localStorage.getItem('basketCheckOut');
+            return (basketCheckOut && basketCheckOut == "true");
+        }
+
+        public set IsBasketCheckOut(val: boolean) {
+            if (val === true)
+                localStorage.setItem('basketCheckOut', 'true');
+            else
+                localStorage.removeItem('basketCheckOut');
+        }
+
     }
 }
 

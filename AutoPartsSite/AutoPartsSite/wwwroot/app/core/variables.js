@@ -142,6 +142,20 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "IsBasketCheckOut", {
+                get: function () {
+                    var basketCheckOut = localStorage.getItem('basketCheckOut');
+                    return (basketCheckOut && basketCheckOut == "true");
+                },
+                set: function (val) {
+                    if (val === true)
+                        localStorage.setItem('basketCheckOut', 'true');
+                    else
+                        localStorage.removeItem('basketCheckOut');
+                },
+                enumerable: false,
+                configurable: true
+            });
             return Data;
         }());
         App.Data = Data;

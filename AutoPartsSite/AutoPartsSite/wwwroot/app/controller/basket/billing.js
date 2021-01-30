@@ -19,35 +19,35 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Basket;
         (function (Basket) {
-            var Delivery = /** @class */ (function (_super) {
-                __extends(Delivery, _super);
-                function Delivery() {
+            var Billing = /** @class */ (function (_super) {
+                __extends(Billing, _super);
+                function Billing() {
                     var _this = _super.call(this) || this;
                     _this.basketService = new bsk.Services.BasketService();
                     return _this;
                 }
-                Object.defineProperty(Delivery.prototype, "BasketService", {
+                Object.defineProperty(Billing.prototype, "BasketService", {
                     get: function () {
                         return this.basketService;
                     },
                     enumerable: false,
                     configurable: true
                 });
-                Delivery.prototype.createOptions = function () {
-                    return { Url: "/app/controller/basket/delivery.html", Id: "delivery-view" };
+                Billing.prototype.createOptions = function () {
+                    return { Url: "/app/controller/basket/billing.html", Id: "billing-view" };
                 };
-                Delivery.prototype.createModel = function () {
+                Billing.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$address$delivery"),
+                        "Header": vars._statres("label$address$billing"),
                         "labelBack": vars._statres("label$back"),
                         "labelCheckout": vars._statres("button$label$сheckout"),
                     });
                 };
-                Delivery.prototype.ViewInit = function (view) {
+                Billing.prototype.ViewInit = function (view) {
                     _super.prototype.ViewInit.call(this, view);
                     return false;
                 };
-                Delivery.prototype.OnViewInit = function () {
+                Billing.prototype.OnViewInit = function () {
                     vars._app.ShowLoading(true);
                     var self = this;
                     this.BasketService.DeliveryData(function (responseData) {
@@ -60,7 +60,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         vars._app.HideLoading();
                     });
                 };
-                Delivery.prototype.setupDeliveryData = function (responseData) {
+                Billing.prototype.setupDeliveryData = function (responseData) {
                     var settings = vars._appData.Settings;
                     var countries = responseData.Data;
                     var html = '';
@@ -71,47 +71,46 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     $('#delivery-view-country').html(html);
                     this.View.find('select').formSelect();
                 };
-                Delivery.prototype.createEvents = function () {
+                Billing.prototype.createEvents = function () {
                     this.CheckoutButtonClick = this.createClickEvent("delivery-checkout-btn", this.checkoutButtonClick);
                     this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
                 };
-                Delivery.prototype.destroyEvents = function () {
+                Billing.prototype.destroyEvents = function () {
                     this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
                     this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
                 };
-                Delivery.prototype.backButtonClick = function (e) {
+                Billing.prototype.backButtonClick = function (e) {
                     vars._app.ControllerBack(e);
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 };
-                Delivery.prototype.checkoutButtonClick = function (e) {
-                    //let delivery: Interfaces.Model.IBasketDeilvery;
-                    //if (this.validate(delivery)) {
-                    //    this.BasketService.SetDelivery(delivery, (responseData) => {
-                    //        if (responseData.Result === 0) {
-                    //            vars._app.OpenController({ urlController: "basket/billing" });
-                    //        }
-                    //        else {
-                    //            vars._app.ShowError(responseData.Error);
-                    //        }
-                    //        vars._app.HideLoading();
-                    //    });
-                    //}
-                    vars._app.OpenController({ urlController: "basket/billing" });
+                Billing.prototype.checkoutButtonClick = function (e) {
+                    var delivery;
+                    if (this.validate(delivery)) {
+                        this.BasketService.SetDelivery(delivery, function (responseData) {
+                            if (responseData.Result === 0) {
+                                vars._app.OpenController({ urlController: "basket/index" });
+                            }
+                            else {
+                                vars._app.ShowError(responseData.Error);
+                            }
+                            vars._app.HideLoading();
+                        });
+                    }
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 };
-                Delivery.prototype.validate = function (delivery) {
+                Billing.prototype.validate = function (delivery) {
                     var result = false;
                     return result;
                 };
-                return Delivery;
+                return Billing;
             }(base.Controller.Base));
-            Basket.Delivery = Delivery;
+            Basket.Billing = Billing;
         })(Basket = Controller.Basket || (Controller.Basket = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("basket/delivery", function (module) { return new module.Controller.Basket.Delivery(); });
+    vars.registerController("basket/billing", function (module) { return new module.Controller.Basket.Billing(); });
 });
-//# sourceMappingURL=delivery.js.map
+//# sourceMappingURL=billing.js.map

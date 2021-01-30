@@ -81,8 +81,9 @@
     <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\basket\billing.ts" DependentUpon="billing.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
 	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
   <TypeScriptCompile Include="wwwroot\app\controller\cms\card\card.ts" DependentUpon="card.html" />
@@ -158,6 +159,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Basket\[r_AddressGet].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Basket\[get_prices].sql">

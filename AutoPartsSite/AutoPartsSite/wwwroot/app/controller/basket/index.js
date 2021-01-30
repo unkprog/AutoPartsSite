@@ -92,6 +92,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                     vars._app.HideLoading();
+                    if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
+                        vars._appData.IsBasketCheckOut = false;
+                        vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                    }
                 };
                 Index.prototype.setBasketCount = function (responseData) {
                     if (responseData.Result === 0) {
@@ -267,10 +271,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.doneButtonClick = function (e) {
                     if (this.Validate() === true) {
                         if (vars._appData.Identity.Auth !== true) {
-                            localStorage.setItem('basketCheckOut', "true");
+                            vars._appData.IsBasketCheckOut = true;
                             vars._app.OpenController({ urlController: "account/login", backController: this });
                         }
-                        vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                        else
+                            vars._app.OpenController({ urlController: "basket/delivery", backController: this });
                     }
                     e.preventDefault();
                     e.stopPropagation();
