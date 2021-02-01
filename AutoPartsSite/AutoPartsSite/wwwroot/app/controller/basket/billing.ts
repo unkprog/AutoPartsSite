@@ -84,9 +84,9 @@ export namespace Controller.Basket {
 
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            let delivery: Interfaces.Model.IBasketDeilvery;
-            if (this.validate(delivery)) {
-                this.BasketService.SetDelivery(delivery, (responseData) => {
+            let billingInfo: Interfaces.Model.IBillingAddressInfo;
+            if (this.validate(billingInfo)) {
+                this.BasketService.SetDelivery(billingInfo, (responseData) => {
                     if (responseData.Result === 0) {
 
                         
@@ -105,7 +105,7 @@ export namespace Controller.Basket {
             return false;
         }
 
-        private validate(delivery: Interfaces.Model.IBasketDeilvery): boolean {
+        private validate(delivery: Interfaces.Model.IBillingAddressInfo): boolean {
             let result: boolean = false;
 
             return result;

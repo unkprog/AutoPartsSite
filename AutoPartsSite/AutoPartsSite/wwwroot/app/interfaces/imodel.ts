@@ -95,14 +95,21 @@
         Currencies: IReferenceNamedDbModel[];
     }
 
-    export interface IBasketDeilvery
+    export interface IAddressInfo
     {
         FirstName: string;
         LastName: string;
-        CountryID: number;
+        Country: IReferenceNamedDbModel;
         City: string;
         Zipcode: string;
         Street: string;
+        PhoneExt: string;
         Phone: string;
+    }
+
+    export interface IDeliveryAddressInfo extends IAddressInfo {
+    }
+
+    export interface IBillingAddressInfo extends IAddressInfo {
     }
 }

@@ -86,9 +86,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Billing.prototype.checkoutButtonClick = function (e) {
-                    var delivery;
-                    if (this.validate(delivery)) {
-                        this.BasketService.SetDelivery(delivery, function (responseData) {
+                    var billingInfo;
+                    if (this.validate(billingInfo)) {
+                        this.BasketService.SetDelivery(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {
                                 vars._app.OpenController({ urlController: "basket/index" });
                             }

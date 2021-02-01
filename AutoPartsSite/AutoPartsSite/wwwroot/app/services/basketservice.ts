@@ -80,9 +80,17 @@ export namespace Services {
             this.GetApi({ Action: "/deliverydata", RequestData: { lang: locale }, Callback: Callback });
         }
 
-        public SetDelivery(delivery: Interfaces.Model.IBasketDeilvery, Callback: (responseData: any) => void) {
+        public SetDelivery(delivery: Interfaces.Model.IDeliveryAddressInfo, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
         }
 
+        public BillingData(Callback: (responseData: any) => void) {
+            let locale: string = vars._appData.Locale;
+            this.GetApi({ Action: "/billingdata", RequestData: { lang: locale }, Callback: Callback });
+        }
+
+        public SetBilling(delivery: Interfaces.Model.IBillingAddressInfo, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/setbilling?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+        }
     }
 }

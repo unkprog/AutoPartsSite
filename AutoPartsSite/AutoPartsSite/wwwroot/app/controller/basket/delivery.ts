@@ -106,7 +106,7 @@ export namespace Controller.Basket {
             return false;
         }
 
-        private validate(delivery: Interfaces.Model.IBasketDeilvery): boolean {
+        private validate(delivery: Interfaces.Model.IDeliveryAddressInfo): boolean {
             let result: boolean = false;
 
             return result;

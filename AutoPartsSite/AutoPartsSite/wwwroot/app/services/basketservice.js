@@ -93,6 +93,13 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.SetDelivery = function (delivery, Callback) {
                 this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
             };
+            BasketService.prototype.BillingData = function (Callback) {
+                var locale = vars._appData.Locale;
+                this.GetApi({ Action: "/billingdata", RequestData: { lang: locale }, Callback: Callback });
+            };
+            BasketService.prototype.SetBilling = function (delivery, Callback) {
+                this.PostApi({ Action: "/setbilling?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+            };
             return BasketService;
         }(base.Services.BaseService));
         Services.BasketService = BasketService;
