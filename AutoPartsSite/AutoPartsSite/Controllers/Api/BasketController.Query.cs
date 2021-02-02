@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using AutoPartsSite.Core.Extensions;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -257,6 +258,40 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        private BasketDataHeader GetBasketDataHeader(string uid)
+        {
+            BasketDataHeader result = new BasketDataHeader();
+            ExecQuery((query) =>
+            {
+                query.Execute(@"[get_header]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    int i = 0;
+                    result.Id = values[i++].ToInt();
+                    result.Uid = values[i++].ToStr();
+                    result.DeliveryRouteID = values[i++].ToInt();
+                    result.DeliveryTariffID = values[i++].ToInt();
+                    result.DeliveryAddressID = values[i++].ToInt();
+                    result.BillingAddressID = values[i++].ToInt();
+                    result.Comment = values[i++].ToStr();
+                    result.OrderCurrencyID = values[i++].ToInt();
+                    result.OrderCurrencyRate = values[i++].ToDecimal();
+                    result.CartCurrencyID = values[i++].ToInt();
+                    result.CartCurrencyRate = values[i++].ToDecimal();
+                    result.InvoiceCurrencyID = values[i++].ToInt();
+                    result.InvoiceCurrencyRate = values[i++].ToDecimal();
+                    result.AccountingCurrencyID = values[i++].ToInt();
+                    result.PromoCode = values[i++].ToStr();
+                });
+            });
+            return result;
+        }
+
+        [NonAction]
         private List<GoodsSearch> GetBasketGoods(List<BasketGoods> positions)
         {
             List<GoodsSearch> result = new List<GoodsSearch>();
@@ -461,13 +496,13 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_WidthCm          > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
                     if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
 
-                    if (f_PriceChanged > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() == 1;
-                    if (f_QtyChanged > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() == 1;
-                    if (f_CartPriceRaw > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
-                    if (f_OldCartPrice > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
-                    if (f_Qty > -1) item.Qty = values[f_Qty].ToInt();
-                    if (f_OldQty > -1) item.OldQty = values[f_OldQty].ToInt();
-                    if (f_CartAmountRaw > -1) item.CartAmountRaw = values[f_CartDiscountsAmount].ToDecimal();
+                    if (f_PriceChanged        > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() == 1;
+                    if (f_QtyChanged          > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() == 1;
+                    if (f_CartPriceRaw        > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
+                    if (f_OldCartPrice        > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
+                    if (f_Qty                 > -1) item.Qty = values[f_Qty].ToInt();
+                    if (f_OldQty              > -1) item.OldQty = values[f_OldQty].ToInt();
+                    if (f_CartAmountRaw       > -1) item.CartAmountRaw = values[f_CartDiscountsAmount].ToDecimal();
                     if (f_CartDiscountsAmount > -1) item.CartDiscountsAmount = values[f_CartDiscountsAmount].ToDecimal();
                 }
             });
@@ -483,13 +518,13 @@ namespace AutoPartsSite.Controllers.Api
             {
                 query.Execute(@"[add_delivery]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@FirstName", Value = model.FirstName },
-                    new SqlParameter() { ParameterName = "@LastName", Value = model.LastName },
-                    new SqlParameter() { ParameterName = "@CountryID", Value = model.CountryID },
-                    new SqlParameter() { ParameterName = "@City", Value = model.City },
-                    new SqlParameter() { ParameterName = "@Zipcode", Value = model.Zipcode },
-                    new SqlParameter() { ParameterName = "@Street", Value = model.Street },
-                    new SqlParameter() { ParameterName = "@Phone", Value = model.Phone }
+                    //new SqlParameter() { ParameterName = "@FirstName", Value = model.FirstName },
+                    //new SqlParameter() { ParameterName = "@LastName", Value = model.LastName },
+                    //new SqlParameter() { ParameterName = "@CountryID", Value = model.Country.Id },
+                    //new SqlParameter() { ParameterName = "@City", Value = model.City },
+                    //new SqlParameter() { ParameterName = "@Zipcode", Value = model.Zipcode },
+                    //new SqlParameter() { ParameterName = "@Street", Value = model.Street },
+                    //new SqlParameter() { ParameterName = "@Phone", Value = model.Phone }
                 }
                 , onExecute: null
                 , (values) =>
@@ -543,6 +578,86 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@PromoCode", Value = promocode },
                 }, null, (values)=>{ });
             });
+        }
+
+        [NonAction]
+        private List<DeliveryAddressInfo> GetDeliveryData(QueryWithSettings qs, int typeAddress)
+        {
+            List<DeliveryAddressInfo> result = new List<DeliveryAddressInfo>();
+            BasketDataHeader header = GetBasketDataHeader(qs.uid);
+
+            int f_Id = -1;
+            int f_CompanyId = -1, f_CompanyCode = -1, f_CompanyName = -1;
+            int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
+            int f_ZipCode = -1, f_Region = -1, f_Sity = -1, f_Address = -1;
+            int f_PhoneCode = -1, f_PhoneMain = -1, f_PhoneExt = -1;
+            int f_Default = -1;
+
+            AppSettings.Query.GlobalParts.Execute(@"Basket\[get_address_delivery]"
+                , new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId }
+                }
+                , onExecute: (reader) =>
+                {
+                    string fname;
+                    for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                    {
+                        fname = reader.GetName(i);
+                             if (fname == "AddressID")    f_Id          = i;
+
+                        else if (fname == "ComapnyID")    f_CompanyId   = i;
+                        else if (fname == "ComapnyCode")  f_CompanyCode = i;
+                        else if (fname == "ComapnyDescr") f_CompanyName = i;
+
+                        else if (fname == "CountryID")    f_CountryId   = i;
+                        else if (fname == "CountryCode")  f_CountryCode = i;
+                        else if (fname == "CountryDescr") f_CountryName = i;
+
+                        else if (fname == "ZipCode")      f_ZipCode = i;
+                        else if (fname == "Region")       f_Region  = i;
+                        else if (fname == "Sity")         f_Sity    = i;
+                        else if (fname == "Address")      f_Address = i;
+
+                        else if (fname == "PhoneCode")    f_PhoneCode = i;
+                        else if (fname == "PhoneMain")    f_PhoneMain = i;
+                        else if (fname == "PhoneExt")     f_PhoneExt  = i;
+
+                        else if (fname == "Default")      f_Default   = i;
+                    }
+                }
+                , (values) =>
+                {
+                    DeliveryAddressInfo item = new DeliveryAddressInfo() { Company = new Company(), Country = new Country() } ;
+
+                    if (f_Id > -1) item.Id = values[f_Id].ToInt();
+
+                    if (f_CompanyId   > -1) item.Company.Id   = values[f_CompanyId].ToInt();
+                    if (f_CompanyCode > -1) item.Company.Code = values[f_CompanyCode].ToStr();
+                    if (f_CompanyName > -1) item.Company.Name = values[f_CompanyName].ToStr();
+
+
+                    if (f_CountryId   > -1) item.Country.Id   = values[f_CountryId].ToInt();
+                    if (f_CountryCode > -1) item.Country.Code = values[f_CountryCode].ToStr();
+                    if (f_CountryName > -1) item.Country.Name = values[f_CountryName].ToStr();
+
+                    if (f_ZipCode > -1) item.ZipCode = values[f_ZipCode].ToStr();
+                    if (f_Region  > -1) item.Region  = values[f_Region].ToStr();
+                    if (f_Sity    > -1) item.City    = values[f_Sity].ToStr();
+                    if (f_Address > -1) item.Street  = values[f_Address].ToStr();
+
+                    if (f_PhoneCode > -1) item.PhoneCode = values[f_PhoneCode].ToStr();
+                    if (f_PhoneMain > -1) item.Phone     = values[f_PhoneMain].ToStr();
+                    if (f_PhoneExt  > -1) item.PhoneExt  = values[f_PhoneExt].ToStr();
+
+                    if (f_Default   > -1) item.Default   = values[f_Default].ToBool();
+
+                    result.Add(item);
+                });
+
+            return result;
         }
     }
 }

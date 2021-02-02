@@ -8,6 +8,7 @@ using AutoPartsSite.Models.Basket;
 using AutoPartsSite.Models.GlobalParts;
 using AutoPartsSite.Core.Models.Security;
 using System.Collections.Generic;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -104,12 +105,12 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpGet]
         [Route("deliverydata")]
-        public async Task<HttpMessage<List<Country>>> DeliveryData(string lang)
+        public async Task<HttpMessage<List<Country>>> DeliveryData(QueryWithSettings qs)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   List<Country> result = AccountController.GetCountries(lang);
+                   List<Country> result = new List<Country>(); // AccountController.GetCountries(qs.languageId);
                    return CreateResponseOk(result);
                });
            });

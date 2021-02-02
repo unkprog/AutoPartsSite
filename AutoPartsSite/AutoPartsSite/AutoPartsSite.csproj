@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,7 +43,7 @@
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
+    <TypeScriptSourceRoot></TypeScriptSourceRoot>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -85,17 +86,20 @@
     <TypeScriptCompile Include="wwwroot\app\controller\basket\billing.ts" DependentUpon="billing.html" />
 	  <TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
 
-	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
-  <TypeScriptCompile Include="wwwroot\app\controller\cms\card\card.ts" DependentUpon="card.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor\editor.ts" DependentUpon="editor.html" />
-	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor\page.ts" DependentUpon="page.html" />
-  <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\new.ts" DependentUpon="new.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\cms\card\card.ts" DependentUpon="card.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\editor.ts" DependentUpon="editor.html" />
+	  <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\page.ts" DependentUpon="page.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\new.ts" DependentUpon="new.html" />
 
-
+    
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Database\AutoPartsSite\Basket\[add_delivery].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[get_header].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Basket\[get_delivery_tariff].sql">
@@ -161,7 +165,7 @@
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Basket\[r_AddressGet].sql">
+    <None Update="Database\GlobalParts\Query\Basket\[get_address_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Basket\[get_prices].sql">
@@ -192,5 +196,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
+ 
 </Project>
