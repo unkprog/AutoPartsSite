@@ -11,5 +11,7 @@ namespace AutoPartsSite.Models.Basket
         public int qty { get; set; }
         [DataMember]
         public string promoCode { get; set; }
+        [DataMember]
+        public int deliveryTariffID { get; set; }
     }
 }

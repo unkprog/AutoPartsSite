@@ -81,10 +81,10 @@ export namespace Controller.Basket {
                 vars._app.ShowError(responseData.Error);
             vars._app.HideLoading();
 
-            if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
-                vars._appData.IsBasketCheckOut = false;
-                vars._app.OpenController({ urlController: "basket/delivery", backController: this });
-            }
+            //if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
+            //    vars._appData.IsBasketCheckOut = false;
+            //    vars._app.OpenController({ urlController: "basket/delivery" });
+            //}
         }
 
         private setBasketCount(responseData): void {
@@ -154,6 +154,7 @@ export namespace Controller.Basket {
                 items = responseData.Data.Deliveries;
                 sum = 0;
                 let vat: number = 0;
+                self.deliveryId = responseData.Data.Header.DeliveryTariffID;
                 for (let i = 0, icount = items.length; i < icount; i++) {
                     if (self.deliveryId == items[i].Id) {
                         vat = items[i].VatAmount;
@@ -183,32 +184,12 @@ export namespace Controller.Basket {
             let cur: JQuery = $(e.currentTarget);
             let id: number = cur.data('id');
 
-            //if (this.deliveryId == id)
-            //    return;
-            if (this.deliveryId != 0)
-                self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
-
-            if (this.deliveryId == id) {
-                self.deliveryId = 0;
-                self.Model.set("TotalSum", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
-                self.Model.set("TotalVat", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
-            }
-            else {
-                self.deliveryId = id;
-                cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
-
-                let data = this.Model.get("basketData");
-                let items: any[] = data.Deliveries;
-
-                for (let i = 0, icount = items.length; i < icount; i++) {
-                    if (self.deliveryId == items[i].Id) {
-                        self.Model.set("TotalVat", '' + window.numberToString(items[i].VatAmount, 2) + ' ' + this.Model.get("curSymbol"));
-                        self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
-                    }
-                }
-            }
-
+            if (this.deliveryId == id)
+                self.BasketService.SetDeliveryTariffID(0, (responseData) => self.endCommand(responseData));
+            else
+                self.BasketService.SetDeliveryTariffID(id, (responseData) => self.endCommand(responseData));
             e.preventDefault();
+            e.stopPropagation();
             return false;
         }
 
@@ -300,10 +281,10 @@ export namespace Controller.Basket {
             if (this.Validate() === true) {
                 if (vars._appData.Identity.Auth !== true) {
                     vars._appData.IsBasketCheckOut = true;
-                    vars._app.OpenController({ urlController: "account/login", backController: this });
+                    vars._app.OpenController({ urlController: "account/login" });
                 }
                 else
-                    vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                    vars._app.OpenController({ urlController: "basket/delivery" });
             }
             e.preventDefault();
             e.stopPropagation();

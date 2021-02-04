@@ -237,9 +237,33 @@ namespace AutoPartsSite.Controllers.Api
         [NonAction]
         private BasketData GetBasketData(string uid)
         {
-            BasketData result = new BasketData();
+            BasketData result = new BasketData() { Header = GetBasketDataHeader(uid) };
+
             ExecQuery((query) =>
             {
+                query.Execute(@"[get_header]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result.Header.Id = values[0].ToInt();
+                    result.Header.Uid = values[1].ToStr();
+                    result.Header.DeliveryRouteID = values[2].ToInt();
+                    result.Header.DeliveryTariffID = values[3].ToInt();
+                    result.Header.DeliveryAddressID = values[4].ToInt();
+                    result.Header.BillingAddressID = values[5].ToInt();
+                    result.Header.Comment = values[6].ToStr();
+                    result.Header.OrderCurrencyID = values[7].ToInt();
+                    result.Header.OrderCurrencyRate = values[8].ToDecimal();
+                    result.Header.CartCurrencyID = values[9].ToInt();
+                    result.Header.CartCurrencyRate = values[10].ToDecimal();
+                    result.Header.InvoiceCurrencyID = values[11].ToInt();
+                    result.Header.InvoiceCurrencyRate = values[12].ToDecimal();
+                    result.Header.AccountingCurrencyID = values[13].ToInt();
+                    result.Header.PromoCode = values[14].ToStr();
+                });
                 query.Execute(@"[get]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
@@ -577,6 +601,19 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
                     new SqlParameter() { ParameterName = "@PromoCode", Value = promocode },
                 }, null, (values)=>{ });
+            });
+        }
+
+        [NonAction]
+        private void SetBaskeDeliveryTariffID(string uid, int deliveryTariffID)
+        {
+            ExecQuery((query) =>
+            {
+                query.Execute(@"[set_delivery_tariff]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@Uid", Value = uid },
+                    new SqlParameter() { ParameterName = "@DeliveryTariffID", Value = deliveryTariffID },
+                }, null, (values) => { });
             });
         }
 

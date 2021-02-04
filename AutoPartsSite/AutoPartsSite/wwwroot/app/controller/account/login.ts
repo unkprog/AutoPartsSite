@@ -55,7 +55,8 @@ export namespace Controller.Account {
                         vars._main.LogIn();
 
                         if (vars._appData.IsBasketCheckOut === true)
-                            vars._app.ControllerBack(e);
+                            //vars._app.ControllerBack(e);
+                            vars._app.OpenController({ urlController: "basket/delivery" });
                         else
                             vars._app.OpenController({ urlController: "search/index" });
 

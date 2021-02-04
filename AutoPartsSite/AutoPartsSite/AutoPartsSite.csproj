@@ -99,6 +99,9 @@
     <None Update="Database\AutoPartsSite\Basket\[add_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Basket\[set_delivery_tariff].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Basket\[get_header].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

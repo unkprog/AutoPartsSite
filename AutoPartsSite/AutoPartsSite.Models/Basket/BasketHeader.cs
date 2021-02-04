@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AutoPartsSite.Models.Basket
+﻿namespace AutoPartsSite.Models.Basket
 {
     public class BasketDataHeader : BaseDbModel
     {
