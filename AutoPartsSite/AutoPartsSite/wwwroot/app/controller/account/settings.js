@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/controller/account/account"], function (require, exports, vars, acc) {
+define(["require", "exports", "app/core/variables", "app/core/utils", "app/controller/account/account"], function (require, exports, vars, utils, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -85,20 +85,26 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     if (settings == null)
                         settings = settingsData.Current;
                     var html = '';
+                    var countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');
+                    ;
                     for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
                     }
                     $('#settings-view-list-country').html(html);
                     html = '';
+                    var langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');
+                    ;
                     for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settings.Language.Code.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
                     }
                     $('#settings-view-list-lang').html(html);
                     html = '';
+                    var currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');
+                    ;
                     for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                        html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (settings.Currency.Code.toLowerCase() == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                        html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
                     }
                     $('#settings-view-list-currency').html(html);

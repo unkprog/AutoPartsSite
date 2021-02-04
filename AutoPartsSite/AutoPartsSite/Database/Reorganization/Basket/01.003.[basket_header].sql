@@ -16,6 +16,7 @@ begin
 	[InvoiceCurrencyID] [int] not null default(0),
 	[InvoiceCurrencyRate] [numeric](15, 4) not null default(1),
 	[AccountingCurrencyID] [int] not null, 
+	[PromoCode] [nvarchar](20) not null default(N''),
 	primary key clustered ([Id] asc)
   )
 end
