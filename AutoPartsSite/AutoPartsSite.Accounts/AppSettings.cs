@@ -34,6 +34,24 @@ namespace AutoPartsSite.Accounts
             }
         }
     
+        public static class Smtp
+        {
+            static IConfiguration Settings { get; }
+            static Smtp()
+            {
+                Settings = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+                        .AddJsonFile(@"\\appsettings.jsn")
+#else
+                        .AddJsonFile(@"\\appsettings.json")
+#endif
+                        .Build();
+            }
+            public static string Host => Settings["Smtp:Host"];
+            public static int Port => Settings.GetValue<int>("Smtp:Port");
+        }
+
         public static class Mail
         {
             static IConfiguration Settings { get; }

@@ -4,7 +4,7 @@ namespace AutoPartsSite.Core.Net
 {
     public static class EMail
     {
-        public static void SendEMail(string fromEmail, string password, string toAddress, string subject, string body)
+        public static void SendEMail(string smtpHost, int smtpPort, string fromEmail, string password, string toAddress, string subject, string body)
         {
             using (MailMessage myMail = new MailMessage())
             {
@@ -14,7 +14,7 @@ namespace AutoPartsSite.Core.Net
                 myMail.IsBodyHtml = true;
                 myMail.Body = body;
 
-                using (SmtpClient s = new SmtpClient("webmail.poscloudgb.ru", 25))
+                using (SmtpClient s = new SmtpClient(smtpHost, smtpPort))
                 {
                     s.DeliveryMethod = SmtpDeliveryMethod.Network;
                     s.UseDefaultCredentials = false;
