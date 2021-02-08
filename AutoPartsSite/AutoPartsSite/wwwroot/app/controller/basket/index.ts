@@ -62,6 +62,7 @@ export namespace Controller.Basket {
 
         public ViewInit(view: JQuery): boolean {
             super.ViewInit(view);
+            vars._appData.IsBasketCheckOut = false;
             return false;
         }
 

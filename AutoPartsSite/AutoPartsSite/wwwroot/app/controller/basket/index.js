@@ -77,6 +77,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.ViewInit = function (view) {
                     _super.prototype.ViewInit.call(this, view);
+                    vars._appData.IsBasketCheckOut = false;
                     return false;
                 };
                 Index.prototype.OnViewInit = function () {

@@ -19,7 +19,7 @@ namespace AutoPartsSite.Core.Controllers
         [NonAction]
         public void WriteError(Exception ex)
         {
-            _logger?.Log(LogLevel.Error, ex.Message);
+            _logger?.Log(LogLevel.Error, string.Concat(ex.Message, Environment.NewLine, ex.StackTrace));
         }
 
         [NonAction]

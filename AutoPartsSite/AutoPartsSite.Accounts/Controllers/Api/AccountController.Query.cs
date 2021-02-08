@@ -155,7 +155,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             if (!string.IsNullOrEmpty(email))
             {
                 string body = string.Concat("Ваш пароль для входа: ", user_sec.Pass);
-                Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Mail.Address, AppSettings.Mail.Password, email, subject, body);
+                Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, email, subject, body);
             }
             return user_sec;
         }

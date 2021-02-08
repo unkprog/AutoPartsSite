@@ -62,7 +62,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                                 vars._appData.Identity = responseData.Data;
                                 vars._main.LogIn();
                                 if (vars._appData.IsBasketCheckOut === true)
-                                    //vars._app.ControllerBack(e);
                                     vars._app.OpenController({ urlController: "basket/delivery" });
                                 else
                                     vars._app.OpenController({ urlController: "search/index" });

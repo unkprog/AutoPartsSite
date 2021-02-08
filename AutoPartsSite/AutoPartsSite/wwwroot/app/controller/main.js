@@ -76,6 +76,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return false;
             };
             Main.prototype.initLogIn = function () {
+                vars._appData.IsBasketCheckOut = false;
                 this.menuRight = $('<li><a id="app-btn-login" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$account") + '"><i class="material-icons">person_outline</i></a></li>');
                 this.sideNavBarRight.append(this.menuRight);
                 this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, this);

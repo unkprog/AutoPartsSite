@@ -4,7 +4,7 @@ namespace AutoPartsSite.Core.Net
 {
     public static class EMail
     {
-        public static void SendEMail(string smtpHost, int smtpPort, string fromEmail, string password, string toAddress, string subject, string body)
+        public static void SendEMail(string smtpHost, int smtpPort, bool smtpSsl, string fromEmail, string password, string toAddress, string subject, string body)
         {
             using (MailMessage myMail = new MailMessage())
             {
@@ -19,7 +19,7 @@ namespace AutoPartsSite.Core.Net
                     s.DeliveryMethod = SmtpDeliveryMethod.Network;
                     s.UseDefaultCredentials = false;
                     s.Credentials = new System.Net.NetworkCredential(myMail.From.ToString(), password);
-                    s.EnableSsl = false;
+                    s.EnableSsl = smtpSsl;
                     s.Send(myMail);
                 }
             }

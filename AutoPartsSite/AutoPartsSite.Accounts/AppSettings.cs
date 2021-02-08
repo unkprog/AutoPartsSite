@@ -50,6 +50,8 @@ namespace AutoPartsSite.Accounts
             }
             public static string Host => Settings["Smtp:Host"];
             public static int Port => Settings.GetValue<int>("Smtp:Port");
+            public static bool EnableSsl => Settings.GetValue<bool>("Smtp:EnableSsl");
+
         }
 
         public static class Mail
