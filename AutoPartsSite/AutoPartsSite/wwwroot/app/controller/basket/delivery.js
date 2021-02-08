@@ -80,7 +80,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
                 };
                 Delivery.prototype.backButtonClick = function (e) {
-                    vars._app.ControllerBack(e);
+                    //vars._app.ControllerBack(e);
+                    vars._app.OpenController({ urlController: "basket/index" });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

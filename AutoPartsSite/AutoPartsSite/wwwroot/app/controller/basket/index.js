@@ -175,6 +175,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var cur = $(e.currentTarget);
                     var id = cur.data('id');
+                    vars._app.ShowLoading(false);
                     if (this.deliveryId == id)
                         self.BasketService.SetDeliveryTariffID(0, function (responseData) { return self.endCommand(responseData); });
                     else

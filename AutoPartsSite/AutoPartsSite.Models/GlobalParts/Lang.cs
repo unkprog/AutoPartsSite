@@ -7,4 +7,10 @@ namespace AutoPartsSite.Models.GlobalParts
     public class Lang : ReferenceNamedDbModel
     {
     }
+
+    [DataContract]
+    public class LangFull : Lang
+    {
+        public string NameRu { get;set;}
+    }
 }

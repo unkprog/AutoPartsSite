@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Models.GlobalParts;
 using System;
+using System.Linq;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -44,7 +45,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        internal List<Lang> GetLanguages(string lang, string code = null)
+        internal static List<Lang> GetLanguages(string lang, string code = null)
         {
             List<Lang> result = new List<Lang>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
@@ -58,6 +59,23 @@ namespace AutoPartsSite.Controllers.Api
                     result.Add(new Lang() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
                 });
             return result;
+        }
+
+        [NonAction]
+        internal static Lang GetLanguage(int languageId)
+        {
+            List<LangFull> result = new List<LangFull>();
+            AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
+                , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@LanguageID", languageId)
+                }
+                , onExecute: null
+                , action: (values) =>
+                {
+                    result.Add(new LangFull() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = (string)values[2], NameRu = (string)values[3] });
+                });
+            return result.FirstOrDefault(l => l.Id == languageId);
         }
 
         [NonAction]

@@ -76,7 +76,8 @@ export namespace Controller.Basket {
 
         public BackButtonClick: { (e: any): void; };
         private backButtonClick(e) {
-            vars._app.ControllerBack(e);
+            //vars._app.ControllerBack(e);
+            vars._app.OpenController({ urlController: "basket/index" });
             e.preventDefault();
             e.stopPropagation();
             return false;

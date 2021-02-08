@@ -184,7 +184,7 @@ export namespace Controller.Basket {
             let self = this;
             let cur: JQuery = $(e.currentTarget);
             let id: number = cur.data('id');
-
+            vars._app.ShowLoading(false);
             if (this.deliveryId == id)
                 self.BasketService.SetDeliveryTariffID(0, (responseData) => self.endCommand(responseData));
             else

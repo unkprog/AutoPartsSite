@@ -122,7 +122,7 @@ namespace AutoPartsSite.Controllers.Api
            {
                return await Task.Run(() =>
                {
-                   List<Country> result = new List<Country>(); // AccountController.GetCountries(qs.languageId);
+                   List<Country> result = AccountController.GetCountries(AccountController.GetLanguage(qs.languageId)?.Code);
                    return CreateResponseOk(result);
                });
            });

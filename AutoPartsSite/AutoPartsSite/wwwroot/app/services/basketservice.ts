@@ -88,8 +88,14 @@ export namespace Services {
         }
 
         public DeliveryData(Callback: (responseData: any) => void) {
-            let locale: string = vars._appData.Locale;
-            this.GetApi({ Action: "/deliverydata", RequestData: { lang: locale }, Callback: Callback });
+            let bq = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id
+            };
+            this.GetApi({ Action: "/deliverydata", RequestData: bq, Callback: Callback });
         }
 
         public SetDelivery(delivery: Interfaces.Model.IDeliveryAddressInfo, Callback: (responseData: any) => void) {
