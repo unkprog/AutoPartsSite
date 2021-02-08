@@ -3,23 +3,30 @@
 namespace AutoPartsSite.Models.GlobalParts
 {
     [DataContract]
-    public class AddressInfo : BaseModel
+    public class AddressInfo : BaseDbModel
     {
         /// <summary>
-        /// FirstName
+        /// FullName
         /// </summary>
         [DataMember]
-        public string FirstName { get; set; }
+        public string FullName { get; set; }
         /// <summary>
-        /// LastName
+        /// Company
         /// </summary>
         [DataMember]
-        public string LastName { get; set; }
+        public Company Company { get; set; }
         /// <summary>
-        /// LastName
+        /// Country
         /// </summary>
         [DataMember]
         public Country Country { get; set; }
+
+        /// <summary>
+        /// Region
+        /// </summary>
+        [DataMember]
+        public string Region { get; set; }
+        
         /// <summary>
         /// City
         /// </summary>
@@ -36,15 +43,23 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public string Street { get; set; }
         /// <summary>
-        /// PhoneExt
+        /// PhoneCode
         /// </summary>
         [DataMember]
-        public string PhoneExt { get; set; }
+        public string PhoneCode { get; set; }
         /// <summary>
         /// Phone
         /// </summary>
         [DataMember]
         public string Phone { get; set; }
+        /// <summary>
+        /// PhoneExt
+        /// </summary>
+        [DataMember]
+        public string PhoneExt { get; set; }
+
+        [DataMember]
+        public bool Default { get; set; }
     }
 
     public class DeliveryAddressInfo : AddressInfo

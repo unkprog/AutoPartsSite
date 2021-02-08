@@ -82,15 +82,15 @@ namespace AutoPartsSite.Models.Basket
     {
         public BasketData()
         {
-            PromoCode = string.Empty;
+            Header = new BasketDataHeader();
             Positions = new List<BasketGoods>();
             Deliveries = new List<DeliveryInfo>();
         }
         /// <summary>
-        /// Промокод
+        /// Шапка
         /// </summary>
         [DataMember]
-        public string PromoCode { get; set; }
+        public BasketDataHeader Header { get; set; }
 
         /// <summary>
         /// Позиции корзины

@@ -99,7 +99,10 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
             Object.defineProperty(Data.prototype, "Settings", {
                 get: function () {
                     var settings = localStorage.getItem('apsSettings');
-                    return utils_1.isNullOrEmpty(settings) ? null : JSON.parse(settings);
+                    var result = utils_1.isNullOrEmpty(settings) ? null : JSON.parse(settings);
+                    if (result != null && result.Country == null)
+                        result.Country = { Id: 0, Code: '', Name: '' };
+                    return result;
                 },
                 set: function (value) {
                     localStorage.setItem('apsSettings', JSON.stringify(value));

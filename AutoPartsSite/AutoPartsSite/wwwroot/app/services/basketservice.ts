@@ -75,6 +75,18 @@ export namespace Services {
             this.PostApi({ Action: "/setpromocode", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
+        public SetDeliveryTariffID(deliveryTariffID: number, Callback: (responseData: any) => void) {
+            let bq = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id,
+                deliveryTariffID: deliveryTariffID
+            };
+            this.PostApi({ Action: "/setdeliverytariff", RequestData: JSON.stringify(bq), Callback: Callback });
+        }
+
         public DeliveryData(Callback: (responseData: any) => void) {
             let locale: string = vars._appData.Locale;
             this.GetApi({ Action: "/deliverydata", RequestData: { lang: locale }, Callback: Callback });

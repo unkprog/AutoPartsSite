@@ -8,6 +8,7 @@ using AutoPartsSite.Models.Basket;
 using AutoPartsSite.Models.GlobalParts;
 using AutoPartsSite.Core.Models.Security;
 using System.Collections.Generic;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -83,7 +84,7 @@ namespace AutoPartsSite.Controllers.Api
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
                   
                    BasketData result = GetBasketData(pq.uid);
-                   pq.promoCode = result.PromoCode = GetBaskePromoCode(pq.uid);
+                   //pq.promoCode = result.PromoCode = GetBaskePromoCode(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);
@@ -102,14 +103,26 @@ namespace AutoPartsSite.Controllers.Api
               });
           });
 
+        [HttpPost]
+        [Route("setdeliverytariff")]
+        public async Task<HttpMessage<BasketData>> DeliveryTariff(BasketQuery pq)
+         => await TryCatchResponseAsync(async () =>
+         {
+             return await Task.Run(() =>
+             {
+                 SetBaskeDeliveryTariffID(pq.uid, pq.deliveryTariffID);
+                 return View(pq);
+             });
+         });
+
         [HttpGet]
         [Route("deliverydata")]
-        public async Task<HttpMessage<List<Country>>> DeliveryData(string lang)
+        public async Task<HttpMessage<List<Country>>> DeliveryData(QueryWithSettings qs)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   List<Country> result = AccountController.GetCountries(lang);
+                   List<Country> result = new List<Country>(); // AccountController.GetCountries(qs.languageId);
                    return CreateResponseOk(result);
                });
            });

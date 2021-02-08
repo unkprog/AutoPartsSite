@@ -123,7 +123,11 @@ export namespace App {
 
         public get Settings(): Interfaces.Model.ISettings {
             var settings: string = localStorage.getItem('apsSettings');
-            return isNullOrEmpty(settings) ? null : JSON.parse(settings);
+
+            var result: Interfaces.Model.ISettings = isNullOrEmpty(settings) ? null : JSON.parse(settings);
+            if (result != null && result.Country == null)
+                result.Country = { Id: 0, Code: '', Name: '' };
+            return result;
         }
 
         public set Settings(value: Interfaces.Model.ISettings) {

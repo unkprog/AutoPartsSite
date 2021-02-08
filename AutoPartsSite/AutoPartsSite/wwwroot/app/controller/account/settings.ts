@@ -81,22 +81,25 @@ export namespace Controller.Account {
                 settings = settingsData.Current;
 
             let html: string = '';
+            let countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : ''); ;
             for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
             }
             $('#settings-view-list-country').html(html);
 
             html = '';
+            let langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settings.Language.Code.toLowerCase() == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
             }
             $('#settings-view-list-lang').html(html);
 
             html = '';
-            for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (settings.Currency.Code.toLowerCase() == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+            let currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');;
+           for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+               html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
             }
             $('#settings-view-list-currency').html(html);

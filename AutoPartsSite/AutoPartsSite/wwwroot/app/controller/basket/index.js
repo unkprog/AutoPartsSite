@@ -92,10 +92,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                     vars._app.HideLoading();
-                    if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
-                        vars._appData.IsBasketCheckOut = false;
-                        vars._app.OpenController({ urlController: "basket/delivery", backController: this });
-                    }
+                    //if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
+                    //    vars._appData.IsBasketCheckOut = false;
+                    //    vars._app.OpenController({ urlController: "basket/delivery" });
+                    //}
                 };
                 Index.prototype.setBasketCount = function (responseData) {
                     if (responseData.Result === 0) {
@@ -149,6 +149,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         items = responseData.Data.Deliveries;
                         sum = 0;
                         var vat = 0;
+                        self.deliveryId = responseData.Data.Header.DeliveryTariffID;
                         for (var i = 0, icount_1 = items.length; i < icount_1; i++) {
                             if (self.deliveryId == items[i].Id) {
                                 vat = items[i].VatAmount;
@@ -173,28 +174,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var cur = $(e.currentTarget);
                     var id = cur.data('id');
-                    //if (this.deliveryId == id)
-                    //    return;
-                    if (this.deliveryId != 0)
-                        self.View.find('#basket-view-delivery').find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', false);
-                    if (this.deliveryId == id) {
-                        self.deliveryId = 0;
-                        self.Model.set("TotalSum", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
-                        self.Model.set("TotalVat", '' + window.numberToString(0, 2) + ' ' + this.Model.get("curSymbol"));
-                    }
-                    else {
-                        self.deliveryId = id;
-                        cur.find("#basket-view-delivery-input-" + self.deliveryId).prop('checked', true);
-                        var data = this.Model.get("basketData");
-                        var items = data.Deliveries;
-                        for (var i = 0, icount = items.length; i < icount; i++) {
-                            if (self.deliveryId == items[i].Id) {
-                                self.Model.set("TotalVat", '' + window.numberToString(items[i].VatAmount, 2) + ' ' + this.Model.get("curSymbol"));
-                                self.Model.set("TotalSum", '' + window.numberToString(items[i].TotalAmount, 2) + ' ' + this.Model.get("curSymbol"));
-                            }
-                        }
-                    }
+                    if (this.deliveryId == id)
+                        self.BasketService.SetDeliveryTariffID(0, function (responseData) { return self.endCommand(responseData); });
+                    else
+                        self.BasketService.SetDeliveryTariffID(id, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
+                    e.stopPropagation();
                     return false;
                 };
                 Index.prototype.deletePart = function (e) {
@@ -272,10 +257,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (this.Validate() === true) {
                         if (vars._appData.Identity.Auth !== true) {
                             vars._appData.IsBasketCheckOut = true;
-                            vars._app.OpenController({ urlController: "account/login", backController: this });
+                            vars._app.OpenController({ urlController: "account/login" });
                         }
                         else
-                            vars._app.OpenController({ urlController: "basket/delivery", backController: this });
+                            vars._app.OpenController({ urlController: "basket/delivery" });
                     }
                     e.preventDefault();
                     e.stopPropagation();
