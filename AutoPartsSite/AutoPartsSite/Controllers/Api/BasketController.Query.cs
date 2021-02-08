@@ -390,7 +390,7 @@ namespace AutoPartsSite.Controllers.Api
                  new SqlParameter() { ParameterName = "@PartsXML", Value = partsXML },
                  new SqlParameter() { ParameterName = "@WithSubst", Value = false },
                  new SqlParameter() { ParameterName = "@WithTotal", Value = true },
-                 new SqlParameter() { ParameterName = "@WithCompare", Value = false },
+                 new SqlParameter() { ParameterName = "@WithCompare", Value = true },
                  new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
                  new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
             }
@@ -402,8 +402,8 @@ namespace AutoPartsSite.Controllers.Api
                     fname = reader.GetName(i);
                          if (fname == "RowNumber")           f_PartNn = i;
                     else if (fname == "GoodsID")             f_Id = i;
-                    else if (fname == "Artikul")             f_PartNumber = i; //RequestedPartNumber
-                    else if (fname == "Artikul")             f_Articul = i;
+                    //else if (fname == "Artikul")             f_PartNumber = i; //RequestedPartNumber
+                    else if (fname == "Articul")             { f_Articul = i; f_PartNumber = i; }
                     else if (fname == "Descr")               f_Name = i;
                     else if (fname == "Brand")               f_BrandCode = i;
                     else if (fname == "CartPrice")           f_Price = i;
