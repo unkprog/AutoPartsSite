@@ -343,7 +343,7 @@ namespace AutoPartsSite.Controllers.Api
                     fname = reader.GetName(i);
                          if (fname == "RowNumber")           f_PartNn = i;
                     else if (fname == "GoodsID")             f_Id = i;
-                    else if (fname == "RequestedPartNumber") f_PartNumber = i;
+                    else if (fname == "Artikul")             f_PartNumber = i; //RequestedPartNumber
                     else if (fname == "Artikul")             f_Articul = i;
                     else if (fname == "Descr")               f_Name = i;
                     else if (fname == "Brand")               f_BrandCode = i;
