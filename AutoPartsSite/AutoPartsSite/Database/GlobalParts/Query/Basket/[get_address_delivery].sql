@@ -9,6 +9,6 @@ select * from [dbo].[r_AddressGet]
 		0, --@CompanyID int,
 		0, --@AddressID int,
 		0, --@IsDefault bit,
-		0  --@CountryID int
+		@CountryID  --@CountryID int
 	) [p]
 where [p].[AddressType] = @AddressType

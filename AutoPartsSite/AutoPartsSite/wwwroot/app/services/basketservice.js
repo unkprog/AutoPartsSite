@@ -105,7 +105,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id
                 };
-                this.GetApi({ Action: "/deliverydata", RequestData: bq, Callback: Callback });
+                this.PostApi({ Action: "/deliverydata", RequestData: JSON.stringify(bq), Callback: Callback });
             };
             BasketService.prototype.SetDelivery = function (delivery, Callback) {
                 this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });

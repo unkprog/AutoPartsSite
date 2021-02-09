@@ -623,7 +623,7 @@ namespace AutoPartsSite.Controllers.Api
             List<DeliveryAddressInfo> result = new List<DeliveryAddressInfo>();
             BasketDataHeader header = GetBasketDataHeader(qs.uid);
 
-            int f_Id = -1;
+            int f_Id = -1, f_FullName = -1;
             int f_CompanyId = -1, f_CompanyCode = -1, f_CompanyName = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_ZipCode = -1, f_Region = -1, f_Sity = -1, f_Address = -1;
@@ -643,9 +643,10 @@ namespace AutoPartsSite.Controllers.Api
                     for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                     {
                         fname = reader.GetName(i);
-                             if (fname == "AddressID")    f_Id          = i;
+                             if (fname == "AddressID")    f_Id       = i;
+                        else if (fname == "FullName")     f_FullName = i;
 
-                        else if (fname == "ComapnyID")    f_CompanyId   = i;
+                        else if (fname == "CompanyID")    f_CompanyId   = i;
                         else if (fname == "ComapnyCode")  f_CompanyCode = i;
                         else if (fname == "ComapnyDescr") f_CompanyName = i;
 

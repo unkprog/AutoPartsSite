@@ -68,7 +68,7 @@ namespace AutoPartsSite.Controllers.Api
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
                 , sqlParameters: new SqlParameter[]
                 {
-                    new SqlParameter("@LanguageID", languageId)
+                    new SqlParameter("@Code", (object)DBNull.Value)
                 }
                 , onExecute: null
                 , action: (values) =>

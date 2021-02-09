@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -115,14 +116,22 @@ namespace AutoPartsSite.Controllers.Api
              });
          });
 
-        [HttpGet]
+        [HttpPost]
         [Route("deliverydata")]
-        public async Task<HttpMessage<List<Country>>> DeliveryData(QueryWithSettings qs)
+        public async Task<HttpMessage<BasketDeilvery>> DeliveryData(QueryWithSettings qs)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   List<Country> result = AccountController.GetCountries(AccountController.GetLanguage(qs.languageId)?.Code);
+                   BasketDeilvery result = new BasketDeilvery() { Countries = new List<Country>() };
+
+                   Lang lang = AccountController.GetLanguage(qs.languageId);
+                   result.Countries = AccountController.GetCountries(lang?.Code);
+
+                   List<DeliveryAddressInfo> addresses = GetDeliveryData(qs, 3);
+
+                   var a = addresses.FirstOrDefault(f => f.Default);
+
                    return CreateResponseOk(result);
                });
            });

@@ -95,7 +95,7 @@ export namespace Services {
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id
             };
-            this.GetApi({ Action: "/deliverydata", RequestData: bq, Callback: Callback });
+            this.PostApi({ Action: "/deliverydata", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
         public SetDelivery(delivery: Interfaces.Model.IDeliveryAddressInfo, Callback: (responseData: any) => void) {
