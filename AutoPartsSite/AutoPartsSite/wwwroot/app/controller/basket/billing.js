@@ -50,7 +50,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Billing.prototype.OnViewInit = function () {
                     vars._app.ShowLoading(true);
                     var self = this;
-                    this.BasketService.DeliveryData(function (responseData) {
+                    this.BasketService.DeliveryAddressData(function (responseData) {
                         if (responseData.Result === 0) {
                             self.setupDeliveryData(responseData);
                         }
@@ -88,7 +88,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Billing.prototype.checkoutButtonClick = function (e) {
                     var billingInfo;
                     if (this.validate(billingInfo)) {
-                        this.BasketService.SetDelivery(billingInfo, function (responseData) {
+                        this.BasketService.SetDeliveryAddressData(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {
                                 vars._app.OpenController({ urlController: "basket/index" });
                             }

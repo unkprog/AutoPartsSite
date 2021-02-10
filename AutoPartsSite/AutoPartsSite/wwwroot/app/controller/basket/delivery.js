@@ -41,6 +41,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$address$delivery"),
                         "labelBack": vars._statres("label$back"),
                         "labelCheckout": vars._statres("button$label$сheckout"),
+                        "labelFullName": vars._statres("label$fullname"),
+                        "labelCountry": vars._statres("label$country"),
+                        "labelRegion": vars._statres("label$region"),
+                        "labelCity": vars._statres("label$city"),
+                        "labelZipCode": vars._statres("label$zipcode"),
+                        "labelStreet": vars._statres("label$street"),
+                        "labelPhoneCode": vars._statres("label$phonecode"),
+                        "labelPhone": vars._statres("label$phone"),
+                        "DeliveryAddress": {}
                     });
                 };
                 Delivery.prototype.ViewInit = function (view) {
@@ -50,7 +59,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Delivery.prototype.OnViewInit = function () {
                     vars._app.ShowLoading(true);
                     var self = this;
-                    this.BasketService.DeliveryData(function (responseData) {
+                    this.BasketService.DeliveryAddressData(function (responseData) {
                         if (responseData.Result === 0) {
                             self.setupDeliveryData(responseData);
                         }
@@ -62,7 +71,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Delivery.prototype.setupDeliveryData = function (responseData) {
                     var settings = vars._appData.Settings;
-                    var countries = responseData.Data;
+                    var countries = responseData.Data.Countries;
+                    this.Model.set("DeliveryAddress", responseData.Data.DeliveryAddress);
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
                         html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
@@ -87,19 +97,19 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Delivery.prototype.checkoutButtonClick = function (e) {
-                    //let delivery: Interfaces.Model.IBasketDeilvery;
-                    //if (this.validate(delivery)) {
-                    //    this.BasketService.SetDelivery(delivery, (responseData) => {
-                    //        if (responseData.Result === 0) {
-                    //            vars._app.OpenController({ urlController: "basket/billing" });
-                    //        }
-                    //        else {
-                    //            vars._app.ShowError(responseData.Error);
-                    //        }
-                    //        vars._app.HideLoading();
-                    //    });
-                    //}
-                    vars._app.OpenController({ urlController: "basket/billing" });
+                    var delivery = this.Model.get("DeliveryAddress").toJSON();
+                    if (this.validate(delivery)) {
+                        //    this.BasketService.SetDelivery(delivery, (responseData) => {
+                        //        if (responseData.Result === 0) {
+                        vars._app.OpenController({ urlController: "basket/billing" });
+                        //            vars._app.OpenController({ urlController: "basket/billing" });
+                        //        }
+                        //        else {
+                        //            vars._app.ShowError(responseData.Error);
+                        //        }
+                        //        vars._app.HideLoading();
+                        //    });
+                    }
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

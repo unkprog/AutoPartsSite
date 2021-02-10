@@ -25,6 +25,16 @@ export namespace Controller.Basket {
                 "labelBack": vars._statres("label$back"),
                 "labelCheckout": vars._statres("button$label$сheckout"),
 
+                "labelFullName": vars._statres("label$fullname"),
+                "labelCountry": vars._statres("label$country"),
+                "labelRegion": vars._statres("label$region"),
+                "labelCity": vars._statres("label$city"),
+                "labelZipCode": vars._statres("label$zipcode"),
+                "labelStreet": vars._statres("label$street"),
+                "labelPhoneCode": vars._statres("label$phonecode"),
+                "labelPhone": vars._statres("label$phone"),
+
+                "DeliveryAddress": {}
             });
         }
 
@@ -37,7 +47,7 @@ export namespace Controller.Basket {
             vars._app.ShowLoading(true);
             let self = this;
 
-            this.BasketService.DeliveryData((responseData) => {
+            this.BasketService.DeliveryAddressData((responseData) => {
 
                 if (responseData.Result === 0) {
                     self.setupDeliveryData(responseData);
@@ -51,7 +61,9 @@ export namespace Controller.Basket {
 
         private setupDeliveryData(responseData) {
             let settings: Interfaces.Model.ISettings = vars._appData.Settings;
-            let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data;
+            let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data.Countries;
+
+            this.Model.set("DeliveryAddress", responseData.Data.DeliveryAddress);
 
             let html: string = '';
             for (let i = 0, icount = countries.length; i < icount; i++) {
@@ -85,12 +97,12 @@ export namespace Controller.Basket {
 
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            //let delivery: Interfaces.Model.IBasketDeilvery;
-            //if (this.validate(delivery)) {
+            let delivery: Interfaces.Model.IDeliveryAddressInfo = this.Model.get("DeliveryAddress").toJSON();
+            if (this.validate(delivery)) {
             //    this.BasketService.SetDelivery(delivery, (responseData) => {
             //        if (responseData.Result === 0) {
 
-                        
+                vars._app.OpenController({ urlController: "basket/billing" });
             //            vars._app.OpenController({ urlController: "basket/billing" });
             //        }
             //        else {
@@ -100,8 +112,7 @@ export namespace Controller.Basket {
             //    });
 
                 
-            //}
-            vars._app.OpenController({ urlController: "basket/billing" });
+            }
             e.preventDefault();
             e.stopPropagation();
             return false;

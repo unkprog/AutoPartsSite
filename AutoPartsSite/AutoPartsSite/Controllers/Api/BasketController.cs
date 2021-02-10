@@ -117,34 +117,38 @@ namespace AutoPartsSite.Controllers.Api
          });
 
         [HttpPost]
-        [Route("deliverydata")]
-        public async Task<HttpMessage<BasketDeilvery>> DeliveryData(QueryWithSettings qs)
+        [Route("deliveryaddressdata")]
+        public async Task<HttpMessage<BasketDeilveryAddressData>> DeliveryData(QueryWithSettings qs)
            => await TryCatchResponseAsync(async () =>
            {
                return await Task.Run(() =>
                {
-                   BasketDeilvery result = new BasketDeilvery() { Countries = new List<Country>() };
+                   BasketDeilveryAddressData result = new BasketDeilveryAddressData() { Countries = new List<Country>() };
 
                    Lang lang = AccountController.GetLanguage(qs.languageId);
                    result.Countries = AccountController.GetCountries(lang?.Code);
 
-                   List<DeliveryAddressInfo> addresses = GetDeliveryData(qs, 3);
+                   List<DeliveryAddressInfo> addresses = GetDeliveryAddress(qs, 3);
 
-                   var a = addresses.FirstOrDefault(f => f.Default);
+                   result.DeliveryAddress = addresses.FirstOrDefault(f => f.Default);
+                   if (result.DeliveryAddress == null)
+                       result.DeliveryAddress = new DeliveryAddressInfo();
 
                    return CreateResponseOk(result);
                });
            });
 
         [HttpPost]
-        [Route("setdeilvery")]
-        public async Task<HttpMessage<int>> SetDelivery(string uid, BasketDeilvery delivery)
+        [Route("setdeliverydata")]
+        public async Task<HttpMessage<int>> SetDelivery(BasketDeilveryAddress delivery)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
-                  int deliveryId = AddDelivery(delivery);
-                  SetBasketDelivery(uid, deliveryId);
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  
+                  int deliveryId = SetDeliveryAddress(3, delivery, principal.User.Email);
+                  SetBasketDelivery(delivery.qs.uid, deliveryId);
                   return CreateResponseOk(deliveryId);
               });
           });

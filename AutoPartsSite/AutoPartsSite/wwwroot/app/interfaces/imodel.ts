@@ -97,14 +97,16 @@
 
     export interface IAddressInfo
     {
-        FirstName: string;
-        LastName: string;
+        FullName: string;
+        Company: IReferenceNamedDbModel;
         Country: IReferenceNamedDbModel;
+        Region: string;
         City: string;
         Zipcode: string;
         Street: string;
-        PhoneExt: string;
+        PhoneCode: string;
         Phone: string;
+        PhoneExt: string;
     }
 
     export interface IDeliveryAddressInfo extends IAddressInfo {

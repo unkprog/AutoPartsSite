@@ -168,6 +168,9 @@
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Basket\[set_address_delivery].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Basket\[get_address_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

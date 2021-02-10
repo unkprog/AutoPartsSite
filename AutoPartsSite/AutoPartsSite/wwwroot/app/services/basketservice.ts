@@ -87,7 +87,7 @@ export namespace Services {
             this.PostApi({ Action: "/setdeliverytariff", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
-        public DeliveryData(Callback: (responseData: any) => void) {
+        public DeliveryAddressData(Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
                 siteUserId: vars._appData.Identity.SiteUserId,
@@ -95,11 +95,21 @@ export namespace Services {
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id
             };
-            this.PostApi({ Action: "/deliverydata", RequestData: JSON.stringify(bq), Callback: Callback });
+            this.PostApi({ Action: "/deliveryaddressdata", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
-        public SetDelivery(delivery: Interfaces.Model.IDeliveryAddressInfo, Callback: (responseData: any) => void) {
-            this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+        public SetDeliveryAddressData(delivery: Interfaces.Model.IDeliveryAddressInfo, Callback: (responseData: any) => void) {
+            let model = {
+                DeliveryAddress: delivery,
+                qs :{
+                    uid: vars._appData.Uid,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id
+                }
+            };
+            this.PostApi({ Action: "/setdeliverydata", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
         public BillingData(Callback: (responseData: any) => void) {

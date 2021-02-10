@@ -107,6 +107,8 @@ define({
     "label$name": "Name",
     "label$brand": "Brand",
     "label$country": "Country",
+    "label$city": "City",
+    "label$region": "Region",
     "label$shipin": "Ship in, days",
     "label$delivery$days": "Delivery, days",
     "label$dimensions": "Dimensions",
@@ -151,6 +153,11 @@ define({
     "msg$delivery$choosecompany": "Choose a delivery company",
     "label$address$delivery": "Delivery address",
     "label$address$billing": "Billing address",
+
+    "label$fullname": "Full name",
+    "label$zipcode": "Zip code",
+    "label$street": "Street",
+    "label$phonecode": "Phone code",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

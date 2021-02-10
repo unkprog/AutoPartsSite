@@ -535,31 +535,6 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private int AddDelivery(BasketDeilvery model)
-        {
-            int result = 0;
-            ExecQuery((query) =>
-            {
-                query.Execute(@"[add_delivery]", new SqlParameter[]
-                {
-                    //new SqlParameter() { ParameterName = "@FirstName", Value = model.FirstName },
-                    //new SqlParameter() { ParameterName = "@LastName", Value = model.LastName },
-                    //new SqlParameter() { ParameterName = "@CountryID", Value = model.Country.Id },
-                    //new SqlParameter() { ParameterName = "@City", Value = model.City },
-                    //new SqlParameter() { ParameterName = "@Zipcode", Value = model.Zipcode },
-                    //new SqlParameter() { ParameterName = "@Street", Value = model.Street },
-                    //new SqlParameter() { ParameterName = "@Phone", Value = model.Phone }
-                }
-                , onExecute: null
-                , (values) =>
-                {
-                    result = Convert.ToInt32(values[0]);
-                });
-            });
-            return result;
-        }
-
-        [NonAction]
         private void SetBasketDelivery(string uid, int delivery)
         {
             ExecQuery((query) =>
@@ -618,7 +593,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<DeliveryAddressInfo> GetDeliveryData(QueryWithSettings qs, int typeAddress)
+        private List<DeliveryAddressInfo> GetDeliveryAddress(QueryWithSettings qs, int typeAddress)
         {
             List<DeliveryAddressInfo> result = new List<DeliveryAddressInfo>();
             BasketDataHeader header = GetBasketDataHeader(qs.uid);
@@ -635,7 +610,8 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
                     new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
-                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId }
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
+                    new SqlParameter() { ParameterName = "@CountryID", Value = qs.countryId }
                 }
                 , onExecute: (reader) =>
                 {
@@ -695,6 +671,40 @@ namespace AutoPartsSite.Controllers.Api
                     result.Add(item);
                 });
 
+            return result;
+        }
+
+        [NonAction]
+        private int SetDeliveryAddress(int typeAddress, BasketDeilveryAddress model, string email)
+        {
+            int result = 0;
+            ExecQuery((query) =>
+            {
+                query.Execute(@"[set_address_delivery]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.qs.languageId },
+                    new SqlParameter() { ParameterName = "@AddressID", Value = model.DeliveryAddress.Id },
+                    new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
+                    new SqlParameter() { ParameterName = "@FullName", Value = model.DeliveryAddress.FullName },
+                    new SqlParameter() { ParameterName = "@CountryID", Value = (model.DeliveryAddress.Country == null ? 0 : model.DeliveryAddress.Country.Id) },
+                    new SqlParameter() { ParameterName = "@ZipCode", Value = model.DeliveryAddress.ZipCode },
+                    new SqlParameter() { ParameterName = "@Region", Value = model.DeliveryAddress.Region },
+                    new SqlParameter() { ParameterName = "@City", Value = model.DeliveryAddress.City },
+                    new SqlParameter() { ParameterName = "@Address", Value = model.DeliveryAddress.Street },
+                    new SqlParameter() { ParameterName = "@PhoneCode", Value = model.DeliveryAddress.PhoneCode },
+                    new SqlParameter() { ParameterName = "@PhoneMain", Value = model.DeliveryAddress.Phone },
+                    new SqlParameter() { ParameterName = "@PhoneExt", Value = string.Empty },
+                    new SqlParameter() { ParameterName = "@Email", Value = email },
+                    new SqlParameter() { ParameterName = "@DeliveryInstructions", Value = string.Empty },
+                    new SqlParameter() { ParameterName = "@IsDefault", Value = true }
+                }
+                , onExecute: null
+                , (values) =>
+                {
+                    result = Convert.ToInt32(values[2]);
+                });
+            });
             return result;
         }
     }

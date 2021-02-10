@@ -36,7 +36,7 @@ export namespace Controller.Basket {
             vars._app.ShowLoading(true);
             let self = this;
 
-            this.BasketService.DeliveryData((responseData) => {
+            this.BasketService.DeliveryAddressData((responseData) => {
 
                 if (responseData.Result === 0) {
                     self.setupDeliveryData(responseData);
@@ -86,7 +86,7 @@ export namespace Controller.Basket {
         private checkoutButtonClick(e) {
             let billingInfo: Interfaces.Model.IBillingAddressInfo;
             if (this.validate(billingInfo)) {
-                this.BasketService.SetDelivery(billingInfo, (responseData) => {
+                this.BasketService.SetDeliveryAddressData(billingInfo, (responseData) => {
                     if (responseData.Result === 0) {
 
                         

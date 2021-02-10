@@ -5,10 +5,21 @@ using System.Runtime.Serialization;
 namespace AutoPartsSite.Models.Basket
 {
     [DataContract]
-    public class BasketDeilvery : DeliveryAddressInfo
+    public class BasketDeilveryAddressData
     {
-        public DeliveryAddressInfo Delivery { get; set; }
-
+        [DataMember]
+        public DeliveryAddressInfo DeliveryAddress { get; set; }
+        [DataMember]
         public List<Country> Countries { get; set; }
+    }
+
+    [DataContract]
+    public class BasketDeilveryAddress
+    {
+        [DataMember]
+        public DeliveryAddressInfo DeliveryAddress { get; set; }
+        [DataMember]
+        public BasketQuery qs { get; set; }
+        
     }
 }

@@ -97,7 +97,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 };
                 this.PostApi({ Action: "/setdeliverytariff", RequestData: JSON.stringify(bq), Callback: Callback });
             };
-            BasketService.prototype.DeliveryData = function (Callback) {
+            BasketService.prototype.DeliveryAddressData = function (Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
                     siteUserId: vars._appData.Identity.SiteUserId,
@@ -105,10 +105,20 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id
                 };
-                this.PostApi({ Action: "/deliverydata", RequestData: JSON.stringify(bq), Callback: Callback });
+                this.PostApi({ Action: "/deliveryaddressdata", RequestData: JSON.stringify(bq), Callback: Callback });
             };
-            BasketService.prototype.SetDelivery = function (delivery, Callback) {
-                this.PostApi({ Action: "/setdeilvery?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+            BasketService.prototype.SetDeliveryAddressData = function (delivery, Callback) {
+                var model = {
+                    DeliveryAddress: delivery,
+                    qs: {
+                        uid: vars._appData.Uid,
+                        siteUserId: vars._appData.Identity.SiteUserId,
+                        countryId: vars._appData.Settings.Country.Id,
+                        languageId: vars._appData.Settings.Language.Id,
+                        currencyId: vars._appData.Settings.Currency.Id
+                    }
+                };
+                this.PostApi({ Action: "/setdeliverydata", RequestData: JSON.stringify(model), Callback: Callback });
             };
             BasketService.prototype.BillingData = function (Callback) {
                 var locale = vars._appData.Locale;
