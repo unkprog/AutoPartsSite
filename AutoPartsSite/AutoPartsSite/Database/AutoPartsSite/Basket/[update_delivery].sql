@@ -1,3 +1,3 @@
-﻿update [Basket] set [DeliveryID] = @DeliveryID where [Uid] = @Uid and isnull([DeliveryID], 0) = 0
+﻿update [Basket_Header] set [DeliveryAddressID] = @DeliveryID where [Uid] = @Uid --and isnull([DeliveryAddressID], 0) = 0
 
 

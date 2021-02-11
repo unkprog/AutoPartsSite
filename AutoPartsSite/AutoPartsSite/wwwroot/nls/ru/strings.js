@@ -9,6 +9,14 @@ define({
     "msg$error$emailIncorrect": "Некорректно  указан E-mail",
     "msg$error$passwordNotSpecified": "Не указан пароль",
 
+    "msg$error$notspecified$fullname": "Не указаны фамилия, имя, отчество",
+    "msg$error$notspecified$country": "Не указана страна",
+    "msg$error$notspecified$region": "Не указан регион",
+    "msg$error$notspecified$city": "Не указана страна",
+    "msg$error$notspecified$zipcode": "Не указан почтовый индекс",
+    "msg$error$notspecified$street": "Не указана улица",
+    "msg$error$notspecified$phonecode": "Не указан код телефона",
+    "msg$error$notspecified$phone": "Не указан телефон",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Информационные сообщения                                                   //
     /////////////////////////////////////////////////////////////////////////////////////////////

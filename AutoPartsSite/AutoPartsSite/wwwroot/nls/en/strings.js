@@ -8,6 +8,15 @@ define({
     "msg$error$phoneNumberIncorrect": "Incorrect phone number",
     "msg$error$emailIncorrect": "Incorrect E-mail address",
     "msg$error$passwordNotSpecified": "A password is not specified",
+
+    "msg$error$notspecified$fullname": "Full name not specified",
+    "msg$error$notspecified$country": "Country not specified",
+    "msg$error$notspecified$region": "Region not specified",
+    "msg$error$notspecified$city": "City not specified",
+    "msg$error$notspecified$zipcode": "Zip code not specified",
+    "msg$error$notspecified$street": "Street not specified",
+    "msg$error$notspecified$phonecode": "Phone code not specified",
+    "msg$error$notspecified$phone": "Phone not specified",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Информационные сообщения                                                   //
     /////////////////////////////////////////////////////////////////////////////////////////////

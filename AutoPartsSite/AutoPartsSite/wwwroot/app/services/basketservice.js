@@ -118,14 +118,30 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                         currencyId: vars._appData.Settings.Currency.Id
                     }
                 };
-                this.PostApi({ Action: "/setdeliverydata", RequestData: JSON.stringify(model), Callback: Callback });
+                this.PostApi({ Action: "/setdeliveryaddressdata", RequestData: JSON.stringify(model), Callback: Callback });
             };
-            BasketService.prototype.BillingData = function (Callback) {
-                var locale = vars._appData.Locale;
-                this.GetApi({ Action: "/billingdata", RequestData: { lang: locale }, Callback: Callback });
+            BasketService.prototype.BillingAddressData = function (Callback) {
+                var bq = {
+                    uid: vars._appData.Uid,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id
+                };
+                this.PostApi({ Action: "/billingaddressdata", RequestData: JSON.stringify(bq), Callback: Callback });
             };
-            BasketService.prototype.SetBilling = function (delivery, Callback) {
-                this.PostApi({ Action: "/setbilling?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+            BasketService.prototype.SetBillingAddressData = function (delivery, Callback) {
+                var model = {
+                    BillingAddress: delivery,
+                    qs: {
+                        uid: vars._appData.Uid,
+                        siteUserId: vars._appData.Identity.SiteUserId,
+                        countryId: vars._appData.Settings.Country.Id,
+                        languageId: vars._appData.Settings.Language.Id,
+                        currencyId: vars._appData.Settings.Currency.Id
+                    }
+                };
+                this.PostApi({ Action: "/setbillingaddressdata?uid=" + vars._appData.Uid, RequestData: JSON.stringify(model), Callback: Callback });
             };
             return BasketService;
         }(base.Services.BaseService));

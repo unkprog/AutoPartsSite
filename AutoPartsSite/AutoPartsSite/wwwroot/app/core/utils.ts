@@ -52,6 +52,10 @@ export function destroyBlurEvent(elemName: string | JQuery, proxyFunc: any, view
     return destroyEventListener(elemName, "blur", proxyFunc, view);
 }
 
+export function isNull(value: any): boolean {
+    return (value === null || value === undefined);
+}
+
 export function isNullOrEmpty(value: string): boolean {
     return (value === null || value === undefined || value === '');
 }

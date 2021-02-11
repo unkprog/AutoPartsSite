@@ -85,7 +85,7 @@ namespace AutoPartsSite.Controllers.Api
                    bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
                   
                    BasketData result = GetBasketData(pq.uid);
-                   //pq.promoCode = result.PromoCode = GetBaskePromoCode(pq.uid);
+                   pq.promoCode = result.Header.PromoCode = GetBaskePromoCode(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, pq, isGuest);
                    return CreateResponseOk(result);
@@ -128,28 +128,72 @@ namespace AutoPartsSite.Controllers.Api
                    Lang lang = AccountController.GetLanguage(qs.languageId);
                    result.Countries = AccountController.GetCountries(lang?.Code);
 
-                   List<DeliveryAddressInfo> addresses = GetDeliveryAddress(qs, 3);
+                   int deliveryId = GetBasketDelivery(qs.uid);
+                   List<AddressInfo> addresses = GetAddress(qs, 3);
 
-                   result.DeliveryAddress = addresses.FirstOrDefault(f => f.Default);
+                   result.DeliveryAddress = (deliveryId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == deliveryId));
+
                    if (result.DeliveryAddress == null)
-                       result.DeliveryAddress = new DeliveryAddressInfo();
+                       result.DeliveryAddress = new AddressInfo();
 
                    return CreateResponseOk(result);
                });
            });
 
         [HttpPost]
-        [Route("setdeliverydata")]
+        [Route("setdeliveryaddressdata")]
         public async Task<HttpMessage<int>> SetDelivery(BasketDeilveryAddress delivery)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                  
+
                   int deliveryId = SetDeliveryAddress(3, delivery, principal.User.Email);
+                  delivery.DeliveryAddress.Id = deliveryId;
                   SetBasketDelivery(delivery.qs.uid, deliveryId);
                   return CreateResponseOk(deliveryId);
+              });
+          });
+
+        [HttpPost]
+        [Route("billingaddressdata")]
+        public async Task<HttpMessage<BasketBillingAddressData>> BillingData(QueryWithSettings qs)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  BasketBillingAddressData result = new BasketBillingAddressData() { Countries = new List<Country>() };
+
+                  Lang lang = AccountController.GetLanguage(qs.languageId);
+                  result.Countries = AccountController.GetCountries(lang?.Code);
+
+
+                  int billingId = GetBasketBilling(qs.uid);
+                  List<AddressInfo> addresses = GetAddress(qs, 4);
+
+                   result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
+
+                  if (result.BillingAddress == null)
+                      result.BillingAddress = new AddressInfo();
+
+                  return CreateResponseOk(result);
+              });
+          });
+
+        [HttpPost]
+        [Route("setbillingaddressdata")]
+        public async Task<HttpMessage<int>> SetBilling(BasketBillingAddress billing)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+
+                  int billingId = SetBillingAddress(4, billing, principal.User.Email);
+                  billing.BillingAddress.Id = billingId;
+                  SetBasketBilling(billing.qs.uid, billingId);
+                  return CreateResponseOk(billingId);
               });
           });
     }

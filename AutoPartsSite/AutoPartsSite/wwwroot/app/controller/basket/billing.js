@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice"], function (require, exports, vars, base, bsk) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, bsk, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -41,6 +41,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$address$billing"),
                         "labelBack": vars._statres("label$back"),
                         "labelCheckout": vars._statres("button$label$сheckout"),
+                        "labelFullName": vars._statres("label$fullname"),
+                        "labelCountry": vars._statres("label$country"),
+                        "labelRegion": vars._statres("label$region"),
+                        "labelCity": vars._statres("label$city"),
+                        "labelZipCode": vars._statres("label$zipcode"),
+                        "labelStreet": vars._statres("label$street"),
+                        "labelPhoneCode": vars._statres("label$phonecode"),
+                        "labelPhone": vars._statres("label$phone"),
+                        "BillingAddress": {}
                     });
                 };
                 Billing.prototype.ViewInit = function (view) {
@@ -48,11 +57,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Billing.prototype.OnViewInit = function () {
-                    vars._app.ShowLoading(true);
+                    //vars._app.ShowLoading(true);
                     var self = this;
-                    this.BasketService.DeliveryAddressData(function (responseData) {
+                    this.BasketService.BillingAddressData(function (responseData) {
                         if (responseData.Result === 0) {
-                            self.setupDeliveryData(responseData);
+                            self.setupBillingData(responseData);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);
@@ -60,27 +69,31 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         vars._app.HideLoading();
                     });
                 };
-                Billing.prototype.setupDeliveryData = function (responseData) {
+                Billing.prototype.setupBillingData = function (responseData) {
                     var settings = vars._appData.Settings;
-                    var countries = responseData.Data;
+                    var countries = responseData.Data.Countries;
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
+                        if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                            this.Model.set("BillingAddress.CountryId", countries[i].Id);
                         html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
                     }
-                    $('#delivery-view-country').html(html);
+                    $('#billing-view-country').html(html);
                     this.View.find('select').formSelect();
+                    M.updateTextFields();
                 };
                 Billing.prototype.createEvents = function () {
-                    this.CheckoutButtonClick = this.createClickEvent("delivery-checkout-btn", this.checkoutButtonClick);
-                    this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
+                    this.CheckoutButtonClick = this.createClickEvent("billing-checkout-btn", this.checkoutButtonClick);
+                    this.BackButtonClick = this.createClickEvent("billing-back-btn", this.backButtonClick);
                 };
                 Billing.prototype.destroyEvents = function () {
-                    this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
-                    this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
+                    this.destroyClickEvent("billing-back-btn", this.BackButtonClick);
+                    this.destroyClickEvent("billing-checkout-btn", this.CheckoutButtonClick);
                 };
                 Billing.prototype.backButtonClick = function (e) {
-                    vars._app.ControllerBack(e);
+                    //vars._app.ControllerBack(e);
+                    vars._app.OpenController({ urlController: "basket/delivery" });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
@@ -88,9 +101,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Billing.prototype.checkoutButtonClick = function (e) {
                     var billingInfo;
                     if (this.validate(billingInfo)) {
-                        this.BasketService.SetDeliveryAddressData(billingInfo, function (responseData) {
+                        this.BasketService.SetBillingAddressData(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {
-                                vars._app.OpenController({ urlController: "basket/index" });
+                                vars._app.OpenController({ urlController: "basket/payment" });
                             }
                             else {
                                 vars._app.ShowError(responseData.Error);
@@ -102,8 +115,40 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     e.stopPropagation();
                     return false;
                 };
-                Billing.prototype.validate = function (delivery) {
-                    var result = false;
+                Billing.prototype.validate = function (model) {
+                    var result = true;
+                    if (utils.isNullOrEmpty(model.FullName)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                        result = false;
+                    }
+                    if (utils.isNull(model.CountryId) || model.CountryId == 0) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$country') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Region)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$region') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.City)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$city') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.ZipCode)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$zipcode') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Street)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$street') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.PhoneCode)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$phonecode') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Phone)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                        result = false;
+                    }
                     return result;
                 };
                 return Billing;

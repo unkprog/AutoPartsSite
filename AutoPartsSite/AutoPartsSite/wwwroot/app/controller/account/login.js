@@ -65,7 +65,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                                     vars._app.OpenController({ urlController: "basket/delivery" });
                                 else
                                     vars._app.OpenController({ urlController: "search/index" });
-                                vars._app.HideLoading();
                             }
                             else
                                 vars._app.ShowError(responseData.Error);

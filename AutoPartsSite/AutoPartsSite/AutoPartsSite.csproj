@@ -120,6 +120,15 @@
     <None Update="Database\AutoPartsSite\Basket\[del].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\AutoPartsSite\Basket\[get_billing].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[update_billing].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[get_delivery].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Basket\[update_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -168,10 +177,10 @@
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Basket\[set_address_delivery].sql">
+    <None Update="Database\GlobalParts\Query\Basket\[set_address].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Basket\[get_address_delivery].sql">
+    <None Update="Database\GlobalParts\Query\Basket\[get_address].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Basket\[get_prices].sql">

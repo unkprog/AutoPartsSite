@@ -1,6 +1,7 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import bsk = require('app/services/basketservice');
+import utils = require('app/core/utils');
 
 export namespace Controller.Basket {
     export class Delivery extends base.Controller.Base {
@@ -44,7 +45,7 @@ export namespace Controller.Basket {
         }
 
         protected OnViewInit(): void {
-            vars._app.ShowLoading(true);
+            //vars._app.ShowLoading(true);
             let self = this;
 
             this.BasketService.DeliveryAddressData((responseData) => {
@@ -67,11 +68,14 @@ export namespace Controller.Basket {
 
             let html: string = '';
             for (let i = 0, icount = countries.length; i < icount; i++) {
+                if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                    this.Model.set("DeliveryAddress.CountryId", countries[i].Id);
                 html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
             }
             $('#delivery-view-country').html(html);
             this.View.find('select').formSelect();
+            M.updateTextFields();
         }   
         
         protected createEvents(): void {
@@ -99,27 +103,63 @@ export namespace Controller.Basket {
         private checkoutButtonClick(e) {
             let delivery: Interfaces.Model.IDeliveryAddressInfo = this.Model.get("DeliveryAddress").toJSON();
             if (this.validate(delivery)) {
-            //    this.BasketService.SetDelivery(delivery, (responseData) => {
-            //        if (responseData.Result === 0) {
-
-                vars._app.OpenController({ urlController: "basket/billing" });
-            //            vars._app.OpenController({ urlController: "basket/billing" });
-            //        }
-            //        else {
-            //            vars._app.ShowError(responseData.Error);
-            //        }
-            //        vars._app.HideLoading();
-            //    });
-
-                
+                this.BasketService.SetDeliveryAddressData(delivery, (responseData) => {
+                    if (responseData.Result === 0) {
+                        vars._app.OpenController({ urlController: "basket/billing" });
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
             }
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
 
-        private validate(delivery: Interfaces.Model.IDeliveryAddressInfo): boolean {
-            let result: boolean = false;
+        private validate(model: Interfaces.Model.IDeliveryAddressInfo): boolean {
+            let result: boolean = true;
+            
+            if (utils.isNullOrEmpty(model.FullName)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                result = false;
+            }
+
+            if (utils.isNull(model.CountryId) || model.CountryId == 0) {
+                M.toast({ html: vars._statres('msg$error$notspecified$country') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Region)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$region') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.City)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$city') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.ZipCode)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$zipcode') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Street)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$street') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.PhoneCode)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$phonecode') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Phone)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                result = false;
+            }
 
             return result;
         }

@@ -14,10 +14,14 @@ namespace AutoPartsSite.Models.GlobalParts
         /// Company
         /// </summary>
         [DataMember]
+        public int CompanyId { get; set; }
+        [DataMember]
         public Company Company { get; set; }
         /// <summary>
         /// Country
         /// </summary>
+        [DataMember]
+        public int CountryId { get; set; }
         [DataMember]
         public Country Country { get; set; }
 
@@ -62,11 +66,5 @@ namespace AutoPartsSite.Models.GlobalParts
         public bool Default { get; set; }
     }
 
-    public class DeliveryAddressInfo : AddressInfo
-    {
-    }
-
-    public class BillingAddressInfo : AddressInfo
-    {
-    }
+   
 }

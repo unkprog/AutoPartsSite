@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.strToHashCode = exports.numberRound = exports.numberPadZero = exports.numberToString = exports.date_from_ddmmyyyy = exports.date_ddmmyyyy_withtime = exports.date_ddmmyyyy = exports.date_parse = exports.dateToday = exports.dateToLongString = exports.stringFormat = exports.validatePhone = exports.validateEmail = exports.isNullOrEmpty = exports.destroyBlurEvent = exports.createBlurEvent = exports.destroyContextMenuEvent = exports.createContextMenuEvent = exports.destroyDblTouchClickEvent = exports.createDblTouchClickEvent = exports.destroyTouchClickEvent = exports.createTouchClickEvent = exports.destroyClickEvent = exports.createClickEvent = exports.destroyEventListener = exports.createEventListener = void 0;
+    exports.strToHashCode = exports.numberRound = exports.numberPadZero = exports.numberToString = exports.date_from_ddmmyyyy = exports.date_ddmmyyyy_withtime = exports.date_ddmmyyyy = exports.date_parse = exports.dateToday = exports.dateToLongString = exports.stringFormat = exports.validatePhone = exports.validateEmail = exports.isNullOrEmpty = exports.isNull = exports.destroyBlurEvent = exports.createBlurEvent = exports.destroyContextMenuEvent = exports.createContextMenuEvent = exports.destroyDblTouchClickEvent = exports.createDblTouchClickEvent = exports.destroyTouchClickEvent = exports.createTouchClickEvent = exports.destroyClickEvent = exports.createClickEvent = exports.destroyEventListener = exports.createEventListener = void 0;
     function createEventListener(elemName, eventName, clickFunc, thisObject, view) {
         var result = $.proxy(clickFunc, thisObject);
         var elem = elemName instanceof $ ? elemName : (view ? view.find("#" + elemName) : $("#" + elemName));
@@ -56,6 +56,10 @@ define(["require", "exports"], function (require, exports) {
         return destroyEventListener(elemName, "blur", proxyFunc, view);
     }
     exports.destroyBlurEvent = destroyBlurEvent;
+    function isNull(value) {
+        return (value === null || value === undefined);
+    }
+    exports.isNull = isNull;
     function isNullOrEmpty(value) {
         return (value === null || value === undefined || value === '');
     }

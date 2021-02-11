@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice"], function (require, exports, vars, base, bsk) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, bsk, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -57,7 +57,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Delivery.prototype.OnViewInit = function () {
-                    vars._app.ShowLoading(true);
+                    //vars._app.ShowLoading(true);
                     var self = this;
                     this.BasketService.DeliveryAddressData(function (responseData) {
                         if (responseData.Result === 0) {
@@ -75,11 +75,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.Model.set("DeliveryAddress", responseData.Data.DeliveryAddress);
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
+                        if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                            this.Model.set("DeliveryAddress.CountryId", countries[i].Id);
                         html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                         html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
                     }
                     $('#delivery-view-country').html(html);
                     this.View.find('select').formSelect();
+                    M.updateTextFields();
                 };
                 Delivery.prototype.createEvents = function () {
                     this.CheckoutButtonClick = this.createClickEvent("delivery-checkout-btn", this.checkoutButtonClick);
@@ -99,23 +102,54 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Delivery.prototype.checkoutButtonClick = function (e) {
                     var delivery = this.Model.get("DeliveryAddress").toJSON();
                     if (this.validate(delivery)) {
-                        //    this.BasketService.SetDelivery(delivery, (responseData) => {
-                        //        if (responseData.Result === 0) {
-                        vars._app.OpenController({ urlController: "basket/billing" });
-                        //            vars._app.OpenController({ urlController: "basket/billing" });
-                        //        }
-                        //        else {
-                        //            vars._app.ShowError(responseData.Error);
-                        //        }
-                        //        vars._app.HideLoading();
-                        //    });
+                        this.BasketService.SetDeliveryAddressData(delivery, function (responseData) {
+                            if (responseData.Result === 0) {
+                                vars._app.OpenController({ urlController: "basket/billing" });
+                            }
+                            else {
+                                vars._app.ShowError(responseData.Error);
+                            }
+                            vars._app.HideLoading();
+                        });
                     }
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 };
-                Delivery.prototype.validate = function (delivery) {
-                    var result = false;
+                Delivery.prototype.validate = function (model) {
+                    var result = true;
+                    if (utils.isNullOrEmpty(model.FullName)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                        result = false;
+                    }
+                    if (utils.isNull(model.CountryId) || model.CountryId == 0) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$country') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Region)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$region') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.City)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$city') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.ZipCode)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$zipcode') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Street)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$street') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.PhoneCode)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$phonecode') });
+                        result = false;
+                    }
+                    if (utils.isNullOrEmpty(model.Phone)) {
+                        M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                        result = false;
+                    }
                     return result;
                 };
                 return Delivery;

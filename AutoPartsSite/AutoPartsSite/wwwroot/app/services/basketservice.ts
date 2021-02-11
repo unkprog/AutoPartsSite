@@ -109,16 +109,32 @@ export namespace Services {
                     currencyId: vars._appData.Settings.Currency.Id
                 }
             };
-            this.PostApi({ Action: "/setdeliverydata", RequestData: JSON.stringify(model), Callback: Callback });
+            this.PostApi({ Action: "/setdeliveryaddressdata", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
-        public BillingData(Callback: (responseData: any) => void) {
-            let locale: string = vars._appData.Locale;
-            this.GetApi({ Action: "/billingdata", RequestData: { lang: locale }, Callback: Callback });
+        public BillingAddressData(Callback: (responseData: any) => void) {
+            let bq = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id
+            };
+            this.PostApi({ Action: "/billingaddressdata", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
-        public SetBilling(delivery: Interfaces.Model.IBillingAddressInfo, Callback: (responseData: any) => void) {
-            this.PostApi({ Action: "/setbilling?uid=" + vars._appData.Uid, RequestData: JSON.stringify({ delivery: delivery }), Callback: Callback });
+        public SetBillingAddressData(delivery: Interfaces.Model.IBillingAddressInfo, Callback: (responseData: any) => void) {
+            let model = {
+                BillingAddress: delivery,
+                qs: {
+                    uid: vars._appData.Uid,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id
+                }
+            };
+            this.PostApi({ Action: "/setbillingaddressdata?uid=" + vars._appData.Uid, RequestData: JSON.stringify(model), Callback: Callback });
         }
     }
 }

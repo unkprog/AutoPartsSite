@@ -98,11 +98,13 @@
     export interface IAddressInfo
     {
         FullName: string;
+        CompanyId: number;
         Company: IReferenceNamedDbModel;
+        CountryId: number;
         Country: IReferenceNamedDbModel;
         Region: string;
         City: string;
-        Zipcode: string;
+        ZipCode: string;
         Street: string;
         PhoneCode: string;
         Phone: string;

@@ -1,6 +1,7 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import bsk = require('app/services/basketservice');
+import utils = require('app/core/utils');
 
 export namespace Controller.Basket {
     export class Billing extends base.Controller.Base {
@@ -24,6 +25,17 @@ export namespace Controller.Basket {
                 "Header": vars._statres("label$address$billing"),
                 "labelBack": vars._statres("label$back"),
                 "labelCheckout": vars._statres("button$label$сheckout"),
+
+                "labelFullName": vars._statres("label$fullname"),
+                "labelCountry": vars._statres("label$country"),
+                "labelRegion": vars._statres("label$region"),
+                "labelCity": vars._statres("label$city"),
+                "labelZipCode": vars._statres("label$zipcode"),
+                "labelStreet": vars._statres("label$street"),
+                "labelPhoneCode": vars._statres("label$phonecode"),
+                "labelPhone": vars._statres("label$phone"),
+
+                "BillingAddress": {}
             });
         }
 
@@ -33,13 +45,13 @@ export namespace Controller.Basket {
         }
 
         protected OnViewInit(): void {
-            vars._app.ShowLoading(true);
+            //vars._app.ShowLoading(true);
             let self = this;
 
-            this.BasketService.DeliveryAddressData((responseData) => {
+            this.BasketService.BillingAddressData((responseData) => {
 
                 if (responseData.Result === 0) {
-                    self.setupDeliveryData(responseData);
+                    self.setupBillingData(responseData);
                 }
                 else {
                     vars._app.ShowError(responseData.Error);
@@ -48,34 +60,38 @@ export namespace Controller.Basket {
             });
         }
 
-        private setupDeliveryData(responseData) {
+        private setupBillingData(responseData) {
             let settings: Interfaces.Model.ISettings = vars._appData.Settings;
-            let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data;
+            let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data.Countries;
 
             let html: string = '';
             for (let i = 0, icount = countries.length; i < icount; i++) {
+                if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                    this.Model.set("BillingAddress.CountryId", countries[i].Id);
                 html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
             }
-            $('#delivery-view-country').html(html);
+            $('#billing-view-country').html(html);
             this.View.find('select').formSelect();
+            M.updateTextFields();
         }   
         
         protected createEvents(): void {
-            this.CheckoutButtonClick = this.createClickEvent("delivery-checkout-btn", this.checkoutButtonClick);
-            this.BackButtonClick = this.createClickEvent("delivery-back-btn", this.backButtonClick);
+            this.CheckoutButtonClick = this.createClickEvent("billing-checkout-btn", this.checkoutButtonClick);
+            this.BackButtonClick = this.createClickEvent("billing-back-btn", this.backButtonClick);
 
             
         }
 
         protected destroyEvents(): void {
-            this.destroyClickEvent("delivery-back-btn", this.BackButtonClick);
-            this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
+            this.destroyClickEvent("billing-back-btn", this.BackButtonClick);
+            this.destroyClickEvent("billing-checkout-btn", this.CheckoutButtonClick);
         }
 
         public BackButtonClick: { (e: any): void; };
         private backButtonClick(e) {
-            vars._app.ControllerBack(e);
+            //vars._app.ControllerBack(e);
+            vars._app.OpenController({ urlController: "basket/delivery" });
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -86,11 +102,9 @@ export namespace Controller.Basket {
         private checkoutButtonClick(e) {
             let billingInfo: Interfaces.Model.IBillingAddressInfo;
             if (this.validate(billingInfo)) {
-                this.BasketService.SetDeliveryAddressData(billingInfo, (responseData) => {
+                this.BasketService.SetBillingAddressData(billingInfo, (responseData) => {
                     if (responseData.Result === 0) {
-
-                        
-                        vars._app.OpenController({ urlController: "basket/index" });
+                        vars._app.OpenController({ urlController: "basket/payment" });
                     }
                     else {
                         vars._app.ShowError(responseData.Error);
@@ -105,8 +119,48 @@ export namespace Controller.Basket {
             return false;
         }
 
-        private validate(delivery: Interfaces.Model.IBillingAddressInfo): boolean {
-            let result: boolean = false;
+        private validate(model: Interfaces.Model.IDeliveryAddressInfo): boolean {
+            let result: boolean = true;
+
+            if (utils.isNullOrEmpty(model.FullName)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                result = false;
+            }
+
+            if (utils.isNull(model.CountryId) || model.CountryId == 0) {
+                M.toast({ html: vars._statres('msg$error$notspecified$country') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Region)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$region') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.City)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$city') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.ZipCode)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$zipcode') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Street)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$street') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.PhoneCode)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$phonecode') });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Phone)) {
+                M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                result = false;
+            }
 
             return result;
         }
