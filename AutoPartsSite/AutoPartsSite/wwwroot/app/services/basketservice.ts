@@ -136,5 +136,17 @@ export namespace Services {
             };
             this.PostApi({ Action: "/setbillingaddressdata?uid=" + vars._appData.Uid, RequestData: JSON.stringify(model), Callback: Callback });
         }
+
+        public PaymentList(Callback: (responseData: any) => void) {
+            let qs = {
+                uid: vars._appData.Uid,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id
+            };
+
+            this.PostApi({ Action: "/paymentlist", RequestData: JSON.stringify(qs), Callback: Callback });
+        }
     }
 }

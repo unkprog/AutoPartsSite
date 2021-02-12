@@ -13,4 +13,35 @@
     <div id="payment-view-info" class="row">
 
     </div>
+
+    <div id="payment-view-terms" class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div>
+                <label>
+                    <input id="payment-view-terms-input" type="checkbox" />
+                    <span data-bind="text:labelTerms">&nbsp;</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="payment-view-buttons" class="row">
+        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
+            <a id="payment-back-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">arrow_back</i><span data-bind="text:labelBack"></span></a>
+        </div>
+        <div class="col s6 m4 l4 xl3">
+            <a id="payment-checkout-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">done_outline</i><span data-bind="text:labelCheckout"></span></a>
+        </div>
+    </div>
+
+    <script type="text/x-kendo-template" id="payment-view-info-type-template">
+        <div class="col s12 m6 l4 xl2 padding-0_75rem center">
+            <div class="z-depth-1 hoverable" style="padding:1rem;">
+                <a title="#=Name#" href="" style="text-decoration: none;">
+                    <img src="#=Logo#" alt="#=Name#" style="margin:auto; width:10rem;">
+                    <div style="font-size: 22px; color: black; padding: 0 0 0.75rem;">#=Name#</div>
+                </a>
+            </div>
+        </div>
+    </script>
 </div>

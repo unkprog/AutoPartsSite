@@ -60,6 +60,72 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\img\payments\flat\alipay.svg" />
+    <None Include="wwwroot\img\payments\flat\amex.svg" />
+    <None Include="wwwroot\img\payments\flat\default.svg" />
+    <None Include="wwwroot\img\payments\flat\diners.svg" />
+    <None Include="wwwroot\img\payments\flat\discover.svg" />
+    <None Include="wwwroot\img\payments\flat\elo.svg" />
+    <None Include="wwwroot\img\payments\flat\hipercard.svg" />
+    <None Include="wwwroot\img\payments\flat\jcb.svg" />
+    <None Include="wwwroot\img\payments\flat\maestro-old.svg" />
+    <None Include="wwwroot\img\payments\flat\maestro.svg" />
+    <None Include="wwwroot\img\payments\flat\mastercard-old.svg" />
+    <None Include="wwwroot\img\payments\flat\mastercard.svg" />
+    <None Include="wwwroot\img\payments\flat\paypal.svg" />
+    <None Include="wwwroot\img\payments\flat\security-code.svg" />
+    <None Include="wwwroot\img\payments\flat\unionpay.svg" />
+    <None Include="wwwroot\img\payments\flat\verve.svg" />
+    <None Include="wwwroot\img\payments\flat\visa.svg" />
+    <None Include="wwwroot\img\payments\mono\alipay.svg" />
+    <None Include="wwwroot\img\payments\mono\amex.svg" />
+    <None Include="wwwroot\img\payments\mono\default.svg" />
+    <None Include="wwwroot\img\payments\mono\diners.svg" />
+    <None Include="wwwroot\img\payments\mono\discover.svg" />
+    <None Include="wwwroot\img\payments\mono\elo.svg" />
+    <None Include="wwwroot\img\payments\mono\hipercard.svg" />
+    <None Include="wwwroot\img\payments\mono\jcb.svg" />
+    <None Include="wwwroot\img\payments\mono\maestro-old.svg" />
+    <None Include="wwwroot\img\payments\mono\maestro.svg" />
+    <None Include="wwwroot\img\payments\mono\mastercard-old.svg" />
+    <None Include="wwwroot\img\payments\mono\mastercard.svg" />
+    <None Include="wwwroot\img\payments\mono\paypal.svg" />
+    <None Include="wwwroot\img\payments\mono\security-code.svg" />
+    <None Include="wwwroot\img\payments\mono\unionpay.svg" />
+    <None Include="wwwroot\img\payments\mono\verve.svg" />
+    <None Include="wwwroot\img\payments\mono\visa.svg" />
+    <None Include="wwwroot\img\payments\outline\alipay.svg" />
+    <None Include="wwwroot\img\payments\outline\amex.svg" />
+    <None Include="wwwroot\img\payments\outline\default.svg" />
+    <None Include="wwwroot\img\payments\outline\diners.svg" />
+    <None Include="wwwroot\img\payments\outline\discover.svg" />
+    <None Include="wwwroot\img\payments\outline\elo.svg" />
+    <None Include="wwwroot\img\payments\outline\hipercard.svg" />
+    <None Include="wwwroot\img\payments\outline\jcb.svg" />
+    <None Include="wwwroot\img\payments\outline\maestro-old.svg" />
+    <None Include="wwwroot\img\payments\outline\maestro.svg" />
+    <None Include="wwwroot\img\payments\outline\mastercard-old.svg" />
+    <None Include="wwwroot\img\payments\outline\mastercard.svg" />
+    <None Include="wwwroot\img\payments\outline\paypal.svg" />
+    <None Include="wwwroot\img\payments\outline\security-code.svg" />
+    <None Include="wwwroot\img\payments\outline\unionpay.svg" />
+    <None Include="wwwroot\img\payments\outline\verve.svg" />
+    <None Include="wwwroot\img\payments\outline\visa.svg" />
+    <None Include="wwwroot\img\payments\single\alipay.svg" />
+    <None Include="wwwroot\img\payments\single\amex.svg" />
+    <None Include="wwwroot\img\payments\single\diners.svg" />
+    <None Include="wwwroot\img\payments\single\discover.svg" />
+    <None Include="wwwroot\img\payments\single\elo.svg" />
+    <None Include="wwwroot\img\payments\single\hipercard.svg" />
+    <None Include="wwwroot\img\payments\single\jcb.svg" />
+    <None Include="wwwroot\img\payments\single\maestro-old.svg" />
+    <None Include="wwwroot\img\payments\single\maestro.svg" />
+    <None Include="wwwroot\img\payments\single\mastercard-old.svg" />
+    <None Include="wwwroot\img\payments\single\mastercard.svg" />
+    <None Include="wwwroot\img\payments\single\paypal.svg" />
+    <None Include="wwwroot\img\payments\single\unionpay.svg" />
+    <None Include="wwwroot\img\payments\single\verve.svg" />
+    <None Include="wwwroot\img\payments\single\visa.svg" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
@@ -175,6 +241,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Basket\[get_payments].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Basket\[set_address].sql">

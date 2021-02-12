@@ -64,6 +64,8 @@ export namespace Controller.Basket {
             let settings: Interfaces.Model.ISettings = vars._appData.Settings;
             let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data.Countries;
 
+            this.Model.set("BillingAddress", responseData.Data.BillingAddress);
+
             let html: string = '';
             for (let i = 0, icount = countries.length; i < icount; i++) {
                 if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
@@ -100,7 +102,7 @@ export namespace Controller.Basket {
 
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            let billingInfo: Interfaces.Model.IBillingAddressInfo;
+            let billingInfo: Interfaces.Model.IBillingAddressInfo = this.Model.get("BillingAddress").toJSON();;
             if (this.validate(billingInfo)) {
                 this.BasketService.SetBillingAddressData(billingInfo, (responseData) => {
                     if (responseData.Result === 0) {

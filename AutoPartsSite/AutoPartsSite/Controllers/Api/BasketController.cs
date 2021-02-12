@@ -170,12 +170,20 @@ namespace AutoPartsSite.Controllers.Api
 
 
                   int billingId = GetBasketBilling(qs.uid);
-                  List<AddressInfo> addresses = GetAddress(qs, 4);
+                  List<AddressInfo> addresses = GetAddress(qs, 3);
 
-                   result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
+                  result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
 
                   if (result.BillingAddress == null)
-                      result.BillingAddress = new AddressInfo();
+                  {
+                      billingId = GetBasketDelivery(qs.uid);
+                      addresses = GetAddress(qs, 3);
+                      result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
+                      if (result.BillingAddress == null)
+                          result.BillingAddress = new AddressInfo();
+                      else
+                          result.BillingAddress.Id = 0;
+                  }
 
                   return CreateResponseOk(result);
               });
@@ -194,6 +202,23 @@ namespace AutoPartsSite.Controllers.Api
                   billing.BillingAddress.Id = billingId;
                   SetBasketBilling(billing.qs.uid, billingId);
                   return CreateResponseOk(billingId);
+              });
+          });
+
+        [HttpPost]
+        [Route("paymentlist")]
+        public async Task<HttpMessage<List<Payment>>> PaymentList(QueryWithSettings qs)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  List<Payment> result = GetPaymentList(qs);
+                  foreach(Payment p in result)
+                  {
+                           if (p.Code.ToUpper() == "CARD"  ) p.Logo = "/img/payments/flat/default.svg";
+                      else if (p.Code.ToUpper() == "PAYPAL") p.Logo = "/img/payments/flat/paypal.svg";
+                  }
+                  return CreateResponseOk(result);
               });
           });
     }

@@ -790,5 +790,38 @@ namespace AutoPartsSite.Controllers.Api
 
             return result;
         }
+
+        [NonAction]
+        private List<Payment> GetPaymentList(QueryWithSettings qs)
+        {
+            List<Payment> result = new List<Payment>();
+            int f_SitePaymentID = -1, f_Code = -1, f_Descr = -1;
+            AppSettings.Query.GlobalParts.Execute(@"Basket\[get_payments]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
+                }
+                , onExecute: (reader) =>
+                {
+                    string fname;
+                    for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                    {
+                        fname = reader.GetName(i);
+                             if (fname == "SitePaymentID") f_SitePaymentID = i;
+                        else if (fname == "Code"         ) f_Code = i;
+                        else if (fname == "Descr"        ) f_Descr = i;
+                    }
+                }
+                , (values) =>
+                {
+                    Payment payment = new Payment();
+                    if (f_SitePaymentID > -1) payment.Id   = values[f_SitePaymentID].ToInt();
+                    if (f_Code          > -1) payment.Code = values[f_Code].ToStr();
+                    if (f_Descr         > -1) payment.Name = values[f_Descr].ToStr();
+
+                    result.Add(payment);
+                });
+
+            return result;
+        }
     }
 }

@@ -72,6 +72,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Billing.prototype.setupBillingData = function (responseData) {
                     var settings = vars._appData.Settings;
                     var countries = responseData.Data.Countries;
+                    this.Model.set("BillingAddress", responseData.Data.BillingAddress);
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
                         if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
@@ -99,7 +100,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Billing.prototype.checkoutButtonClick = function (e) {
-                    var billingInfo;
+                    var billingInfo = this.Model.get("BillingAddress").toJSON();
+                    ;
                     if (this.validate(billingInfo)) {
                         this.BasketService.SetBillingAddressData(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {
