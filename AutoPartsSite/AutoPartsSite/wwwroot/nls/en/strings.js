@@ -122,6 +122,7 @@ define({
     "label$delivery$days": "Delivery, days",
     "label$dimensions": "Dimensions",
     "label$weight": "Weight, kg",
+    "label$pcs": "pcs",
     "label$addToCard": "Add to card",
     "label$availability": "Availability",
     "label$not$availability": "Not availability",

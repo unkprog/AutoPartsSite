@@ -2,6 +2,7 @@
 import base = require('app/core/basecontroller');
 import srh = require('app/services/searchservice');
 import bsk = require('app/services/basketservice');
+import utils = require('app/core/utils');
 
 export namespace Controller.Search {
     export class Index extends base.Controller.Base {
@@ -36,7 +37,8 @@ export namespace Controller.Search {
                 "labelWeight": vars._statres("label$weight") + ":",
                 "labelAvailability": vars._statres("label$availability") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
-                "labelDelivery": vars._statres("label$delivery") + ":"
+                "labelDelivery": vars._statres("label$delivery") + ":",
+                "labelPcs": vars._statres("label$pcs")
             });
         }
         
@@ -50,11 +52,10 @@ export namespace Controller.Search {
 
         private qtyForm: JQuery;
         private proxyQtyForm;
-        private setBasketIsInit: Boolean;
 
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
-            this.setBasketIsInit = true;
+            vars._appData.BasketIsInit = true;
             this.BasketService.Count(this.setBasketCount);
             this.loadBrands();
         }
@@ -225,13 +226,15 @@ export namespace Controller.Search {
         private setBasketCount(responseData): void {
             if (responseData.Result === 0) {
                 let count: number = responseData.Data;
-                if (count > 0) $('.app-basket-counter').html('' + count).show();
-                else $('.app-basket-counter').html('0').hide();
-                if (this.setBasketIsInit === false)
+                if (count > 0)
+                    $('.app-basket-counter').html('' + count).show();
+                else
+                    $('.app-basket-counter').html('0').hide();
+                if (vars._appData.BasketIsInit === false)
                     M.toast({ html: vars._statres('message$added$tocart') });
             }
             else vars._app.ShowError(responseData.Error);
-            this.setBasketIsInit = false;
+            vars._appData.BasketIsInit = false;
             vars._app.HideLoading();
         }
 

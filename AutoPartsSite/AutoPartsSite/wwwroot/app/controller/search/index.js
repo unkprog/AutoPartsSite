@@ -55,12 +55,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelWeight": vars._statres("label$weight") + ":",
                         "labelAvailability": vars._statres("label$availability") + ":",
                         "labelPrice": vars._statres("label$price") + ":",
-                        "labelDelivery": vars._statres("label$delivery") + ":"
+                        "labelDelivery": vars._statres("label$delivery") + ":",
+                        "labelPcs": vars._statres("label$pcs")
                     });
                 };
                 Index.prototype.OnViewInit = function () {
                     this.searchForm = this.View.find("#search-view-form");
-                    this.setBasketIsInit = true;
+                    vars._appData.BasketIsInit = true;
                     this.BasketService.Count(this.setBasketCount);
                     this.loadBrands();
                 };
@@ -201,12 +202,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             $('.app-basket-counter').html('' + count).show();
                         else
                             $('.app-basket-counter').html('0').hide();
-                        if (this.setBasketIsInit === false)
+                        if (vars._appData.BasketIsInit === false)
                             M.toast({ html: vars._statres('message$added$tocart') });
                     }
                     else
                         vars._app.ShowError(responseData.Error);
-                    this.setBasketIsInit = false;
+                    vars._appData.BasketIsInit = false;
                     vars._app.HideLoading();
                 };
                 Index.prototype.whatCar = function (e) {

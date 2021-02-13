@@ -7,5 +7,7 @@ namespace AutoPartsSite.Models.GlobalParts
     {
         [DataMember]
         public string Symbol { get; set; }
+        [DataMember]
+        public bool ShowLeft { get; set; }
     }
 }

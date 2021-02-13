@@ -123,6 +123,7 @@ define({
     "label$delivery$days": "Доставка, дней",
     "label$dimensions": "Размеры",
     "label$weight": "Вес, кг",
+    "label$pcs": "шт",
     "label$addToCard": "Добавить в корзину",
     "label$availability": "Доступно",
     "label$not$availability": "Не доступно",

@@ -175,6 +175,17 @@ export namespace App {
                 localStorage.removeItem('basketCheckOut');
         }
 
+        public get BasketIsInit(): boolean {
+            var basketIsInit = localStorage.getItem('basketIsInit');
+            return (basketIsInit && basketIsInit == "true" ? true : false);
+        }
+
+        public set BasketIsInit(val: boolean) {
+            if (val === true)
+                localStorage.setItem('basketIsInit', 'true');
+            else
+                localStorage.removeItem('basketIsInit');
+        }
     }
 }
 

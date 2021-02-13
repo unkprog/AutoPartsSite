@@ -159,6 +159,20 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "BasketIsInit", {
+                get: function () {
+                    var basketIsInit = localStorage.getItem('basketIsInit');
+                    return (basketIsInit && basketIsInit == "true" ? true : false);
+                },
+                set: function (val) {
+                    if (val === true)
+                        localStorage.setItem('basketIsInit', 'true');
+                    else
+                        localStorage.removeItem('basketIsInit');
+                },
+                enumerable: false,
+                configurable: true
+            });
             return Data;
         }());
         App.Data = Data;
