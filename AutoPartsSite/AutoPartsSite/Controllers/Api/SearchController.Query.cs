@@ -193,7 +193,7 @@ namespace AutoPartsSite.Controllers.Api
                         {
                             DeliveryInfo deliveryInfo;
                             deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID, Currency = item.Currency };
-                            if (deliveryTariffID == 8) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
+                                 if (deliveryTariffID == 8) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
                             else if (deliveryTariffID == 9) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
 
                             if (f_DeliveryTariffCode > -1) deliveryInfo.Code = values[f_DeliveryTariffCode].ToStr();

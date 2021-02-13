@@ -26,14 +26,14 @@ export namespace Controller.Basket {
                 "labelDelivery": vars._statres("label$shipping"),
                 "labelBrand": vars._statres("label$brand"), // + ":",
                 "labelPartNumber": vars._statres("label$partnumber"),
-                "labelName": vars._statres("label$name"),
+                "labelName": vars._statres("label$description"),
                 "labelCountry": vars._statres("label$country") + ":",
                 "labelShipIn": vars._statres("label$shipin"), // + ":",
                 "labelDimensions": vars._statres("label$dimensions") + ":",
                 "labelWeight": vars._statres("label$weight") + ":",
                 "labelQty": vars._statres("label$qty"), // + ":",
                 "labelPrice": vars._statres("label$price"), // + ":",
-                "labelSum": vars._statres("label$sum"), // + ":",
+                "labelSum": vars._statres("label$amount"), // + ":",
                 "labelPromoCode": vars._statres("label$promocode") + ":",
                 "labelApplyPromocode": vars._statres("label$promocode$apply"),
                 "labelTotalSum": vars._statres("label$items$subtotal") + ":",
@@ -128,6 +128,7 @@ export namespace Controller.Basket {
                 let template = vars.getTemplate(templateContent);
                 let htmlResult = '';
                 let curSymbol: string = vars._appData.Settings.Currency.Code;
+                let isSymbolLeft: boolean = false;
 
                 let sum: number = 0;
                 for (let i = 0; i < icount; i++) {
@@ -136,6 +137,7 @@ export namespace Controller.Basket {
                     }
 
                     curSymbol = items[i].Goods.Currency.Symbol;
+                    isSymbolLeft = items[i].Goods.Currency.ShowLeft;
                     items[i].deleteLabel = vars._statres("button$label$delete");
                     items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                     sum += items[i].Sum;
@@ -145,7 +147,11 @@ export namespace Controller.Basket {
                 self.View.find("#basket-view-parts-empty").hide();
                 self.View.find('#basket-view-parts-rows').html(htmlResult);
                 self.View.find("#basket-view-parts-table").show();
-                self.Model.set("TotalSumValue", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+                if (isSymbolLeft === true)
+                    self.Model.set("TotalSumValue", curSymbol + ' ' + window.numberToString(sum, 2));
+                else
+                    self.Model.set("TotalSumValue", window.numberToString(sum, 2) + ' ' + curSymbol);
+
                 self.Model.set("curSymbol", curSymbol);
                 //Items Subtotal
 
@@ -164,8 +170,17 @@ export namespace Controller.Basket {
                     htmlResult = (htmlResult + template(items[i]));
                 }
                 self.View.find('#basket-view-delivery').html(htmlResult);
-                self.Model.set("TotalVat", '' + window.numberToString(vat, 2) + ' ' + curSymbol);
-                self.Model.set("TotalSum", '' + window.numberToString(sum, 2) + ' ' + curSymbol);
+
+                if (isSymbolLeft === true)
+                    self.Model.set("TotalVat", curSymbol + ' ' + window.numberToString(vat, 2));
+                else
+                    self.Model.set("TotalVat", window.numberToString(vat, 2) + ' ' + curSymbol);
+
+                if (isSymbolLeft === true)
+                    self.Model.set("TotalSum", curSymbol + ' ' + window.numberToString(sum, 2));
+                else
+                    self.Model.set("TotalSum", window.numberToString(sum, 2) + ' ' + curSymbol);
+               
                 if (self.deliveryId !== 0) {
                     self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
                 }

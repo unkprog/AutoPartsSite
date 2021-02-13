@@ -88,7 +88,7 @@ define({
     "label$messages": "Messages",
     "label$settings": "Settings",
 
-    "label$basket": "Basket",
+    "label$basket": "Cart",
 
     "label$account": "Account",
     "label$aboutUs": "About us",
@@ -134,14 +134,14 @@ define({
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////
-    "label$empty$basket": "Your basket is empty",
-    "label$basket": "Basket",
+    "label$empty$basket": "Your cart is empty",
     "label$qty": "Qty",
     "label$qty$was": "Was",
     "label$price": "Price",
     "label$price$haschanged": "Price has changed",
     "label$no$longeravailable":"No longer available",
     "label$sum": "Sum",
+    "label$amount": "Amount",
     "label$promocode": "Promocode", 
     "label$promocode$apply": "Apply promocode",
 
@@ -163,6 +163,7 @@ define({
     "msg$delivery$choosecompany": "Choose a delivery company",
     "label$address$delivery": "Delivery address",
     "label$address$billing": "Billing address",
+    "label$address": "Address",
 
     "label$fullname": "Full name",
     "label$zipcode": "Zip code",

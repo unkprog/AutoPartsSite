@@ -367,7 +367,7 @@ namespace AutoPartsSite.Controllers.Api
             int f_PartNn = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_Price = -1, f_ShipInDays = -1;
             int f_BrandId = -1, f_BrandCode = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
-            int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1;
+            int f_CurrencyId = -1, f_CurrencyCode = -1, f_CurrencyName = -1, f_CurrencySymbol = -1, f_CurrencySymbolShowLeft = -1;
             int f_WeightPhysical = -1, f_WeightVolumetric = -1, f_LengthCm = -1, f_WidthCm = -1, f_HeightCm = -1;
 
             int f_PriceChanged = -1, f_QtyChanged = -1;
@@ -426,6 +426,7 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "CartCurrencyCode")    f_CurrencyCode = i;
                     else if (fname == "CartCurrencyName")    f_CurrencyName = i;
                     else if (fname == "CartCurrencySymbol")  f_CurrencySymbol = i;
+                    else if (fname == "CartCurrencySymbolShowLeft") f_CurrencySymbolShowLeft = i;
 
                     else if (fname == "WeightPhysical")      f_WeightPhysical = i;
                     else if (fname == "WeightVolumetric")    f_WeightVolumetric = i;
@@ -479,6 +480,7 @@ namespace AutoPartsSite.Controllers.Api
                             if (f_CurrencyCode        > -1) deliveryInfo.Currency.Code   = values[f_CurrencyCode].ToStr();
                             if (f_CurrencyName        > -1) deliveryInfo.Currency.Name   = values[f_CurrencyName].ToStr();
                             if (f_CurrencySymbol      > -1) deliveryInfo.Currency.Symbol = values[f_CurrencySymbol].ToStr();
+                            if (f_CurrencySymbolShowLeft > -1) deliveryInfo.Currency.ShowLeft = values[f_CurrencySymbolShowLeft].ToBool();
                         }
                     }
                 }
@@ -513,6 +515,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_CurrencyCode   > -1) item.Goods.Currency.Code = values[f_CurrencyCode].ToStr();
                     if (f_CurrencyName   > -1) item.Goods.Currency.Name = values[f_CurrencyName].ToStr();
                     if (f_CurrencySymbol > -1) item.Goods.Currency.Symbol = values[f_CurrencySymbol].ToStr();
+                    if (f_CurrencySymbolShowLeft > -1) item.Goods.Currency.ShowLeft = values[f_CurrencySymbolShowLeft].ToBool();
 
                     if (f_WeightPhysical   > -1) item.Goods.Parameters.WeightPhysical = values[f_WeightPhysical].ToDecimal();
                     if (f_WeightVolumetric > -1) item.Goods.Parameters.WeightVolumetric = values[f_WeightVolumetric].ToDecimal();

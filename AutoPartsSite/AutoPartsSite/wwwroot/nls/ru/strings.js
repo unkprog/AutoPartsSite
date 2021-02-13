@@ -136,13 +136,13 @@ define({
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$empty$basket": "Ваша корзина пуста",
-    "label$basket": "Корзина",
     "label$qty": "Кол-во",
     "label$qty$was": "Было",
     "label$no$longeravailable": "Больше недоступно",
     "label$price": "Цена",
     "label$price$haschanged": "Цена изменилась",
     "label$sum": "Сумма",
+    "label$amount": "Сумма",
     "label$promocode": "Промокод", 
     "label$promocode$apply": "Применить промокод",
     "label$total$goods$sum": "Всего товаров на сумму",
@@ -164,6 +164,7 @@ define({
     "msg$delivery$choosecompany": "Выберите компанию для доставки",
     "label$address$delivery": "Адрес доставки",
     "label$address$billing": "Платежный адрес",
+    "label$address": "Адрес",
 
     "label$fullname": "Фамилия, имя, отчество",
     "label$zipcode": "Почтовый индекс",

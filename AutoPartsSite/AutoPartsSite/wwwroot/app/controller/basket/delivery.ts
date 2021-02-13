@@ -31,7 +31,7 @@ export namespace Controller.Basket {
                 "labelRegion": vars._statres("label$region"),
                 "labelCity": vars._statres("label$city"),
                 "labelZipCode": vars._statres("label$zipcode"),
-                "labelStreet": vars._statres("label$street"),
+                "labelStreet": vars._statres("label$address"),
                 "labelPhoneCode": vars._statres("label$phonecode"),
                 "labelPhone": vars._statres("label$phone"),
 

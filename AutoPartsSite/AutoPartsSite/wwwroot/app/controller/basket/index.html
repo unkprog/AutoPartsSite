@@ -134,10 +134,26 @@
             <td>#=Goods.Name#</td>
             <td>#=Goods.ShipInDays#</td>
             <td class="td-right">
-                <span>#=numberToString(Price,2)##=Goods.Currency.Symbol#</span>
+                <span>
+                                        #if(Goods.Currency.ShowLeft===true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                                        #=numberToString(Price,2)#
+                                        #if(Goods.Currency.ShowLeft !== true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                </span>
         #if(PriceChanged == true) {#
                 <br/>
-               <span class="margin-right-1rem basket-label" data-bind="text:labelPriceHasChanged"></span><span class="basket-label through">#=numberToString(Price,2)##=Goods.Currency.Symbol#</span>
+               <span class="margin-right-1rem basket-label" data-bind="text:labelPriceHasChanged"></span><span class="basket-label through">
+                                        #if(Goods.Currency.ShowLeft===true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                                        #=numberToString(Price,2)#
+                                        #if(Goods.Currency.ShowLeft !== true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                </span>
         #}#
             </td>
             <td class="td-right">
@@ -155,14 +171,38 @@
             </td>
             <td class="td-right">
         #if(!(CartDiscountsAmount == 0)) {#
-                <span class="basket-label through">#=numberToString(Sum,2)##=Goods.Currency.Symbol#</span>
+                <span class="basket-label through">
+                                        #if(Goods.Currency.ShowLeft===true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                                        #=numberToString(Sum,2)#
+                                        #if(Goods.Currency.ShowLeft !== true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                </span>
                 </br>
         #}#
-                <span class="basket-item-sum">#=numberToString(Sum,2)##=Goods.Currency.Symbol#</span>
+                <span class="basket-item-sum">
+                                        #if(Goods.Currency.ShowLeft===true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                                        #=numberToString(Sum,2)#
+                                        #if(Goods.Currency.ShowLeft !== true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                </span>
         #if(!(CartDiscountsAmount == 0)) {#
                 </br>
                 <span class="basket-item-discount" data-bind="text:labelSave"></span>
-                <span class="basket-item-discount-sum">-#=numberToString(CartDiscountsAmount,2)##=Goods.Currency.Symbol#</span>
+                <span class="basket-item-discount-sum">-
+                                        #if(Goods.Currency.ShowLeft===true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                                        #=numberToString(CartDiscountsAmount,2)#
+                                        #if(Goods.Currency.ShowLeft !== true) {#
+                                            #=Goods.Currency.Symbol#
+                                        #}#
+                </span>
         #}#
             </td>
             <td class="td-right">
@@ -221,7 +261,14 @@
                             <span class="card-delivery-item">#=Name#</span>
                         </div>
                         <div class="col">
-                            <span class="margin-right-1rem basket-label" data-bind="text:labelDeliveryAmount"></span>#=numberToString(DeliveryAmount,2)##=Currency.Symbol#
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelDeliveryAmount"></span>
+                                        #if(Currency.ShowLeft===true) {#
+                                            #=Currency.Symbol#
+                                        #}#
+                                        #=numberToString(DeliveryAmount,2)#
+                                        #if(Currency.ShowLeft !== true) {#
+                                            #=Currency.Symbol#
+                                        #}#
                         </div>
                         <div class="col">
                             <span class="margin-right-1rem basket-label" data-bind="text:labelDeliveryDays"></span>#=DeliveryDays#
