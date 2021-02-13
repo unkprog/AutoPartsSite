@@ -55,8 +55,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelWeight": vars._statres("label$weight") + ":",
                         "labelAvailability": vars._statres("label$availability") + ":",
                         "labelPrice": vars._statres("label$price") + ":",
-                        "labelDelivery": vars._statres("label$delivery") + ":",
-                        "labelPcs": vars._statres("label$pcs")
+                        "labelDelivery": vars._statres("label$deliveryfrom") + ":",
+                        "labelPcs": vars._statres("label$pcs"),
+                        "labelSearch": vars._statres("label$search"),
+                        "labelRequest": vars._statres("label$request")
                     });
                 };
                 Index.prototype.OnViewInit = function () {
@@ -92,9 +94,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
                     this.proxyPageNext = $.proxy(this.searchPageNext, this);
                     this.proxyAddToCard = $.proxy(this.addToCard, this);
+                    this.proxyReqToCard = $.proxy(this.reqToCard, this);
                     this.proxyWhatCar = $.proxy(this.whatCar, this);
+                    $('search-view');
+                    this.SearchButtonClick = this.createClickEvent("search-view-btn", this.searchButtonClick);
                 };
                 Index.prototype.destroyEvents = function () {
+                    this.destroyClickEvent("search-view-btn", this.SearchButtonClick);
                     if (this.searchForm)
                         this.searchForm.off('submit', this.proxySearch);
                 };
@@ -103,7 +109,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     $('.search-view-pagination').find('.search-view-pagination-page').on('click', self.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', self.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
-                    $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
+                    $('#search-view-parts').find('.add-to-basket-id').on('click', self.proxyAddToCard);
+                    $('#search-view-parts').find('.req-to-basket-id').on('click', self.proxyReqToCard);
                     self.View.find('.card-search-whatcar').on('click', self.proxyWhatCar);
                     self.qtyForm = self.View.find(".basket-qty-form");
                     if (self.qtyForm) {
@@ -116,7 +123,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (self.qtyForm)
                         self.qtyForm.off('submit', self.proxyQtyForm);
                     self.View.find('.card-search-whatcar').off('click', self.proxyWhatCar);
-                    $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
+                    $('#search-view-parts').find('.add-to-basket-id').off('click', self.proxyAddToCard);
+                    $('#search-view-parts').find('.req-to-basket-id').off('click', self.proxyReqToCard);
                     $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
                     $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
                     $('.search-view-pagination').find('.search-view-pagination-next ').off('click', self.proxyPageNext);
@@ -133,6 +141,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         htmlResult = (htmlResult + template(items[i]));
                     }
                     return htmlResult;
+                };
+                Index.prototype.searchButtonClick = function (e) {
+                    this.search(e);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 Index.prototype.search = function (e) {
                     var _this = this;
@@ -213,6 +227,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.whatCar = function (e) {
                     vars._app.ShowMessage("What car", "List of cars");
                     e.preventDefault();
+                    e.stopPropagation();
                     return false;
                 };
                 Index.prototype.addToCard = function (e) {
@@ -223,6 +238,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     if (qty > 0)
                         self.BasketService.Add(id, qty, self.setBasketCount);
                     e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
+                Index.prototype.reqToCard = function (e) {
+                    //  vars._app.ShowLoading(false);
+                    e.preventDefault();
+                    e.stopPropagation();
                     return false;
                 };
                 Index.prototype.addQty = function (e) {
@@ -232,6 +254,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var qty = parseInt($('#basket-qty-' + id).val());
                     self.BasketService.Add(id, qty, self.setBasketCount);
                     e.preventDefault();
+                    e.stopPropagation();
                     return false;
                 };
                 return Index;

@@ -37,8 +37,10 @@ export namespace Controller.Search {
                 "labelWeight": vars._statres("label$weight") + ":",
                 "labelAvailability": vars._statres("label$availability") + ":",
                 "labelPrice": vars._statres("label$price") + ":",
-                "labelDelivery": vars._statres("label$delivery") + ":",
-                "labelPcs": vars._statres("label$pcs")
+                "labelDelivery": vars._statres("label$deliveryfrom") + ":",
+                "labelPcs": vars._statres("label$pcs"),
+                "labelSearch": vars._statres("label$search"),
+                "labelRequest": vars._statres("label$request")
             });
         }
         
@@ -48,6 +50,7 @@ export namespace Controller.Search {
         private proxyPagePrev;
         private proxyPageNext;
         private proxyAddToCard;
+        private proxyReqToCard;
         private proxyWhatCar;
 
         private qtyForm: JQuery;
@@ -90,13 +93,15 @@ export namespace Controller.Search {
             this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
             this.proxyPageNext = $.proxy(this.searchPageNext, this);
             this.proxyAddToCard = $.proxy(this.addToCard, this);
+            this.proxyReqToCard = $.proxy(this.reqToCard, this)
             this.proxyWhatCar = $.proxy(this.whatCar, this);
-            
+            $('search-view')
+            this.SearchButtonClick = this.createClickEvent("search-view-btn", this.searchButtonClick);
         }
 
         protected destroyEvents(): void {
+            this.destroyClickEvent("search-view-btn", this.SearchButtonClick);
             if (this.searchForm) this.searchForm.off('submit', this.proxySearch);
-
         }
 
         private createEventItems() {
@@ -105,7 +110,8 @@ export namespace Controller.Search {
             $('.search-view-pagination').find('.search-view-pagination-page').on('click', self.proxyPage);
             $('.search-view-pagination').find('.search-view-pagination-prev ').on('click', self.proxyPagePrev);
             $('.search-view-pagination').find('.search-view-pagination-next ').on('click', self.proxyPageNext);
-            $('#search-view-parts').find('.card-btn-add-basket').on('click', self.proxyAddToCard);
+            $('#search-view-parts').find('.add-to-basket-id').on('click', self.proxyAddToCard);
+            $('#search-view-parts').find('.req-to-basket-id').on('click', self.proxyReqToCard);
 
             self.View.find('.card-search-whatcar').on('click', self.proxyWhatCar);
 
@@ -123,7 +129,8 @@ export namespace Controller.Search {
 
             self.View.find('.card-search-whatcar').off('click', self.proxyWhatCar);
 
-            $('#search-view-parts').find('.card-btn-add-basket').off('click', self.proxyAddToCard);
+            $('#search-view-parts').find('.add-to-basket-id').off('click', self.proxyAddToCard);
+            $('#search-view-parts').find('.req-to-basket-id').off('click', self.proxyReqToCard);
 
             $('.search-view-pagination').find('.search-view-pagination-page').off('click', self.proxyPage);
             $('.search-view-pagination').find('.search-view-pagination-prev ').off('click', self.proxyPagePrev);
@@ -148,6 +155,15 @@ export namespace Controller.Search {
             }
             return htmlResult
         }
+
+        public SearchButtonClick: { (e: any): void; };
+        private searchButtonClick(e) {
+            this.search(e);
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
         private search(e: any): boolean {
             let self = this;
             let partNum: string = '' + self.View.find('#search-view-part-number').val();
@@ -242,6 +258,7 @@ export namespace Controller.Search {
         private whatCar(e: any): boolean {
             vars._app.ShowMessage("What car", "List of cars");
             e.preventDefault();
+            e.stopPropagation();
             return false;
         }
 
@@ -253,6 +270,15 @@ export namespace Controller.Search {
             if (qty > 0)
                 self.BasketService.Add(id, qty, self.setBasketCount);
             e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        private reqToCard(e: any): boolean {
+          //  vars._app.ShowLoading(false);
+          
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         }
 
@@ -263,6 +289,7 @@ export namespace Controller.Search {
             let qty: number = parseInt($('#basket-qty-' + id).val() as string);
             self.BasketService.Add(id, qty, self.setBasketCount);
             e.preventDefault();
+            e.stopPropagation();
             return false;
         }
     }

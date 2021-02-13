@@ -127,6 +127,7 @@ define({
     "label$addToCard": "Добавить в корзину",
     "label$availability": "Доступно",
     "label$not$availability": "Не доступно",
+    "label$request": "Запросить",
     "message$added$tocart": "Продукт был добавлен в корзину",
     "label$deliveryfrom": "Доставка из",
 

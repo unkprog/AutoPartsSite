@@ -2,19 +2,21 @@
     <div class="row">
     </div>
     <div class="row">
-        <div class="col s12 m12 l8 xl6 offset-l2 offset-xl3">
+        <div class="col s10 m10 l6 xl5 offset-l2 offset-xl3">
             <nav class="card-search-nav editor-header z-depth-1">
                 <div class="nav-wrapper">
                     <form id="search-view-form">
                         <div class="input-field">
                             <input id="search-view-part-number" type="search" required>';
                             <label class="label-icon" for="search"><i class="material-icons editor-header">search</i></label>;
-                            <label for="card-view-search" data-bind="text:labelSearch"></label>
                             <i id="card-view-search-clear" class="material-icons editor-header">close</i>
                         </div>
                     </form>
                 </div>
             </nav>
+        </div>
+        <div class="col s2 m2 l2 xl1">
+            <a id="search-view-btn" class="waves-effect waves-light btn" style="margin-top: 6px" data-bind="text:labelSearch"></a>
         </div>
     </div>
 
@@ -70,13 +72,16 @@
                                         </span>
                                 </div>
                                 <div class="card-search-basket-edit">
-                                    <a class="waves-effect waves-light btn card-btn-add-basket right" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
-                                    #if(StockQty>0) {#
+                                    <a class="waves-effect waves-light btn card-btn-add-basket right add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                                    #if(StockQty > 0) {#
                                     <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
                                         <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
                                         <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
                                     </form>
                                     <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket">drive_eta</i>
+                                    #} else {#
+                                    <br/><br/>
+                                    <a class="waves-effect waves-light btn card-btn-add-basket right req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
                                     #}#
                                 </div>
                             </div>

@@ -146,7 +146,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (id > 0)
                     {
                         Goods item = null;
-                        if (subTypeid == 1)
+                        if (subTypeid == 0)
                         {
                             if (!result.Result.TryGetValue(id, out item))
                             {
