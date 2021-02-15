@@ -36,4 +36,14 @@ namespace AutoPartsSite.Core.Models.Security
         [DataMember]
         public int  SiteUserId { get; set; }
     }
+
+    [DataContract]
+    public class UidResult
+    {
+        [DataMember]
+        public IdentityResult Identity { get; set; }
+        [DataMember]
+        public string Version { get; set; }
+        
+    }
 }

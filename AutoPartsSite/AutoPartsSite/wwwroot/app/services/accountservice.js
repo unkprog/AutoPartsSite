@@ -38,6 +38,9 @@ define(["require", "exports", "app/core/baseservice", "../core/variables"], func
             AccountService.prototype.Login = function (model, Callback) {
                 this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
             };
+            AccountService.prototype.Logout = function (Callback) {
+                this.GetApi({ Action: "/logout", RequestData: { uid: variables_1._appData.Uid }, Callback: Callback });
+            };
             AccountService.prototype.Uid = function (Callback) {
                 this.GetApi({ Action: "/uid", RequestData: { uid: variables_1._appData.Uid }, Callback: Callback });
             };

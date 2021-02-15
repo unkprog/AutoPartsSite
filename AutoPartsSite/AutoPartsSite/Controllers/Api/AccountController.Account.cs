@@ -53,6 +53,18 @@ namespace AutoPartsSite.Controllers.Api
                 return CreateResponseOk(new IdentityResult { SiteUserId = siteUserId, Auth = true, Cms = Cms, Token = principal.GetKey(), User = user });
             });
 
+        [HttpGet]
+        [Route("logout")]
+        public async Task<HttpMessage<string>> Logout(string uid)
+            => await TryCatchResponseAsync(async () =>
+            {
+                SetUserUid(uid, 0);
+                Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                if (principal != null)
+                    AuthUserManager.LogOut(principal.GetKey());
+                return CreateResponseOk("Ok");
+            });
+
         [HttpPost]
         [Route("recovery")]
         public async Task<HttpMessage<string>> Recovery(RegisterUser register_user)

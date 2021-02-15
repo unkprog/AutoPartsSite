@@ -24,6 +24,7 @@ namespace AutoPartsSite.Managers
         {
             if (authorizedList.ContainsKey(key))
                 authorizedList.Remove(key);
+            AuthorizationMiddleware.SetPrincipal(null);
         }
 
         public static Principal GetLogIn(string key)

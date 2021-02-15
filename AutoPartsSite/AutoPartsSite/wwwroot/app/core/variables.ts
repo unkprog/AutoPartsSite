@@ -93,6 +93,14 @@ export namespace App {
             this._identity = identity;
         }
 
+        private _version: string;
+        public get Version(): string{
+            return this._version;
+        }
+        public set Version(version: string) {
+            this._version = version;
+        }
+
         public get Locale(): string {
             var locale: string = localStorage.getItem('locale');
             if (!locale) {

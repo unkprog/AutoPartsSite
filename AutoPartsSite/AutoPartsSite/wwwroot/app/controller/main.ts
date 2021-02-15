@@ -2,6 +2,7 @@
 import ctrl = require('app/core/basecontroller');
 import utils = require('app/core/utils');
 import { _app, _main } from 'app/core/variables';
+import acc = require('app/services/accountservice');
 
 export namespace Controller {
     export class Main extends ctrl.Controller.BaseContent implements Interfaces.IMainNavigation {
@@ -117,11 +118,16 @@ export namespace Controller {
         }
 
         public LogOut(): void {
-            vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
-            if (this.menuCms) {
-                this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
-                this.menuCms.remove();
-            }
+            _app.ShowLoading(true);
+            let accountService = new acc.Services.AccountService();
+            accountService.Logout((responseData) => {
+                vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
+                if (this.menuCms) {
+                    this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
+                    this.menuCms.remove();
+                }
+                _app.HideLoading();
+            });
         }
 
         private initUserMenu() {

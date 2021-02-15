@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils", "app/core/variables"], function (require, exports, vars, ctrl, utils, variables_1) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils", "app/core/variables", "app/services/accountservice"], function (require, exports, vars, ctrl, utils, variables_1, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -97,11 +97,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
             };
             Main.prototype.LogOut = function () {
-                vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
-                if (this.menuCms) {
-                    this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
-                    this.menuCms.remove();
-                }
+                var _this = this;
+                variables_1._app.ShowLoading(true);
+                var accountService = new acc.Services.AccountService();
+                accountService.Logout(function (responseData) {
+                    vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
+                    if (_this.menuCms) {
+                        _this.destroyClickEvent("main-view-btn-cms", _this.MenuContactButtonClick);
+                        _this.menuCms.remove();
+                    }
+                    variables_1._app.HideLoading();
+                });
             };
             Main.prototype.initUserMenu = function () {
                 var mddt = this.userMenu.find('.dropdown-trigger');

@@ -8,6 +8,7 @@ using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Models.Security;
 using AutoPartsSite.Core.Extensions;
 using AutoPartsSite.Managers;
+using System.Reflection;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -15,7 +16,7 @@ namespace AutoPartsSite.Controllers.Api
     {
         [HttpGet]
         [Route("uid")]
-        public async Task<HttpMessage<IdentityResult>> Uid(string uid)
+        public async Task<HttpMessage<UidResult>> Uid(string uid)
          => await TryCatchResponseAsync(async () =>
          {
              return await Task.Run(() =>
@@ -42,7 +43,8 @@ namespace AutoPartsSite.Controllers.Api
                 
                  bool Cms = user.Roles != null && user.Roles.Count > 0 && user.Roles.FirstOrDefault(f => f.Role == 1) != null;
                  bool auth = user != null && user.Id != 0;
-                 return CreateResponseOk(new IdentityResult { SiteUserId = siteUserId, Auth = auth, Cms = Cms, Token = principal == null ? "" : principal.GetKey(), User = user });
+                 string version = this.GetType().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+                 return CreateResponseOk(new UidResult () { Version = version, Identity = new IdentityResult { SiteUserId = siteUserId, Auth = auth, Cms = Cms, Token = principal == null ? "" : principal.GetKey(), User = user } });
              });
          });
 

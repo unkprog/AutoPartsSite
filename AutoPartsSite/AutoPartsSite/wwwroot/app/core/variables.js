@@ -64,6 +64,16 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "Version", {
+                get: function () {
+                    return this._version;
+                },
+                set: function (version) {
+                    this._version = version;
+                },
+                enumerable: false,
+                configurable: true
+            });
             Object.defineProperty(Data.prototype, "Locale", {
                 get: function () {
                     var locale = localStorage.getItem('locale');

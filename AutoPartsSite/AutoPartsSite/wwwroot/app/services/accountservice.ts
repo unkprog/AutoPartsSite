@@ -24,6 +24,9 @@ export namespace Services {
             this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
+        public Logout(Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/logout", RequestData: { uid: _appData.Uid }, Callback: Callback });
+        }
 
         public Uid(Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/uid", RequestData: { uid: _appData.Uid }, Callback: Callback });
