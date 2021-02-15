@@ -53,6 +53,24 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         }
 
         [HttpPost]
+        [Route("loginCheck")]
+        public HttpMessage<UserWithRole> LoginChek(UserUid uu)
+        {
+            return TryCatchResponse(() =>
+            {
+                UserWithRole result = new UserWithRole() { Id = uu.Id };
+                User user = GetUser(uu.User);
+
+                if (user != null && user.D == 0)
+                {
+                    result.Email = user.Email;
+                    result.Roles = GetUserRoles(user.Id);
+                }
+                return CreateResponseOk(result);
+            });
+        }
+
+        [HttpPost]
         [Route("register")]
         public HttpMessage<User> Register(RegisterUser register)
         {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http.Features;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Models.Security;
+using AutoPartsSite.Core.Extensions;
+using AutoPartsSite.Managers;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -13,15 +15,34 @@ namespace AutoPartsSite.Controllers.Api
     {
         [HttpGet]
         [Route("uid")]
-        public async Task<HttpMessage<int>> Uid(string uid)
+        public async Task<HttpMessage<IdentityResult>> Uid(string uid)
          => await TryCatchResponseAsync(async () =>
          {
              return await Task.Run(() =>
              {
                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                 int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                 int result = SetUserUid(uid, userId);
-                 return CreateResponseOk(result);
+                 UserWithRole user = null;
+                 if (principal == null || principal.User == null)
+                 {
+                     UserUid uu = GetUserUid(uid);
+                     HttpMessage<UserWithRole> postResult = Json.Post<HttpMessage<UserWithRole>, UserUid>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/loginCheck", uu);
+                     user = postResult?.Data;
+                 }
+                 else
+                     user = (principal.User as UserWithRole);
+
+                 if (principal == null && user != null && user.Id != 0)
+                 {
+                     principal = new Principal(user);
+                     AuthUserManager.LogIn(principal);
+                 }
+
+                 int userId = user.Id;
+                 int siteUserId = SetUserUid(uid, userId);
+                
+                 bool Cms = user.Roles != null && user.Roles.Count > 0 && user.Roles.FirstOrDefault(f => f.Role == 1) != null;
+                 bool auth = user != null && user.Id != 0;
+                 return CreateResponseOk(new IdentityResult { SiteUserId = siteUserId, Auth = auth, Cms = Cms, Token = principal == null ? "" : principal.GetKey(), User = user });
              });
          });
 

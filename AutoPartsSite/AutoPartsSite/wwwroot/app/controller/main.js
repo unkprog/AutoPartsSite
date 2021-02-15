@@ -93,7 +93,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.userMenu = $('<li><a id="app-btn-user-menu" class="dropdown-trigger" data-target="app-dropdown-user-menu"><i class="material-icons">account_circle</i></a></li>');
                 this.menuRight.find('#app-btn-login').remove();
                 this.sideNavBarRight.append(this.userMenu);
-                this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
+                this.initUserMenu();
                 this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
             };
             Main.prototype.LogOut = function () {
@@ -103,10 +103,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.menuCms.remove();
                 }
             };
+            Main.prototype.initUserMenu = function () {
+                var mddt = this.userMenu.find('.dropdown-trigger');
+                if (mddt)
+                    mddt.dropdown({ constrainWidth: false });
+            };
             Main.prototype.ViewShow = function (e) {
                 var result = _super.prototype.ViewShow.call(this, e);
                 this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
                 $("#app-navbar").find('.tooltipped').tooltip();
+                this.LogIn();
                 return result;
             };
             Main.prototype.ViewHide = function (e) {

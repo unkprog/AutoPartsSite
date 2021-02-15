@@ -50,7 +50,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 var self = this;
                 var accountService = new acc.Services.AccountService();
                 accountService.Uid(function (responseData) {
-                    vars._appData.Identity.SiteUserId = responseData.Data;
+                    vars._appData.Identity = responseData.Data;
                     var settings = vars._appData.Settings;
                     if (settings != null)
                         self.loadAppView_();

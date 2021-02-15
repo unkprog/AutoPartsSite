@@ -93,6 +93,7 @@ export namespace Controller {
             this.menuRight = $('<li><a id="app-btn-login" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$account") + '"><i class="material-icons">person_outline</i></a></li>');
             this.sideNavBarRight.append(this.menuRight);
             this.LoginClick = utils.createClickEvent("app-btn-login", this.loginClick, this);
+            
         }
 
         public LogIn(): void {
@@ -111,7 +112,7 @@ export namespace Controller {
             this.menuRight.find('#app-btn-login').remove();
             this.sideNavBarRight.append(this.userMenu);
 
-            this.userMenu.find('.dropdown-trigger').dropdown({ constrainWidth: false });
+            this.initUserMenu();
             this.LogoutClick = utils.createClickEvent("app-user-logout", this.logoutClick, this);
         }
 
@@ -123,10 +124,17 @@ export namespace Controller {
             }
         }
 
+        private initUserMenu() {
+            let mddt = this.userMenu.find('.dropdown-trigger');
+            if (mddt)
+                mddt.dropdown({ constrainWidth: false });
+        }
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
             this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
+            
             $("#app-navbar").find('.tooltipped').tooltip();
+            this.LogIn();
             return result;
         }
 

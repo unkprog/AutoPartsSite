@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Models.GlobalParts;
 using System;
 using System.Linq;
+using AutoPartsSite.Models.Account;
+using AutoPartsSite.Core.Extensions;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -23,6 +25,25 @@ namespace AutoPartsSite.Controllers.Api
                 , action: (values) =>
                 {
                     result = Convert.ToInt32(values[0]);
+                });
+            return result;
+        }
+
+        [NonAction]
+        internal static UserUid GetUserUid(string uid)
+        {
+            UserUid result = new UserUid();
+            AppSettings.Query.Basket.Execute(@"[get_user_uid]"
+                , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@Uid", string.IsNullOrEmpty(uid) ? (object)DBNull.Value : uid),
+                }
+                , onExecute: null
+                , action: (values) =>
+                {
+                    result.Id = values[0].ToInt();
+                    result.Uid = values[1].ToStr();
+                    result.User = values[2].ToInt();
                 });
             return result;
         }
