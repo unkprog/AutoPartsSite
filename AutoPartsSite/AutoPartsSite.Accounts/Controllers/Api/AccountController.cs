@@ -58,7 +58,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         {
             return TryCatchResponse(() =>
             {
-                UserWithRole result = new UserWithRole() { Id = uu.Id };
+                UserWithRole result = new UserWithRole() { Id = uu.User };
                 User user = GetUser(uu.User);
 
                 if (user != null && user.D == 0)

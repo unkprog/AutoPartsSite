@@ -132,6 +132,8 @@ define({
 
     "label$parts$original": "Original parts",
     "label$parts$substitution": "Substitutions",
+    "label$catalog": "Catalog",
+    "label$onlinecatalog": "Online catalog",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

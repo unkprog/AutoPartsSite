@@ -14,7 +14,13 @@
         function onLoadPage() {
             var backlen = history.length;
             history.go(-backlen);
-            window.location.replace('/app/index.html?' + (window.location.href.toLocaleLowerCase().indexOf('?admin') > -1 ? 'admin&' : '') + (window.location.href.toLocaleLowerCase().indexOf('isnativeapp') > -1 ? 'isnativeapp&' : '') + 'gb=' + new Date().getTime().toString());
+
+            var hr = window.location.href.toLocaleLowerCase();
+
+            var i = hr.indexOf('?');
+            hr = (i > -1 ? hr.substring(i + 1) : '');
+
+            window.location.replace('/app/index.html?' + (hr && hr.length && hr.length > 0 ? hr + '&' : '') + 'gb=' + new Date().getTime().toString());
         }
     </script>
 </body>

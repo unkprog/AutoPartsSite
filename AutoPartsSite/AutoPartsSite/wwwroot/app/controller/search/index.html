@@ -2,7 +2,7 @@
     <div class="row">
     </div>
     <div class="row">
-        <div class="col s10 m10 l6 xl5 offset-l2 offset-xl3">
+        <div class="col s8 m8 l6 xl6 offset-l1 offset-xl2">
             <nav class="card-search-nav editor-header z-depth-1">
                 <div class="nav-wrapper">
                     <form id="search-view-form">
@@ -17,6 +17,9 @@
         </div>
         <div class="col s2 m2 l2 xl1">
             <a id="search-view-btn" class="waves-effect waves-light btn" style="margin-top: 6px" data-bind="text:labelSearch"></a>
+        </div>
+        <div class="col s2 m2 l2 xl1">
+            <a id="search-view-btn-online" class="waves-effect waves-light btn" style="margin-top: 6px" data-bind="text:labelOnlineCatalog" href="/catalog.html"></a>
         </div>
     </div>
 
@@ -95,7 +98,7 @@
     <script type="text/x-kendo-template" id="search-view-brand-catalogs-template">
         <div class="col s6 m6 l4 xl2 padding-0_75rem center">
             <div class="z-depth-2 hoverable">
-                <a title="Online Catalog #=Code# OEM Parts" href="" style="text-decoration: none;">
+                <a title="Online Catalog #=Code# OEM Parts" href="/searchbrand.html" style="text-decoration: none;">
                     <div style="min-height:110px">
                         <img src="#=Logo#" alt="#=Code# online catalog" style="margin:auto">
                     </div>

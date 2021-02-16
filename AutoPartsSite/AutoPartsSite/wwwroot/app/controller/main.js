@@ -45,6 +45,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelGarage": vars._statres("label$garage"),
                     "labelMessages": vars._statres("label$messages"),
                     "labelSettings": vars._statres("label$settings"),
+                    "labelVersion": ""
                 });
             };
             Main.prototype.ControllersInit = function () {
@@ -55,7 +56,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.ViewInit = function (view) {
                 variables_1._app.SetControlNavigation(this);
-                //this.Model.set("employee", vars._identity.employee);
+                this.Model.set("labelVersion", vars._appData.Version);
                 this.menu = $('<li><a id="app-btn-menu" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$menu") + '"><i class="material-icons">menu</i></a></li>');
                 this.sideNav = view.find('#main-view-slide');
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });

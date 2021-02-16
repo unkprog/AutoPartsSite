@@ -40,7 +40,8 @@ export namespace Controller.Search {
                 "labelDelivery": vars._statres("label$deliveryfrom") + ":",
                 "labelPcs": vars._statres("label$pcs"),
                 "labelSearch": vars._statres("label$search"),
-                "labelRequest": vars._statres("label$request")
+                "labelRequest": vars._statres("label$request"),
+                "labelOnlineCatalog": vars._statres("label$catalog")
             });
         }
         
@@ -56,11 +57,39 @@ export namespace Controller.Search {
         private qtyForm: JQuery;
         private proxyQtyForm;
 
+        private findArticle: string;
+        public ViewInit(view: JQuery): boolean {
+            let result: boolean = this.setupSearchArticle();
+            super.ViewInit(view);
+            return result;
+        }
+
+
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
             vars._appData.BasketIsInit = true;
             this.BasketService.Count(this.setBasketCount);
             this.loadBrands();
+
+            if (utils.isNullOrEmpty(this.findArticle) === false) {
+                this.View.find('#search-view-part-number').val(this.findArticle);
+                this.search(undefined);
+            }
+        }
+
+        private setupSearchArticle(): boolean {
+
+            var hr = window.location.href.toLocaleLowerCase();
+
+            var i = hr.indexOf('?');
+            hr = (i > -1 ? hr.substring(i + 1) : '');
+
+            let searchParams = new URLSearchParams(hr);
+            if (searchParams.has("article") === true) {
+                this.findArticle = searchParams.get("article");
+                return false;
+            }
+            return true;
         }
 
         private loadBrands(): void {
@@ -215,7 +244,10 @@ export namespace Controller.Search {
                     vars._app.HideLoading();
                 }
             });
-            e.preventDefault();
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             return false;
         }
 

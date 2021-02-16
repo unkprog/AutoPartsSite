@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice"], function (require, exports, vars, base, srh, bsk) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, srh, bsk, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -58,14 +58,35 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelDelivery": vars._statres("label$deliveryfrom") + ":",
                         "labelPcs": vars._statres("label$pcs"),
                         "labelSearch": vars._statres("label$search"),
-                        "labelRequest": vars._statres("label$request")
+                        "labelRequest": vars._statres("label$request"),
+                        "labelOnlineCatalog": vars._statres("label$catalog")
                     });
+                };
+                Index.prototype.ViewInit = function (view) {
+                    var result = this.setupSearchArticle();
+                    _super.prototype.ViewInit.call(this, view);
+                    return result;
                 };
                 Index.prototype.OnViewInit = function () {
                     this.searchForm = this.View.find("#search-view-form");
                     vars._appData.BasketIsInit = true;
                     this.BasketService.Count(this.setBasketCount);
                     this.loadBrands();
+                    if (utils.isNullOrEmpty(this.findArticle) === false) {
+                        this.View.find('#search-view-part-number').val(this.findArticle);
+                        this.search(undefined);
+                    }
+                };
+                Index.prototype.setupSearchArticle = function () {
+                    var hr = window.location.href.toLocaleLowerCase();
+                    var i = hr.indexOf('?');
+                    hr = (i > -1 ? hr.substring(i + 1) : '');
+                    var searchParams = new URLSearchParams(hr);
+                    if (searchParams.has("article") === true) {
+                        this.findArticle = searchParams.get("article");
+                        return false;
+                    }
+                    return true;
                 };
                 Index.prototype.loadBrands = function () {
                     var _this = this;
@@ -189,7 +210,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             vars._app.HideLoading();
                         }
                     });
-                    e.preventDefault();
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
                     return false;
                 };
                 Index.prototype.searchPage = function (e) {
