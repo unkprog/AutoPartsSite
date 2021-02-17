@@ -1,10 +1,12 @@
-﻿;with [partsSearch0] as 
+﻿declare @clearPartNumber nvarchar(50) = [dbo].[GetClearPartNumber](@PartNumber)
+
+;with [partsSearch0] as 
 (
     select [g].[GoodsID], [g].[PartNumber], [Brand_Code] = [b].[Code]
          , [page] = 1 + ((row_number() over(order by [PartNumber])) - 1) / @RowspPage
     from [Goods]       [g] with(nolock)
     left join [Brands] [b] with(nolock) on [g].[BrandID]   = [b].[BrandID]
-    where [g].[Deleted] = 0 and [g].[PartNumber] like '%' + @PartNumber + '%'
+    where [g].[Deleted] = 0 and [g].[PartNumber] like '%' + @clearPartNumber + '%'
 )
 , [partsSearch] as 
 (

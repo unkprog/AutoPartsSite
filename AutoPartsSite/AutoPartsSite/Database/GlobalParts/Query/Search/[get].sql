@@ -1,4 +1,6 @@
-﻿;with [partsSearch0] as 
+﻿declare @clearPartNumber nvarchar(50) = [dbo].[GetClearPartNumber](@PartNumber)
+
+;with [partsSearch0] as 
 (
     select [g].[GoodsID], [g].[Articul], [g].[PartNumber], [g].[DescrEn], [g].[DescrRu]
          , [g].[BrandID], [Brand_Code] = [b].[Code]
@@ -10,7 +12,7 @@
     from [Goods] [g] with(nolock)
     left join [Brands]    [b] with(nolock) on [g].[BrandID]   = [b].[BrandID]
     left join [Countries] [c] with(nolock) on [b].[CountryID] = [c].[CountryID]
-    where [g].[Deleted] = 0 and [g].[PartNumber] like '%' + @PartNumber + '%'
+    where [g].[Deleted] = 0 and [g].[PartNumber] like '%' + @clearPartNumber + '%'
 )
 , [partsSearch] as 
 (
