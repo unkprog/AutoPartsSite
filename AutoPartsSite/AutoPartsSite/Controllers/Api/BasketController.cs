@@ -82,12 +82,12 @@ namespace AutoPartsSite.Controllers.Api
                return await Task.Run(() =>
                {
                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                   bool isGuest = principal == null || principal.User == null || principal.User.Id == 0 ? true : false;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
                   
                    BasketData result = GetBasketData(pq.uid);
                    pq.promoCode = result.Header.PromoCode = GetBaskePromoCode(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
-                   FillBasketData(result, goodsSearch, pq, isGuest);
+                   FillBasketData(result, goodsSearch, userId, pq);
                    return CreateResponseOk(result);
                });
            });

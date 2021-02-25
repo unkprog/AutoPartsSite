@@ -62,7 +62,7 @@ namespace AutoPartsSite.Controllers.Api
             public Dictionary<int, Goods> ResultSubs = new Dictionary<int, Goods>();
         }
         [NonAction]
-        private GoodsResult GetGoods(List<GoodsSearch> goods, PartNumberQuery pq, bool WithSubst)
+        private GoodsResult GetGoods(List<GoodsSearch> goods, int userId, PartNumberQuery pq, bool WithSubst)
         {
            
             string partsXML = BuildPartsXML(goods);
@@ -83,7 +83,7 @@ namespace AutoPartsSite.Controllers.Api
             {
                 query.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                     //new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },

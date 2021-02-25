@@ -16,9 +16,10 @@
             <table id="basket-view-parts-table">
                 <thead>
                     <tr>
-                        <th><span data-bind="text:labelBrand"></span></th>
-                        <th><span data-bind="text:labelPartNumber"></span></th>
-                        <th><span data-bind="text:labelName"></span></th>
+                        <th class="td-medium-and-up"><span data-bind="text:labelBrand"></span></th>
+                        <th class="td-medium-and-up"><span data-bind="text:labelPartNumber"></span></th>
+                        <th class="td-medium-and-up"><span data-bind="text:labelName"></span></th>
+                        <th class="td-small"><span data-bind="text:labelBrand"></span>, <span data-bind="text:labelPartNumber"></span>, <span data-bind="text:labelName"></span></th>
                         <th><span data-bind="text:labelShipIn"></span></th>
                         <th class="td-right"><span data-bind="text:labelPrice"></span></th>
                         <th class="td-right"><span data-bind="text:labelQty"></span></th>
@@ -129,9 +130,10 @@
 
     <script type="text/x-kendo-template" id="basket-view-parts-template">
         <tr id="basket-view-item-#=Goods.Id#">
-            <td>#=Goods.Brand.Code#</td>
-            <td>#=Goods.PartNumber#</td>
-            <td>#=Goods.Name#</td>
+            <td class="td-medium-and-up">#=Goods.Brand.Code#</td>
+            <td class="td-medium-and-up">#=Goods.PartNumber#</td>
+            <td class="td-medium-and-up">#=Goods.Name#</td>
+            <td class="td-small">#=Goods.Brand.Code#<br/>#=Goods.PartNumber#<br/>#=Goods.Name#</td>
             <td>#=Goods.ShipInDays#</td>
             <td class="td-right">
                 <span>
@@ -164,8 +166,7 @@
                     <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
                 </form>
             #if(QtyChanged == true) {#
-                <br/>
-               <span class="margin-right-1rem basket-label" data-bind="text:labelWas"></span><span class="basket-label through">#=OldQty#</span>
+               <span class="margin-right-1rem basket-label" data-bind="text:labelWas"></span><span class="basket-label through" style="margin-right:0.6rem;">#=OldQty#</span>
             #}#
         #}#
             </td>

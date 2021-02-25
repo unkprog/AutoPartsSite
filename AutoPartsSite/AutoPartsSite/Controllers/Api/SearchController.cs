@@ -57,10 +57,10 @@ namespace AutoPartsSite.Controllers.Api
                 return await Task.Run(() =>
                 {
                     List<GoodsSearch> resultSearch = GetSearchGoods(pq.partNumber, pq.pageRows, pq.page);
-                //Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                //bool isGuest = principal == null || principal.User == null || principal.User.Id  == 0 ? true : false;
+                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                    int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
 
-                GoodsResult goodsResult = GetGoods(resultSearch, pq, true);
+                    GoodsResult goodsResult = GetGoods(resultSearch, userId, pq, true);
                     GoodsSearchResult result = new GoodsSearchResult()
                     {
                         Result = goodsResult.Result.Values.ToList(),

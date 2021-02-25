@@ -343,7 +343,7 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
-        private void FillBasketData(BasketData data, List<GoodsSearch> goodsS, BasketQuery pq, bool isGuest)
+        private void FillBasketData(BasketData data, List<GoodsSearch> goodsS, int userId, BasketQuery pq)
         {
             if (data?.Positions?.Count == 0)
                 return;
@@ -383,7 +383,7 @@ namespace AutoPartsSite.Controllers.Api
             AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
             {
                  new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = pq.languageId },
-                 new SqlParameter() { ParameterName = "@SiteUserID", Value = pq.siteUserId },
+                 new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                  new SqlParameter() { ParameterName = "@SiteUserUID", Value = pq.uid },
                  new SqlParameter() { ParameterName = "@CountryID", Value = pq.countryId },
                  new SqlParameter() { ParameterName = "@CurrencyID", Value = pq.currencyId },
