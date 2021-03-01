@@ -36,6 +36,16 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        private void DeleteHeaderBasket(BasketQuery pq)
+        {
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery(@"[del_header]", new SqlParameter[] { new SqlParameter() { ParameterName = "@Uid", Value = pq.uid } });
+            });
+        }
+            
+
+            [NonAction]
         private decimal UpdatePartBasket(BasketQuery pq, bool isAdd = false)
         {
             decimal result = pq.qty;

@@ -120,9 +120,6 @@ export namespace Controller.Basket {
 
                 let items: any[] = responseData.Data.Positions;
                 let icount = items.length;
-                if (icount > 0)
-                    self.View.find('#basket-view-additional').show();
-             
 
                 let templateContent = self.View.find('#basket-view-parts-template').html();
                 let template = vars.getTemplate(templateContent);
@@ -144,9 +141,13 @@ export namespace Controller.Basket {
                     htmlResult = (htmlResult + template(items[i]));
                 }
 
-                self.View.find("#basket-view-parts-empty").hide();
-                self.View.find('#basket-view-parts-rows').html(htmlResult);
-                self.View.find("#basket-view-parts-table").show();
+                if (icount > 0) {
+                    self.View.find('#basket-view-additional').show();
+                    self.View.find("#basket-view-parts-empty").hide();
+                    self.View.find('#basket-view-parts-rows').html(htmlResult);
+                    self.View.find("#basket-view-parts-table").show();
+                }
+
                 if (isSymbolLeft === true)
                     self.Model.set("TotalSumValue", curSymbol + ' ' + window.numberToString(sum, 2));
                 else

@@ -1,0 +1,1 @@
+﻿delete [Basket_Header] where [Uid] = @Uid

@@ -88,6 +88,10 @@ namespace AutoPartsSite.Controllers.Api
                    pq.promoCode = result.Header.PromoCode = GetBaskePromoCode(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, userId, pq);
+
+                   if(result.Positions.Count == 0)
+                       DeleteHeaderBasket(pq);
+                   
                    return CreateResponseOk(result);
                });
            });

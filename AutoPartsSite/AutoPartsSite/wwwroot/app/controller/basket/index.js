@@ -121,8 +121,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         this.Model.set("basketData", responseData.Data);
                         var items = responseData.Data.Positions;
                         var icount = items.length;
-                        if (icount > 0)
-                            self.View.find('#basket-view-additional').show();
                         var templateContent = self.View.find('#basket-view-parts-template').html();
                         var template = vars.getTemplate(templateContent);
                         var htmlResult = '';
@@ -140,9 +138,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
                         }
-                        self.View.find("#basket-view-parts-empty").hide();
-                        self.View.find('#basket-view-parts-rows').html(htmlResult);
-                        self.View.find("#basket-view-parts-table").show();
+                        if (icount > 0) {
+                            self.View.find('#basket-view-additional').show();
+                            self.View.find("#basket-view-parts-empty").hide();
+                            self.View.find('#basket-view-parts-rows').html(htmlResult);
+                            self.View.find("#basket-view-parts-table").show();
+                        }
                         if (isSymbolLeft === true)
                             self.Model.set("TotalSumValue", curSymbol + ' ' + window.numberToString(sum, 2));
                         else
