@@ -89,6 +89,8 @@ define({
     "label$payment": "Оплата",
     "label$shipping": "Доставка",
     "label$delivery$to": "Доставка в",
+    "label$termsconditions": "Условия и положения",
+    "label$policies": "Политика конфиденциальности",
 
     "label$contacts": "Контакты",
 

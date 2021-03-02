@@ -71,6 +71,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.faqButtonClick = function (e) {
                     return this.handleButtonItemPage(e, 'cms/editor/page', "/about/faq", "label$faq");
                 };
+                Index.prototype.policiesButtonClick = function (e) {
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/policies", "label$policies");
+                };
+                Index.prototype.termsConditionsButtonClick = function (e) {
+                    return this.handleButtonItemPage(e, 'cms/editor/page', "/about/termsconditions", "label$termsconditions");
+                };
                 Index.prototype.newsButtonClick = function (e) {
                     return this.handleButtonItem(e, 'cms/card/new');
                 };

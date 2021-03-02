@@ -72,6 +72,16 @@ export namespace Controller.Cms {
             return this.handleButtonItemPage(e, 'cms/editor/page', "/about/faq", "label$faq")
         }
 
+        public PoliciesButtonClick: { (e: any): void; };
+        private policiesButtonClick(e: any): boolean {
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/policies", "label$policies")
+        }
+
+        public TermsConditionsButtonClick: { (e: any): void; };
+        private termsConditionsButtonClick(e: any): boolean {
+            return this.handleButtonItemPage(e, 'cms/editor/page', "/about/termsconditions", "label$termsconditions")
+        }
+
         public NewsButtonClick: { (e: any): void; };
         private newsButtonClick(e: any): boolean {
             return this.handleButtonItem(e, 'cms/card/new');

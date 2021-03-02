@@ -98,6 +98,8 @@ define({
     "label$shipping": "Delivery",
     "label$delivery$to": "Delivery to",
     "label$contacts": "Contacts",
+    "label$termsconditions": "Terms & Conditions",
+    "label$policies": "Policies",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Дни недели                                                                 //
     /////////////////////////////////////////////////////////////////////////////////////////////
