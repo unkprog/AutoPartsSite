@@ -276,6 +276,8 @@
     <TypeScriptCompile Include="wwwroot\app\controller\about\payment.ts" DependentUpon="payment.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\about\shipping.ts" DependentUpon="shipping.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\about\contact.ts" DependentUpon="contact.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\policies.ts" DependentUpon="policies.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\about\termsconditions.ts" DependentUpon="termsconditions.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\news\index.ts" DependentUpon="index.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\news\new.ts" DependentUpon="new.html" />

@@ -39,7 +39,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                         });
                     };
                     Page.prototype.OnViewInit = function () {
-                        this.Model.set("Header", vars._appData.PageEditItemHeader);
+                        this.Model.set("Header", vars._statres(vars._appData.PageEditItemHeader));
                         this.Model.set("Page", vars._appData.PageEditItem);
                     };
                     Page.prototype.ViewShow = function (e) {

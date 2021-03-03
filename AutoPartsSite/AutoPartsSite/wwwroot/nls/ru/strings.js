@@ -91,6 +91,8 @@ define({
     "label$delivery$to": "Доставка в",
     "label$termsconditions": "Условия и положения",
     "label$policies": "Политика конфиденциальности",
+    "label$termspolicies": "Условия и политика",
+    "label$site$pages": "Страницы",
 
     "label$contacts": "Контакты",
 

@@ -21,6 +21,10 @@ export namespace Controller.Cms {
                 "labelShipping": vars._statres("label$shipping"),
                 "labelContacts": vars._statres("label$contacts"),
 
+                "labelTermsPolicies": vars._statres("label$termspolicies"),
+                "labelPolicies": vars._statres("label$policies"),
+                "labelTermsConditions": vars._statres("label$termsconditions"),
+
                 "labelNewsFaq": vars._statres("label$news") + ', ' + vars._statres("label$faq"),
                 "labelNews": vars._statres("label$news"),
                 "labelFaq": vars._statres("label$faq")
@@ -33,6 +37,10 @@ export namespace Controller.Cms {
             this.ShippingButtonClick = this.createClickEvent("cms-view-btn-shipping", this.shippingButtonClick);
             this.ContactsButtonClick = this.createClickEvent("cms-view-btn-contacts", this.contactsButtonClick);
 
+            this.PoliciesButtonClick = this.createClickEvent("cms-view-btn-policies", this.policiesButtonClick);
+            this.TermsConditionsButtonClick = this.createClickEvent("cms-view-btn-termsconditions", this.termsConditionsButtonClick);
+
+
             this.NewsButtonClick = this.createClickEvent("cms-view-btn-news", this.newsButtonClick);
             this.FaqButtonClick = this.createClickEvent("cms-view-btn-faq", this.faqButtonClick);
         }
@@ -40,6 +48,9 @@ export namespace Controller.Cms {
         protected destroyEvents(): void {
             this.destroyClickEvent("cms-view-btn-faq", this.FaqButtonClick);
             this.destroyClickEvent("cms-view-btn-news", this.NewsButtonClick);
+
+            this.destroyClickEvent("cms-view-btn-termsconditions", this.TermsConditionsButtonClick);
+            this.destroyClickEvent("cms-view-btn-policies", this.PoliciesButtonClick);
 
             this.destroyClickEvent("cms-view-btn-contacts", this.ContactsButtonClick);
             this.destroyClickEvent("cms-view-btn-shipping", this.ShippingButtonClick);

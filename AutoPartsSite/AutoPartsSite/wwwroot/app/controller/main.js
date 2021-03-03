@@ -159,6 +159,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.FContactButtonClick = self.createClickEvent("footer-view-btn-contact", self.fContactButtonClick);
                 self.FFaqButtonClick = self.createClickEvent("footer-view-btn-faq", self.fFaqButtonClick);
                 self.FAboutButtonClick = self.createClickEvent("footer-view-btn-about", self.fAboutButtonClick);
+                self.FPoliciesAboutButtonClick = self.createClickEvent("footer-view-btn-policies", self.fPoliciesAboutButtonClick);
+                self.FTermsAboutButtonClick = self.createClickEvent("footer-view-btn-terms", self.fTermsAboutButtonClick);
                 self.FNewsButtonClick = self.createClickEvent("footer-view-btn-news", self.fNewsButtonClick);
                 self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
                 self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
@@ -183,6 +185,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("footer-view-btn-faq", this.FFaqButtonClick);
                 this.destroyClickEvent("footer-view-btn-about", this.FAboutButtonClick);
                 this.destroyClickEvent("footer-view-btn-news", this.FNewsButtonClick);
+                this.destroyClickEvent("footer-view-btn-policies", this.FPoliciesAboutButtonClick);
+                this.destroyClickEvent("footer-view-btn-terms", this.FTermsAboutButtonClick);
                 this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
                 this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
@@ -259,6 +263,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.fAboutButtonClick = function (e) {
                 return this.handleMenuItemPage(e, "about/index", "label$aboutUs");
+            };
+            Main.prototype.fPoliciesAboutButtonClick = function (e) {
+                return this.handleMenuItemPage(e, "about/policies", "label$policies");
+            };
+            Main.prototype.fTermsAboutButtonClick = function (e) {
+                return this.handleMenuItemPage(e, "about/termsconditions", "label$termsconditions");
             };
             Main.prototype.fNewsButtonClick = function (e) {
                 return this.handleMenuItem(e, "news/index");

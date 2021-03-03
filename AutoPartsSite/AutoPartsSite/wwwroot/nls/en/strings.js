@@ -100,6 +100,9 @@ define({
     "label$contacts": "Contacts",
     "label$termsconditions": "Terms & Conditions",
     "label$policies": "Policies",
+    "label$termspolicies": "Terms and policies",
+    "label$site$pages": "Pages",
+
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Дни недели                                                                 //
     /////////////////////////////////////////////////////////////////////////////////////////////
