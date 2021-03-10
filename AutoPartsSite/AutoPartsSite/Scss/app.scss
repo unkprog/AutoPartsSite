@@ -125,6 +125,16 @@ nav.card-search-nav .input-field label i {
     color: #9e9e9e;
 }
 
+div.example-numbers, div.example-vin, .example-numbers {
+    font-size: 11px;
+    padding-top: 0.2rem;
+}
+
+div.example-numbers a, div.example-vin a {
+    border-bottom: 1px dotted;
+    cursor: pointer;
+}
+
 .editor-header-title {
     font-size: 1rem;
     font-weight: bold;

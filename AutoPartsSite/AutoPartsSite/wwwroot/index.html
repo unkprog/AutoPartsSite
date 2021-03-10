@@ -19,8 +19,8 @@
 
             var i = hr.indexOf('?');
             hr = (i > -1 ? hr.substring(i + 1) : '');
-
-            window.location.replace('/app/index.html?' + (hr && hr.length && hr.length > 0 ? hr + '&' : '') + 'gb=' + new Date().getTime().toString());
+            hr = (hr && hr.length && hr.length > 0 ? '&' + hr : '');
+            window.location.replace('/app/index.html?gb=' + new Date().getTime().toString() + hr);
         }
     </script>
 </body>

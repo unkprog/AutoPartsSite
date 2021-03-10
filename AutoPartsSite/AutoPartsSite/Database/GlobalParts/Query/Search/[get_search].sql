@@ -6,7 +6,7 @@
          , [page] = 1 + ((row_number() over(order by [PartNumber])) - 1) / @RowspPage
     from [Goods]       [g] with(nolock)
     left join [Brands] [b] with(nolock) on [g].[BrandID]   = [b].[BrandID]
-    where [g].[Deleted] = 0 and [g].[PartNumber] like '%' + @clearPartNumber + '%'
+    where [g].[Deleted] = 0 and [g].[PartNumber] = @clearPartNumber --like '%' + @clearPartNumber + '%'
 )
 , [partsSearch] as 
 (

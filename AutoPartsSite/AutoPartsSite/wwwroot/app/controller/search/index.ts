@@ -220,8 +220,15 @@ export namespace Controller.Search {
 
                     let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
                     htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
-
-                    self.View.find('#search-view-parts').html(htmlResult);
+                    if (utils.isNullOrEmpty(htmlResult)) {
+                        if (!utils.isNullOrEmpty(partNum))
+                            self.View.find('#search-view-parts').html('<div class="center" style="font-size:1.5rem;font-style:italic;color:red;">' + vars._statres("message$article$notfound") + '</div>');
+                        self.View.find('#search-view-brand-catalogs').show();
+                    }
+                    else {
+                        self.View.find('#search-view-brand-catalogs').hide();
+                        self.View.find('#search-view-parts').html(htmlResult);
+                    }
                     htmlResult = ''; 
                     for (let i = 0, icount = self.maxPage; i < icount; i++) {
                         htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
@@ -234,12 +241,14 @@ export namespace Controller.Search {
                             ;
                         $('.search-view-pagination').html(htmlResult).show();
                     }
+
                     self.rebindModel();
                     self.createEventItems();
 
                     vars._app.HideLoading();
                 }
                 else {
+                    self.View.find('#search-view-brand-catalogs').show();
                     vars._app.ShowError(responseData.Error);
                     vars._app.HideLoading();
                 }

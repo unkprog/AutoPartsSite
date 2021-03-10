@@ -139,6 +139,7 @@ define({
     "label$parts$substitution": "Substitutions",
     "label$catalog": "Catalog",
     "label$onlinecatalog": "Online catalog",
+    "message$article$notfound": "The requested article was not found.",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

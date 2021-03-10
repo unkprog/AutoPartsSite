@@ -1,8 +1,13 @@
 ﻿<div id="search-view">
     <div class="row">
     </div>
+    <div class="row" style="margin-bottom:0;">
+        <div class="col s12 m12 l6 xl6 offset-l2 offset-xl2">
+            <div class="example-numbers center">Example: <a class="example-number" href="/app/index.html?article=7760160180">7760160180</a>, <a class="example-number" href="/app/index.html?article=4234560110">4234560110</a>, <a class="example-number" href="/app/index.html?article=4234542010">4234542010</a>, <a class="example-vin" href="/catalog.html#/carInfo?q=XW8AN2NE3JH035743">XW8AN2NE3JH035743</a>, <a class="example-vin" href="/catalog.html#/carInfo?q=JA4MR41H5SJ007858">JA4MR41H5SJ007858</a></div>
+        </div>
+    </div>
     <div class="row">
-        <div class="col s12 m12 l6 xl6 offset-l1 offset-xl1">
+        <div class="col s12 m12 l6 xl6 offset-l2 offset-xl2">
             <nav class="card-search-nav editor-header z-depth-1">
                 <div class="nav-wrapper">
                     <form id="search-view-form">
@@ -14,14 +19,14 @@
                     </form>
                 </div>
             </nav>
+
         </div>
         <div class="col s6 m6 l2 xl2">
             <a id="search-view-btn" class="waves-effect waves-light btn btncol" style="margin-top: 6px" data-bind="text:labelSearch"></a>
         </div>
-        <div class="col s6 m6 l2 xl2">
-            <a id="search-view-btn-online" class="waves-effect waves-light btn btncol" style="margin-top: 6px" data-bind="text:labelOnlineCatalog" href="/catalog.html"></a>
-        </div>
     </div>
+
+
 
     <ul class="pagination search-view-pagination">
     </ul>
@@ -32,7 +37,6 @@
 
     <ul class="pagination search-view-pagination">
     </ul>
-
 
     <div id="search-view-brand-catalogs" class="row">
     </div>
@@ -98,7 +102,7 @@
     <script type="text/x-kendo-template" id="search-view-brand-catalogs-template">
         <div class="col s6 m6 l4 xl2 padding-0_75rem center">
             <div class="z-depth-2 hoverable">
-                <a title="Online Catalog #=Code# OEM Parts" href="/searchbrand.html" style="text-decoration: none;">
+                <a title="Online Catalog #=Code# OEM Parts" href="/catalog.html\\#/catalogs?catalogId=#=Code#" style="text-decoration: none;">
                     <div style="min-height:110px">
                         <img src="#=Logo#" alt="#=Code# online catalog" style="margin:auto">
                     </div>
