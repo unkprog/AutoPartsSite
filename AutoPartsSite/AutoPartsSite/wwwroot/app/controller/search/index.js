@@ -180,6 +180,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         self.lastSearch = partNum;
                         self.currentPage = 1;
                     }
+                    if (partNum != '' && partNum.length && partNum.length == 17) {
+                        window.location.replace('/catalog.html#/carInfo?q=' + partNum);
+                        return false;
+                    }
                     self.maxPage = 0;
                     $('.search-view-pagination').hide().html('');
                     self.SearchService.PartNumber(partNum, this.currentPage, function (responseData) {
