@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/lib/kendo/kendo.data.xml.es5.js",
     "inputFile": "wwwroot/lib/kendo/kendo.data.xml.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/materialize/dist/css/materialize.css",
+    "inputFile": "Scss/MaterializeCSS/materialize.scss"
   }
 ]
