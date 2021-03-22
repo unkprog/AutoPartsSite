@@ -122,6 +122,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.proxyWhatCar = $.proxy(this.whatCar, this);
                     $('search-view');
                     this.SearchButtonClick = this.createClickEvent("search-view-btn", this.searchButtonClick);
+                    this.ClearButtonClick = this.createClickEvent("card-view-search-clear", this.clearButtonClick);
                 };
                 Index.prototype.destroyEvents = function () {
                     this.destroyClickEvent("search-view-btn", this.SearchButtonClick);
@@ -172,6 +173,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     e.stopPropagation();
                     return false;
                 };
+                Index.prototype.clearButtonClick = function (e) {
+                    this.View.find('#search-view-part-number').val('');
+                    this.View.find('#search-view-parts').html('');
+                    this.View.find('#search-view-brand-catalogs').show();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
                 Index.prototype.search = function (e) {
                     var _this = this;
                     var self = this;
@@ -207,8 +216,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                 self.View.find('#search-view-parts').html(htmlResult);
                             }
                             htmlResult = '';
-                            for (var i = 0, icount = self.maxPage; i < icount; i++) {
-                                htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
+                            if (self.maxPage > 1) {
+                                for (var i = 0, icount = self.maxPage; i < icount; i++) {
+                                    htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
+                                }
                             }
                             if (htmlResult !== '') {
                                 htmlResult = ' <li class="' + (self.currentPage == 1 || self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-prev" href="#!"><i class="material-icons">chevron_left</i></a></li>'
@@ -216,6 +227,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                     + '<li class="' + (self.currentPage == self.maxPage ? 'disabled' : 'waves-effect') + '"><a class="search-view-pagination-next" href="#!"><i class="material-icons">chevron_right</i></a></li>';
                                 $('.search-view-pagination').html(htmlResult).show();
                             }
+                            else
+                                $('.search-view-pagination').hide();
                             self.rebindModel();
                             self.createEventItems();
                             vars._app.HideLoading();

@@ -128,6 +128,7 @@ export namespace Controller.Search {
             this.proxyWhatCar = $.proxy(this.whatCar, this);
             $('search-view')
             this.SearchButtonClick = this.createClickEvent("search-view-btn", this.searchButtonClick);
+            this.ClearButtonClick = this.createClickEvent("card-view-search-clear", this.clearButtonClick);
         }
 
         protected destroyEvents(): void {
@@ -195,6 +196,16 @@ export namespace Controller.Search {
             return false;
         }
 
+        public ClearButtonClick: { (e: any): void; };
+        private clearButtonClick(e) {
+            this.View.find('#search-view-part-number').val('');
+            this.View.find('#search-view-parts').html('');
+            this.View.find('#search-view-brand-catalogs').show();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
         private search(e: any): boolean {
             let self = this;
             let partNum: string = '' + self.View.find('#search-view-part-number').val();
@@ -237,8 +248,10 @@ export namespace Controller.Search {
                         self.View.find('#search-view-parts').html(htmlResult);
                     }
                     htmlResult = ''; 
-                    for (let i = 0, icount = self.maxPage; i < icount; i++) {
-                        htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
+                    if (self.maxPage > 1) {
+                        for (let i = 0, icount = self.maxPage; i < icount; i++) {
+                            htmlResult += ' <li class="' + (self.currentPage === (i + 1) ? 'active' : 'waves-effect') + '"><a class="search-view-pagination-page" href="#!">' + (i + 1) + '</a></li>';
+                        }
                     }
 
                     if (htmlResult !== '') {
@@ -248,6 +261,8 @@ export namespace Controller.Search {
                             ;
                         $('.search-view-pagination').html(htmlResult).show();
                     }
+                    else
+                        $('.search-view-pagination').hide();
 
                     self.rebindModel();
                     self.createEventItems();
