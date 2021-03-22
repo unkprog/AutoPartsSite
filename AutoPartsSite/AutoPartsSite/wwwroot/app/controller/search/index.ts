@@ -101,8 +101,10 @@ export namespace Controller.Search {
                     let template = vars.getTemplate(templateContent);
                     let htmlResult = '';
                     let items: [] = responseData.Data;
-                    
+                    let item: any;
                     for (let i = 0, icount = items.length; i < icount; i++) {
+                        item = items[i];
+                        item['CodeLower'] = item.Code.toLowerCase(); 
                         htmlResult = (htmlResult + template(items[i]));
                     }
 

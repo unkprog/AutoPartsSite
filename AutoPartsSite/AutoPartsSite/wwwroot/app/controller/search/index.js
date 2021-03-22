@@ -97,7 +97,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             var template = vars.getTemplate(templateContent);
                             var htmlResult = '';
                             var items = responseData.Data;
+                            var item = void 0;
                             for (var i = 0, icount = items.length; i < icount; i++) {
+                                item = items[i];
+                                item['CodeLower'] = item.Code.toLowerCase();
                                 htmlResult = (htmlResult + template(items[i]));
                             }
                             self.View.find('#search-view-brand-catalogs').html(htmlResult);
