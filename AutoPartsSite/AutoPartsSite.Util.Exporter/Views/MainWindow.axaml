@@ -8,10 +8,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AutoPartsSite.Util.Exporter">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+  <Grid ColumnDefinitions="*" RowDefinitions="*">
+    <ContentControl Content="{Binding CurrentContent, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+  </Grid>
 </Window>

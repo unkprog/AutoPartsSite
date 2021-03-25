@@ -11,7 +11,10 @@ namespace AutoPartsSite.Util.Exporter
 
         public IControl Build(object data)
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
+            //var name = data.GetType().FullName!.Replace("ViewModel", "View");
+            var name = data.GetType().FullName;
+            name = name.Replace("Model", string.Empty);
+
             var type = Type.GetType(name);
 
             if (type != null)
@@ -28,5 +31,6 @@ namespace AutoPartsSite.Util.Exporter
         {
             return data is ViewModelBase;
         }
+
     }
 }
