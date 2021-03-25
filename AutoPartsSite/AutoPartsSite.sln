@@ -16,7 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPartsSite.TestApp", "AutoPartsSite.TestApp\AutoPartsSite.TestApp.csproj", "{7AEFE669-C996-4C83-90C9-B51411FE65F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.TestApp", "AutoPartsSite.TestApp\AutoPartsSite.TestApp.csproj", "{7AEFE669-C996-4C83-90C9-B51411FE65F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{1A448DC5-2F7C-42ED-BA6E-B6795AA24564}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPartsSite.Util.Exporter", "AutoPartsSite.Util.Exporter\AutoPartsSite.Util.Exporter.csproj", "{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +48,16 @@ Global
 		{7AEFE669-C996-4C83-90C9-B51411FE65F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AEFE669-C996-4C83-90C9-B51411FE65F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AEFE669-C996-4C83-90C9-B51411FE65F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB} = {1A448DC5-2F7C-42ED-BA6E-B6795AA24564}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02F4D346-3A33-4070-9234-99ADF6A5C198}
