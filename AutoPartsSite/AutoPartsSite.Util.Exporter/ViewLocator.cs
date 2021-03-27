@@ -13,7 +13,9 @@ namespace AutoPartsSite.Util.Exporter
         {
             //var name = data.GetType().FullName!.Replace("ViewModel", "View");
             var name = data.GetType().FullName;
+#pragma warning disable CS8602 // –азыменование веро€тной пустой ссылки.
             name = name.Replace("Model", string.Empty);
+#pragma warning restore CS8602 // –азыменование веро€тной пустой ссылки.
 
             var type = Type.GetType(name);
 

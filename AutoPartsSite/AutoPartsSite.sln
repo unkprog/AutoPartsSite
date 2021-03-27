@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.TestApp", "Au
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{1A448DC5-2F7C-42ED-BA6E-B6795AA24564}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPartsSite.Util.Exporter", "AutoPartsSite.Util.Exporter\AutoPartsSite.Util.Exporter.csproj", "{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoPartsSite.Util.Exporter", "AutoPartsSite.Util.Exporter\AutoPartsSite.Util.Exporter.csproj", "{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9635AFE4-058B-4DD8-BAB4-956F110AE3A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,7 +59,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{9DCF8931-4852-4C0F-9217-E7B66E59A0EC} = {9635AFE4-058B-4DD8-BAB4-956F110AE3A6}
 		{294B2ED9-C5FE-4277-A3D8-DC4E5D0BDBFB} = {1A448DC5-2F7C-42ED-BA6E-B6795AA24564}
+		{9635AFE4-058B-4DD8-BAB4-956F110AE3A6} = {3CF6F895-1F3A-4307-B1E7-4AB73088FF87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02F4D346-3A33-4070-9234-99ADF6A5C198}

@@ -1,22 +1,33 @@
-﻿using ReactiveUI;
-using System.Collections.ObjectModel;
+﻿using AutoPartsSite.Util.Exporter.Models;
+using ReactiveUI;
+using System;
 using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Util.Exporter.Views
 {
     public partial class ConnectViewModel
     {
-        //[DataMember]
-        //public ObservableCollection<ConnectionServer> ListServers => App.Settings.ConnectionsServers.ListServers;
+        internal static readonly string fileSettings = @"\connection.config";
+        internal static readonly string pathSettings = string.Concat(Environment.CurrentDirectory, @"\Settings");
+        internal static readonly string pathSqlSettings = string.Concat(Environment.CurrentDirectory, @"\Settings\Sql");
 
+        public override string Header  => "Подключение"; 
+        public override string Description => "Укажите настройки подключения с базе данных"; 
+        
 
-        //private ConnectionServer _selectedConnectionServer;
+        internal void InitProperties(ConnectModel? connectSettings = null)
+        {
+            if (connectSettings != null)
+                Connection = connectSettings;
+        }
 
-        //[IgnoreDataMember]
-        //public ConnectionServer SelectedConnectionServer
-        //{
-        //    get => _selectedConnectionServer;
-        //    set => this.RaiseAndSetIfChanged(ref _selectedConnectionServer, value);
-        //}
+        private ConnectModel connection = new ConnectModel();
+
+        [DataMember]
+        public ConnectModel Connection
+        {
+            get => connection;
+            set => this.RaiseAndSetIfChanged(ref connection, value);
+        }
     }
 }

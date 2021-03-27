@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dg="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AutoPartsSite.Util.Exporter.Views.SelectAgreementsView" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+  
+  
+  
+  <Grid RowDefinitions="Auto *" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+  
+  <DataGrid Grid.Row="1" Items="{Binding CompanyAgreements}" Margin="0" IsReadOnly="False" >
+    <DataGrid.Styles>
+      <Style Selector="dg|DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="IsVisible" Value="True"/>
+        <Setter Property="Opacity" Value="0.3"/>
+        <!--<Setter Property="Fill" Value="Aqua"/>-->
+      </Style>    
+    </DataGrid.Styles>
+    <DataGrid.Columns>
+      <DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsSelected, Mode=TwoWay}" IsReadOnly="False"   />
+      <DataGridTextColumn Header="Company.ID" Binding="{Binding Company.ID}" />
+      <DataGridTextColumn Header="Company.Code" Binding="{Binding Company.Code}" />
+      <DataGridTextColumn Header="Company.OfficialNameEn" Binding="{Binding Company.OfficialNameEn}" />
+      <DataGridTextColumn Header="Company.OfficialNameRu" Binding="{Binding Company.OfficialNameRu}" />
+      <DataGridTextColumn Header="Language.ID" Binding="{Binding Language.ID}" />
+      <DataGridTextColumn Header="Language.Code" Binding="{Binding Language.Code}" />
+      <DataGridTextColumn Header="Agreement.ID" Binding="{Binding Agreement.ID}" />
+      <DataGridTextColumn Header="Agreement.Code" Binding="{Binding Agreement.Code}" />
+      <DataGridTextColumn Header="Agreement.DescrEn" Binding="{Binding Agreement.DescrEn}" />
+      <DataGridTextColumn Header="Agreement.DescrRu" Binding="{Binding Agreement.DescrRu}" />
+      <DataGridTextColumn Header="Translation" Binding="{Binding Translation}" />
+      <DataGridCheckBoxColumn Header="PriceCaclulate" Binding="{Binding PriceCaclulate}" />
+      <DataGridTextColumn Header="PriceFileFormat.ID" Binding="{Binding PriceFileFormat.ID}" />
+      <DataGridTextColumn Header="PriceFileFormat.Code" Binding="{Binding PriceFileFormat.Code}" />
+      <DataGridTextColumn Header="PriceFileFormat.DescrEn" Binding="{Binding PriceFileFormat.DescrEn}" />
+      <DataGridTextColumn Header="PriceFileFormat.DescrRu" Binding="{Binding PriceFileFormat.DescrRu}" />
+      <DataGridTextColumn Header="PriceFileCalcType.ID" Binding="{Binding PriceFileCalcType.ID}" />
+      <DataGridTextColumn Header="PriceFileCalcType.Code" Binding="{Binding PriceFileCalcType.Code}" />
+      <DataGridTextColumn Header="PriceFileCalcType.DescrEn" Binding="{Binding PriceFileCalcType.DescrEn}" />
+      <DataGridTextColumn Header="PriceFileCalcType.DescrRu" Binding="{Binding PriceFileCalcType.DescrRu}" />
+      <DataGridCheckBoxColumn Header="PriceFileArchivate" Binding="{Binding PriceFileArchivate}" />
+    </DataGrid.Columns>
+  </DataGrid>
+  </Grid>
+</UserControl>

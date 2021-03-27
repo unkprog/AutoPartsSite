@@ -13,6 +13,7 @@ namespace AutoPartsSite.Util.Exporter.Models
         private string userID = string.Empty;
         private string password = string.Empty;
         private string initialCatalog = "GlobalParts";
+
         [DataMember]
         public string DataSource { get => dataSource; set => this.RaiseAndSetIfChanged(ref dataSource, value); }
         [DataMember]
