@@ -25,4 +25,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\MainWindowView.Model.cs" DependentUpon="MainWindow.axaml" />
+    <Compile Update="Views\MainWindowView.Model.Properties.cs" DependentUpon="MainWindow.axaml" />
+    <Compile Update="Views\MainWindowView.Model.Commands.cs" DependentUpon="MainWindow.axaml" />
+    <Compile Update="Views\ConnectView.Model.cs" DependentUpon="ConnectView.axaml" />
+    <Compile Update="Views\ConnectView.Model.Properties.cs" DependentUpon="ConnectView.axaml" />
+    <Compile Update="Views\ConnectView.Model.Commands.cs" DependentUpon="ConnectView.axaml" />
+    <Compile Update="Views\SelectAgreementsView.Model.cs" DependentUpon="SelectAgreementsView.axaml" />
+    <Compile Update="Views\SelectAgreementsView.Model.Properties.cs" DependentUpon="SelectAgreementsView.axaml" />
+    <Compile Update="Views\SelectAgreementsView.Model.Commands.cs" DependentUpon="SelectAgreementsView.axaml" />
+    <Compile Update="Views\ExportStateView.Model.cs" DependentUpon="ExportStateView.axaml" />
+    <Compile Update="Views\ExportStateView.Model.Properties.cs" DependentUpon="ExportStateView.axaml" />
+    <Compile Update="Views\ExportStateView.Model.Commands.cs" DependentUpon="ExportStateView.axaml" />
+    <Compile Update="Views\ExportFinishView.Model.cs" DependentUpon="ExportFinishView.axaml" />
+    <Compile Update="Views\ExportFinishView.Model.Properties.cs" DependentUpon="ExportFinishView.axaml" />
+    <Compile Update="Views\ExportFinishView.Model.Commands.cs" DependentUpon="ExportFinishView.axaml" />
+  </ItemGroup>
 </Project>

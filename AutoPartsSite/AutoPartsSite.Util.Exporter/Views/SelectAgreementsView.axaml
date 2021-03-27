@@ -10,7 +10,7 @@
   
   <Grid RowDefinitions="Auto *" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
   
-  <DataGrid Grid.Row="1" Items="{Binding CompanyAgreements}" Margin="0" IsReadOnly="False" >
+  <DataGrid Grid.Row="1" Items="{Binding CompanyAgreements}" Margin="0" IsReadOnly="False" SelectionMode="Single" UpdatedStateOnMouseLeftButtonDown="True" >
     <DataGrid.Styles>
       <Style Selector="dg|DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
         <Setter Property="IsVisible" Value="True"/>
@@ -20,27 +20,27 @@
     </DataGrid.Styles>
     <DataGrid.Columns>
       <DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsSelected, Mode=TwoWay}" IsReadOnly="False"   />
-      <DataGridTextColumn Header="Company.ID" Binding="{Binding Company.ID}" />
-      <DataGridTextColumn Header="Company.Code" Binding="{Binding Company.Code}" />
-      <DataGridTextColumn Header="Company.OfficialNameEn" Binding="{Binding Company.OfficialNameEn}" />
-      <DataGridTextColumn Header="Company.OfficialNameRu" Binding="{Binding Company.OfficialNameRu}" />
-      <DataGridTextColumn Header="Language.ID" Binding="{Binding Language.ID}" />
-      <DataGridTextColumn Header="Language.Code" Binding="{Binding Language.Code}" />
-      <DataGridTextColumn Header="Agreement.ID" Binding="{Binding Agreement.ID}" />
-      <DataGridTextColumn Header="Agreement.Code" Binding="{Binding Agreement.Code}" />
-      <DataGridTextColumn Header="Agreement.DescrEn" Binding="{Binding Agreement.DescrEn}" />
-      <DataGridTextColumn Header="Agreement.DescrRu" Binding="{Binding Agreement.DescrRu}" />
-      <DataGridTextColumn Header="Translation" Binding="{Binding Translation}" />
-      <DataGridCheckBoxColumn Header="PriceCaclulate" Binding="{Binding PriceCaclulate}" />
-      <DataGridTextColumn Header="PriceFileFormat.ID" Binding="{Binding PriceFileFormat.ID}" />
-      <DataGridTextColumn Header="PriceFileFormat.Code" Binding="{Binding PriceFileFormat.Code}" />
-      <DataGridTextColumn Header="PriceFileFormat.DescrEn" Binding="{Binding PriceFileFormat.DescrEn}" />
-      <DataGridTextColumn Header="PriceFileFormat.DescrRu" Binding="{Binding PriceFileFormat.DescrRu}" />
-      <DataGridTextColumn Header="PriceFileCalcType.ID" Binding="{Binding PriceFileCalcType.ID}" />
-      <DataGridTextColumn Header="PriceFileCalcType.Code" Binding="{Binding PriceFileCalcType.Code}" />
-      <DataGridTextColumn Header="PriceFileCalcType.DescrEn" Binding="{Binding PriceFileCalcType.DescrEn}" />
-      <DataGridTextColumn Header="PriceFileCalcType.DescrRu" Binding="{Binding PriceFileCalcType.DescrRu}" />
-      <DataGridCheckBoxColumn Header="PriceFileArchivate" Binding="{Binding PriceFileArchivate}" />
+      <DataGridTextColumn Header="Company.ID" Binding="{Binding Company.ID}" IsReadOnly="True"/>
+      <DataGridTextColumn Header="Company.Code" Binding="{Binding Company.Code}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Company.OfficialNameEn" Binding="{Binding Company.OfficialNameEn}" IsReadOnly="True" />
+      <DataGridTextColumn Header="Company.OfficialNameRu" Binding="{Binding Company.OfficialNameRu}" IsReadOnly="True" />
+      <DataGridTextColumn Header="Language.ID" Binding="{Binding Language.ID}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Language.Code" Binding="{Binding Language.Code}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Agreement.ID" Binding="{Binding Agreement.ID}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Agreement.Code" Binding="{Binding Agreement.Code}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Agreement.DescrEn" Binding="{Binding Agreement.DescrEn}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Agreement.DescrRu" Binding="{Binding Agreement.DescrRu}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="Translation" Binding="{Binding Translation}"  IsReadOnly="True"/>
+      <DataGridCheckBoxColumn Header="PriceCaclulate" Binding="{Binding PriceCaclulate}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileFormat.ID" Binding="{Binding PriceFileFormat.ID}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileFormat.Code" Binding="{Binding PriceFileFormat.Code}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileFormat.DescrEn" Binding="{Binding PriceFileFormat.DescrEn}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileFormat.DescrRu" Binding="{Binding PriceFileFormat.DescrRu}" IsReadOnly="True" />
+      <DataGridTextColumn Header="PriceFileCalcType.ID" Binding="{Binding PriceFileCalcType.ID}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileCalcType.Code" Binding="{Binding PriceFileCalcType.Code}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileCalcType.DescrEn" Binding="{Binding PriceFileCalcType.DescrEn}"  IsReadOnly="True"/>
+      <DataGridTextColumn Header="PriceFileCalcType.DescrRu" Binding="{Binding PriceFileCalcType.DescrRu}"  IsReadOnly="True"/>
+      <DataGridCheckBoxColumn Header="PriceFileArchivate" Binding="{Binding PriceFileArchivate}"  IsReadOnly="True"/>
     </DataGrid.Columns>
   </DataGrid>
   </Grid>
