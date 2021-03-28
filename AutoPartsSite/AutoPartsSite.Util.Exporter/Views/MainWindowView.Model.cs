@@ -1,9 +1,10 @@
 ﻿using AutoPartsSite.Core.Sql;
+using AutoPartsSite.Util.Exporter.Models;
 using AutoPartsSite.Util.Exporter.ViewModels;
 using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using System;
-
+using System.Collections.ObjectModel;
 
 namespace AutoPartsSite.Util.Exporter.Views
 {
@@ -12,26 +13,37 @@ namespace AutoPartsSite.Util.Exporter.Views
         public MainWindowViewModel()
         {
             _this = this;
-            CurrentContent = new ConnectViewModel();
+            CurrentContent = ConnectViewModel.This;
         }
 
-        private void Prev()
+        public void Prev()
         {
-            if (_currentContent != null)
-            {
-                Type t = _currentContent.GetType();
-                if (t == typeof(SelectAgreementsViewModel)) CurrentContent = new ConnectViewModel();
-            }
-
+            if (_currentContent == null) return;
+            Type t = _currentContent.GetType();
+            if (_currentContent == SelectAgreementsViewModel.This) CurrentContent = ConnectViewModel.This;
+            else if (_currentContent == ExportStateViewModel.This) CurrentContent = SelectAgreementsViewModel.This;
+            else if (_currentContent == ExportFinishViewModel.This) CurrentContent = ExportStateViewModel.This;
         }
-        private void Next()
+
+        public void Next()
         {
             if (_currentContent == null) return;
 
             if (!_currentContent.Validate()) return;
 
-            Type t = _currentContent.GetType();
-            if (t == typeof(ConnectViewModel)) CurrentContent = new SelectAgreementsViewModel();
+
+            if (_currentContent == ConnectViewModel.This)
+            {
+                SelectAgreementsViewModel.This.Load();
+                CurrentContent = SelectAgreementsViewModel.This;
+            }
+            else if (_currentContent == SelectAgreementsViewModel.This)
+            {
+                CurrentContent = ExportStateViewModel.This;
+                ExportStateViewModel.This.Setup(SelectAgreementsViewModel.This.CompanyAgreements!);
+            }
+            else if (_currentContent == ExportStateViewModel.This) CurrentContent = ExportFinishViewModel.This;
+            else if (_currentContent == ExportFinishViewModel.This) CurrentContent = ConnectViewModel.This;
 
         }
 

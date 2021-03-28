@@ -4,5 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AutoPartsSite.Util.Exporter.Views.ExportStateView">
-  Welcome to Avalonia!
+  
+  <DataGrid Grid.Row="1" Items="{Binding ExportCompanyAgreements}" Margin="0" IsReadOnly="True" SelectionMode="Single" >
+    <DataGrid.Columns>
+      <DataGridTextColumn Header="Идентификатор" Binding="{Binding CompanyAgreement.Translation}" IsReadOnly="True"/>
+      <DataGridTextColumn Header="Состояние" Binding="{Binding Message}"  IsReadOnly="True" Width="400"/>
+    </DataGrid.Columns>
+  </DataGrid>
 </UserControl>

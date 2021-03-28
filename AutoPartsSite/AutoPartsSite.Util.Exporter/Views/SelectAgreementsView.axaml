@@ -10,7 +10,7 @@
   
   <Grid RowDefinitions="Auto *" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
   
-  <DataGrid Grid.Row="1" Items="{Binding CompanyAgreements}" Margin="0" IsReadOnly="False" SelectionMode="Single" UpdatedStateOnMouseLeftButtonDown="True" >
+  <DataGrid Grid.Row="1" Items="{Binding CompanyAgreements}" Margin="0" IsReadOnly="False" SelectionMode="Single" >
     <DataGrid.Styles>
       <Style Selector="dg|DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
         <Setter Property="IsVisible" Value="True"/>

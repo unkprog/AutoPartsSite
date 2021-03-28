@@ -23,13 +23,21 @@ namespace AutoPartsSite.Util.Exporter.Views
             set { this.RaiseAndSetIfChanged(ref _currentContent, value); this.RaisePropertyChanged("IsNextEnable"); this.RaisePropertyChanged("IsPrevEnable"); }
         }
 
+        private bool isDisable = false;
+        [DataMember]
+        public bool IsDisable
+        {
+            get => isDisable;
+            set { this.RaiseAndSetIfChanged(ref isDisable, value); this.RaisePropertyChanged("IsNextEnable"); this.RaisePropertyChanged("IsPrevEnable"); }
+        }
+
         [IgnoreDataMember]
         public Query? Query { get; private set; }
 
         [DataMember]
-        public bool IsNextEnable => _currentContent == null || _currentContent.GetType() != typeof(SelectAgreementsViewModel);
+        public bool IsNextEnable => _currentContent == null || !isDisable;
 
-        public bool IsPrevEnable => _currentContent == null || _currentContent.GetType() != typeof(ConnectViewModel);
+        public bool IsPrevEnable => _currentContent == null || !isDisable || _currentContent.GetType() != typeof(ConnectViewModel);
 
         internal WindowNotificationManager? _notificationManager { get; set; }
     }

@@ -11,6 +11,8 @@ namespace AutoPartsSite.Util.Exporter.Views
         internal static readonly string pathSettings = string.Concat(Environment.CurrentDirectory, @"\Settings");
         internal static readonly string pathSqlSettings = string.Concat(Environment.CurrentDirectory, @"\Settings\Sql");
 
+        public static ConnectViewModel This = new ConnectViewModel();
+
         public override string Header  => "Подключение"; 
         public override string Description => "Укажите настройки подключения с базе данных"; 
         

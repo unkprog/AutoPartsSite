@@ -12,11 +12,11 @@ namespace AutoPartsSite.Util.Exporter.Views
     {
         public SelectAgreementsViewModel()
         {
-            CompanyAgreements = Load();
+           
         }
 
 
-        private ObservableCollection<CompanyAgreementModel> Load()
+        public ObservableCollection<CompanyAgreementModel> Load()
         {
             ObservableCollection<CompanyAgreementModel> list = new ObservableCollection<CompanyAgreementModel>();
             
@@ -37,7 +37,28 @@ namespace AutoPartsSite.Util.Exporter.Views
                     list.Add(item);
                 });
 
+            CompanyAgreements = list;
+
             return list;
+        }
+
+        public override bool Validate()
+        {
+            bool result = base.Validate();
+            string errorMessage = string.Empty;
+            if (result)
+            {
+                if (CompanyAgreements?.FirstOrDefault(f => f.IsSelected == true) == null)
+                    errorMessage = "Не выбрано ни одной настройки для экспорта...";
+            }
+
+            if(!string.IsNullOrEmpty(errorMessage))
+                MainWindowViewModel.This?.NotifyError(errorMessage);
+
+
+            result = result && string.IsNullOrEmpty(errorMessage);
+
+            return result;
         }
     }
 }

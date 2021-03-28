@@ -2,7 +2,7 @@
 
 namespace AutoPartsSite.Util.Exporter.Views
 {
-    public partial class ExportFinishViewModel : ViewModelBase
+    public partial class ExportFinishViewModel : MasterViewModel
     {
     }
 }
