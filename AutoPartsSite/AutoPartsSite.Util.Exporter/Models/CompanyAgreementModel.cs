@@ -21,5 +21,6 @@ namespace AutoPartsSite.Util.Exporter.Models
         public PriceFileFormatModel? PriceFileFormat { get; set; }
         public PriceFileCalcTypeModel? PriceFileCalcType { get; set; }
         public bool? PriceFileArchivate { get; set; }
+        public int? PriceCurrencyID { get; set; }
     }
 }

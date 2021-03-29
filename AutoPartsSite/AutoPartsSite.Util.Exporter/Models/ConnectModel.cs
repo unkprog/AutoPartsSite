@@ -1,6 +1,6 @@
-﻿using AutoPartsSite.Util.Exporter.ViewModels;
-using ReactiveUI;
+﻿using ReactiveUI;
 using System.Runtime.Serialization;
+using AutoPartsSite.Util.Exporter.ViewModels;
 
 namespace AutoPartsSite.Util.Exporter.Models
 {

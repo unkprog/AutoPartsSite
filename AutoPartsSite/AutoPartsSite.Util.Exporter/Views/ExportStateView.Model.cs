@@ -31,43 +31,31 @@ namespace AutoPartsSite.Util.Exporter.Views
                 if (exportCompanyAgreements != null)
                 {
                     var expItems = exportCompanyAgreements;
-                    List<TaskExport> listItems = new List<TaskExport>(expItems.Count);
+                    List<TaskExport> taskItems = new List<TaskExport>(expItems.Count);
                     for (int i = expItems.Count - 1; i >= 0; i--)
-                        listItems.Add(new TaskExport(expItems[i]));
+                        taskItems.Add(new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) => taskItems.Remove(taskFinish)));
 
+                    int countRun, cntTasks = 2; // System.Environment.ProcessorCount * 2, countRun;
+                    TaskExport task;
 
-                    int cntTasks = System.Environment.ProcessorCount * 2, countRun ;
-                    //TaskExport task;
-                    List<TaskExport> taskRunning = new List<TaskExport>(cntTasks);
-
-                    while (listItems.Count > 0)
+                    while (taskItems.Count > 0)
                     {
                         countRun = 0;
-                        foreach (var task in listItems)
+                        for (int i = taskItems.Count - 1; i >= 0; i--)
                         {
-                            if(task.State == 0)
-                            {
-                                taskRunning.Add(task);
-                                task.Run((taskFinish) => listItems.Remove(taskFinish));
-                            }
+                            task = null;
+                            lock (taskItems)
+                                if (i < taskItems.Count)
+                                    task = taskItems[i];
+
+                            if (task != null && task.State == 0)
+                                task.Run();
                             countRun++;
 
                             if (countRun >= cntTasks)
                                 break;
                         }
-                        //taskRunning.Clear();
-                        //for (int i = 0; i < listItems.Count && taskRunning.Count < cntTasks; i++)
-                        //{
-                        //    task = listItems[i];
-                        //    if (task.State == 0)
-                        //    {
-                        //        taskRunning.Add(task);
-                        //        task.Run((taskFinish) => listItems.Remove(taskFinish));
-                        //    }
-                        //}
                     }
-
-
                 }
                 MainWindowViewModel.This.IsDisable = false;
             });

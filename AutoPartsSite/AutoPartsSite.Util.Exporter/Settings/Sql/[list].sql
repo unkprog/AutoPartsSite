@@ -9,6 +9,7 @@
 -- из таблицы [PricesFilesCalcTypes] - берем условия, на основе которых производится группировка данных (минимальная цена, максимальное наличие - см. выше таблицу [PricesFilesCalcTypes])
      , [PriceFileCalcType.ID] = [a].[PriceFileCalcTypeID], [PriceFileCalcType.Code] = [pfc].[Code], [PriceFileCalcType.DescrEn] = [pfc].[DescrEn], [PriceFileCalcType.DescrRu] = [pfc].[DescrRu] 
      , [a].[PriceFileArchivate]
+     , [a].[PriceCurrencyID]
 from [Companies] [c] with(nolock)
 inner join [Agreements]           [a]   with(nolock) on [a].[Active] = 1 and [a].[Hidden] = 0 and [a].[CompanyID] = [c].[CompanyID] and [a].[PriceCaclulate] = 1
 inner join [Languages]            [l]   with(nolock) on [l].[LanguageID] = [c].[LanguageId]

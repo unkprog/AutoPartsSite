@@ -21,6 +21,12 @@
     <Folder Include="Assets\Styles\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Settings\Export\Readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Settings\Sql\[columns].sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Settings\Sql\[list].sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
