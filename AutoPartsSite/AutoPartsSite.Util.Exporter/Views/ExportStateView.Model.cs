@@ -36,22 +36,35 @@ namespace AutoPartsSite.Util.Exporter.Views
                         listItems.Add(new TaskExport(expItems[i]));
 
 
-                    int cntTasks = System.Environment.ProcessorCount * 2;
-                    TaskExport task;
+                    int cntTasks = System.Environment.ProcessorCount * 2, countRun ;
+                    //TaskExport task;
                     List<TaskExport> taskRunning = new List<TaskExport>(cntTasks);
 
                     while (listItems.Count > 0)
                     {
-                        taskRunning.Clear();
-                        for (int i = 0; i < listItems.Count && taskRunning.Count < cntTasks; i++)
+                        countRun = 0;
+                        foreach (var task in listItems)
                         {
-                            task = listItems[i];
-                            if (task.State == 0)
+                            if(task.State == 0)
                             {
                                 taskRunning.Add(task);
                                 task.Run((taskFinish) => listItems.Remove(taskFinish));
                             }
+                            countRun++;
+
+                            if (countRun >= cntTasks)
+                                break;
                         }
+                        //taskRunning.Clear();
+                        //for (int i = 0; i < listItems.Count && taskRunning.Count < cntTasks; i++)
+                        //{
+                        //    task = listItems[i];
+                        //    if (task.State == 0)
+                        //    {
+                        //        taskRunning.Add(task);
+                        //        task.Run((taskFinish) => listItems.Remove(taskFinish));
+                        //    }
+                        //}
                     }
 
 

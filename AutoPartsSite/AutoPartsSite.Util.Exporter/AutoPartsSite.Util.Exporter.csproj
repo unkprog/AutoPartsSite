@@ -38,6 +38,7 @@
     <Compile Update="Views\ExportStateView.Model.cs" DependentUpon="ExportStateView.axaml" />
     <Compile Update="Views\ExportStateView.Model.Properties.cs" DependentUpon="ExportStateView.axaml" />
     <Compile Update="Views\ExportStateView.Model.Commands.cs" DependentUpon="ExportStateView.axaml" />
+    <Compile Update="Views\ExportStateView.Model.Task.cs" DependentUpon="ExportStateView.axaml" />
     <Compile Update="Views\ExportFinishView.Model.cs" DependentUpon="ExportFinishView.axaml" />
     <Compile Update="Views\ExportFinishView.Model.Properties.cs" DependentUpon="ExportFinishView.axaml" />
     <Compile Update="Views\ExportFinishView.Model.Commands.cs" DependentUpon="ExportFinishView.axaml" />
