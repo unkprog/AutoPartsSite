@@ -27,6 +27,9 @@
     <None Update="Settings\Sql\[columns].sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Settings\Sql\[brands].sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Settings\Sql\[list].sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

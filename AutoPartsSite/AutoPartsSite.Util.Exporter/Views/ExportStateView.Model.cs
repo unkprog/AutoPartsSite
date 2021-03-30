@@ -23,6 +23,7 @@ namespace AutoPartsSite.Util.Exporter.Views
             StartExport();
         }
 
+        private static object locker = new object();
         private void StartExport()
         {
             Task.Run(() =>
@@ -33,9 +34,15 @@ namespace AutoPartsSite.Util.Exporter.Views
                     var expItems = exportCompanyAgreements;
                     List<TaskExport> taskItems = new List<TaskExport>(expItems.Count);
                     for (int i = expItems.Count - 1; i >= 0; i--)
-                        taskItems.Add(new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) => taskItems.Remove(taskFinish)));
+                        taskItems.Add(new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) =>
+                        {
+                            lock (locker)
+                            {
+                                taskItems.Remove(taskFinish);
+                            }
+                        }));
 
-                    int countRun, cntTasks = 2; // System.Environment.ProcessorCount * 2, countRun;
+                    int countRun, cntTasks = System.Environment.ProcessorCount * 2; 
                     TaskExport task;
 
                     while (taskItems.Count > 0)
@@ -44,9 +51,11 @@ namespace AutoPartsSite.Util.Exporter.Views
                         for (int i = taskItems.Count - 1; i >= 0; i--)
                         {
                             task = null;
-                            lock (taskItems)
+                            lock (locker)
+                            {
                                 if (i < taskItems.Count)
                                     task = taskItems[i];
+                            }
 
                             if (task != null && task.State == 0)
                                 task.Run();

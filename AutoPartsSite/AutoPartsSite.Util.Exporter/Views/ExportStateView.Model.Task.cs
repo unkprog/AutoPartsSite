@@ -56,10 +56,84 @@ namespace AutoPartsSite.Util.Exporter.Views
 
             private void ExportToCsv(ExportCompanyAgreementModel model)
             {
+                expCAM.Message = "Чтение столбцов...";
                 Dictionary<string, ColumnModel> columns = readColumns(model!.CompanyAgreement!.PriceFileFormat!.ID);
+                expCAM.Message = "Формирование SQL команды...";
                 string sqlCommand = getSqlCommad(columns, model!.CompanyAgreement!.PriceCurrencyID, model!.CompanyAgreement!.PriceFileCalcType!.ID);
-
                 File.WriteAllText(Path.Combine(pathExport, model!.CompanyAgreement!.Translation + ".sql"), sqlCommand);
+
+                if (model!.CompanyAgreement.OneBrandOneFile == true)
+                {
+                    expCAM.Message = "Получение списка брендов...";
+                    List<BrandModel>? brands = readSplitBrands(model!.CompanyAgreement!.PriceCurrencyID);
+                    foreach (BrandModel brand in brands)
+                        SaveToCsv(model, sqlCommand, brand, columns);
+                }
+
+                if (model!.CompanyAgreement.AllBrandsOneFile == true)
+                    SaveToCsv(model, sqlCommand, null, columns);
+            }
+
+            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            {
+                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + ")") + "...";
+                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code) + ".csv");
+
+                int counter = 0;
+                StringBuilder sb = new StringBuilder();
+                List<ColumnModel> colList = columns.Values.ToList();
+
+                using (StreamWriter streamwriter = new StreamWriter(fileName, true, Encoding.UTF8, 65536))
+                {
+                    foreach (var col in colList)
+                    {
+                        sb.Append(col.ColumnNameClient);
+                        sb.Append(";");
+                    }
+                    streamwriter.WriteLine(sb.ToString());
+
+                    query.ExecuteQuery(sqlCommand
+                        , new SqlParameter[]
+                        {
+                            new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
+                            new SqlParameter("@BrandID", brand == null? DBNull.Value : brand.ID)
+                        }
+                        , null
+                        , (values) =>
+                        {
+                            counter++;
+
+                            if(counter %100 == 0)
+                                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + ")") + " - " + counter + "...";
+                            sb.Clear();
+                            foreach(var val in values)
+                            {
+                                sb.Append(val.ToString());
+                                sb.Append(";");
+                            }
+                            streamwriter.WriteLine(sb.ToString());
+                        });
+                }
+
+            }
+
+            private List<BrandModel> readSplitBrands(int? priceCurrencyID)
+            {
+                List<BrandModel> result = new List<BrandModel>();
+                query.Execute("[brands]"
+                   , new SqlParameter[] { new SqlParameter("@CurrencyID", priceCurrencyID) }
+                   , null
+                   , (values) =>
+                   {
+                       BrandModel brand = new BrandModel()
+                       {
+                           ID = values[0].ToInt(),
+                           Code = values[1].ToStr().Trim(),
+                       };
+                       result.Add(brand);
+                   });
+
+                return result;
             }
 
             private Dictionary<string, ColumnModel> readColumns(int? priceFileFormatID)
@@ -116,7 +190,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     result.AppendLine("(");
                     result.AppendLine("  select " + selColumns + selColumnsCalcType);
                     result.AppendLine("  from [PricesCustomersInside] with(nolock)");
-                    result.AppendLine("  where [CurrencyID] = @CurrencyID and [StockQty] <> 0");
+                    result.AppendLine("  where [CurrencyID] = @CurrencyID and [StockQty] <> 0 and (@BrandID is null or (not @BrandID is null and [BrandID] = @BrandID))");
                     result.AppendLine(")");
 
                     if (priceFileCalcTypeID == 2)
@@ -136,7 +210,27 @@ namespace AutoPartsSite.Util.Exporter.Views
                         result.AppendLine(")");
                         result.AppendLine("select distinct " + selColumns);
                         result.AppendLine("from [qty]");
-                        result.AppendLine("where [qty].[StockQty] = [qty].[MaxStockQty]");
+                        result.AppendLine("where [StockQty] = [MaxStockQty]");
+                        result.AppendLine("order by " + selColumns);
+                    }
+                    else if (priceFileCalcTypeID == 3)
+                    {
+                        result.AppendLine(", [qty] as");
+                        result.AppendLine("(");
+                        result.AppendLine("  select " + selColumns + selColumnsCalcType);
+                        result.AppendLine("       , [MaxStockQty] = max([StockQty]) over(partition by " + selColumnsPart + ")");
+                        result.AppendLine("  from [query]");
+                        result.AppendLine(")");
+                        result.AppendLine(", [price] as");
+                        result.AppendLine("(");
+                        result.AppendLine("  select " + selColumns + selColumnsCalcType);
+                        result.AppendLine("       , [MinPrice] = min([Price]) over(partition by " + selColumnsPart + ")");
+                        result.AppendLine("  from [qty]");
+                        result.AppendLine("  where [StockQty] = [MaxStockQty]");
+                        result.AppendLine(")");
+                        result.AppendLine("select distinct " + selColumns);
+                        result.AppendLine("from [price]");
+                        result.AppendLine("where [Price] = [MinPrice]");
                         result.AppendLine("order by " + selColumns);
                     }
                     else

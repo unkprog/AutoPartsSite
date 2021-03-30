@@ -25,17 +25,24 @@ namespace AutoPartsSite.Util.Exporter.Views
             MainWindowViewModel.This?.Query?.Execute("[list]", null, null
                 , (values) =>
                 {
+                    int i = 0;
                     CompanyAgreementModel item = new CompanyAgreementModel()
                     {
-                        IsSelected = true,
-                        Company = new CompanyModel() { ID = values[0].ToInt(), Code = values[1].ToStr(), OfficialNameEn = values[2].ToStr(), OfficialNameRu = values[3].ToStr() },
-                        Language = new LanguageModel() { ID = values[4].ToInt(), Code = values[5].ToStr() },
-                        Agreement = new AgreementModel() { ID = values[6].ToInt(), Code = Convert.ToString(values[7]), DescrEn = values[8].ToStr(), DescrRu = values[9].ToStr() },
-                        Translation = values[10].ToStr(), PriceCaclulate = values[11].ToBool(),
-                        PriceFileFormat = new PriceFileFormatModel() { ID = values[12].ToInt(), Code = values[13].ToStr(), DescrEn = values[14].ToStr(), DescrRu = values[15].ToStr() },
-                        PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[16].ToInt(), Code = values[17].ToStr(), DescrEn = values[18].ToStr(), DescrRu = values[19].ToStr() },
-                        PriceFileArchivate = values[20].ToBool(),
-                        PriceCurrencyID = values[21].ToInt()
+                        IsSelected = values[i++].ToBool(),
+                        Company = new CompanyModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), OfficialNameEn = values[i++].ToStr(), OfficialNameRu = values[i++].ToStr() },
+                        Language = new LanguageModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr() },
+                        Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
+                        Translation = values[i++].ToStr().Trim(), PriceCaclulate = values[i++].ToBool(),
+                        PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
+                        PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
+                        PriceFileArchivate = values[i++].ToBool(),
+                        PriceCurrencyID = values[i++].ToInt(),
+                        SeparatorSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToDecimal(), Symbol = values[i++].ToStr() },
+                        FractionalSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToDecimal(), Symbol = values[i++].ToStr() },
+                        AllBrandsOneFile = values[i++].ToBool(),
+                        OneBrandOneFile = values[i++].ToBool(),
+                        AnaloguesSeparateFile = values[i++].ToBool(),
+                        TariffSeparateFile = values[i++].ToBool()
                     };
                     list.Add(item);
                 });

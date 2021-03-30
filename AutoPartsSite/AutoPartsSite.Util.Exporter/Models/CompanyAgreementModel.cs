@@ -22,5 +22,11 @@ namespace AutoPartsSite.Util.Exporter.Models
         public PriceFileCalcTypeModel? PriceFileCalcType { get; set; }
         public bool? PriceFileArchivate { get; set; }
         public int? PriceCurrencyID { get; set; }
+        public SymbolModel? SeparatorSymbol { get; set; }
+        public SymbolModel? FractionalSymbol { get; set; }
+        public bool? AllBrandsOneFile { get; set; }
+        public bool? OneBrandOneFile { get; set; }
+        public bool? AnaloguesSeparateFile { get; set; }
+        public bool? TariffSeparateFile { get; set; }
     }
 }
