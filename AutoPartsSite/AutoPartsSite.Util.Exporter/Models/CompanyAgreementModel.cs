@@ -20,6 +20,8 @@ namespace AutoPartsSite.Util.Exporter.Models
         public bool? PriceCaclulate { get; set; }
         public PriceFileFormatModel? PriceFileFormat { get; set; }
         public PriceFileCalcTypeModel? PriceFileCalcType { get; set; }
+
+        public bool? PriceZeroQty { get; set; }
         public bool? PriceFileArchivate { get; set; }
         public int? PriceCurrencyID { get; set; }
         public SymbolModel? SeparatorSymbol { get; set; }

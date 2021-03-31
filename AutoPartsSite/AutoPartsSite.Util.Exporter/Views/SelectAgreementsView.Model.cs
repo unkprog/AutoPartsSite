@@ -35,6 +35,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                         Translation = values[i++].ToStr().Trim(), PriceCaclulate = values[i++].ToBool(),
                         PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
                         PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
+                        PriceZeroQty = values[i++].ToBool(),
                         PriceFileArchivate = values[i++].ToBool(),
                         PriceCurrencyID = values[i++].ToInt(),
                         SeparatorSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToDecimal(), Symbol = values[i++].ToStr() },

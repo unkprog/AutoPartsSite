@@ -1,0 +1,2 @@
+﻿if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_split')
+ create nonclustered index [PricesCustomersInside_idx_split] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include ([BrandID],[BrandCode])

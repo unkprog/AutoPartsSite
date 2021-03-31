@@ -61,11 +61,13 @@ namespace AutoPartsSite.Core.Sql
             command.CommandText = command.CommandText.Replace(parameterName, string.Join(",", parameterNames));
         }
 
-        public static void ExecuteNonQuery(string connectionString, string commandText, SqlParameter[] sqlParameters = null)
+        public static void ExecuteNonQuery(string connectionString, string commandText, SqlParameter[] sqlParameters = null, int cmdTimeOut = 0)
         {
             CreateCommand(connectionString, commandText,
                  (connection, command) =>
                  {
+                     if (cmdTimeOut > 0)
+                         command.CommandTimeout = cmdTimeOut;
                      if (sqlParameters != null && sqlParameters.Length > 0)
                          command.AddParameters(sqlParameters);
 
@@ -75,7 +77,7 @@ namespace AutoPartsSite.Core.Sql
         }
 
 
-        public static void ExecuteQuery(string connectionString, string commandText, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action)
+        public static void ExecuteQuery(string connectionString, string commandText, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action, int cmdTimeOut = 0)
         {
             if (action == null)
                 return;
@@ -83,6 +85,9 @@ namespace AutoPartsSite.Core.Sql
             CreateCommand(connectionString, commandText,
                  (connection, command) =>
                  {
+                     if (cmdTimeOut > 0)
+                         command.CommandTimeout = cmdTimeOut;
+
                      if (sqlParameters != null && sqlParameters.Length > 0)
                          command.AddParameters(sqlParameters);
 

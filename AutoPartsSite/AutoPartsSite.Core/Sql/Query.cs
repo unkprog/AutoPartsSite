@@ -23,15 +23,15 @@ namespace AutoPartsSite.Core.Sql
             this.ExecuteQuery(commandText, sqlParameters, onExecute, action);
         }
 
-        public void ExecuteQuery(string commandText, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action)
+        public void ExecuteQuery(string commandText, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action, int cmdTimeOut = 0)
         {
             if (string.IsNullOrEmpty(commandText))
                 return;
 
-            Helper.ExecuteQuery(connectionString, commandText, sqlParameters, onExecute, action);
+            Helper.ExecuteQuery(connectionString, commandText, sqlParameters, onExecute, action, cmdTimeOut);
         }
 
-        public void ExecuteNonQuery(string command, SqlParameter[] sqlParameters)
+        public void ExecuteNonQuery(string command, SqlParameter[] sqlParameters, int cmdTimeOut = 0)
         {
 
             string commandText = IO.Helper.ReadFileAsString(string.Concat(path, @"\", command, ".sql"));
@@ -39,7 +39,7 @@ namespace AutoPartsSite.Core.Sql
             if (string.IsNullOrEmpty(commandText))
                 return;
 
-            Helper.ExecuteNonQuery(connectionString, commandText, sqlParameters);
+            Helper.ExecuteNonQuery(connectionString, commandText, sqlParameters, cmdTimeOut);
         }
     }
 }

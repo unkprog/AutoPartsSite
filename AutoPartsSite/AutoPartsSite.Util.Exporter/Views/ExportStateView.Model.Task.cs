@@ -1,9 +1,11 @@
 ﻿using AutoPartsSite.Core.Extensions;
 using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Util.Exporter.Models;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -53,19 +55,35 @@ namespace AutoPartsSite.Util.Exporter.Views
                   });
             }
 
+            Dictionary<string, ColumnModel> columns;
+            string sqlCommand, selColumnsIndex;
+
+            public void Prepare()
+            {
+                expCAM.Message = "Чтение столбцов...";
+                columns = readColumns(expCAM!.CompanyAgreement!.PriceFileFormat!.ID);
+                expCAM.Message = "Формирование SQL команды...";
+                selColumnsIndex = string.Empty;
+                sqlCommand = getSqlCommad(columns, expCAM);
+
+                File.WriteAllText(Path.Combine(pathExport, expCAM!.CompanyAgreement!.Translation + ".sql"), sqlCommand);
+                expCAM.Message = "Ожидание выполнения...";
+            }
+
+            public string GetSqlCommandIndex()
+            {
+
+                return selColumnsIndex;  
+            }
 
             private void ExportToCsv(ExportCompanyAgreementModel model)
             {
-                expCAM.Message = "Чтение столбцов...";
-                Dictionary<string, ColumnModel> columns = readColumns(model!.CompanyAgreement!.PriceFileFormat!.ID);
-                expCAM.Message = "Формирование SQL команды...";
-                string sqlCommand = getSqlCommad(columns, model!.CompanyAgreement!.PriceCurrencyID, model!.CompanyAgreement!.PriceFileCalcType!.ID);
-                File.WriteAllText(Path.Combine(pathExport, model!.CompanyAgreement!.Translation + ".sql"), sqlCommand);
 
-                if (model!.CompanyAgreement.OneBrandOneFile == true)
+                if (model!.CompanyAgreement!.OneBrandOneFile == true)
                 {
                     expCAM.Message = "Получение списка брендов...";
-                    List<BrandModel>? brands = readSplitBrands(model!.CompanyAgreement!.PriceCurrencyID);
+                    
+                    List<BrandModel>? brands = readSplitBrands(model);
                     foreach (BrandModel brand in brands)
                         SaveToCsv(model, sqlCommand, brand, columns);
                 }
@@ -74,10 +92,10 @@ namespace AutoPartsSite.Util.Exporter.Views
                     SaveToCsv(model, sqlCommand, null, columns);
             }
 
-            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel brand, Dictionary<string, ColumnModel> columns)
             {
-                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + ")") + "...";
-                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code) + ".csv");
+                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")") + "...";
+                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + ".csv");
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -88,15 +106,20 @@ namespace AutoPartsSite.Util.Exporter.Views
                     foreach (var col in colList)
                     {
                         sb.Append(col.ColumnNameClient);
-                        sb.Append(";");
+                        sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Symbol);
                     }
                     streamwriter.WriteLine(sb.ToString());
+
+                    NumberFormatInfo nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = model!.CompanyAgreement!.FractionalSymbol!.Symbol;
 
                     query.ExecuteQuery(sqlCommand
                         , new SqlParameter[]
                         {
                             new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
-                            new SqlParameter("@BrandID", brand == null? DBNull.Value : brand.ID)
+                            new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+                            new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
+                            new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
                         }
                         , null
                         , (values) =>
@@ -108,8 +131,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                             sb.Clear();
                             foreach(var val in values)
                             {
-                                sb.Append(val.ToString());
-                                sb.Append(";");
+                                sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) : val.ToString());
+                                sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Symbol);
                             }
                             streamwriter.WriteLine(sb.ToString());
                         });
@@ -117,11 +140,16 @@ namespace AutoPartsSite.Util.Exporter.Views
 
             }
 
-            private List<BrandModel> readSplitBrands(int? priceCurrencyID)
+            private List<BrandModel> readSplitBrands(ExportCompanyAgreementModel model)
             {
                 List<BrandModel> result = new List<BrandModel>();
-                query.Execute("[brands]"
-                   , new SqlParameter[] { new SqlParameter("@CurrencyID", priceCurrencyID) }
+                query.Execute("[brands_split]"
+                   , new SqlParameter[]
+                   {
+                       new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
+                       new SqlParameter("AnaloguesSeparateFile", model!.CompanyAgreement!.AnaloguesSeparateFile),
+                       new SqlParameter("@TariffSeparateFile", model!.CompanyAgreement!.TariffSeparateFile)
+                   }
                    , null
                    , (values) =>
                    {
@@ -129,6 +157,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                        {
                            ID = values[0].ToInt(),
                            Code = values[1].ToStr().Trim(),
+                           NonGenuine = values[0].ToInt(),
+                           DeliveryTariffID = values[0].ToInt()
                        };
                        result.Add(brand);
                    });
@@ -159,24 +189,38 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return result;
             }
 
-            private string getSqlCommad(Dictionary<string, ColumnModel> columns, int? priceCurrencyID, int? priceFileCalcTypeID)
+            private string getSqlCommad(Dictionary<string, ColumnModel> columns, ExportCompanyAgreementModel model)
             {
                 StringBuilder result = new StringBuilder();
-
-                if(columns.Count > 0)
+                selColumnsIndex = string.Empty;
+                if (columns.Count > 0)
                 {
                     var sort = columns.Values.ToList().OrderBy((x) => x.Index);
-                    string selColumns = string.Empty;
+                    string selColumns = string.Empty, colName;
                     string selColumnsPart = string.Empty;
                     string selColumnsCalcType = string.Empty;
+                    
+
+                    //([CurrencyID],[StockQty]) include ([BrandID],[Price],[GoodsArticul],[BrandCode],[GoodsDescrEn])
                     foreach (ColumnModel col in sort)
                     {
-                        selColumns = string.Concat(selColumns, string.IsNullOrEmpty(selColumns) ? string.Empty : ", ", "[", col.ColumnNameInside, "]");
-                        if(col.ColumnNameInside.ToLower() != "Price" && col.ColumnNameInside.ToLower() != "StockQty")
-                            selColumnsPart = string.Concat(selColumnsPart, string.IsNullOrEmpty(selColumnsPart) ? string.Empty : ", ", "[", col.ColumnNameInside, "]");
-                        
+                        colName = col.ColumnNameInside;
+                        selColumns = string.Concat(selColumns, string.IsNullOrEmpty(selColumns) ? string.Empty : ", ", "[", colName, "]");
+                        if(colName != "Price" && colName != "StockQty")
+                            selColumnsPart = string.Concat(selColumnsPart, string.IsNullOrEmpty(selColumnsPart) ? string.Empty : ", ", "[", colName, "]");
+                        if (colName != "CurrencyID" && colName != "StockQty")
+                            selColumnsIndex = string.Concat(selColumnsIndex, string.IsNullOrEmpty(selColumnsIndex) ? string.Empty : ", ", "[", colName, "]");
                     }
 
+                    if (!columns.ContainsKey("BrandID"))
+                        selColumnsIndex = string.Concat(selColumnsIndex, string.IsNullOrEmpty(selColumnsIndex) ? string.Empty : ", ", "[BrandID]");
+
+                    if (model!.CompanyAgreement!.TariffSeparateFile == true)
+                        if (!columns.ContainsKey("DeliveryTariffID"))
+                            selColumnsIndex = string.Concat(selColumnsIndex, string.IsNullOrEmpty(selColumnsIndex) ? string.Empty : ", ", "[DeliveryTariffID]");
+
+                    int? priceFileCalcTypeID = model!.CompanyAgreement!.PriceFileCalcType!.ID;
+                    
                     if (priceFileCalcTypeID == 2)
                     {
                         if (!columns.ContainsKey("Price"))
@@ -189,8 +233,17 @@ namespace AutoPartsSite.Util.Exporter.Views
                     result.AppendLine(";with [query] as");
                     result.AppendLine("(");
                     result.AppendLine("  select " + selColumns + selColumnsCalcType);
-                    result.AppendLine("  from [PricesCustomersInside] with(nolock)");
-                    result.AppendLine("  where [CurrencyID] = @CurrencyID and [StockQty] <> 0 and (@BrandID is null or (not @BrandID is null and [BrandID] = @BrandID))");
+                    result.AppendLine("  from [PricesCustomersInside] [pci] with(nolock)");
+                    if (model.CompanyAgreement.AnaloguesSeparateFile == true)
+                        result.AppendLine("  left join [Brands] [b] with(nolock) on [pci].[BrandID] = [b].[BrandID]");
+                    result.AppendLine("  where [CurrencyID] = @CurrencyID");
+                    if (model!.CompanyAgreement!.PriceZeroQty == false)
+                        result.AppendLine("   and [StockQty] <> 0");
+                    result.AppendLine("   and (@BrandID is null or (not @BrandID is null and [pci].[BrandID] = @BrandID))");
+                    if (model.CompanyAgreement.AnaloguesSeparateFile == true)
+                        result.AppendLine("   and (@NonGenuine = -1 or (@NonGenuine <> -1 and [b].[NonGenuine] = @NonGenuine))");
+                    if (model.CompanyAgreement.TariffSeparateFile == true)
+                        result.AppendLine("   and (@DeliveryTariffID = -1 or (@DeliveryTariffID <> -1 and [pci].[DeliveryTariffID] = @DeliveryTariffID))");
                     result.AppendLine(")");
 
                     if (priceFileCalcTypeID == 2)

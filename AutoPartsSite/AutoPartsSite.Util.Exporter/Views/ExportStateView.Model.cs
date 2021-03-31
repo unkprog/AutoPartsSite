@@ -32,18 +32,39 @@ namespace AutoPartsSite.Util.Exporter.Views
                 if (exportCompanyAgreements != null)
                 {
                     var expItems = exportCompanyAgreements;
+                    int countRun, cntTasks = System.Environment.ProcessorCount * 2;
                     List<TaskExport> taskItems = new List<TaskExport>(expItems.Count);
+                    TaskExport? task;
+
                     for (int i = expItems.Count - 1; i >= 0; i--)
-                        taskItems.Add(new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) =>
+                    {
+                        task = new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) =>
                         {
                             lock (locker)
                             {
                                 taskItems.Remove(taskFinish);
                             }
-                        }));
+                        });
+                        expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
+                        taskItems.Add(task);
+                    }
 
-                    int countRun, cntTasks = System.Environment.ProcessorCount * 2; 
-                    TaskExport task;
+                    MainWindowViewModel.This.Query!.ExecuteNonQuery("[brands_split_index]", null, cmdTimeOut: 300);
+
+                    string selColumnsIndex;
+                    for (int i = taskItems.Count - 1; i >= 0; i--)
+                    {
+                        taskItems[i].Prepare();
+                        selColumnsIndex = taskItems[i].GetSqlCommandIndex();
+                        if (!string.IsNullOrEmpty(selColumnsIndex))
+                        {
+                            selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "') "
+                                            + " create nonclustered index [PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
+                            expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "]";
+                            MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 300);
+                        }
+                        expItems[i].Message = "Ожидание выполнения...";
+                    }
 
                     while (taskItems.Count > 0)
                     {
