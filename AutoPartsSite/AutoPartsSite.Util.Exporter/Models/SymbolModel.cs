@@ -3,7 +3,7 @@
     public class SymbolModel
     {
         public int ID { get; set; }
-        public decimal Code { get; set; } 
-        public string Symbol { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public decimal Symbol { get; set; }
     }
 }

@@ -65,6 +65,10 @@ namespace AutoPartsSite.Util.Exporter.Views
         public void SetQuery(Query query)
         {
             this.Query = query;
+            Query.OnError = (ex) =>
+            {
+                NotifyError(ex.Message);
+            };
         }
 
     }

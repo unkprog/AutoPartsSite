@@ -14,7 +14,6 @@ namespace AutoPartsSite.Util.Exporter.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            DataGrid dataGrid;
         }
     }
 }

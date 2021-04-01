@@ -4,6 +4,7 @@ using AutoPartsSite.Util.Exporter.ViewModels;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace AutoPartsSite.Util.Exporter.Views
 {
@@ -24,6 +25,26 @@ namespace AutoPartsSite.Util.Exporter.Views
         }
 
         private static object locker = new object();
+
+        public static int GetStableHashCode(string str)
+        {
+            unchecked
+            {
+                int hash1 = 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < str.Length && str[i] != '\0'; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1 || str[i + 1] == '\0')
+                        break;
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
+        }
+
         private void StartExport()
         {
             Task.Run(() =>
@@ -47,6 +68,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                         });
                         expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
                         taskItems.Add(task);
+                        Thread.Sleep(10);
                     }
 
                     MainWindowViewModel.This.Query!.ExecuteNonQuery("[brands_split_index]", null, cmdTimeOut: 300);
@@ -58,12 +80,14 @@ namespace AutoPartsSite.Util.Exporter.Views
                         selColumnsIndex = taskItems[i].GetSqlCommandIndex();
                         if (!string.IsNullOrEmpty(selColumnsIndex))
                         {
-                            selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "') "
-                                            + " create nonclustered index [PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
-                            expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + selColumnsIndex.GetHashCode().ToString().Replace("-", "minus") + "]";
+                            string hashValue = GetStableHashCode(selColumnsIndex).ToString().Replace("-", "minus");
+                            selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + hashValue + "') "
+                                            + " create nonclustered index [PricesCustomersInside_idx_" + hashValue + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
+                            expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + hashValue + "]";
                             MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 300);
                         }
                         expItems[i].Message = "Ожидание выполнения...";
+                        Thread.Sleep(10);
                     }
 
                     while (taskItems.Count > 0)

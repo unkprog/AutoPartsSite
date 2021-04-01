@@ -20,31 +20,32 @@ namespace AutoPartsSite.Util.Exporter.Views
         public ObservableCollection<CompanyAgreementModel> Load()
         {
             ObservableCollection<CompanyAgreementModel> list = new ObservableCollection<CompanyAgreementModel>();
-            
+
 
             MainWindowViewModel.This?.Query?.Execute("[list]", null, null
                 , (values) =>
                 {
                     int i = 0;
-                    CompanyAgreementModel item = new CompanyAgreementModel()
-                    {
-                        IsSelected = values[i++].ToBool(),
-                        Company = new CompanyModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), OfficialNameEn = values[i++].ToStr(), OfficialNameRu = values[i++].ToStr() },
-                        Language = new LanguageModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr() },
-                        Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
-                        Translation = values[i++].ToStr().Trim(), PriceCaclulate = values[i++].ToBool(),
-                        PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
-                        PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() },
-                        PriceZeroQty = values[i++].ToBool(),
-                        PriceFileArchivate = values[i++].ToBool(),
-                        PriceCurrencyID = values[i++].ToInt(),
-                        SeparatorSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToDecimal(), Symbol = values[i++].ToStr() },
-                        FractionalSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToDecimal(), Symbol = values[i++].ToStr() },
-                        AllBrandsOneFile = values[i++].ToBool(),
-                        OneBrandOneFile = values[i++].ToBool(),
-                        AnaloguesSeparateFile = values[i++].ToBool(),
-                        TariffSeparateFile = values[i++].ToBool()
-                    };
+                    CompanyAgreementModel item = new CompanyAgreementModel();
+
+                    item.IsSelected = values[i++].ToBool();
+                    item.Company = new CompanyModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), OfficialNameEn = values[i++].ToStr(), OfficialNameRu = values[i++].ToStr() };
+                    item.Language = new LanguageModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr() };
+                    item.Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
+                    item.Translation = values[i++].ToStr().Trim();
+                    item.PriceCaclulate = values[i++].ToBool();
+                    item.PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
+                    item.PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
+                    item.PriceZeroQty = values[i++].ToBool();
+                    item.PriceFileArchivate = values[i++].ToBool();
+                    item.PriceCurrencyID = values[i++].ToInt();
+                    item.SeparatorSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), Symbol = values[i++].ToDecimal() };
+                    item.FractionalSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), Symbol = values[i++].ToDecimal() };
+                    item.AllBrandsOneFile = values[i++].ToBool();
+                    item.OneBrandOneFile = values[i++].ToBool();
+                    item.AnaloguesSeparateFile = values[i++].ToBool();
+                    item.TariffSeparateFile = values[i++].ToBool();
+
                     list.Add(item);
                 });
 

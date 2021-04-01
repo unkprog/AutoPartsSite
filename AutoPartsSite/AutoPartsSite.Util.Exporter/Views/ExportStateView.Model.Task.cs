@@ -55,8 +55,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                   });
             }
 
-            Dictionary<string, ColumnModel> columns;
-            string sqlCommand, selColumnsIndex;
+            Dictionary<string, ColumnModel> columns = new Dictionary<string, ColumnModel>();
+            string sqlCommand = string.Empty, selColumnsIndex = string.Empty;
 
             public void Prepare()
             {
@@ -92,7 +92,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     SaveToCsv(model, sqlCommand, null, columns);
             }
 
-            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel brand, Dictionary<string, ColumnModel> columns)
+            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
             {
                 expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")") + "...";
                 string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + ".csv");
@@ -101,17 +101,25 @@ namespace AutoPartsSite.Util.Exporter.Views
                 StringBuilder sb = new StringBuilder();
                 List<ColumnModel> colList = columns.Values.ToList();
 
+                string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
+                declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
+                declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
+                declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
+
+                File.WriteAllText(fileName + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+
+
                 using (StreamWriter streamwriter = new StreamWriter(fileName, true, Encoding.UTF8, 65536))
                 {
                     foreach (var col in colList)
                     {
                         sb.Append(col.ColumnNameClient);
-                        sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Symbol);
+                        sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Code);
                     }
                     streamwriter.WriteLine(sb.ToString());
 
                     NumberFormatInfo nfi = new NumberFormatInfo();
-                    nfi.NumberDecimalSeparator = model!.CompanyAgreement!.FractionalSymbol!.Symbol;
+                    nfi.NumberDecimalSeparator = model!.CompanyAgreement!.FractionalSymbol!.Code;
 
                     query.ExecuteQuery(sqlCommand
                         , new SqlParameter[]
@@ -132,7 +140,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                             foreach(var val in values)
                             {
                                 sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) : val.ToString());
-                                sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Symbol);
+                                sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Code);
                             }
                             streamwriter.WriteLine(sb.ToString());
                         });
@@ -157,8 +165,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                        {
                            ID = values[0].ToInt(),
                            Code = values[1].ToStr().Trim(),
-                           NonGenuine = values[0].ToInt(),
-                           DeliveryTariffID = values[0].ToInt()
+                           NonGenuine = values[2].ToInt(),
+                           DeliveryTariffID = values[3].ToInt()
                        };
                        result.Add(brand);
                    });

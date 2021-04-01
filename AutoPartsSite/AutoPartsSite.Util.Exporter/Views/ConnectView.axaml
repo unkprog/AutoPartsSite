@@ -14,8 +14,9 @@
       <Setter Property="Margin" Value="5 0"/>
     </Style>
   </UserControl.Styles>
-  
-  <Grid ColumnDefinitions="100, 100*, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto" DataContext="{Binding Connection}">
+
+  <Grid ColumnDefinitions="100*" RowDefinitions="Auto, Auto">
+    <Grid ColumnDefinitions="100, 100*, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" DataContext="{Binding Connection}">
     <TextBlock Classes="label" Text="Сервер:" HorizontalAlignment="Right" />
     <TextBox Grid.Column="1" Text="{Binding DataSource, Mode=TwoWay}" Margin="0 2" />
     <CheckBox Grid.Row="1" Grid.Column="1" Content="Проверка подлинности SSPI" IsChecked="{Binding IsSSPI, Mode=TwoWay}" Margin="0 2" />
@@ -25,5 +26,7 @@
     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, Mode=TwoWay}"  IsVisible="{Binding !IsSSPI}" Margin="0 2" />
     <TextBlock Grid.Row="4" Classes="label" Text="База данных:" HorizontalAlignment="Right"/>
     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding InitialCatalog, Mode=TwoWay}" Margin="0 2" />
+    </Grid>
+    <Button Grid.Row="1" Content="Проверить подключение" Grid.Column="1"  Margin="0 2" Command="{Binding CheckConnectionCommand}"/>
   </Grid>
 </UserControl>
