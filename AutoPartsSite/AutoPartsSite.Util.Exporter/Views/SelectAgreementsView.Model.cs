@@ -16,7 +16,6 @@ namespace AutoPartsSite.Util.Exporter.Views
            
         }
 
-
         public ObservableCollection<CompanyAgreementModel> Load()
         {
             ObservableCollection<CompanyAgreementModel> list = new ObservableCollection<CompanyAgreementModel>();
@@ -34,8 +33,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                     item.Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
                     item.Translation = values[i++].ToStr().Trim();
                     item.PriceCaclulate = values[i++].ToBool();
-                    item.PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
-                    item.PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
+                    item.PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr().Trim(), DescrEn = values[i++].ToStr().Trim(), DescrRu = values[i++].ToStr().Trim() };
+                    item.PriceFileCalcType = new PriceFileCalcTypeModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr().Trim(), DescrEn = values[i++].ToStr().Trim(), DescrRu = values[i++].ToStr().Trim() };
                     item.PriceZeroQty = values[i++].ToBool();
                     item.PriceFileArchivate = values[i++].ToBool();
                     item.PriceCurrencyID = values[i++].ToInt();
@@ -71,6 +70,14 @@ namespace AutoPartsSite.Util.Exporter.Views
             result = result && string.IsNullOrEmpty(errorMessage);
 
             return result;
+        }
+
+        public void SelectOneRecordAgreements(int company, int agreement)
+        {
+            foreach(var item in CompanyAgreements!)
+            {
+                item.IsSelected = (item!.Company!.ID == company && item!.Agreement!.ID == agreement);
+            }
         }
     }
 }

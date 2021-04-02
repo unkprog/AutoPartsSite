@@ -68,7 +68,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                         });
                         expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
                         taskItems.Add(task);
-                        Thread.Sleep(10);
+                        Thread.Sleep(1);
                     }
 
                     MainWindowViewModel.This.Query!.ExecuteNonQuery("[brands_split_index]", null, cmdTimeOut: 300);
@@ -87,7 +87,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                             MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 300);
                         }
                         expItems[i].Message = "Ожидание выполнения...";
-                        Thread.Sleep(10);
+                        Thread.Sleep(1);
                     }
 
                     while (taskItems.Count > 0)
@@ -112,6 +112,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     }
                 }
                 MainWindowViewModel.This.IsDisable = false;
+                MainWindowViewModel.This.onEndExport?.Invoke();
             });
         }
     }

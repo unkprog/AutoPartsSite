@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoPartsSite.Util.Exporter": {
+      "commandName": "Project",
+      "commandLineArgs": "server=.;sspi=true;user=sa;login=1;db=GlobalParts;company=12;agreement=7"
+    }
+  }
+}

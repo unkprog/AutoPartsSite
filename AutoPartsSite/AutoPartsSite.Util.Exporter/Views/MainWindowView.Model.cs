@@ -25,11 +25,11 @@ namespace AutoPartsSite.Util.Exporter.Views
             else if (_currentContent == ExportFinishViewModel.This) CurrentContent = ExportStateViewModel.This;
         }
 
-        public void Next()
+        public bool Next()
         {
-            if (_currentContent == null) return;
+            if (_currentContent == null) return false;
 
-            if (!_currentContent.Validate()) return;
+            if (!_currentContent.Validate()) return false;
 
 
             if (_currentContent == ConnectViewModel.This)
@@ -45,6 +45,7 @@ namespace AutoPartsSite.Util.Exporter.Views
             else if (_currentContent == ExportStateViewModel.This) CurrentContent = ExportFinishViewModel.This;
             else if (_currentContent == ExportFinishViewModel.This) CurrentContent = ConnectViewModel.This;
 
+            return true;
         }
 
         public void NotifyError(Exception ex)

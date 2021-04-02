@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Util.Exporter.ViewModels;
 using Avalonia.Controls.Notifications;
@@ -40,5 +41,7 @@ namespace AutoPartsSite.Util.Exporter.Views
         public bool IsPrevEnable => _currentContent == null || !isDisable || _currentContent.GetType() != typeof(ConnectViewModel);
 
         internal WindowNotificationManager? _notificationManager { get; set; }
+
+        public Action? onEndExport;
     }
 }

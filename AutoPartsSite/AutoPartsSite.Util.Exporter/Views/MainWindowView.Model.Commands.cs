@@ -15,7 +15,7 @@ namespace AutoPartsSite.Util.Exporter.Views
         public ReactiveCommand<Unit, Unit> PrevCommand => ReactiveCommand.Create(Prev);
 
         [IgnoreDataMember]
-        public ReactiveCommand<Unit, Unit> NextCommand => ReactiveCommand.Create(Next);
+        public ReactiveCommand<Unit, Unit> NextCommand => ReactiveCommand.Create(new Action(() => Next()));
     }
 
 }

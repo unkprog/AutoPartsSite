@@ -38,7 +38,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                 _ = Task.Run(() =>
                   {
                       expCAM.Message = "Выполнение...";
-                      if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv")
+                      if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "txt")
                           ExportToCsv(expCAM);
                       else
                       {
@@ -94,8 +94,9 @@ namespace AutoPartsSite.Util.Exporter.Views
 
             private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
             {
-                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")") + "...";
-                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + ".csv");
+                string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
+                expCAM.Message = message + "...";
+                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -135,7 +136,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                             counter++;
 
                             if(counter %100 == 0)
-                                expCAM.Message = "Выгрузка в файл CSV" + (brand == null ? string.Empty : " (" + brand.Code + ")") + " - " + counter + "...";
+                                expCAM.Message = message + " - " + counter + "...";
                             sb.Clear();
                             foreach(var val in values)
                             {
@@ -208,8 +209,6 @@ namespace AutoPartsSite.Util.Exporter.Views
                     string selColumnsPart = string.Empty;
                     string selColumnsCalcType = string.Empty;
                     
-
-                    //([CurrencyID],[StockQty]) include ([BrandID],[Price],[GoodsArticul],[BrandCode],[GoodsDescrEn])
                     foreach (ColumnModel col in sort)
                     {
                         colName = col.ColumnNameInside;
