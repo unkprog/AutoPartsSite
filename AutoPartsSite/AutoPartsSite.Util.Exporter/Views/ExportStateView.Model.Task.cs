@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -115,7 +116,9 @@ namespace AutoPartsSite.Util.Exporter.Views
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
-                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + ".xlsx");
+                string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
+                string fileNameWithExt = Path.Combine(pathExport, fileName + ".xlsx");
+
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -126,12 +129,10 @@ namespace AutoPartsSite.Util.Exporter.Views
                 declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
                 declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
 
-                File.WriteAllText(fileName + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+                File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
 
 
-                //using (MemoryStream streamwriter = new MemoryStream())
-                //{
-                using (var workbook = SpreadsheetDocument.Create(fileName, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+                using (var workbook = SpreadsheetDocument.Create(fileNameWithExt, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
                 {
                     var workbookPart = workbook.AddWorkbookPart();
                     workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
@@ -244,13 +245,31 @@ namespace AutoPartsSite.Util.Exporter.Views
                     sheetPart.Worksheet.Save();
                     workbook.WorkbookPart.Workbook.Save();
                 }
+
+                if (model.CompanyAgreement.PriceFileArchivate == true)
+                {
+                    string fileNameZip = Path.Combine(pathExport, fileName + ".zip");
+
+                    using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
+                    {
+                        var entry = zip.CreateEntry(fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+                        entry.LastWriteTime = DateTimeOffset.Now;
+
+                        using (var stream = File.OpenRead(fileNameWithExt))
+                        {
+                            using (var entryStream = entry.Open())
+                                stream.CopyTo(entryStream);
+                        }
+                    }
+                }
             }
 
             private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
-                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+                string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
+                string fileNameWithExt = Path.Combine(pathExport, fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -261,10 +280,10 @@ namespace AutoPartsSite.Util.Exporter.Views
                 declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
                 declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
 
-                File.WriteAllText(fileName + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+                File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
 
 
-                using (StreamWriter streamwriter = new StreamWriter(fileName, true, Encoding.UTF8, 65536))
+                using (StreamWriter streamwriter = new StreamWriter(fileNameWithExt, true, Encoding.UTF8, 65536))
                 {
                     foreach (var col in colList)
                     {
@@ -299,6 +318,23 @@ namespace AutoPartsSite.Util.Exporter.Views
                             }
                             streamwriter.WriteLine(sb.ToString());
                         });
+                }
+
+                if (model.CompanyAgreement.PriceFileArchivate == true)
+                {
+                    string fileNameZip = Path.Combine(pathExport, fileName + ".zip");
+
+                    using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
+                    {
+                        var entry = zip.CreateEntry(fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+                        entry.LastWriteTime = DateTimeOffset.Now;
+
+                        using (var stream = File.OpenRead(fileNameWithExt))
+                        {
+                            using (var entryStream = entry.Open())
+                                stream.CopyTo(entryStream);
+                        }
+                    }
                 }
             }
 
