@@ -13,6 +13,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoPartsSite.Core\AutoPartsSite.Core.csproj" />

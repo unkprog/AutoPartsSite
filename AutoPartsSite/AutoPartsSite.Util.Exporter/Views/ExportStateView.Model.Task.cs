@@ -1,6 +1,8 @@
 ﻿using AutoPartsSite.Core.Extensions;
 using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Util.Exporter.Models;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,11 @@ namespace AutoPartsSite.Util.Exporter.Views
     {
         public class TaskExport 
         {
-            private Query query;
+            private Core.Sql.Query query;
             private ExportCompanyAgreementModel expCAM;
             private Action<TaskExport> actionFinish;
             internal static readonly string pathExport = string.Concat(Environment.CurrentDirectory, @"\Settings\Export");
-            public TaskExport(Query q, ExportCompanyAgreementModel exp, Action<TaskExport> af)
+            public TaskExport(Core.Sql.Query q, ExportCompanyAgreementModel exp, Action<TaskExport> af)
             {
                 query = q;
                 expCAM = exp;
@@ -40,6 +42,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                       expCAM.Message = "Выполнение...";
                       if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "txt")
                           ExportToCsv(expCAM);
+                      else if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xls" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xlsx")
+                          ExportToExcel(expCAM);
                       else
                       {
                           expCAM.Message = "ОШИБКА: Не поддерживаемый формат " + expCAM.CompanyAgreement!.PriceFileFormat!.Code;
@@ -72,11 +76,10 @@ namespace AutoPartsSite.Util.Exporter.Views
 
             public string GetSqlCommandIndex()
             {
-
                 return selColumnsIndex;  
             }
 
-            private void ExportToCsv(ExportCompanyAgreementModel model)
+            private void ExportToExcel(ExportCompanyAgreementModel model)
             {
 
                 if (model!.CompanyAgreement!.OneBrandOneFile == true)
@@ -85,11 +88,162 @@ namespace AutoPartsSite.Util.Exporter.Views
                     
                     List<BrandModel>? brands = readSplitBrands(model);
                     foreach (BrandModel brand in brands)
+                        SaveToExcel(model, sqlCommand, brand, columns);
+                }
+
+                if (model!.CompanyAgreement.AllBrandsOneFile == true)
+                    SaveToExcel(model, sqlCommand, null, columns);
+            }
+
+            private void ExportToCsv(ExportCompanyAgreementModel model)
+            {
+
+                if (model!.CompanyAgreement!.OneBrandOneFile == true)
+                {
+                    expCAM.Message = "Получение списка брендов...";
+
+                    List<BrandModel>? brands = readSplitBrands(model);
+                    foreach (BrandModel brand in brands)
                         SaveToCsv(model, sqlCommand, brand, columns);
                 }
 
                 if (model!.CompanyAgreement.AllBrandsOneFile == true)
                     SaveToCsv(model, sqlCommand, null, columns);
+            }
+
+            private void SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            {
+                string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
+                expCAM.Message = message + "...";
+                string fileName = Path.Combine(pathExport, model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID) + ".xlsx");
+
+                int counter = 0;
+                StringBuilder sb = new StringBuilder();
+                List<ColumnModel> colList = columns.Values.ToList();
+
+                string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
+                declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
+                declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
+                declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
+
+                File.WriteAllText(fileName + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+
+
+                //using (MemoryStream streamwriter = new MemoryStream())
+                //{
+                using (var workbook = SpreadsheetDocument.Create(fileName, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+                {
+                    var workbookPart = workbook.AddWorkbookPart();
+                    workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
+                    workbook.WorkbookPart.Workbook.Append(new BookViews(new WorkbookView()));
+
+                    WorkbookStylesPart workbookStylesPart = workbook.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
+                    Stylesheet stylesheet = new Stylesheet();
+                    workbookStylesPart.Stylesheet = stylesheet;
+                    workbookStylesPart.Stylesheet.Save();
+
+                    workbook.WorkbookPart.Workbook.Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets();
+
+                    //for (int tableIdx = 0; tableIdx < ds.Tables.Count; tableIdx++)
+                    //{
+                    //    DataTable table = ds.Tables[tableIdx];
+                    var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
+                    var sheetData = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
+                    sheetPart.Worksheet = new DocumentFormat.OpenXml.Spreadsheet.Worksheet(sheetData);
+
+
+
+                    DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>();
+                    string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
+                    DocumentFormat.OpenXml.Spreadsheet.Sheet sheet = new DocumentFormat.OpenXml.Spreadsheet.Sheet();
+
+                    sheet.Id = relationshipId;
+                    sheet.SheetId = (uint)1; // (tableIdx + 1);   //If set to zero, Excel will display an error when opening the spreadsheet file.
+                    sheet.Name = "Sheet 1"; // table.TableName;
+                    sheets.Append(sheet);
+
+                    DocumentFormat.OpenXml.Spreadsheet.Row headerRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
+                    foreach (var col in colList)
+                    {
+                        DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
+                        cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                        cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(col.ColumnNameClient);
+                        headerRow.AppendChild(cell);
+                    }
+                    sheetData.AppendChild(headerRow);
+
+                    query.ExecuteQuery(sqlCommand
+                        , new SqlParameter[]
+                        {
+                                new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
+                                new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+                                new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
+                                new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
+                        }
+                        , null
+                        , (values) =>
+                        {
+                            counter++;
+
+                            if (counter % 100 == 0)
+                                expCAM.Message = message + " - " + counter + "...";
+
+                            DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
+                            int i = 0;
+                            foreach (var val in values)
+                            {
+                                DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
+                                if (val.IsNull())
+                                {
+                                    cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                                    cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(string.Empty);
+                                }
+                                else
+                                {
+                                    TypeCode typeCode = Type.GetTypeCode(val.GetType());
+                                    try
+                                    {
+                                        switch (typeCode)
+                                        {
+                                            case System.TypeCode.Int16:
+                                            case System.TypeCode.Int32:
+                                            case System.TypeCode.Int64:
+                                            case System.TypeCode.UInt16:
+                                            case System.TypeCode.UInt32:
+                                            case System.TypeCode.UInt64:
+                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Number;
+                                                break;
+                                            case System.TypeCode.Decimal:
+                                            case System.TypeCode.Double:
+                                            case System.TypeCode.Single:
+                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Number;
+                                                break;
+                                            case System.TypeCode.DateTime:
+                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Date;
+                                                break;
+                                            default:
+                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                                                break;
+                                        }
+                                        if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
+                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(val.ToString()!.Replace(',', '.'));
+                                        else
+                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(val.ToString());
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                                    }
+                                }
+                                newRow.AppendChild(cell);
+                                i++;
+                            }
+                            sheetData.AppendChild(newRow);
+                        });
+
+                    sheetPart.Worksheet.Save();
+                    workbook.WorkbookPart.Workbook.Save();
+                }
             }
 
             private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
@@ -146,7 +300,6 @@ namespace AutoPartsSite.Util.Exporter.Views
                             streamwriter.WriteLine(sb.ToString());
                         });
                 }
-
             }
 
             private List<BrandModel> readSplitBrands(ExportCompanyAgreementModel model)

@@ -76,7 +76,7 @@ namespace AutoPartsSite.Util.Exporter.Views
         {
             foreach(var item in CompanyAgreements!)
             {
-                item.IsSelected = (item!.Company!.ID == company && item!.Agreement!.ID == agreement);
+                item.IsSelected = ((company < 1 || item!.Company!.ID == company) && (agreement < 1 || item!.Agreement!.ID == agreement));
             }
         }
     }
