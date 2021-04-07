@@ -251,5 +251,22 @@ namespace AutoPartsSite.Controllers.Api
         //    });
         //    return result;
         //}
+
+        [NonAction]
+        private List<Brand> GetSearchBrands()
+        {
+            List<Brand> result = new List<Brand>();
+            ExecQuery((query) =>
+            {
+                query.Execute(@"Search\[brands]", new SqlParameter[] { }, onExecute: null
+                , (values) =>
+                {
+                    Brand brand = new Brand() { Code = values[0].ToStr() };
+                    brand.Logo = string.Concat("/img/autobrands/", brand.Code.Replace(" ", string.Empty).Trim().ToLower(), ".png");
+                    result.Add(brand);
+                });
+            });
+            return result;
+        }
     }
 }

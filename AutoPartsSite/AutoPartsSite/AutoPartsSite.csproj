@@ -410,6 +410,9 @@
     <None Update="Database\GlobalParts\Query\Search\[GetPricesRetail].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Search\[brands].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Search\[get_search].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -438,6 +441,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\img\autobrands\acdelco.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\lib\materialize\dist\js\materialize.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
