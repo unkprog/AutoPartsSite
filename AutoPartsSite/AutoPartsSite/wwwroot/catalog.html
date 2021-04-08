@@ -37,7 +37,7 @@
             </div>
         </nav>
     </div>
-    <div id="page-content" style="overflow-y:auto;height:100%">
+    <div id="page-content" style="overflow:hidden auto;height:100%">
         <div id="parts-catalog"
              data-key="TWS-94C73D87-922A-4CE9-853D-13A1AABADE7F"
              data-hide-car-search="true"
@@ -56,11 +56,17 @@
 
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        function resize() {
             var footerHeight = $('.page-footer').innerHeight();
             var appnavbarHeight = $('#app-navbar').innerHeight();
             var height = window.innerHeight - footerHeight - appnavbarHeight;
             $("#page-content").height(height);
+        }
+
+        $(window).on('resize', resize);
+
+        $(document).ready(function () {
+            resize();
         });
     </script>
     <script type="text/javascript" src="https://gui.parts-catalogs.com/v2/parts-catalogs.js"></script>
