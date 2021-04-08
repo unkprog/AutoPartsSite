@@ -8,15 +8,61 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
     <title></title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link type="text/css" rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css" />
+
+    <!-- App css-->
+    <link type="text/css" rel="stylesheet" href="/css/app.min.css" />
+    <!--<link type="text/css" rel="stylesheet" href="/Content/css/app.mobile.min.css" />
+    <link type="text/css" rel="stylesheet" href="/Content/css/app.print.min.css" />-->
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
 </head>
 <body>
-    <div id="parts-catalog"
-         data-key="TWS-94C73D87-922A-4CE9-853D-13A1AABADE7F"
-         data-hide-car-search="true"
-         data-allowed-catalogs="acdelco,chrysler,daihatsu,dodge,gm,hino,honda,hyundai,infinity,isuzu,jeep,kia,lexus,mazda,mitsubishi,nissan,renault,subaru,suzuki,toyota,toyota,volvo,yamaha"
-         data-back-url="/index.html?article={article}"
-         data-color-schema="red"></div>
+    <div id="app-navbar" class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <ul class="left">
+                        <li><a href="/index.html" class="tooltipped" data-position="bottom" data-tooltip="Back"><i class="material-icons">arrow_back</i></a></li>
+                    </ul>
+                    <img src="/img/logo.svg" width="85" height="64" style="margin-right:0.5rem" />
+                    <a href="/index.html" class="brand-logo" style="left:unset;transform:none;cursor: pointer;"><span style="color:#f76005;">Global</span> <span style="color:#000;">Parts</span></a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="page-content" style="overflow-y:auto;height:100%">
+        <div id="parts-catalog"
+             data-key="TWS-94C73D87-922A-4CE9-853D-13A1AABADE7F"
+             data-hide-car-search="true"
+             data-allowed-catalogs="acdelco,chrysler,daihatsu,dodge,gm,hino,honda,hyundai,infinity,isuzu,jeep,kia,lexus,mazda,mitsubishi,nissan,renault,subaru,suzuki,toyota,volvo,yamaha"
+             data-back-url="/index.html?article={article}"
+             data-color-schema="red"></div>
+    </div>
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2020 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
 
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var footerHeight = $('.page-footer').innerHeight();
+            var appnavbarHeight = $('#app-navbar').innerHeight();
+            var height = window.innerHeight - footerHeight - appnavbarHeight;
+            $("#page-content").height(height);
+        });
+    </script>
     <script type="text/javascript" src="https://gui.parts-catalogs.com/v2/parts-catalogs.js"></script>
 
 </body>

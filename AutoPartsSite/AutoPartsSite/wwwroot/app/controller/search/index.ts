@@ -69,12 +69,13 @@ export namespace Controller.Search {
             this.searchForm = this.View.find("#search-view-form");
             vars._appData.BasketIsInit = true;
             this.BasketService.Count(this.setBasketCount);
-            this.loadBrands();
 
             if (utils.isNullOrEmpty(this.findArticle) === false) {
                 this.View.find('#search-view-part-number').val(this.findArticle);
                 this.search(undefined);
             }
+            else 
+                this.loadBrands();
         }
 
         private setupSearchArticle(): boolean {
@@ -198,9 +199,10 @@ export namespace Controller.Search {
 
         public ClearButtonClick: { (e: any): void; };
         private clearButtonClick(e) {
-            this.View.find('#search-view-part-number').val('');
-            this.View.find('#search-view-parts').html('');
-            this.View.find('#search-view-brand-catalogs').show();
+            //this.View.find('#search-view-part-number').val('');
+            //this.View.find('#search-view-parts').html('');
+            //this.View.find('#search-view-brand-catalogs').show();
+            window.location.replace('/index.html');
             e.preventDefault();
             e.stopPropagation();
             return false;

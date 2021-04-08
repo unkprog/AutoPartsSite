@@ -71,11 +71,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.searchForm = this.View.find("#search-view-form");
                     vars._appData.BasketIsInit = true;
                     this.BasketService.Count(this.setBasketCount);
-                    this.loadBrands();
                     if (utils.isNullOrEmpty(this.findArticle) === false) {
                         this.View.find('#search-view-part-number').val(this.findArticle);
                         this.search(undefined);
                     }
+                    else
+                        this.loadBrands();
                 };
                 Index.prototype.setupSearchArticle = function () {
                     var hr = window.location.href.toLocaleLowerCase();
@@ -174,9 +175,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.clearButtonClick = function (e) {
-                    this.View.find('#search-view-part-number').val('');
-                    this.View.find('#search-view-parts').html('');
-                    this.View.find('#search-view-brand-catalogs').show();
+                    //this.View.find('#search-view-part-number').val('');
+                    //this.View.find('#search-view-parts').html('');
+                    //this.View.find('#search-view-brand-catalogs').show();
+                    window.location.replace('/index.html');
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
