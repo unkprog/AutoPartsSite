@@ -1,6 +1,6 @@
 ﻿select [c].[Active], [Company.ID] = [c].[CompanyID], [Company.Code] = [c].[Code], [Company.OfficialNameEn] = [c].[OfficialNameEn], [Company.OfficialNameRu] = [c].[OfficialNameRu]
      , [Language.ID] = [c].[LanguageId], [Language.Code] = [l].[Code]
-     , [Agreement.ID] = [a].[AgreementID], [Agreement.Code] = [a].[Code],  [Agreement.DescrEn] = [a].[DescrEn],  [Agreement.DescrRu] = [a].[DescrRu]
+     , [Agreement.ID] = [a].[AgreementID], [Agreement.Code] = [a].[Code],  [Agreement.DescrEn] = [a].[DescrEn],  [Agreement.DescrRu] = [a].[DescrRu], [a].[PriceFolder]
      , [Translation] = (select top 1 [Translation] from [dbo].[GetLocalizationsTablesValue]([c].[LanguageId], 'Agreements', [a].[AgreementID], 'BrandCode'))
  -- флаг - если = true, то расчитываем прайс-листы по соглашению, иначе (флаг = false) не расчитываем
      , [a].[PriceCaclulate]

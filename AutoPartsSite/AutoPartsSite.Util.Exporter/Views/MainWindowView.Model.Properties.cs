@@ -36,9 +36,9 @@ namespace AutoPartsSite.Util.Exporter.Views
         public Query? Query { get; private set; }
 
         [DataMember]
-        public bool IsNextEnable => _currentContent == null || !isDisable;
+        public bool IsNextEnable => !isDisable && (_currentContent == null || _currentContent.GetType() != typeof(ExportFinishViewModel));
 
-        public bool IsPrevEnable => _currentContent == null || !isDisable || _currentContent.GetType() != typeof(ConnectViewModel);
+        public bool IsPrevEnable => !isDisable && (_currentContent == null || _currentContent.GetType() != typeof(ConnectViewModel));
 
         internal WindowNotificationManager? _notificationManager { get; set; }
 

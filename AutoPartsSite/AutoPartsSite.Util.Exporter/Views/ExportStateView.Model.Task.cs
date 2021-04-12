@@ -80,6 +80,33 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return selColumnsIndex;  
             }
 
+            private string getTempFolder()
+            {
+                string result = string.Empty;
+
+                query.Execute("[prices_temp_folder]"
+                   , new SqlParameter[] { new SqlParameter("@LocaleLanguageID", expCAM?.CompanyAgreement?.Language?.ID) }
+                   , null
+                   , (values) =>
+                   {
+                       result = values[0].ToStr().Trim();
+                   });
+
+                if (string.IsNullOrEmpty(result))
+                    result = pathExport;
+
+                return result;
+            }
+
+            public void DeleteFiles()
+            {
+                DirectoryInfo dir = new DirectoryInfo(getTempFolder());
+                FileInfo[] files = dir.GetFiles();
+
+                foreach (var f in files)
+                    f.Delete();
+            }
+
             private void ExportToExcel(ExportCompanyAgreementModel model)
             {
 
@@ -117,7 +144,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
                 string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
-                string fileNameWithExt = Path.Combine(pathExport, fileName + ".xlsx");
+                string exportPath = getTempFolder();
+                string fileNameWithExt = Path.Combine(exportPath, fileName + ".xlsx");
 
 
                 int counter = 0;
@@ -240,7 +268,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 i++;
                             }
                             sheetData.AppendChild(newRow);
-                        });
+                        }
+                        , cmdTimeOut: 900);
 
                     sheetPart.Worksheet.Save();
                     workbook.WorkbookPart.Workbook.Save();
@@ -248,7 +277,7 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                 if (model.CompanyAgreement.PriceFileArchivate == true)
                 {
-                    string fileNameZip = Path.Combine(pathExport, fileName + ".zip");
+                    string fileNameZip = Path.Combine(exportPath, fileName + ".zip");
 
                     using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
                     {
@@ -269,7 +298,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
                 string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
-                string fileNameWithExt = Path.Combine(pathExport, fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+                string exportPath = getTempFolder();
+                string fileNameWithExt = Path.Combine(exportPath, fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -317,12 +347,13 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Code);
                             }
                             streamwriter.WriteLine(sb.ToString());
-                        });
+                        }
+                        , 900);
                 }
 
                 if (model.CompanyAgreement.PriceFileArchivate == true)
                 {
-                    string fileNameZip = Path.Combine(pathExport, fileName + ".zip");
+                    string fileNameZip = Path.Combine(exportPath, fileName + ".zip");
 
                     using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
                     {

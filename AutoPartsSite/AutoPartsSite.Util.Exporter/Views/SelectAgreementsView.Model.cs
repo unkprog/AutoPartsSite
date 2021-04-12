@@ -30,7 +30,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     item.IsSelected = values[i++].ToBool();
                     item.Company = new CompanyModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), OfficialNameEn = values[i++].ToStr(), OfficialNameRu = values[i++].ToStr() };
                     item.Language = new LanguageModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr() };
-                    item.Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr() };
+                    item.Agreement = new AgreementModel() { ID = values[i++].ToInt(), Code = Convert.ToString(values[i++]), DescrEn = values[i++].ToStr(), DescrRu = values[i++].ToStr(), PriceFolder = values[i++].ToStr().Trim() };
                     item.Translation = values[i++].ToStr().Trim();
                     item.PriceCaclulate = values[i++].ToBool();
                     item.PriceFileFormat = new PriceFileFormatModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr().Trim(), DescrEn = values[i++].ToStr().Trim(), DescrRu = values[i++].ToStr().Trim() };

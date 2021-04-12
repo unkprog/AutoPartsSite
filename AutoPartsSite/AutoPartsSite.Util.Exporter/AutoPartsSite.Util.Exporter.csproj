@@ -25,6 +25,9 @@
     <None Update="Settings\Export\Readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Settings\Sql\[prices_temp_folder].sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Settings\Sql\[brands_split_index].sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

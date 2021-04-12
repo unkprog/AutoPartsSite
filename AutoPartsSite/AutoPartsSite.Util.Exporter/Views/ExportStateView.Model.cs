@@ -66,7 +66,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 taskItems.Remove(taskFinish);
                             }
                         });
-                        expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
+                        expItems[i].Message = "Ожидание выполнения..."; 
                         taskItems.Add(task);
                         Thread.Sleep(1);
                     }
@@ -76,7 +76,10 @@ namespace AutoPartsSite.Util.Exporter.Views
                     string selColumnsIndex;
                     for (int i = taskItems.Count - 1; i >= 0; i--)
                     {
+                        expItems[i].Message = "Удаление временных файлов";
+                        taskItems[i].DeleteFiles();
                         taskItems[i].Prepare();
+                        expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
                         selColumnsIndex = taskItems[i].GetSqlCommandIndex();
                         if (!string.IsNullOrEmpty(selColumnsIndex))
                         {
@@ -84,7 +87,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                             selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + hashValue + "') "
                                             + " create nonclustered index [PricesCustomersInside_idx_" + hashValue + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
                             expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + hashValue + "]";
-                            MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 300);
+                            MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 900);
                         }
                         expItems[i].Message = "Ожидание выполнения...";
                         Thread.Sleep(1);

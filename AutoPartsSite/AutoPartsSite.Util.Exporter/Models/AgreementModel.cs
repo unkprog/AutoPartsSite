@@ -6,5 +6,8 @@
         public string? Code { get; set; }
         public string? DescrEn { get; set; }
         public string? DescrRu { get; set; }
+        public string? PriceFolder { get; set; }
+
+        
     }
 }
