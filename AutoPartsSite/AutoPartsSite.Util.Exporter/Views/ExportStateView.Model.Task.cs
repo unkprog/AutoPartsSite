@@ -40,11 +40,12 @@ namespace AutoPartsSite.Util.Exporter.Views
                 expCAM.Message = "Запуск...";
                 _ = Task.Run(() =>
                   {
+                      List<string> files = new List<string>();
                       expCAM.Message = "Выполнение...";
                       if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "txt")
-                          ExportToCsv(expCAM);
+                          files = ExportToCsv(expCAM);
                       else if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xls" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xlsx")
-                          ExportToExcel(expCAM);
+                          files = ExportToExcel(expCAM);
                       else
                       {
                           expCAM.Message = "ОШИБКА: Не поддерживаемый формат " + expCAM.CompanyAgreement!.PriceFileFormat!.Code;
@@ -53,6 +54,21 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                       if (State > 0)
                       {
+
+                          if (!string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder)
+                          {
+                              expCAM.Message = "Копирование файлов в выходной каталог...";
+                              string folderTo = expCAM!.CompanyAgreement!.Agreement!.PriceFolder;
+                              foreach (var file in files)
+                              {
+                                  if (!File.Exists(file))
+                                      continue;
+
+                                  FileInfo fi = new FileInfo(file);
+                                  fi.MoveTo(string.Concat(folderTo, folderTo.EndsWith(@"\\") ? string.Empty : @"\\", fi.Name), true);
+                              }
+                          }
+
                           State = 2;
                           expCAM.Message = "Завершено...";
                       }
@@ -98,48 +114,64 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return result;
             }
 
-            public void DeleteFiles()
-            {
-                DirectoryInfo dir = new DirectoryInfo(getTempFolder());
-                FileInfo[] files = dir.GetFiles();
 
-                foreach (var f in files)
-                    f.Delete();
+            private void DeleteFiles(string folder)
+            {
+                if (Directory.Exists(folder))
+                {
+                    DirectoryInfo dir = new DirectoryInfo(folder);
+                    FileInfo[] files = dir.GetFiles();
+
+                    foreach (var f in files)
+                    {
+                        try { f.Delete(); } catch { }
+                    }
+                }
             }
 
-            private void ExportToExcel(ExportCompanyAgreementModel model)
+            public void DeleteFiles()
             {
+                DeleteFiles(getTempFolder());
+                DeleteFiles(expCAM!.CompanyAgreement!.Agreement!.PriceFolder!);
+            }
 
+            private List<string> ExportToExcel(ExportCompanyAgreementModel model)
+            {
+                List<string> files = new List<string>();
                 if (model!.CompanyAgreement!.OneBrandOneFile == true)
                 {
                     expCAM.Message = "Получение списка брендов...";
                     
                     List<BrandModel>? brands = readSplitBrands(model);
                     foreach (BrandModel brand in brands)
-                        SaveToExcel(model, sqlCommand, brand, columns);
+                        files.Add(SaveToExcel(model, sqlCommand, brand, columns));
                 }
 
                 if (model!.CompanyAgreement.AllBrandsOneFile == true)
-                    SaveToExcel(model, sqlCommand, null, columns);
+                    files.Add(SaveToExcel(model, sqlCommand, null, columns));
+
+                return files;
             }
 
-            private void ExportToCsv(ExportCompanyAgreementModel model)
+            private List<string> ExportToCsv(ExportCompanyAgreementModel model)
             {
-
+                List<string> files = new List<string>();
                 if (model!.CompanyAgreement!.OneBrandOneFile == true)
                 {
                     expCAM.Message = "Получение списка брендов...";
 
                     List<BrandModel>? brands = readSplitBrands(model);
                     foreach (BrandModel brand in brands)
-                        SaveToCsv(model, sqlCommand, brand, columns);
+                        files.Add(SaveToCsv(model, sqlCommand, brand, columns));
                 }
 
                 if (model!.CompanyAgreement.AllBrandsOneFile == true)
-                    SaveToCsv(model, sqlCommand, null, columns);
+                    files.Add(SaveToCsv(model, sqlCommand, null, columns));
+
+                return files;
             }
 
-            private void SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            private string SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
@@ -290,10 +322,15 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 stream.CopyTo(entryStream);
                         }
                     }
+
+                    try { File.Delete(fileNameWithExt); } catch { }
+                    return fileNameZip;
                 }
+
+                return fileNameWithExt;
             }
 
-            private void SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            private string SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
@@ -366,7 +403,11 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 stream.CopyTo(entryStream);
                         }
                     }
+
+                    try { File.Delete(fileNameWithExt); } catch { }
+                    return fileNameZip;
                 }
+                return fileNameWithExt;
             }
 
             private List<BrandModel> readSplitBrands(ExportCompanyAgreementModel model)
