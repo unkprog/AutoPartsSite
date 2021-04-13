@@ -26,6 +26,7 @@ namespace AutoPartsSite.Util.Exporter.Models
         public int? PriceCurrencyID { get; set; }
         public SymbolModel? SeparatorSymbol { get; set; }
         public SymbolModel? FractionalSymbol { get; set; }
+        public SymbolModel? SeparatorReplaceSymbol { get; set; }
         public bool? AllBrandsOneFile { get; set; }
         public bool? OneBrandOneFile { get; set; }
         public bool? AnaloguesSeparateFile { get; set; }

@@ -40,6 +40,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     item.PriceCurrencyID = values[i++].ToInt();
                     item.SeparatorSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), Symbol = values[i++].ToDecimal() };
                     item.FractionalSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), Symbol = values[i++].ToDecimal() };
+                    item.SeparatorReplaceSymbol = new SymbolModel() { ID = values[i++].ToInt(), Code = values[i++].ToStr(), Symbol = values[i++].ToDecimal() };
                     item.AllBrandsOneFile = values[i++].ToBool();
                     item.OneBrandOneFile = values[i++].ToBool();
                     item.AnaloguesSeparateFile = values[i++].ToBool();

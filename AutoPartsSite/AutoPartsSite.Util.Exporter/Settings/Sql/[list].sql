@@ -13,6 +13,7 @@
      , [a].[PriceCurrencyID]
 	 , [SeparatorSymbol.ID] = [pff].[SeparatorSymbolID], [SeparatorSymbol.Code] = [ss].[Code], [SeparatorSymbol.Symbol] = [ss].[SymbolUnicode]
 	 , [FractionalSymbol.ID] = [pff].[FractionalSymbolID], [FractionalSymbol.Code] = [fs].[Code], [FractionalSymbol.Symbol] = [fs].[SymbolUnicode]
+     , [SeparatorReplaceSymbol.ID] = [pff].[SeparatorReplaceSymbolID], [SeparatorReplaceSymbol.Code] = [sr].[Code], [SeparatorReplaceSymbol.Symbol] = [sr].[SymbolUnicode]
      , [pff].[AllBrandsOneFile], [pff].[OneBrandOneFile], [pff].[AnaloguesSeparateFile], [pff].[TariffSeparateFile]
 from [Companies] [c] with(nolock)
 inner join [Agreements]           [a]   with(nolock) on [a].[Active] = 1 and [a].[Hidden] = 0 and [a].[CompanyID] = [c].[CompanyID] and [a].[PriceCaclulate] = 1
@@ -20,6 +21,7 @@ inner join [Languages]            [l]   with(nolock) on [l].[LanguageID] = [c].[
 inner join [FilesFormats]         [ff]  with(nolock) on [ff].[FileFormatID] = [a].[PriceFileFormatID]
 inner join [PricesFilesCalcTypes] [pfc] with(nolock) on [pfc].[PriceFileCalcTypeID] = [a].[PriceFileCalcTypeID]
 inner join [PricesFilesFormats]   [pff] with(nolock) on [pff].[FileFormatID] = [a].[PriceFileFormatID]
-inner join [Symbols]              [ss] with(nolock)  on [ss].[SymbolID] = [pff].[SeparatorSymbolID]
-inner join [Symbols]              [fs] with(nolock)  on [fs].[SymbolID] = [pff].[FractionalSymbolID]
+inner join [Symbols]              [ss]  with(nolock) on [ss].[SymbolID] = [pff].[SeparatorSymbolID]
+inner join [Symbols]              [fs]  with(nolock) on [fs].[SymbolID] = [pff].[FractionalSymbolID]
+inner join [Symbols]              [sr]  with(nolock) on [sr].[SymbolID] = [pff].[SeparatorReplaceSymbolID]
 where [c].[Hidden] = 0 and [c].[Customer] = 1

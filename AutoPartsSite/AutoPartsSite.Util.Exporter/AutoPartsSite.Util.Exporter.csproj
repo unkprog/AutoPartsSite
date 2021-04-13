@@ -4,6 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <PropertyGroup>
+	  <VersionSuffix0>$([System.DateTime]::Now.ToString(yyyy))</VersionSuffix0>
+    <VersionSuffix1>$([System.DateTime]::Now.ToString(MMdd))</VersionSuffix1>
+    <VersionSuffix2>$([System.DateTime]::Now.ToString(HHmm))</VersionSuffix2>
+    <VersionSuffix>1.$(VersionSuffix0).$(VersionSuffix1).$(VersionSuffix2)</VersionSuffix>
+    <AssemblyVersion>$(VersionSuffix)</AssemblyVersion>
+	  <FileVersion>$(VersionSuffix)</FileVersion>
+	  <Version>$(FileVersion)</Version>
+  </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>

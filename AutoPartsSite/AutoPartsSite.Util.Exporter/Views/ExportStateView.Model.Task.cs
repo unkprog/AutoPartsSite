@@ -179,6 +179,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                 string exportPath = getTempFolder();
                 string fileNameWithExt = Path.Combine(exportPath, fileName + ".xlsx");
 
+                string separatorSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorSymbol!.Symbol });
+                string separatorReplaceSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorReplaceSymbol!.Symbol });
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
@@ -233,6 +235,9 @@ namespace AutoPartsSite.Util.Exporter.Views
                     }
                     sheetData.AppendChild(headerRow);
 
+                    int countFields = colList.Count;
+                    object val;
+
                     query.ExecuteQuery(sqlCommand
                         , new SqlParameter[]
                         {
@@ -250,9 +255,11 @@ namespace AutoPartsSite.Util.Exporter.Views
                                 expCAM.Message = message + " - " + counter + "...";
 
                             DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
-                            int i = 0;
-                            foreach (var val in values)
+                           
+                            for (int i = 0, icount = countFields; i < icount; i++)
+                        
                             {
+                                val = values[i];
                                 DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
                                 if (val.IsNull())
                                 {
@@ -289,7 +296,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                                         if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
                                             cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(val.ToString()!.Replace(',', '.'));
                                         else
-                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(val.ToString());
+                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue((colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
                                     }
                                     catch (Exception ex)
                                     {
@@ -313,7 +320,7 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                     using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
                     {
-                        var entry = zip.CreateEntry(fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+                        var entry = zip.CreateEntry(fileName + ".xlsx");
                         entry.LastWriteTime = DateTimeOffset.Now;
 
                         using (var stream = File.OpenRead(fileNameWithExt))
@@ -349,18 +356,22 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                 File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
 
+                string separatorSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorSymbol!.Symbol });
+                string separatorReplaceSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorReplaceSymbol!.Symbol });
 
                 using (StreamWriter streamwriter = new StreamWriter(fileNameWithExt, true, Encoding.UTF8, 65536))
                 {
                     foreach (var col in colList)
                     {
                         sb.Append(col.ColumnNameClient);
-                        sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Code);
+                        sb.Append(separatorSymbol);
                     }
                     streamwriter.WriteLine(sb.ToString());
 
-                    NumberFormatInfo nfi = new NumberFormatInfo();
-                    nfi.NumberDecimalSeparator = model!.CompanyAgreement!.FractionalSymbol!.Code;
+
+                    NumberFormatInfo nfi = new NumberFormatInfo() { NumberDecimalSeparator = new string(new char[] { (char)model!.CompanyAgreement!.FractionalSymbol!.Symbol }) };
+                    int countFields = colList.Count;
+                    object val;
 
                     query.ExecuteQuery(sqlCommand
                         , new SqlParameter[]
@@ -378,10 +389,12 @@ namespace AutoPartsSite.Util.Exporter.Views
                             if(counter %100 == 0)
                                 expCAM.Message = message + " - " + counter + "...";
                             sb.Clear();
-                            foreach(var val in values)
+                            for(int i = 0, icount = countFields; i< icount; i++)
                             {
-                                sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) : val.ToString());
-                                sb.Append(model!.CompanyAgreement!.SeparatorSymbol!.Code);
+                                val = values[i];
+                                sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) 
+                                                                     : (colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
+                                sb.Append(separatorSymbol);
                             }
                             streamwriter.WriteLine(sb.ToString());
                         }
@@ -450,7 +463,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                             ID = values[0].ToInt(),
                             Index = values[1].ToDecimal(),
                             ColumnNameInside = values[2].ToStr().Trim(),
-                            ColumnNameClient = values[3].ToStr().Trim()
+                            ColumnNameClient = values[3].ToStr().Trim(),
+                            ReplaceSeparator = values[4].ToBool()
                         };
                         if (!result.ContainsKey(col.ColumnNameInside))
                             result.Add(col.ColumnNameInside, col);
