@@ -103,6 +103,8 @@ define({
     "label$termspolicies": "Terms and policies",
     "label$site$pages": "Pages",
 
+    "label$customer$service" : "Customer service",
+    "label$information": "Information",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Дни недели                                                                 //
     /////////////////////////////////////////////////////////////////////////////////////////////

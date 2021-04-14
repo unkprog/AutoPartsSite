@@ -45,6 +45,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelGarage": vars._statres("label$garage"),
                     "labelMessages": vars._statres("label$messages"),
                     "labelSettings": vars._statres("label$settings"),
+                    "labelCustomerService": vars._statres("label$customer$service"),
+                    "labelInformation": vars._statres("label$information"),
                     "labelVersion": ""
                 });
             };

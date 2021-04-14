@@ -38,6 +38,9 @@ export namespace Controller {
                 "labelMessages": vars._statres("label$messages"),
                 "labelSettings": vars._statres("label$settings"),
 
+                "labelCustomerService": vars._statres("label$customer$service"),
+                "labelInformation": vars._statres("label$information"),
+
                 "labelVersion": ""
             });
         }
