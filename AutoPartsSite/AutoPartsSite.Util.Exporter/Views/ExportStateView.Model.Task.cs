@@ -121,10 +121,28 @@ namespace AutoPartsSite.Util.Exporter.Views
                 {
                     DirectoryInfo dir = new DirectoryInfo(folder);
                     FileInfo[] files = dir.GetFiles();
+                    List<FileInfo> listFiles = new List<FileInfo>();
 
-                    foreach (var f in files)
+                    listFiles.AddRange(files);
+                    int counter = 0;
+                    while (listFiles.Count > 0 && counter < 60)
                     {
-                        try { f.Delete(); } catch { }
+                        Thread.Sleep(1000);
+                        files = listFiles.ToArray();
+                        listFiles.Clear();
+                        foreach (var f in files)
+                        {
+                            try
+                            {
+                                if (f.Exists)
+                                    f.Delete();
+                            }
+                            catch
+                            {
+                                listFiles.Add(f);
+                            }
+                        }
+                        counter++;
                     }
                 }
             }
