@@ -24,7 +24,19 @@ namespace AutoPartsSite.Util.Exporter.Views
             private Core.Sql.Query query;
             private ExportCompanyAgreementModel expCAM;
             private Action<TaskExport> actionFinish;
-            internal static readonly string pathExport = string.Concat(Environment.CurrentDirectory, @"\Settings\Export");
+
+            internal static string envDirectory
+            {
+                get
+                {
+                    Type t = typeof(ConnectViewModel);
+                    string result = t.Assembly.Location;
+                    result = result.Replace("\\" + t.Assembly.ManifestModule.Name, string.Empty);
+                    return result;
+                }
+            }
+
+            internal static readonly string pathExport = string.Concat(envDirectory, @"\Settings\Export");
             public TaskExport(Core.Sql.Query q, ExportCompanyAgreementModel exp, Action<TaskExport> af)
             {
                 query = q;

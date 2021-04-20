@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AutoPartsSite.Util.Exporter.Views.ExportStateView">
-  
-  <DataGrid Grid.Row="1" Items="{Binding ExportCompanyAgreements}" Margin="0" IsReadOnly="True" SelectionMode="Single" >
-    <DataGrid.Columns>
-      <DataGridTextColumn Header="Идентификатор" Binding="{Binding CompanyAgreement.Translation}" IsReadOnly="True"/>
-      <DataGridTextColumn Header="Состояние" Binding="{Binding Message}"  IsReadOnly="True" Width="600"/>
-    </DataGrid.Columns>
-  </DataGrid>
+  <Grid RowDefinitions="*,Auto">
+    <DataGrid Items="{Binding ExportCompanyAgreements}" Margin="0" IsReadOnly="True" SelectionMode="Single" >
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Идентификатор" Binding="{Binding CompanyAgreement.Translation}" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Состояние" Binding="{Binding Message}"  IsReadOnly="True" Width="600"/>
+      </DataGrid.Columns>
+    </DataGrid>
+    <TextBox Grid.Row="1" Height="150"  Text="{Binding Info, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+  </Grid>
 </UserControl>

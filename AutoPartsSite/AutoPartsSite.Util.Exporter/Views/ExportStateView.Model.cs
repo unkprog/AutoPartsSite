@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using System;
+using System.IO;
 
 namespace AutoPartsSite.Util.Exporter.Views
 {
@@ -26,6 +28,11 @@ namespace AutoPartsSite.Util.Exporter.Views
 
         private static object locker = new object();
 
+        public void AddMessage(string msg)
+        {
+            Info = string.Concat(msg, Environment.NewLine, Info);
+        }
+
         public static int GetStableHashCode(string str)
         {
             unchecked
@@ -45,11 +52,20 @@ namespace AutoPartsSite.Util.Exporter.Views
             }
         }
 
+        public Action<Exception>? OnErrorSave = null;
         private void StartExport()
         {
+            OnErrorSave = MainWindowViewModel.This!.Query!.OnError;
+            MainWindowViewModel.This!.Query!.OnError = (ex) =>
+            {
+                OnErrorSave?.Invoke(ex);
+                AddMessage(ex.Message);
+            };
+
+
             Task.Run(() =>
             {
-                MainWindowViewModel.This.IsDisable = true;
+                MainWindowViewModel.This!.IsDisable = true;
                 if (exportCompanyAgreements != null)
                 {
                     var expItems = exportCompanyAgreements;
@@ -59,37 +75,59 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                     for (int i = expItems.Count - 1; i >= 0; i--)
                     {
-                        task = new TaskExport(MainWindowViewModel.This.Query!, expItems[i], (taskFinish) =>
+                        try
                         {
-                            lock (locker)
+                            task = new TaskExport(MainWindowViewModel.This?.Query!, expItems[i], (taskFinish) =>
                             {
-                                taskItems.Remove(taskFinish);
-                            }
-                        });
-                        expItems[i].Message = "Ожидание выполнения..."; 
-                        taskItems.Add(task);
+                                try
+                                {
+                                    taskItems.Remove(taskFinish);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                                    AddMessage(ex.Message);
+                                }
+                            });
+                            expItems[i].Message = "Ожидание выполнения...";
+                            taskItems.Add(task);
+                        }
+                        catch(Exception ex)
+                        {
+                            MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                            AddMessage(ex.Message);
+                        }
                         Thread.Sleep(1);
                     }
 
-                    MainWindowViewModel.This.Query!.ExecuteNonQuery("[brands_split_index]", null, cmdTimeOut: 300);
+                    MainWindowViewModel.This?.Query!.ExecuteNonQuery("[brands_split_index]", null, cmdTimeOut: 300);
 
                     string selColumnsIndex;
                     for (int i = taskItems.Count - 1; i >= 0; i--)
                     {
-                        expItems[i].Message = "Удаление временных файлов";
-                        taskItems[i].DeleteFiles();
-                        taskItems[i].Prepare();
-                        expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
-                        selColumnsIndex = taskItems[i].GetSqlCommandIndex();
-                        if (!string.IsNullOrEmpty(selColumnsIndex))
+                        try
                         {
-                            string hashValue = GetStableHashCode(selColumnsIndex).ToString().Replace("-", "minus");
-                            selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + hashValue + "') "
-                                            + " create nonclustered index [PricesCustomersInside_idx_" + hashValue + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
-                            expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + hashValue + "]";
-                            MainWindowViewModel.This.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 900);
+                            expItems[i].Message = "Удаление временных файлов";
+                            taskItems[i].DeleteFiles();
+                            taskItems[i].Prepare();
+                            expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_split]";
+                            selColumnsIndex = taskItems[i].GetSqlCommandIndex();
+                            if (!string.IsNullOrEmpty(selColumnsIndex))
+                            {
+                                string hashValue = GetStableHashCode(selColumnsIndex).ToString().Replace("-", "minus");
+                                selColumnsIndex = "if not exists(select * from [sys].[indexes] where [name] = 'PricesCustomersInside_idx_" + hashValue + "') "
+                                                + " create nonclustered index [PricesCustomersInside_idx_" + hashValue + "] on [dbo].[PricesCustomersInside] ([CurrencyID],[StockQty]) include (" + selColumnsIndex + ")";
+                                expItems[i].Message = "Проверка и создание индекса [PricesCustomersInside_idx_" + hashValue + "]";
+                                MainWindowViewModel.This?.Query!.ExecuteQuery(selColumnsIndex, null, null, (values) => { }, cmdTimeOut: 900);
+                            }
+                            expItems[i].Message = "Ожидание выполнения...";
                         }
-                        expItems[i].Message = "Ожидание выполнения...";
+                        catch (Exception ex)
+                        {
+                            MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                            AddMessage(ex.Message);
+
+                        }
                         Thread.Sleep(1);
                     }
 
@@ -99,10 +137,16 @@ namespace AutoPartsSite.Util.Exporter.Views
                         for (int i = taskItems.Count - 1; i >= 0; i--)
                         {
                             task = null;
-                            lock (locker)
+                            
+                            try
                             {
                                 if (i < taskItems.Count)
                                     task = taskItems[i];
+                            }
+                            catch (Exception ex)
+                            {
+                                MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                                AddMessage(ex.Message);
                             }
 
                             if (task != null && task.State == 0)
@@ -112,10 +156,21 @@ namespace AutoPartsSite.Util.Exporter.Views
                             if (countRun >= cntTasks)
                                 break;
                         }
+                        Thread.Sleep(1);
                     }
                 }
-                MainWindowViewModel.This.IsDisable = false;
-                MainWindowViewModel.This.onEndExport?.Invoke();
+                MainWindowViewModel.This!.IsDisable = false;
+
+                try
+                {
+                    File.WriteAllText(TaskExport.pathExport + @"\errors.txt", Info);
+                }
+                catch (Exception ex)
+                {
+                    MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                }
+                MainWindowViewModel.This?.onEndExport?.Invoke();
+                MainWindowViewModel.This!.Query!.OnError = OnErrorSave;
             });
         }
     }

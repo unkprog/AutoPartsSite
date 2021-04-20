@@ -7,9 +7,19 @@ namespace AutoPartsSite.Util.Exporter.Views
 {
     public partial class ConnectViewModel
     {
+        internal static string envDirectory
+        {
+            get
+            {
+                Type t = typeof(ConnectViewModel);
+                string result = t.Assembly.Location;
+                result = result.Replace("\\" + t.Assembly.ManifestModule.Name, string.Empty);
+                return result;
+            }
+        }
         internal static readonly string fileSettings = @"\connection.config";
-        internal static readonly string pathSettings = string.Concat(Environment.CurrentDirectory, @"\Settings");
-        internal static readonly string pathSqlSettings = string.Concat(Environment.CurrentDirectory, @"\Settings\Sql");
+        internal static readonly string pathSettings = string.Concat(envDirectory, @"\Settings");
+        internal static readonly string pathSqlSettings = string.Concat(envDirectory, @"\Settings\Sql");
 
         public static ConnectViewModel This = new ConnectViewModel();
 

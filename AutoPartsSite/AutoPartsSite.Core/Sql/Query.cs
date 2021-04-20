@@ -13,6 +13,8 @@ namespace AutoPartsSite.Core.Sql
             this.path = path;
         }
 
+        public string ConnectionString => connectionString;
+
         public Action<Exception> OnError;
 
         public void Execute(string command, SqlParameter[] sqlParameters, Action<SqlDataReader> onExecute, Action<object[]> action)

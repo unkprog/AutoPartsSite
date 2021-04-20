@@ -42,6 +42,63 @@
     <div id="search-view-brand-catalogs" class="row">
     </div>
 
+    <script type="text/x-kendo-template" id="search-view-parts-template1">
+        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+            <div class="card white margin-0 z-depth-2 hoverable">
+                <div class="card-search-info row padding-0_75rem">
+                    <div class="col s12 m12 l2 xl2">
+                        <div class="card-search-image" style="margin:auto;" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
+                    </div>
+                    <div class="col s12 m12 l5 xl5">
+                        <div class="card-search-partnumber">#=Name#</div>
+                        <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
+                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
+                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)#</div>
+                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
+                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
+                    </div>
+                    <div class="col s12 m12 l5 xl5 center">
+                        <div>
+                            <span class="margin-right-1rem basket-label" data-bind="text:labelPrice"></span><span class="card-search-price">
+                                #if(Currency.ShowLeft===true) {#
+                                    #=Currency.Symbol#
+                                #}#
+                                #=numberToString(Price,2)#
+                                #if(Currency.ShowLeft !== true) {#
+                                    #=Currency.Symbol#
+                                #}#
+                            </span>
+                            <span class="margin-right-1rem basket-label" style="margin-left:3rem;" data-bind="text:labelDelivery"></span>
+                                <span class="card-search-price">
+                                 #if(Currency.ShowLeft===true) {#
+                                    #=Currency.Symbol#
+                                #}#
+                                #=numberToString(DefaultDelivery.DeliveryAmount,2)#
+                                #if(Currency.ShowLeft !== true) {#
+                                    #=Currency.Symbol#
+                                #}#
+                                </span>
+                        </div>
+                        <div class="card-search-basket-edit">
+                            <a class="waves-effect waves-light btn card-btn-add-basket right add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                            #if(StockQty > 0) {#
+                            <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
+                                <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
+                                <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
+                            </form>
+                            <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket">drive_eta</i>
+                            #} else {#
+                            <br/><br/>
+                            <a class="waves-effect waves-light btn card-btn-add-basket right req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
+                            #}#
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+
     <script type="text/x-kendo-template" id="search-view-parts-template">
         <div class="col s12 m12 l12 xl12 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable">

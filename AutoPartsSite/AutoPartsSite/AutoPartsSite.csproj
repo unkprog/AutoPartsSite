@@ -48,7 +48,9 @@
     <VersionSuffix1>$([System.DateTime]::Now.ToString(MMdd))</VersionSuffix1>
     <VersionSuffix2>$([System.DateTime]::Now.ToString(HHmm))</VersionSuffix2>
     <VersionSuffix>1.$(VersionSuffix0).$(VersionSuffix1).$(VersionSuffix2)</VersionSuffix>
-    <Version>$(VersionSuffix)</Version>
+    <AssemblyVersion>$(VersionSuffix)</AssemblyVersion>
+    <FileVersion>$(VersionSuffix)</FileVersion>
+    <Version>$(FileVersion)</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
