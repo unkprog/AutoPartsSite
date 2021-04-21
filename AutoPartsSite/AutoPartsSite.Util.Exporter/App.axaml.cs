@@ -31,7 +31,7 @@ namespace AutoPartsSite.Util.Exporter
                     MainWindow mainWindow = new MainWindow { DataContext = dataContext };
                     desktop.MainWindow = mainWindow;
                 }
-                if (Program.argsModel != null)
+                if (Program.dictArgs != null && Program.dictArgs.Count > 0)
                     runWithArgs(desktop, dataContext, Program.argsModel);
             }
 
