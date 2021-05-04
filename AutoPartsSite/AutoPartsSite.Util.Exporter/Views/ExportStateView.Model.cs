@@ -66,6 +66,8 @@ namespace AutoPartsSite.Util.Exporter.Views
             Task.Run(() =>
             {
                 MainWindowViewModel.This!.IsDisable = true;
+                TaskExport.truncatePricesCreateFilesInside(MainWindowViewModel.This?.Query!);
+
                 if (exportCompanyAgreements != null)
                 {
                     var expItems = exportCompanyAgreements;
@@ -168,6 +170,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                 catch (Exception ex)
                 {
                     MainWindowViewModel.This?.NotifyInfo(ex.Message);
+                    AddMessage(ex.Message);
                 }
                 MainWindowViewModel.This?.onEndExport?.Invoke();
                 MainWindowViewModel.This!.Query!.OnError = OnErrorSave;

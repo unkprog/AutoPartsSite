@@ -1,0 +1,2 @@
+﻿select top 1 [PriceFileName], [CustomerAgreementID], [DeliveryTariffID], [BrandID], [AllOriginal], [AllAnalogue]
+from [dbo].[PriceFileNameGet](@CustomerAgreementID, @DeliveryTariffID, @BrandID, @NonGenuine)

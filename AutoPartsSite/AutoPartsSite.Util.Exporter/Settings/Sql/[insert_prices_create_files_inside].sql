@@ -1,0 +1,2 @@
+﻿insert into [PricesCreateFilesInside] ([CustomerAgreementID], [PriceFileName], [StartDate], [EndDate], [DeliveryTariffID], [BrandID], [AllOriginal], [AllAnalogue], [CopyFTP], [RecordsQty], [FieldsQty])
+select @CustomerAgreementID, @PriceFileName, @StartDate, @EndDate, @DeliveryTariffID, @BrandID, @AllOriginal, @AllAnalogue, @CopyFTP, @RecordsQty, @FieldsQty

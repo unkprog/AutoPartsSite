@@ -19,24 +19,12 @@ namespace AutoPartsSite.Util.Exporter.Views
 {
     public partial class ExportStateViewModel
     {
-        public class TaskExport 
+        public partial class TaskExport 
         {
             private Core.Sql.Query query;
             private ExportCompanyAgreementModel expCAM;
             private Action<TaskExport> actionFinish;
 
-            internal static string envDirectory
-            {
-                get
-                {
-                    Type t = typeof(ConnectViewModel);
-                    string result = t.Assembly.Location;
-                    result = result.Replace("\\" + t.Assembly.ManifestModule.Name, string.Empty);
-                    return result;
-                }
-            }
-
-            internal static readonly string pathExport = string.Concat(envDirectory, @"\Settings\Export");
             public TaskExport(Core.Sql.Query q, ExportCompanyAgreementModel exp, Action<TaskExport> af)
             {
                 query = q;
@@ -45,48 +33,6 @@ namespace AutoPartsSite.Util.Exporter.Views
             }
 
             public int State { get; set; }
-
-            public void Run()
-            {
-                State = 1;
-                expCAM.Message = "Запуск...";
-                _ = Task.Run(() =>
-                  {
-                      List<string> files = new List<string>();
-                      expCAM.Message = "Выполнение...";
-                      if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "txt")
-                          files = ExportToCsv(expCAM);
-                      else if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xls" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xlsx")
-                          files = ExportToExcel(expCAM);
-                      else
-                      {
-                          expCAM.Message = "ОШИБКА: Не поддерживаемый формат " + expCAM.CompanyAgreement!.PriceFileFormat!.Code;
-                          State = -1;
-                      }
-
-                      if (State > 0)
-                      {
-
-                          if (!string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder)
-                          {
-                              expCAM.Message = "Копирование файлов в выходной каталог...";
-                              string folderTo = expCAM!.CompanyAgreement!.Agreement!.PriceFolder;
-                              foreach (var file in files)
-                              {
-                                  if (!File.Exists(file))
-                                      continue;
-
-                                  FileInfo fi = new FileInfo(file);
-                                  fi.MoveTo(string.Concat(folderTo, folderTo.EndsWith(@"\\") ? string.Empty : @"\\", fi.Name), true);
-                              }
-                          }
-
-                          State = 2;
-                          expCAM.Message = "Завершено...";
-                      }
-                      actionFinish?.Invoke(this);
-                  });
-            }
 
             Dictionary<string, ColumnModel> columns = new Dictionary<string, ColumnModel>();
             string sqlCommand = string.Empty, selColumnsIndex = string.Empty;
@@ -105,109 +51,124 @@ namespace AutoPartsSite.Util.Exporter.Views
 
             public string GetSqlCommandIndex()
             {
-                return selColumnsIndex;  
+                return "[BrandID], [BrandCode], [GoodsArticul], [GoodsDescrEn], [Price]"; // selColumnsIndex;  
             }
 
-            private string getTempFolder()
+            public void Run()
             {
-                string result = string.Empty;
+                State = 1;
+                expCAM.Message = "Запуск...";
+                _ = Task.Run(() =>
+                  {
+                      List<string> files = new List<string>();
+                      expCAM.Message = "Выполнение...";
+                      if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "txt")
+                          files = ExportToFile(expCAM, (model, brand, pcfim) => { return SaveToCsv(model, sqlCommand, brand, pcfim, columns); } );
+                      else if (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xls" || expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "xlsx")
+                          files = ExportToFile(expCAM, (model, brand, pcfim) => { return SaveToExcel(model, sqlCommand, brand, pcfim, columns); });
+                      else
+                      {
+                          expCAM.Message = "ОШИБКА: Не поддерживаемый формат " + expCAM.CompanyAgreement!.PriceFileFormat!.Code;
+                          State = -1;
+                      }
 
-                query.Execute("[prices_temp_folder]"
-                   , new SqlParameter[] { new SqlParameter("@LocaleLanguageID", expCAM?.CompanyAgreement?.Language?.ID) }
-                   , null
-                   , (values) =>
-                   {
-                       result = values[0].ToStr().Trim();
-                   });
+                      if (State > 0)
+                      {
+                          MoveFiles(files);
+                          State = 2;
+                          expCAM.Message = "Завершено...";
+                      }
 
-                if (string.IsNullOrEmpty(result))
-                    result = pathExport;
-
-                return result;
+                      actionFinish?.Invoke(this);
+                  });
             }
 
-
-            private void DeleteFiles(string folder)
+            private List<string> ExportToFile(ExportCompanyAgreementModel model, Func<ExportCompanyAgreementModel, BrandModel?, SavePricesCreateFilesInsideModel?, string> funcExportFile)
             {
-                if (Directory.Exists(folder))
+                List<string> files = new List<string>();
+                if (model!.CompanyAgreement!.OneBrandOneFile == true)
                 {
-                    DirectoryInfo dir = new DirectoryInfo(folder);
-                    FileInfo[] files = dir.GetFiles();
-                    List<FileInfo> listFiles = new List<FileInfo>();
+                    expCAM.Message = "Получение списка брендов...";
 
-                    listFiles.AddRange(files);
-                    int counter = 0;
-                    while (listFiles.Count > 0 && counter < 60)
+                    List<BrandModel>? brands = readSplitBrands(model);
+                    foreach (BrandModel brand in brands)
                     {
-                        Thread.Sleep(1000);
-                        files = listFiles.ToArray();
-                        listFiles.Clear();
-                        foreach (var f in files)
+                        SavePricesCreateFilesInsideModel pcfim = new SavePricesCreateFilesInsideModel()
                         {
-                            try
-                            {
-                                if (f.Exists)
-                                    f.Delete();
-                            }
-                            catch
-                            {
-                                listFiles.Add(f);
-                            }
+                            model = model,
+                            brand = brand,
+                            startDate = DateTime.Now,
+                            pfngm = readPriceFileNameGetModel(model, brand),
+                            copyFTP = !string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder
+                        };
+
+                        try
+                        {
+                            files.Add(funcExportFile(model, brand, pcfim));
                         }
-                        counter++;
+                        catch
+                        {
+                            pcfim!.pfngm!.PriceFileName = "ERROR - " + pcfim.pfngm.PriceFileName;
+                        }
+                        pcfim.endDate = DateTime.Now;
+                        try
+                        {
+                            savePricesCreateFilesInside(pcfim);
+                        }
+                        catch
+                        {
+                            int i = 0;
+                            i = i + 1;
+                        }
+
                     }
                 }
-            }
-
-            public void DeleteFiles()
-            {
-                DeleteFiles(getTempFolder());
-                DeleteFiles(expCAM!.CompanyAgreement!.Agreement!.PriceFolder!);
-            }
-
-            private List<string> ExportToExcel(ExportCompanyAgreementModel model)
-            {
-                List<string> files = new List<string>();
-                if (model!.CompanyAgreement!.OneBrandOneFile == true)
-                {
-                    expCAM.Message = "Получение списка брендов...";
-                    
-                    List<BrandModel>? brands = readSplitBrands(model);
-                    foreach (BrandModel brand in brands)
-                        files.Add(SaveToExcel(model, sqlCommand, brand, columns));
-                }
 
                 if (model!.CompanyAgreement.AllBrandsOneFile == true)
-                    files.Add(SaveToExcel(model, sqlCommand, null, columns));
+                {
+                    SavePricesCreateFilesInsideModel pcfim = new SavePricesCreateFilesInsideModel()
+                    {
+                        model = model,
+                        startDate = DateTime.Now,
+                        pfngm = readPriceFileNameGetModel(model, null),
+                        copyFTP = !string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder
+                    };
+
+                    try
+                    {
+                        files.Add(funcExportFile(model, null, pcfim));
+                    }
+                    catch
+                    {
+                        pcfim!.pfngm!.PriceFileName = "ERROR - " + pcfim.pfngm.PriceFileName;
+                    }
+                    pcfim.endDate = DateTime.Now;
+                    try
+                    {
+                        savePricesCreateFilesInside(pcfim);
+                    }
+                    catch
+                    {
+                        int i = 0;
+                        i = i + 1;
+                    }
+                }
 
                 return files;
             }
-
-            private List<string> ExportToCsv(ExportCompanyAgreementModel model)
-            {
-                List<string> files = new List<string>();
-                if (model!.CompanyAgreement!.OneBrandOneFile == true)
-                {
-                    expCAM.Message = "Получение списка брендов...";
-
-                    List<BrandModel>? brands = readSplitBrands(model);
-                    foreach (BrandModel brand in brands)
-                        files.Add(SaveToCsv(model, sqlCommand, brand, columns));
-                }
-
-                if (model!.CompanyAgreement.AllBrandsOneFile == true)
-                    files.Add(SaveToCsv(model, sqlCommand, null, columns));
-
-                return files;
-            }
-
-            private string SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            
+            private string SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
                 string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
                 string exportPath = getTempFolder();
-                string fileNameWithExt = Path.Combine(exportPath, fileName + ".xlsx");
+                if (pcfim!.pfngm == null)
+                    pcfim.pfngm = new PriceFileNameGetModel();
+                if (string.IsNullOrEmpty(pcfim.pfngm.PriceFileName))
+                    pcfim.pfngm.PriceFileName = Path.Combine(exportPath, fileName + ".xlsx");
+                string fileNameWithExt = pcfim.pfngm.PriceFileName;
+
 
                 string separatorSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorSymbol!.Symbol });
                 string separatorReplaceSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorReplaceSymbol!.Symbol });
@@ -215,6 +176,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
                 List<ColumnModel> colList = columns.Values.ToList();
+                int countFields = colList.Count;
+                pcfim.fieldsQty = countFields;
 
                 string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
                 declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
@@ -222,79 +185,81 @@ namespace AutoPartsSite.Util.Exporter.Views
                 declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
 
                 File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+                object val;
 
+                SpreadsheetDocument? spreadsheetDocument = null;
+                WorkbookPart? workbookPart = null;
+                Sheets? sheets = null;
+                WorksheetPart? worksheetPart = null;
+                SheetData? sheetData = null;
+                Row? newRow = null;
+                uint sheetId = 1;
 
-                using (var workbook = SpreadsheetDocument.Create(fileNameWithExt, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+                Action saveAndDisposeSpreadsheetDocument = () =>
                 {
-                    var workbookPart = workbook.AddWorkbookPart();
-                    workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
-                    workbook.WorkbookPart.Workbook.Append(new BookViews(new WorkbookView()));
-
-                    WorkbookStylesPart workbookStylesPart = workbook.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
-                    Stylesheet stylesheet = new Stylesheet();
-                    workbookStylesPart.Stylesheet = stylesheet;
-                    workbookStylesPart.Stylesheet.Save();
-
-                    workbook.WorkbookPart.Workbook.Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets();
-
-                    //for (int tableIdx = 0; tableIdx < ds.Tables.Count; tableIdx++)
-                    //{
-                    //    DataTable table = ds.Tables[tableIdx];
-                    var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
-                    var sheetData = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
-                    sheetPart.Worksheet = new DocumentFormat.OpenXml.Spreadsheet.Worksheet(sheetData);
-
-
-
-                    DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>();
-                    string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
-                    DocumentFormat.OpenXml.Spreadsheet.Sheet sheet = new DocumentFormat.OpenXml.Spreadsheet.Sheet();
-
-                    sheet.Id = relationshipId;
-                    sheet.SheetId = (uint)1; // (tableIdx + 1);   //If set to zero, Excel will display an error when opening the spreadsheet file.
-                    sheet.Name = "Sheet 1"; // table.TableName;
-                    sheets.Append(sheet);
-
-                    DocumentFormat.OpenXml.Spreadsheet.Row headerRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
-                    foreach (var col in colList)
+                    if (spreadsheetDocument != null)
                     {
-                        DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
-                        cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-                        cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(col.ColumnNameClient);
-                        headerRow.AppendChild(cell);
+                        worksheetPart?.Worksheet.Save();
+                        spreadsheetDocument.WorkbookPart.Workbook.Save();
+                        spreadsheetDocument.Close();
+                        spreadsheetDocument.Dispose();
+                        spreadsheetDocument = null;
                     }
-                    sheetData.AppendChild(headerRow);
+                };
 
-                    int countFields = colList.Count;
-                    object val;
-
-                    query.ExecuteQuery(sqlCommand
+                query.ExecuteQuery(sqlCommand
                         , new SqlParameter[]
                         {
-                                new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
-                                new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
-                                new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
-                                new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
+                            new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
+                            new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+                            new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
+                            new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
                         }
                         , null
                         , (values) =>
                         {
-                            counter++;
 
+                            if (counter % 256000 == 0 || spreadsheetDocument == null)
+                            {
+                                if (spreadsheetDocument != null)
+                                    saveAndDisposeSpreadsheetDocument();
+
+                                spreadsheetDocument = Helpers.OpenXML.CreateOrOpenSpreadsheetDocument(fileNameWithExt);
+                                workbookPart = spreadsheetDocument.WorkbookPart;
+                                sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>();
+                                sheetId = 0;
+                                foreach (WorksheetPart worksheetpart in spreadsheetDocument.WorkbookPart.WorksheetParts)
+                                    sheetId++;
+
+                                sheetId++;
+                                worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                                sheets.Append(new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = sheetId, Name = "Sheet " + sheetId });
+
+                                sheetData = new SheetData();
+                                worksheetPart.Worksheet = new Worksheet(sheetData);
+
+
+                                newRow = new Row();
+                                for (int i = 0, icount = countFields; i < icount; i++)
+                                    newRow.AppendChild(new Cell() { DataType = CellValues.String, CellValue = new CellValue(colList[i].ColumnNameClient) });
+
+                                sheetData?.AppendChild(newRow);
+                            }
+
+                            counter++;
                             if (counter % 100 == 0)
                                 expCAM.Message = message + " - " + counter + "...";
 
-                            DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
-                           
+                            newRow = new Row();
                             for (int i = 0, icount = countFields; i < icount; i++)
-                        
                             {
                                 val = values[i];
-                                DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
+                                Cell cell = new Cell();
+
                                 if (val.IsNull())
                                 {
-                                    cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-                                    cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(string.Empty);
+                                    cell.DataType = CellValues.String;
+                                    cell.CellValue = new CellValue(string.Empty);
                                 }
                                 else
                                 {
@@ -303,30 +268,33 @@ namespace AutoPartsSite.Util.Exporter.Views
                                     {
                                         switch (typeCode)
                                         {
-                                            case System.TypeCode.Int16:
-                                            case System.TypeCode.Int32:
-                                            case System.TypeCode.Int64:
-                                            case System.TypeCode.UInt16:
-                                            case System.TypeCode.UInt32:
-                                            case System.TypeCode.UInt64:
-                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Number;
+                                            case TypeCode.Int16:
+                                            case TypeCode.Int32:
+                                            case TypeCode.Int64:
+                                            case TypeCode.UInt16:
+                                            case TypeCode.UInt32:
+                                            case TypeCode.UInt64:
+                                                cell.DataType = CellValues.Number;
                                                 break;
-                                            case System.TypeCode.Decimal:
-                                            case System.TypeCode.Double:
-                                            case System.TypeCode.Single:
-                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Number;
+                                            case TypeCode.Decimal:
+                                            case TypeCode.Double:
+                                            case TypeCode.Single:
+                                                cell.DataType = CellValues.Number;
                                                 break;
-                                            case System.TypeCode.DateTime:
-                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.Date;
+                                            case TypeCode.DateTime:
+                                                cell.DataType = CellValues.Date;
                                                 break;
                                             default:
-                                                cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                                                cell.DataType = CellValues.String;
                                                 break;
                                         }
+                                        cell.DataType = CellValues.String;
                                         if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
-                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(val.ToString()!.Replace(',', '.'));
+                                            cell.CellValue = new CellValue(val.ToString()!.Replace(',', '.'));
+                                        else if (typeCode == TypeCode.DateTime)
+                                            cell.CellValue = new CellValue(val.ToDateTime().ToString("dd.MM.yyyy HH:mm:ss"));
                                         else
-                                            cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue((colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
+                                            cell.CellValue = new CellValue(colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString());
                                     }
                                     catch (Exception ex)
                                     {
@@ -334,50 +302,42 @@ namespace AutoPartsSite.Util.Exporter.Views
                                     }
                                 }
                                 newRow.AppendChild(cell);
-                                i++;
                             }
-                            sheetData.AppendChild(newRow);
+                            sheetData?.AppendChild(newRow);
                         }
                         , cmdTimeOut: 900);
 
-                    sheetPart.Worksheet.Save();
-                    workbook.WorkbookPart.Workbook.Save();
-                }
+                expCAM.Message = message + " - " + counter + "...";
+
+                saveAndDisposeSpreadsheetDocument();
+
+                pcfim.recordsQty = counter;
 
                 if (model.CompanyAgreement.PriceFileArchivate == true)
-                {
-                    string fileNameZip = Path.Combine(exportPath, fileName + ".zip");
-
-                    using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
-                    {
-                        var entry = zip.CreateEntry(fileName + ".xlsx");
-                        entry.LastWriteTime = DateTimeOffset.Now;
-
-                        using (var stream = File.OpenRead(fileNameWithExt))
-                        {
-                            using (var entryStream = entry.Open())
-                                stream.CopyTo(entryStream);
-                        }
-                    }
-
-                    try { File.Delete(fileNameWithExt); } catch { }
-                    return fileNameZip;
-                }
+                    return ArhivateFile(exportPath, fileNameWithExt);
 
                 return fileNameWithExt;
             }
 
-            private string SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, Dictionary<string, ColumnModel> columns)
+            private string SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
                 expCAM.Message = message + "...";
                 string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
                 string exportPath = getTempFolder();
-                string fileNameWithExt = Path.Combine(exportPath, fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+
+                if (pcfim!.pfngm == null)
+                    pcfim.pfngm = new PriceFileNameGetModel();
+                if (string.IsNullOrEmpty(pcfim.pfngm.PriceFileName))
+                    pcfim.pfngm.PriceFileName = Path.Combine(exportPath, fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
+
+                string fileNameWithExt = pcfim.pfngm.PriceFileName;
 
                 int counter = 0;
                 StringBuilder sb = new StringBuilder();
                 List<ColumnModel> colList = columns.Values.ToList();
+                int countFields = colList.Count;
+                pcfim.fieldsQty = countFields;
 
                 string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
                 declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
@@ -400,7 +360,6 @@ namespace AutoPartsSite.Util.Exporter.Views
 
 
                     NumberFormatInfo nfi = new NumberFormatInfo() { NumberDecimalSeparator = new string(new char[] { (char)model!.CompanyAgreement!.FractionalSymbol!.Symbol }) };
-                    int countFields = colList.Count;
                     object val;
 
                     query.ExecuteQuery(sqlCommand
@@ -431,76 +390,12 @@ namespace AutoPartsSite.Util.Exporter.Views
                         , 900);
                 }
 
+                pcfim.recordsQty = counter;
+
                 if (model.CompanyAgreement.PriceFileArchivate == true)
-                {
-                    string fileNameZip = Path.Combine(exportPath, fileName + ".zip");
-
-                    using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
-                    {
-                        var entry = zip.CreateEntry(fileName + (expCAM.CompanyAgreement!.PriceFileFormat!.Code!.ToLower() == "csv" ? ".csv" : ".txt"));
-                        entry.LastWriteTime = DateTimeOffset.Now;
-
-                        using (var stream = File.OpenRead(fileNameWithExt))
-                        {
-                            using (var entryStream = entry.Open())
-                                stream.CopyTo(entryStream);
-                        }
-                    }
-
-                    try { File.Delete(fileNameWithExt); } catch { }
-                    return fileNameZip;
-                }
+                    return ArhivateFile(exportPath, fileNameWithExt);
+   
                 return fileNameWithExt;
-            }
-
-            private List<BrandModel> readSplitBrands(ExportCompanyAgreementModel model)
-            {
-                List<BrandModel> result = new List<BrandModel>();
-                query.Execute("[brands_split]"
-                   , new SqlParameter[]
-                   {
-                       new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
-                       new SqlParameter("AnaloguesSeparateFile", model!.CompanyAgreement!.AnaloguesSeparateFile),
-                       new SqlParameter("@TariffSeparateFile", model!.CompanyAgreement!.TariffSeparateFile)
-                   }
-                   , null
-                   , (values) =>
-                   {
-                       BrandModel brand = new BrandModel()
-                       {
-                           ID = values[0].ToInt(),
-                           Code = values[1].ToStr().Trim(),
-                           NonGenuine = values[2].ToInt(),
-                           DeliveryTariffID = values[3].ToInt()
-                       };
-                       result.Add(brand);
-                   });
-
-                return result;
-            }
-
-            private Dictionary<string, ColumnModel> readColumns(int? priceFileFormatID)
-            {
-                Dictionary<string, ColumnModel> result = new Dictionary<string, ColumnModel>();
-
-                query.Execute("[columns]"
-                    , new SqlParameter[] { new SqlParameter("@PriceFileFormatID", priceFileFormatID) }
-                    , null
-                    , (values) =>
-                    {
-                        ColumnModel col = new ColumnModel()
-                        {
-                            ID = values[0].ToInt(),
-                            Index = values[1].ToDecimal(),
-                            ColumnNameInside = values[2].ToStr().Trim(),
-                            ColumnNameClient = values[3].ToStr().Trim(),
-                            ReplaceSeparator = values[4].ToBool()
-                        };
-                        if (!result.ContainsKey(col.ColumnNameInside))
-                            result.Add(col.ColumnNameInside, col);
-                    });
-
-                return result;
             }
 
             private string getSqlCommad(Dictionary<string, ColumnModel> columns, ExportCompanyAgreementModel model)

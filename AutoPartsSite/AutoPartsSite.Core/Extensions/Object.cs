@@ -24,6 +24,12 @@ namespace AutoPartsSite.Core.Extensions
             return obj.IsNull() ? 0 : (decimal)obj;
         }
 
+        public static DateTime nullDate = new DateTime(1899, 12, 30);
+        public static DateTime ToDateTime(this object obj)
+        {
+            return obj.IsNull() ? nullDate : (DateTime)obj;
+        }
+
         public static string ToStr(this object obj)
         {
             return obj.IsNull() ? string.Empty : (string)obj;
