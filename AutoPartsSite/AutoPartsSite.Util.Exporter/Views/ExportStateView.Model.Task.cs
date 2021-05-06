@@ -343,6 +343,8 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                 ArhivateFolder(pathArc, fileNameWithExt);
 
+                Directory.Delete(pathArc, true);
+
                 if (model.CompanyAgreement.PriceFileArchivate == true)
                     return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
 
