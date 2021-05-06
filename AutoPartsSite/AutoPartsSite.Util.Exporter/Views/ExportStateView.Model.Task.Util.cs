@@ -80,14 +80,14 @@ namespace AutoPartsSite.Util.Exporter.Views
             }
 
 
-            internal string ArhivateFile(string exportPath, string fileNameWithExt)
+            internal string ArhivateFile(string exportPath, string fileName, string fileNameWithExt, string fileNameWithOutExt)
             {
 
-                string fileNameZip = Path.Combine(exportPath, fileNameWithExt + ".zip");
+                string fileNameZip = Path.Combine(exportPath, fileNameWithOutExt + ".zip");
 
                 using (var zip = ZipFile.Open(fileNameZip, ZipArchiveMode.Create))
                 {
-                    var entry = zip.CreateEntry(fileNameWithExt);
+                    var entry = zip.CreateEntry(fileName);
                     entry.LastWriteTime = DateTimeOffset.Now;
 
                     using (var stream = File.OpenRead(fileNameWithExt))
@@ -101,6 +101,20 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return fileNameZip;
             }
 
+            internal void UnArhivateFile(string exportPath, string fileNameWithExt)
+            {
+                using (var zip = ZipFile.OpenRead(fileNameWithExt))
+                {
+                    zip.ExtractToDirectory(exportPath, true);
+                }
+            }
+
+            internal void ArhivateFolder(string exportPath, string fileNameWithExt)
+            {
+                ZipFile.CreateFromDirectory(exportPath, fileNameWithExt);
+            }
+
+            
 
             const int CharCount = 26;
             const int CharBefore_A = 64;

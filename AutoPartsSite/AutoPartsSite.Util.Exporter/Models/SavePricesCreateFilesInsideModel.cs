@@ -12,5 +12,7 @@ namespace AutoPartsSite.Util.Exporter.Models
         public bool copyFTP { get; set; }
         public int recordsQty { get; set; }
         public int fieldsQty { get; set; }
+        public string status { get; set; } = string.Empty;
+        public string comment { get; set; } = string.Empty;
     }
 }

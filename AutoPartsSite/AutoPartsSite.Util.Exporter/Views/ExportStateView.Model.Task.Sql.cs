@@ -93,14 +93,21 @@ namespace AutoPartsSite.Util.Exporter.Views
                    , null
                    , (values) =>
                    {
+                       int i = 0;
                        result = new PriceFileNameGetModel()
                        {
-                           PriceFileName = values[0].ToStr().Trim(),
-                           CustomerAgreementID = values[1].ToInt(),
-                           DeliveryTariffID = values[2].ToInt(),
-                           BrandID = values[3].ToInt(),
-                           AllOriginal = values[4].ToBool(),
-                           AllAnalogue = values[5].ToBool()
+                           PriceFileName = values[i++].ToStr().Trim(),
+                           PriceFileNameWithoutExtension = values[i++].ToStr().Trim(),
+                           PriceFileExtension = values[i++].ToStr().Trim(),
+                           CustomerAgreementID = values[i++].ToInt(),
+                           DeliveryTariffID = values[i++].ToInt(),
+                           BrandID = values[i++].ToInt(),
+                           AllOriginal = values[i++].ToBool(),
+                           AllAnalogue = values[i++].ToBool(),
+                           TariffSeparateFile = values[i++].ToBool(),
+                           OneBrandOneFile = values[i++].ToBool(),
+                           AnaloguesSeparateFile = values[i++].ToBool(),
+                           NonGenuine = values[i++].ToBool()
                        };
                    });
 
@@ -122,7 +129,9 @@ namespace AutoPartsSite.Util.Exporter.Views
                        new SqlParameter("@AllAnalogue", model!.pfngm!.AllAnalogue),
                        new SqlParameter("@CopyFTP", model!.copyFTP),
                        new SqlParameter("@RecordsQty", model!.recordsQty),
-                       new SqlParameter("@FieldsQty", model!.fieldsQty)
+                       new SqlParameter("@FieldsQty", model!.fieldsQty),
+                       new SqlParameter("@Status", string.IsNullOrEmpty(model!.status) ? string.Empty : (model!.status.Length > 10 ? model!.status.Substring(0,10) : model!.status)),
+                       new SqlParameter("@Comment", string.IsNullOrEmpty(model!.comment) ? string.Empty : (model!.comment.Length > 1000 ? model!.comment.Substring(0,1000) : model!.comment))
                    });
             }
 

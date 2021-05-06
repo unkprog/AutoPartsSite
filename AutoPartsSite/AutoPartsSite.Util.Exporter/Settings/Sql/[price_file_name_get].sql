@@ -1,2 +1,2 @@
-﻿select top 1 [PriceFileName], [CustomerAgreementID], [DeliveryTariffID], [BrandID], [AllOriginal], [AllAnalogue]
+﻿select top 1 [PriceFileName], [PriceFileNameWithoutExtension], [PriceFileExtension], [CustomerAgreementID], [DeliveryTariffID], [BrandID], [AllOriginal], [AllAnalogue], [TariffSeparateFile], [OneBrandOneFile], [AnaloguesSeparateFile], [NonGenuine]
 from [dbo].[PriceFileNameGet](@CustomerAgreementID, @DeliveryTariffID, @BrandID, @NonGenuine)
