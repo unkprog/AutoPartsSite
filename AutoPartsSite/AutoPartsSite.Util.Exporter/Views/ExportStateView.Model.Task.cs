@@ -83,63 +83,31 @@ namespace AutoPartsSite.Util.Exporter.Views
             private List<string> ExportToFile(ExportCompanyAgreementModel model, Func<ExportCompanyAgreementModel, BrandModel?, SavePricesCreateFilesInsideModel?, string> funcExportFile)
             {
                 List<string> files = new List<string>();
+
+
+                expCAM.Message = "Получение списка брендов...";
+                List<BrandModel?>? brands = new List<BrandModel?>();
                 if (model!.CompanyAgreement!.OneBrandOneFile == true)
-                {
-                    expCAM.Message = "Получение списка брендов...";
-
-                    List<BrandModel>? brands = readSplitBrands(model);
-                    foreach (BrandModel brand in brands)
-                    {
-                        SavePricesCreateFilesInsideModel pcfim = new SavePricesCreateFilesInsideModel()
-                        {
-                            model = model,
-                            brand = brand,
-                            startDate = DateTime.Now,
-                            pfngm = readPriceFileNameGetModel(model, brand),
-                            copyFTP = !string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder,
-                            status = "0"
-                        };
-
-                        try
-                        {
-                            files.Add(funcExportFile(model, brand, pcfim));
-                        }
-                        catch(Exception ex)
-                        {
-                            pcfim!.status = "-1";
-                            pcfim!.comment = ex.Message;
-                            //pcfim!.pfngm!.PriceFileName = "ERROR - " + pcfim.pfngm.PriceFileName;
-                        }
-                        pcfim.endDate = DateTime.Now;
-                        try
-                        {
-                            savePricesCreateFilesInside(pcfim);
-                        }
-                        catch
-                        {
-                            int i = 0;
-                            i = i + 1;
-                        }
-
-                    }
-                }
-
+                    brands = readSplitBrands(model);
                 if (model!.CompanyAgreement.AllBrandsOneFile == true)
+                    brands.Add(null);
+                foreach (BrandModel? brand in brands)
                 {
                     SavePricesCreateFilesInsideModel pcfim = new SavePricesCreateFilesInsideModel()
                     {
                         model = model,
+                        brand = brand,
                         startDate = DateTime.Now,
-                        pfngm = readPriceFileNameGetModel(model, null),
+                        pfngm = readPriceFileNameGetModel(model, brand),
                         copyFTP = !string.IsNullOrEmpty(expCAM!.CompanyAgreement!.Agreement!.PriceFolder) && getTempFolder() != expCAM!.CompanyAgreement!.Agreement!.PriceFolder,
                         status = "0"
                     };
 
                     try
                     {
-                        files.Add(funcExportFile(model, null, pcfim));
+                        files.Add(funcExportFile(model, brand, pcfim));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         pcfim!.status = "-1";
                         pcfim!.comment = ex.Message;
@@ -150,11 +118,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                     {
                         savePricesCreateFilesInside(pcfim);
                     }
-                    catch
-                    {
-                        int i = 0;
-                        i = i + 1;
-                    }
+                    catch { }
+
                 }
 
                 return files;

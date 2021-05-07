@@ -29,7 +29,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return result;
             }
 
-            internal List<BrandModel> readSplitBrands(ExportCompanyAgreementModel model)
+            internal List<BrandModel?> readSplitBrands(ExportCompanyAgreementModel model)
             {
                 List<BrandModel> result = new List<BrandModel>();
                 query.Execute("[brands_split]"
@@ -123,8 +123,8 @@ namespace AutoPartsSite.Util.Exporter.Views
                        new SqlParameter("@PriceFileName", model!.pfngm!.PriceFileName),
                        new SqlParameter("@StartDate", model!.startDate),
                        new SqlParameter("@EndDate", model!.endDate),
-                       new SqlParameter("@DeliveryTariffID", model!.brand == null ? 0 : model!.brand.DeliveryTariffID),
-                       new SqlParameter("@BrandID", model!.brand == null ? 0 : model!.brand.ID),
+                       new SqlParameter("@DeliveryTariffID", model!.brand == null ? -1 : model!.brand.DeliveryTariffID),
+                       new SqlParameter("@BrandID", model!.brand == null ? -1 : model!.brand.ID),
                        new SqlParameter("@AllOriginal", model!.pfngm!.AllOriginal),
                        new SqlParameter("@AllAnalogue", model!.pfngm!.AllAnalogue),
                        new SqlParameter("@CopyFTP", model!.copyFTP),
