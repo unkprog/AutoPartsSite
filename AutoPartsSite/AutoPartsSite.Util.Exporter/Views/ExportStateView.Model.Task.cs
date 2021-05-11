@@ -154,8 +154,10 @@ namespace AutoPartsSite.Util.Exporter.Views
                 declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
                 declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
                 declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
+                declareParams = declareParams + Environment.NewLine + "declare @CustomerAgreementID int = " + (model!.CompanyAgreement!.Agreement!.ID).ToString();
 
                 File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+
                 object val;
 
                 SpreadsheetDocument? spreadsheetDocument = null;
@@ -192,6 +194,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                         {
                             new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
                             new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+                            new SqlParameter("@CustomerAgreementID", model!.CompanyAgreement!.Agreement!.ID),
                             new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
                             new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
                         }
@@ -317,185 +320,185 @@ namespace AutoPartsSite.Util.Exporter.Views
             }
 
 
-            private string SaveToExcel1(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
-            {
-                string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
-                expCAM.Message = message + "...";
-                string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
-                string exportPath = getTempFolder();
-                if (pcfim!.pfngm == null)
-                    pcfim.pfngm = new PriceFileNameGetModel();
-                if (string.IsNullOrEmpty(pcfim.pfngm.PriceFileName))
-                {
-                    pcfim.pfngm.PriceFileNameWithoutExtension = fileName;
-                    pcfim.pfngm.PriceFileName = fileName + ".xlsx";
-                }
-                string fileNameWithExt = Path.Combine(exportPath, pcfim.pfngm.PriceFileName);
-                string fileNameWithOutExt = Path.Combine(exportPath, pcfim.pfngm.PriceFileNameWithoutExtension);
+            //private string SaveToExcel1(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
+            //{
+            //    string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
+            //    expCAM.Message = message + "...";
+            //    string fileName = model!.CompanyAgreement!.Translation + (brand == null ? string.Empty : "{" + brand.Code + "_" + brand.NonGenuine + "_" + brand.DeliveryTariffID);
+            //    string exportPath = getTempFolder();
+            //    if (pcfim!.pfngm == null)
+            //        pcfim.pfngm = new PriceFileNameGetModel();
+            //    if (string.IsNullOrEmpty(pcfim.pfngm.PriceFileName))
+            //    {
+            //        pcfim.pfngm.PriceFileNameWithoutExtension = fileName;
+            //        pcfim.pfngm.PriceFileName = fileName + ".xlsx";
+            //    }
+            //    string fileNameWithExt = Path.Combine(exportPath, pcfim.pfngm.PriceFileName);
+            //    string fileNameWithOutExt = Path.Combine(exportPath, pcfim.pfngm.PriceFileNameWithoutExtension);
 
-                string separatorSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorSymbol!.Symbol });
-                string separatorReplaceSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorReplaceSymbol!.Symbol });
+            //    string separatorSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorSymbol!.Symbol });
+            //    string separatorReplaceSymbol = new string(new char[] { (char)model!.CompanyAgreement!.SeparatorReplaceSymbol!.Symbol });
 
-                int counter = 0;
-                StringBuilder sb = new StringBuilder();
-                List<ColumnModel> colList = columns.Values.ToList();
-                int countFields = colList.Count;
-                pcfim.fieldsQty = countFields;
+            //    int counter = 0;
+            //    StringBuilder sb = new StringBuilder();
+            //    List<ColumnModel> colList = columns.Values.ToList();
+            //    int countFields = colList.Count;
+            //    pcfim.fieldsQty = countFields;
 
-                string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
-                declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
-                declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
-                declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
+            //    string declareParams = "declare @CurrencyID int = " + model!.CompanyAgreement!.PriceCurrencyID;
+            //    declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
+            //    declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
+            //    declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
 
-                File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
-                object val;
+            //    File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
+            //    object val;
 
-                SpreadsheetDocument? spreadsheetDocument = null;
-                WorkbookPart? workbookPart = null;
-                Sheets? sheets = null;
-                WorksheetPart? worksheetPart = null;
-                SheetData? sheetData = null;
-                Row? newRow = null;
-                uint sheetId = 1;
+            //    SpreadsheetDocument? spreadsheetDocument = null;
+            //    WorkbookPart? workbookPart = null;
+            //    Sheets? sheets = null;
+            //    WorksheetPart? worksheetPart = null;
+            //    SheetData? sheetData = null;
+            //    Row? newRow = null;
+            //    uint sheetId = 1;
 
-                Action saveAndDisposeSpreadsheetDocument = () =>
-                {
-                    if (spreadsheetDocument != null)
-                    {
-                        worksheetPart?.Worksheet.Save();
-                        spreadsheetDocument.WorkbookPart.Workbook.Save();
-                        spreadsheetDocument.Close();
-                        spreadsheetDocument.Dispose();
-                        spreadsheetDocument = null;
-                    }
-                };
+            //    Action saveAndDisposeSpreadsheetDocument = () =>
+            //    {
+            //        if (spreadsheetDocument != null)
+            //        {
+            //            worksheetPart?.Worksheet.Save();
+            //            spreadsheetDocument.WorkbookPart.Workbook.Save();
+            //            spreadsheetDocument.Close();
+            //            spreadsheetDocument.Dispose();
+            //            spreadsheetDocument = null;
+            //        }
+            //    };
 
-                query.ExecuteQuery(sqlCommand
-                        , new SqlParameter[]
-                        {
-                            new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
-                            new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
-                            new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
-                            new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
-                        }
-                        , null
-                        , (values) =>
-                        {
+            //    query.ExecuteQuery(sqlCommand
+            //            , new SqlParameter[]
+            //            {
+            //                new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
+            //                new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+            //                new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
+            //                new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
+            //            }
+            //            , null
+            //            , (values) =>
+            //            {
 
-                            if (counter % 200000 == 0 || spreadsheetDocument == null)
-                            {
-                                if (spreadsheetDocument != null)
-                                {
-                                    saveAndDisposeSpreadsheetDocument();
-                                    GC.Collect();
-                                    GC.WaitForPendingFinalizers();
-                                    GC.Collect();
-                                }
+            //                if (counter % 200000 == 0 || spreadsheetDocument == null)
+            //                {
+            //                    if (spreadsheetDocument != null)
+            //                    {
+            //                        saveAndDisposeSpreadsheetDocument();
+            //                        GC.Collect();
+            //                        GC.WaitForPendingFinalizers();
+            //                        GC.Collect();
+            //                    }
 
-                                spreadsheetDocument = Helpers.OpenXML.CreateOrOpenSpreadsheetDocument(fileNameWithExt);
-                                workbookPart = spreadsheetDocument.WorkbookPart;
-                                sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>();
-                                sheetId = 0;
-                                foreach (WorksheetPart worksheetpart in spreadsheetDocument.WorkbookPart.WorksheetParts)
-                                {
-                                    worksheetPart = worksheetpart;
-                                    sheetId++;
-                                }
+            //                    spreadsheetDocument = Helpers.OpenXML.CreateOrOpenSpreadsheetDocument(fileNameWithExt);
+            //                    workbookPart = spreadsheetDocument.WorkbookPart;
+            //                    sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>();
+            //                    sheetId = 0;
+            //                    foreach (WorksheetPart worksheetpart in spreadsheetDocument.WorkbookPart.WorksheetParts)
+            //                    {
+            //                        worksheetPart = worksheetpart;
+            //                        sheetId++;
+            //                    }
 
-                                //if (worksheetPart == null || counter % 1000000 == 0)
-                                //{
-                                    sheetId++;
-                                    worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                                    sheets.Append(new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = sheetId, Name = "Sheet " + sheetId });
+            //                    //if (worksheetPart == null || counter % 1000000 == 0)
+            //                    //{
+            //                        sheetId++;
+            //                        worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            //                        sheets.Append(new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = sheetId, Name = "Sheet " + sheetId });
 
-                                    sheetData = new SheetData();
-                                    worksheetPart.Worksheet = new Worksheet(sheetData);
-                                //}
-                                //else
-                                //{
-                                //    sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
-                                //}
+            //                        sheetData = new SheetData();
+            //                        worksheetPart.Worksheet = new Worksheet(sheetData);
+            //                    //}
+            //                    //else
+            //                    //{
+            //                    //    sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+            //                    //}
 
 
-                                newRow = new Row();
-                                for (int i = 0, icount = countFields; i < icount; i++)
-                                    newRow.AppendChild(new Cell() { DataType = CellValues.String, CellValue = new CellValue(colList[i].ColumnNameClient) });
+            //                    newRow = new Row();
+            //                    for (int i = 0, icount = countFields; i < icount; i++)
+            //                        newRow.AppendChild(new Cell() { DataType = CellValues.String, CellValue = new CellValue(colList[i].ColumnNameClient) });
 
-                                sheetData?.AppendChild(newRow);
-                            }
+            //                    sheetData?.AppendChild(newRow);
+            //                }
 
-                            counter++;
-                            if (counter % 100 == 0)
-                                expCAM.Message = message + " - " + counter + "...";
+            //                counter++;
+            //                if (counter % 100 == 0)
+            //                    expCAM.Message = message + " - " + counter + "...";
 
-                            newRow = new Row();
-                            for (int i = 0, icount = countFields; i < icount; i++)
-                            {
-                                val = values[i];
-                                Cell cell = new Cell();
+            //                newRow = new Row();
+            //                for (int i = 0, icount = countFields; i < icount; i++)
+            //                {
+            //                    val = values[i];
+            //                    Cell cell = new Cell();
 
-                                if (val.IsNull())
-                                {
-                                    cell.DataType = CellValues.String;
-                                    cell.CellValue = new CellValue(string.Empty);
-                                }
-                                else
-                                {
-                                    TypeCode typeCode = Type.GetTypeCode(val.GetType());
-                                    try
-                                    {
-                                        switch (typeCode)
-                                        {
-                                            case TypeCode.Int16:
-                                            case TypeCode.Int32:
-                                            case TypeCode.Int64:
-                                            case TypeCode.UInt16:
-                                            case TypeCode.UInt32:
-                                            case TypeCode.UInt64:
-                                                cell.DataType = CellValues.Number;
-                                                break;
-                                            case TypeCode.Decimal:
-                                            case TypeCode.Double:
-                                            case TypeCode.Single:
-                                                cell.DataType = CellValues.Number;
-                                                break;
-                                            case TypeCode.DateTime:
-                                                cell.DataType = CellValues.Date;
-                                                break;
-                                            default:
-                                                cell.DataType = CellValues.String;
-                                                break;
-                                        }
-                                        cell.DataType = CellValues.String;
-                                        if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
-                                            cell.CellValue = new CellValue(val.ToString()!.Replace(',', '.'));
-                                        else if (typeCode == TypeCode.DateTime)
-                                            cell.CellValue = new CellValue(val.ToDateTime().ToString("dd.MM.yyyy HH:mm:ss"));
-                                        else
-                                            cell.CellValue = new CellValue(colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString());
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        System.Diagnostics.Debug.WriteLine(ex.Message);
-                                    }
-                                }
-                                newRow.AppendChild(cell);
-                            }
-                            sheetData?.AppendChild(newRow);
-                        }
-                        , cmdTimeOut: 900);
+            //                    if (val.IsNull())
+            //                    {
+            //                        cell.DataType = CellValues.String;
+            //                        cell.CellValue = new CellValue(string.Empty);
+            //                    }
+            //                    else
+            //                    {
+            //                        TypeCode typeCode = Type.GetTypeCode(val.GetType());
+            //                        try
+            //                        {
+            //                            switch (typeCode)
+            //                            {
+            //                                case TypeCode.Int16:
+            //                                case TypeCode.Int32:
+            //                                case TypeCode.Int64:
+            //                                case TypeCode.UInt16:
+            //                                case TypeCode.UInt32:
+            //                                case TypeCode.UInt64:
+            //                                    cell.DataType = CellValues.Number;
+            //                                    break;
+            //                                case TypeCode.Decimal:
+            //                                case TypeCode.Double:
+            //                                case TypeCode.Single:
+            //                                    cell.DataType = CellValues.Number;
+            //                                    break;
+            //                                case TypeCode.DateTime:
+            //                                    cell.DataType = CellValues.Date;
+            //                                    break;
+            //                                default:
+            //                                    cell.DataType = CellValues.String;
+            //                                    break;
+            //                            }
+            //                            cell.DataType = CellValues.String;
+            //                            if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
+            //                                cell.CellValue = new CellValue(val.ToString()!.Replace(',', '.'));
+            //                            else if (typeCode == TypeCode.DateTime)
+            //                                cell.CellValue = new CellValue(val.ToDateTime().ToString("dd.MM.yyyy HH:mm:ss"));
+            //                            else
+            //                                cell.CellValue = new CellValue(colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString());
+            //                        }
+            //                        catch (Exception ex)
+            //                        {
+            //                            System.Diagnostics.Debug.WriteLine(ex.Message);
+            //                        }
+            //                    }
+            //                    newRow.AppendChild(cell);
+            //                }
+            //                sheetData?.AppendChild(newRow);
+            //            }
+            //            , cmdTimeOut: 900);
 
-                expCAM.Message = message + " - " + counter + "...";
+            //    expCAM.Message = message + " - " + counter + "...";
 
-                saveAndDisposeSpreadsheetDocument();
+            //    saveAndDisposeSpreadsheetDocument();
 
-                pcfim.recordsQty = counter;
+            //    pcfim.recordsQty = counter;
 
-                if (model.CompanyAgreement.PriceFileArchivate == true)
-                    return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
+            //    if (model.CompanyAgreement.PriceFileArchivate == true)
+            //        return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
 
-                return fileNameWithExt;
-            }
+            //    return fileNameWithExt;
+            //}
 
             private string SaveToCsv(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
             {
@@ -524,6 +527,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                 declareParams = declareParams + Environment.NewLine + "declare @BrandID int = " + (brand == null ? "null" : brand.ID.ToString());
                 declareParams = declareParams + Environment.NewLine + "declare @NonGenuine int = " + (brand == null ? -1 : brand.NonGenuine).ToString();
                 declareParams = declareParams + Environment.NewLine + "declare @DeliveryTariffID int = " + (brand == null ? -1 : brand.DeliveryTariffID).ToString();
+                declareParams = declareParams + Environment.NewLine + "declare @CustomerAgreementID int = " + (model!.CompanyAgreement!.Agreement!.ID).ToString();
 
                 File.WriteAllText(fileNameWithExt + ".sql", declareParams + Environment.NewLine + Environment.NewLine + sqlCommand);
 
@@ -548,6 +552,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                         {
                             new SqlParameter("@CurrencyID", model!.CompanyAgreement!.PriceCurrencyID),
                             new SqlParameter("@BrandID", brand == null ? DBNull.Value : (object)brand.ID),
+                            new SqlParameter("@CustomerAgreementID", model!.CompanyAgreement!.Agreement!.ID),
                             new SqlParameter("@NonGenuine", brand == null ? -1 : brand.NonGenuine),
                             new SqlParameter("@DeliveryTariffID", brand == null ? -1 : brand.DeliveryTariffID)
                         }
@@ -559,12 +564,31 @@ namespace AutoPartsSite.Util.Exporter.Views
                             if(counter %100 == 0)
                                 expCAM.Message = message + " - " + counter + "...";
                             sb.Clear();
-                            for(int i = 0, icount = countFields; i< icount; i++)
+                            for(int i = 0, icount = countFields, lastCount = countFields - 1; i < icount; i++)
                             {
                                 val = values[i];
-                                sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) 
-                                                                     : (colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
-                                sb.Append(separatorSymbol);
+                                if (val.IsNull())
+                                    sb.Append(string.Empty);
+                                else
+                                {
+                                    TypeCode typeCode = Type.GetTypeCode(val.GetType());
+                                    try
+                                    {
+                                        if (typeCode == TypeCode.Decimal || typeCode == TypeCode.Double || typeCode == TypeCode.Single)
+                                            sb.Append(Convert.ToDouble(val).ToString(nfi));
+                                        else if (typeCode == TypeCode.DateTime)
+                                            sb.Append(val.ToDateTime().ToString("dd.MM.yyyy HH:mm:ss"));
+                                        else
+                                            sb.Append((colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                                    }
+                                }
+                                //sb.Append(Information.IsNumeric(val) ? (val.IsNull() ? string.Empty : Convert.ToDouble(val).ToString(nfi)) 
+                                //                                     : (colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()));
+                                if (i < lastCount) sb.Append(separatorSymbol);
                             }
                             streamwriter.WriteLine(sb.ToString());
                         }
@@ -625,13 +649,14 @@ namespace AutoPartsSite.Util.Exporter.Views
                     if (model.CompanyAgreement.AnaloguesSeparateFile == true)
                         result.AppendLine("  left join [Brands] [b] with(nolock) on [pci].[BrandID] = [b].[BrandID]");
                     result.AppendLine("  where [CurrencyID] = @CurrencyID");
+                    result.AppendLine("    and (@CustomerAgreementID is null or (not @CustomerAgreementID is null and [pci].[CustomerAgreementID] = @CustomerAgreementID))");
+                    result.AppendLine("    and (@BrandID is null or (not @BrandID is null and [pci].[BrandID] = @BrandID))");
                     if (model!.CompanyAgreement!.PriceZeroQty == false)
-                        result.AppendLine("   and [StockQty] <> 0");
-                    result.AppendLine("   and (@BrandID is null or (not @BrandID is null and [pci].[BrandID] = @BrandID))");
+                        result.AppendLine("    and [StockQty] <> 0");
                     if (model.CompanyAgreement.AnaloguesSeparateFile == true)
-                        result.AppendLine("   and (@NonGenuine = -1 or (@NonGenuine <> -1 and [b].[NonGenuine] = @NonGenuine))");
+                        result.AppendLine("    and (@NonGenuine = -1 or (@NonGenuine <> -1 and [b].[NonGenuine] = @NonGenuine))");
                     if (model.CompanyAgreement.TariffSeparateFile == true)
-                        result.AppendLine("   and (@DeliveryTariffID = -1 or (@DeliveryTariffID <> -1 and [pci].[DeliveryTariffID] = @DeliveryTariffID))");
+                        result.AppendLine("    and (@DeliveryTariffID = -1 or (@DeliveryTariffID <> -1 and [pci].[DeliveryTariffID] = @DeliveryTariffID))");
                     result.AppendLine(")");
 
                     if (priceFileCalcTypeID == 2)
