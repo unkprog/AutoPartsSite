@@ -635,6 +635,11 @@ namespace AutoPartsSite.Util.Exporter.Views
                     
                     if (priceFileCalcTypeID == 2)
                     {
+                        if (!columns.ContainsKey("DeliveryTariffID"))
+                        {
+                            selColumnsCalcType = string.Concat(selColumnsCalcType, ", [DeliveryTariffID]");
+                            selColumnsPart = string.Concat(selColumnsPart, string.IsNullOrEmpty(selColumnsPart) ? string.Empty : ", [DeliveryTariffID]");
+                        }
                         if (!columns.ContainsKey("Price"))
                             selColumnsCalcType = string.Concat(selColumnsCalcType, ", [Price]");
                         if (!columns.ContainsKey("StockQty"))
