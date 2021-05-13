@@ -26,47 +26,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col s12 m12 l12 xl12">
-            <div class="section left"><h1 class="page-header">Оригинальные</h1></div>
-        </div>
-        <div class="col s12 m12 l12 xl12"><div class="divider"></div></div>
-        <div class="col s12 m12 l12 xl12 padding-0_75rem">
-            <div class="card white margin-0 z-depth-1 hoverable">
-                <div class="card-content padding-0_75rem">
-                    <div class="card-search-info">
-                        <table>
-                            <tr>
-                                <td colspan="1">COVER,ROCKER,RH</td>
-                            </tr>
-                            <tr>
-                                <td>Номер детали</td>
-                                <td>1035A981</td>
-                            </tr>
-                            <tr>
-                                <td>Доступно</td>
-                                <td>6</td>
-                            </tr>
-                            <tr>
-                                <td>Вес, кг</td>
-                                <td>1.64</td>
-                            </tr>
-                            <tr>
-                                <td>Доставка, дней</td>
-                                <td>8</td>
-                            </tr>
-                            <tr>
-                                <td>Бренд</td>
-                                <td>MITSUBISHI</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <ul class="pagination search-view-pagination">
     </ul>
 
@@ -81,116 +40,91 @@
     <div id="search-view-brand-catalogs" class="row">
     </div>
 
-    <script type="text/x-kendo-template" id="search-view-parts-template1">
-        <div class="col s12 m12 l12 xl12 padding-0_75rem">
-            <div class="card white margin-0 z-depth-2 hoverable">
-                <div class="card-search-info row padding-0_75rem">
-                    <div class="col s12 m12 l2 xl2">
-                        <div class="card-search-image" style="margin:auto;" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
-                    </div>
-                    <div class="col s12 m12 l5 xl5">
-                        <div class="card-search-partnumber">#=Name#</div>
-                        <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
-                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
-                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)#</div>
-                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
-                        <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
-                    </div>
-                    <div class="col s12 m12 l5 xl5 center">
-                        <div>
-                            <span class="margin-right-1rem basket-label" data-bind="text:labelPrice"></span><span class="card-search-price">
-                                #if(Currency.ShowLeft===true) {#
-                                    #=Currency.Symbol#
-                                #}#
-                                #=numberToString(Price,2)#
-                                #if(Currency.ShowLeft !== true) {#
-                                    #=Currency.Symbol#
-                                #}#
-                            </span>
-                            <span class="margin-right-1rem basket-label" style="margin-left:3rem;" data-bind="text:labelDelivery"></span>
-                                <span class="card-search-price">
-                                 #if(Currency.ShowLeft===true) {#
-                                    #=Currency.Symbol#
-                                #}#
-                                #=numberToString(DefaultDelivery.DeliveryAmount,2)#
-                                #if(Currency.ShowLeft !== true) {#
-                                    #=Currency.Symbol#
-                                #}#
-                                </span>
-                        </div>
-                        <div class="card-search-basket-edit">
-                            <a class="waves-effect waves-light btn card-btn-add-basket right add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
-                            #if(StockQty > 0) {#
-                            <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
-                                <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
-                                <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
-                            </form>
-                            <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket">drive_eta</i>
-                            #} else {#
-                            <br/><br/>
-                            <a class="waves-effect waves-light btn card-btn-add-basket right req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
-                            #}#
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-
     <script type="text/x-kendo-template" id="search-view-parts-template">
         <div class="col s12 m12 l12 xl12 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable">
-                <div class="card-content padding-0_75rem">
-                    <!--<a class="card-search black-text" title="#=PartNumber#" href="search?partNumber=#=PartNumber#">-->
-                        <div class="card-search-image left" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
-                        <div class="card-search-info">
-                            <div class="col s12 m12 l6 xl6">
-                                <div class="card-search-partnumber">#=Name#</div>
-                                <div class="card-search-partnumber" style="font-size:1.2rem;"><span class="margin-right-1rem basket-label" data-bind="text:labelPartNumber"></span>#=PartNumber#</div>
-                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelAvailability"></span>#=numberToString(StockQty,0)#</div>
-                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelWeight"></span>#=numberToString(Parameters.WeightPhysical,2)#</div>
-                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelShipIn"></span>#=ShipInDays#</div>
-                                <div><span class="margin-right-1rem basket-label" data-bind="text:labelBrand"></span>#=Brand.Code#</div>
-                            </div>
-                            <div class="col s12 m12 l6 xl6 center">
-                                <div>
-                                    <span class="margin-right-1rem basket-label" data-bind="text:labelPrice"></span><span class="card-search-price">
+                <div class="card-search-info row padding-0_75rem">
+                    <div class="col s12 m6 l2 xl2 offset-m3">
+                        <div class="card-search-image" style="margin:auto;" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
+                    </div>
+
+                    <div class="col s12 m6 l6 xl6">
+                        <div class="card-search-part-caption">#=Name#</div>
+                        <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td" data-bind="text:labelPartNumber"></td>
+                                    <td class="card-search-table-props-td">#=PartNumber#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td" data-bind="text:labelAvailability"></td>
+                                    <td class="card-search-table-props-td">#=numberToString(StockQty,0)#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td" data-bind="text:labelWeight"></td>
+                                    <td class="card-search-table-props-td">#=numberToString(Parameters.WeightPhysical,2)#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td" data-bind="text:labelShipIn"></td>
+                                    <td class="card-search-table-props-td">#=ShipInDays#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td" data-bind="text:labelBrand"></td>
+                                    <td class="card-search-table-props-td">#=Brand.Code#</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col s12 m6 l4 xl4">
+                        <div class="card-search-part-caption-price center-align">
+                            <span data-bind="text:labelPrice"></span>
+                            #if(Currency.ShowLeft===true) {#
+                                #=Currency.Symbol#
+                            #}#
+                            #=numberToString(Price,2)#
+                            #if(Currency.ShowLeft !== true) {#
+                                #=Currency.Symbol#
+                            #}#
+                        </div>
+                        <table class="card-search-table-props" cellspacing="0" cellpadding="0">
+                            <tbody style="overflow: hidden;">
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td card-search-table-price-td center-align">
+                                        <span data-bind="text:labelDelivery"></span>
                                         #if(Currency.ShowLeft===true) {#
-                                            #=Currency.Symbol#
-                                        #}#
-                                        #=numberToString(Price,2)#
-                                        #if(Currency.ShowLeft !== true) {#
-                                            #=Currency.Symbol#
-                                        #}#
-                                    </span>
-                                    <span class="margin-right-1rem basket-label" style="margin-left:3rem;" data-bind="text:labelDelivery"></span>
-                                        <span class="card-search-price">
-                                         #if(Currency.ShowLeft===true) {#
-                                            #=Currency.Symbol#
+                                             #=Currency.Symbol#
                                         #}#
                                         #=numberToString(DefaultDelivery.DeliveryAmount,2)#
                                         #if(Currency.ShowLeft !== true) {#
                                             #=Currency.Symbol#
                                         #}#
-                                        </span>
-                                </div>
-                                <div class="card-search-basket-edit">
-                                    <a class="waves-effect waves-light btn card-btn-add-basket right add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}#><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                                    </td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td center-align">
+                                        #if(StockQty > 0) {#
+                                            <form id="basket-qty-form-#=Id#" class="basket-qty-form" data-id="#=Id#">
+                                                <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket" style="top:10px;position:relative;">drive_eta</i>
+                                                <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
+                                                <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
+                                            </form>
+                                        #}#
+                                    </td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-search-table-props-td center-align">
                                     #if(StockQty > 0) {#
-                                    <form id="basket-qty-form-#=Id#" class="basket-qty-form right" data-id="#=Id#">
-                                        <input id="basket-qty-#=Id#" type="number" class="validate input-number basket-input" data-maxval="#=StockQty#" value="1">
-                                        <span class="margin-right-1rem basket-label" data-bind="text:labelPcs"></span>
-                                    </form>
-                                    <i id="card-search-whatcar#=Id#" class="card-search-whatcar material-icons card-btn-add-basket">drive_eta</i>
+                                        <a class="waves-effect waves-light btn card-btn-add-basket center add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}# style="margin:1rem 0 0 0;height:36px;line-height:36px;width:100%;" data-id=""><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
                                     #} else {#
-                                    <br/><br/>
-                                    <a class="waves-effect waves-light btn card-btn-add-basket right req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
+                                        <a class="waves-effect waves-light btn card-btn-add-basket center req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
                                     #}#
-                                </div>
-                            </div>
-                        </div>
-                    <!--</a>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
