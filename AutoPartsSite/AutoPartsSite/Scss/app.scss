@@ -37,6 +37,10 @@ body, html {
     margin-right: 1rem;
 }
 
+.margin-right-050rem {
+    margin-right: 0.5rem;
+}
+
 .margin16px {
     margin-bottom: 16px;
 }
@@ -940,6 +944,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
 
 .through {
     text-decoration: line-through;
+    font-style: italic;
 }
 
 .td-right {
