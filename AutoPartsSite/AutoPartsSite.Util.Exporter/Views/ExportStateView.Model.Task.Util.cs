@@ -114,7 +114,22 @@ namespace AutoPartsSite.Util.Exporter.Views
                 ZipFile.CreateFromDirectory(exportPath, fileNameWithExt);
             }
 
-            
+            internal char[] throwEscapeChars = null;
+            internal string ReplaceEscapeChars(string? value)
+            {
+                string result = string.IsNullOrEmpty(value) ? string.Empty : value;
+
+                if (throwEscapeChars == null)
+                {
+                    throwEscapeChars = new char[30];
+                    for (int i = 0; i < 30; i++)
+                        throwEscapeChars[i] = (char)i;
+                }
+
+                foreach (var c in throwEscapeChars)
+                    result = result.Replace(c, ' ');
+                return result.Replace("&", "&amp;").Replace("'", "&apos;").Replace(@"""", "&quot;").Replace(">", "&gt;").Replace("<", "&lt;");
+            }
 
             const int CharCount = 26;
             const int CharBefore_A = 64;

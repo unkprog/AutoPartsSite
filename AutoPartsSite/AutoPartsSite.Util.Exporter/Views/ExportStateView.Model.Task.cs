@@ -125,6 +125,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                 return files;
             }
 
+
             private string SaveToExcel(ExportCompanyAgreementModel model, string sqlCommand, BrandModel? brand, SavePricesCreateFilesInsideModel? pcfim, Dictionary<string, ColumnModel> columns)
             {
                 string message = "Выгрузка в файл " + expCAM.CompanyAgreement!.PriceFileFormat!.DescrEn + (brand == null ? string.Empty : " (" + brand.Code + " -> " + brand.NonGenuine + " -> " + brand.DeliveryTariffID + ")");
@@ -268,7 +269,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                                         else if (typeCode == TypeCode.DateTime)
                                             sb.Append(@"<x:c t=""str""><x:v>" + val.ToDateTime().ToString("dd.MM.yyyy HH:mm:ss") + "</x:v></x:c>");
                                         else
-                                            sb.Append(@"<x:c t=""str""><x:v>" + (colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()) + "</x:v></x:c>");
+                                            sb.Append(@"<x:c t=""str""><x:v>" + ReplaceEscapeChars(colList[i].ReplaceSeparator ? val.ToString()!.Replace(separatorSymbol, separatorReplaceSymbol) : val.ToString()) + "</x:v></x:c>");
                                     }
                                     catch (Exception ex)
                                     {
@@ -313,9 +314,16 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                 Directory.Delete(pathArc, true);
 
-                if (model.CompanyAgreement.PriceFileArchivate == true)
-                    return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
-
+                if (counter > 0)
+                {
+                    if (model.CompanyAgreement.PriceFileArchivate == true)
+                        return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
+                }
+                else
+                {
+                    if (File.Exists(fileNameWithExt))
+                        File.Delete(fileNameWithExt);
+                }
                 return fileNameWithExt;
             }
 
@@ -597,9 +605,16 @@ namespace AutoPartsSite.Util.Exporter.Views
 
                 pcfim.recordsQty = counter;
 
-                if (model.CompanyAgreement.PriceFileArchivate == true)
-                    return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
-
+                if (counter > 0)
+                {
+                    if (model.CompanyAgreement.PriceFileArchivate == true)
+                        return ArhivateFile(exportPath, pcfim.pfngm.PriceFileName, fileNameWithExt, fileNameWithOutExt);
+                }
+                else
+                {
+                    if (File.Exists(fileNameWithExt))
+                        File.Delete(fileNameWithExt);
+                }
                 return fileNameWithExt;
             }
 
@@ -650,6 +665,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     result.AppendLine(";with [query] as");
                     result.AppendLine("(");
                     result.AppendLine("  select " + selColumns + selColumnsCalcType);
+                    //result.AppendLine("     , rn = row_number() over(order by " + selColumns + ")");
                     result.AppendLine("  from [PricesCustomersInside] [pci] with(nolock)");
                     if (model.CompanyAgreement.AnaloguesSeparateFile == true)
                         result.AppendLine("  left join [Brands] [b] with(nolock) on [pci].[BrandID] = [b].[BrandID]");
@@ -708,6 +724,7 @@ namespace AutoPartsSite.Util.Exporter.Views
                     {
                         result.AppendLine("select " + selColumns);
                         result.AppendLine("from [query]");
+                        //result.AppendLine("where rn >= 172138 and rn < 172139");
                         result.AppendLine("order by " + selColumns);
                     }
                 }
