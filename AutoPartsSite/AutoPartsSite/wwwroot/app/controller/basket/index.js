@@ -135,6 +135,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             curSymbol = items[i].Goods.Currency.Symbol;
                             isSymbolLeft = items[i].Goods.Currency.ShowLeft;
                             items[i].deleteLabel = vars._statres("button$label$delete");
+                            items[i].OldQtyLabel = '' + items[i].OldQty + ' ' + self.Model.get('labelPcs');
                             items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                             sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
