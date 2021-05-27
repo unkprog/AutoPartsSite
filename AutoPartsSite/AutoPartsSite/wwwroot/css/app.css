@@ -36,6 +36,9 @@ body, html {
 .margin16px {
   margin-bottom: 16px; }
 
+.margin-bottom-0 {
+  margin-bottom: 0 !important; }
+
 .padding-bottom-0 {
   padding-bottom: 0 !important; }
 
@@ -703,7 +706,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
   font-weight: bold; }
 
 #basket-view-sum, #basket-view-sum-delivery {
-  margin-left: 3rem; }
+  margin-left: 1rem; }
 
 .basket-del-btn {
   /*  position: absolute;

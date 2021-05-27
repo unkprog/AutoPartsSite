@@ -10,10 +10,10 @@
         </div>
     </div>
 
-    <div id="basket-view-parts" class="row">
+    <div id="basket-view-parts" class="row margin-bottom-0">
         <div id="basket-view-parts-empty" class="col s12 m12 l12 xl12 center" style="font-size: 1.7rem;" data-bind="text:labelEmptyBasket"></div>
         <div id="basket-view-parts-table" class="col s12 m12 l12 xl12">
-            <div id="basket-view-parts-rows"class="row">
+            <div id="basket-view-parts-rows"class="row margin-bottom-0">
             </div>
             <!--<table id="basket-view-parts-table">
                 <thead>
@@ -38,9 +38,9 @@
 
     <div id="basket-view-additional">
 
-        <div class="row">
+        <div class="row margin-bottom-0">
             <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-                <div class="row">
+                <div class="row margin-bottom-0">
                     <div class="input-field col s12 m6 l6 xl6">
                         <input id="basket-promocode" type="text" data-bind="value:basketData.Header.PromoCode" class="validate">
                         <label for="basket-promocode" data-bind="text:labelPromoCode"></label>
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row margin-bottom-0">
             <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
                 <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
             </div>
@@ -94,10 +94,10 @@
         <div id="basket-view-item-#=Goods.Id#" class="col s12 m12 l12 xl12">
             <div class="card white margin-0 z-depth-2 hoverable">
                 <div class="card-search-info row padding-0_75rem" style="margin-bottom:0.5rem;">
-                    <div class="col s12 m6 l1 xl1 offset-m3">
+                    <div class="col s12 m6 l2 xl2 offset-m3">
                         <div class="card-basket-image" style="margin:auto;" #if(Image) {# style="background-image: url(#=Image#)" #}#></div>
                     </div>
-                    <div class="col s12 m6 l6 xl6">
+                    <div class="col s12 m6 l5 xl5">
                         <div class="card-search-part-caption">#=Goods.Name#</div>
                         <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
                             <tbody>
