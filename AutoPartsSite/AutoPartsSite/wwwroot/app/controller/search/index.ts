@@ -68,6 +68,8 @@ export namespace Controller.Search {
         protected OnViewInit(): void {
             this.searchForm = this.View.find("#search-view-form");
             vars._appData.BasketIsInit = true;
+
+            this.View.find('#search-view-part-number').focus();
             this.BasketService.Count(this.setBasketCount);
 
             if (utils.isNullOrEmpty(this.findArticle) === false) {
@@ -86,8 +88,8 @@ export namespace Controller.Search {
             hr = (i > -1 ? hr.substring(i + 1) : '');
 
             let searchParams = new URLSearchParams(hr);
-            if (searchParams.has("article") === true) {
-                this.findArticle = searchParams.get("article");
+            if (searchParams.has("partnumber") === true) {
+                this.findArticle = searchParams.get("partnumber");
                 return false;
             }
             return true;

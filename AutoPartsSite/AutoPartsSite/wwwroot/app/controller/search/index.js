@@ -70,6 +70,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.OnViewInit = function () {
                     this.searchForm = this.View.find("#search-view-form");
                     vars._appData.BasketIsInit = true;
+                    this.View.find('#search-view-part-number').focus();
                     this.BasketService.Count(this.setBasketCount);
                     if (utils.isNullOrEmpty(this.findArticle) === false) {
                         this.View.find('#search-view-part-number').val(this.findArticle);
@@ -83,8 +84,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var i = hr.indexOf('?');
                     hr = (i > -1 ? hr.substring(i + 1) : '');
                     var searchParams = new URLSearchParams(hr);
-                    if (searchParams.has("article") === true) {
-                        this.findArticle = searchParams.get("article");
+                    if (searchParams.has("partnumber") === true) {
+                        this.findArticle = searchParams.get("partnumber");
                         return false;
                     }
                     return true;

@@ -12,7 +12,7 @@
     from [Goods] [g] with(nolock)
     left join [Brands]    [b] with(nolock) on [g].[BrandID]   = [b].[BrandID]
     left join [Countries] [c] with(nolock) on [b].[CountryID] = [c].[CountryID]
-    where [g].[Deleted] = 0 and [g].[PartNumber] = @clearPartNumber --like '%' + @clearPartNumber + '%'
+    where [g].[Deleted] = 0 and [g].[Articul] = @clearPartNumber --like '%' + @clearPartNumber + '%'
 )
 , [partsSearch] as 
 (
