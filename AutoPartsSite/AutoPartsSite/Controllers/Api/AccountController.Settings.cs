@@ -55,52 +55,30 @@ namespace AutoPartsSite.Controllers.Api
           {
               return await Task.Run(() =>
               {
-                  Settings result = new Settings();
-
-                  IPAddress remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
-                  string ip = (remoteIpAddress == null || remoteIpAddress.Equals(IPAddress.IPv6Loopback) || remoteIpAddress.Equals(IPAddress.Loopback) ? GetRemoteIPAdress() : remoteIpAddress.ToString());
-
-                  GeoPlugin geo = GetIPGeoPlugin(ip);
-                  result.Country = GetCountries(geo.CountryCode, geo.CountryCode).FirstOrDefault();
-                  result.Language = GetLanguages(geo.CountryCode, geo.CountryCode).FirstOrDefault();
-                  result.Currency = GetCurrencies(geo.CountryCode, geo.CurrencyCode).FirstOrDefault();
-
-                  if (result.Language == null)
-                      result.Language = GetLanguages("EN", "EN").FirstOrDefault();
-
+                  Settings result = GetDefautSettings(HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress);
                   return CreateResponseOk(result);
               });
           });
 
         [HttpGet]
         [Route("settingsdata")]
-        public async Task<HttpMessage<SettingsData>> SettingsData(string lang, bool isSetup)
+        public async Task<HttpMessage<SettingsData>> SettingsData(int langId, bool isSetup)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
                   SettingsData result = new SettingsData();
-
-                  IPAddress remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
-                  string ip = (remoteIpAddress == null || remoteIpAddress.Equals(IPAddress.IPv6Loopback) || remoteIpAddress.Equals(IPAddress.Loopback) ? GetRemoteIPAdress(): remoteIpAddress.ToString()) ;
                   if (isSetup)
-                  {
-                      GeoPlugin geo = GetIPGeoPlugin(ip);
-                      result.Current = new Settings()
-                      {
-                          Country = GetCountries(lang, geo.CountryCode).FirstOrDefault(),
-                          Language = GetLanguages(lang, geo.CountryCode).FirstOrDefault(),
-                          Currency = GetCurrencies(lang, geo.CurrencyCode).FirstOrDefault()
-                      };
-                  }
+                      result.Current = GetDefautSettings(HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress);
                 
-                  result.Countries = GetCountries(lang);
-                  result.Languages = GetLanguages(lang);
-                  result.Currencies = GetCurrencies(lang);
+                  result.Countries = GetCountries(langId);
+                  result.Languages = GetLanguages(langId);
+                  result.Currencies = GetCurrencies(langId);
                   return CreateResponseOk(result);
               });
           });
 
        
+        
     }
 }

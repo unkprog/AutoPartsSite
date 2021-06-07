@@ -129,8 +129,8 @@ namespace AutoPartsSite.Controllers.Api
                {
                    BasketDeilveryAddressData result = new BasketDeilveryAddressData() { Countries = new List<Country>() };
 
-                   Lang lang = AccountController.GetLanguage(qs.languageId);
-                   result.Countries = AccountController.GetCountries(lang?.Code);
+                   //Lang lang = AccountController.GetLanguages(qs.languageId).FirstOrDefault();
+                   result.Countries = AccountController.GetCountries(qs.languageId);
 
                    int deliveryId = GetBasketDelivery(qs.uid);
                    List<AddressInfo> addresses = GetAddress(qs, 3);
@@ -169,8 +169,8 @@ namespace AutoPartsSite.Controllers.Api
               {
                   BasketBillingAddressData result = new BasketBillingAddressData() { Countries = new List<Country>() };
 
-                  Lang lang = AccountController.GetLanguage(qs.languageId);
-                  result.Countries = AccountController.GetCountries(lang?.Code);
+                  //Lang lang = AccountController.GetLanguages(qs.languageId).FirstOrDefault();
+                  result.Countries = AccountController.GetCountries(qs.languageId);
 
 
                   int billingId = GetBasketBilling(qs.uid);

@@ -1,5 +1,5 @@
 ﻿import base = require("app/core/baseservice");
-import { _appData } from "../core/variables";
+import vars = require('app/core/variables');
 
 export namespace Services {
     export class AccountService extends base.Services.BaseService {
@@ -25,19 +25,19 @@ export namespace Services {
         }
 
         public Logout(Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/logout", RequestData: { uid: _appData.Uid }, Callback: Callback });
+            this.GetApi({ Action: "/logout", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
         }
 
         public Uid(Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/uid", RequestData: { uid: _appData.Uid }, Callback: Callback });
+            this.GetApi({ Action: "/uid", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
         }
 
         public Settings(Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/settings", Callback: Callback });
         }
 
-        public SettingsData(lang: string, isSetup: boolean, Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang, isSetup: isSetup }, Callback: Callback });
+        public SettingsData(isSetup: boolean, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/settingsdata", RequestData: { langId: vars._appData.Locale.Id, isSetup: isSetup }, Callback: Callback });
         }
     }
 }

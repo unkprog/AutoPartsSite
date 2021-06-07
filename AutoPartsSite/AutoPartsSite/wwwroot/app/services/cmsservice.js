@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/baseservice"], function (require, exports, base) {
+define(["require", "exports", "app/core/baseservice", "app/core/variables"], function (require, exports, base, vars) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -35,8 +35,8 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
             CmsService.prototype.PageEditPost = function (model, Callback) {
                 this.PostApi({ Action: "/editpage", RequestData: JSON.stringify(model), Callback: Callback });
             };
-            CmsService.prototype.Page = function (lang, page, Callback) {
-                this.GetApi({ Action: "/page", RequestData: { lang: lang, page: page }, Callback: Callback });
+            CmsService.prototype.Page = function (page, Callback) {
+                this.GetApi({ Action: "/page", RequestData: { lang: vars._appData.Locale.Id, page: page }, Callback: Callback });
             };
             CmsService.prototype.CardNews = function (Callback) {
                 this.GetApi({ Action: "/cardnews", Callback: Callback });

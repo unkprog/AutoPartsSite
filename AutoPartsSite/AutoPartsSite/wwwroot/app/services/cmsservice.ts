@@ -1,4 +1,5 @@
 ﻿import base = require("app/core/baseservice");
+import vars = require('app/core/variables');
 
 export namespace Services {
     export class CmsService extends base.Services.BaseService {
@@ -19,8 +20,8 @@ export namespace Services {
             this.PostApi({ Action: "/editpage", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
-        public Page(lang:string, page: string, Callback: (responseData: any) => void): void {
-            this.GetApi({ Action: "/page", RequestData: { lang: lang, page: page }, Callback: Callback });
+        public Page(page: string, Callback: (responseData: any) => void): void {
+            this.GetApi({ Action: "/page", RequestData: { lang: vars._appData.Locale.Id, page: page }, Callback: Callback });
         }
 
         public CardNews(Callback: (responseData: any) => void) {

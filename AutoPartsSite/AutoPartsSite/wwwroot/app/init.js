@@ -1,4 +1,14 @@
-﻿var locale = localStorage.getItem('locale') || 'en';
+﻿var localeStorage = localStorage.getItem('locale');
+var locale = 'en';
+if (localeStorage && localeStorage != null && localeStorage != '') {
+    try {
+        var lang = JSON.parse(localeStorage);
+        locale = lang.Code.toLowerCase();
+    }
+    catch {
+        locale = 'en';
+    }
+}
 
 
 requirejs.config({

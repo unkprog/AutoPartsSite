@@ -80,7 +80,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     }
                     self.maxPage = 0;
                     $('.new-view-pagination').hide().html('');
-                    self.NewsService.News(vars._appData.Locale, this.currentPage, function (responseData) {
+                    self.NewsService.News(this.currentPage, function (responseData) {
                         if (responseData.Result === 0) {
                             var templateContent = _this.View.find('#new-view-item-template').html();
                             var template = vars.getTemplate(templateContent);

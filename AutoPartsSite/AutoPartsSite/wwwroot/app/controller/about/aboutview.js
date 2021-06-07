@@ -45,7 +45,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     vars._app.ShowLoading(true);
                     var options = this.Options;
-                    self.CmsService.Page(vars._appData.Locale, options.Page, function (responseData) {
+                    self.CmsService.Page(options.Page, function (responseData) {
                         if (responseData.Result === 0) {
                             var model = responseData.Data;
                             self.View.find('#' + options.Id + '-content').html(model.Content);

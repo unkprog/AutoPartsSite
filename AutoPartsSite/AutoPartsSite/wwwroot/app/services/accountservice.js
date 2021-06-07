@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/baseservice", "../core/variables"], function (require, exports, base, variables_1) {
+define(["require", "exports", "app/core/baseservice", "app/core/variables"], function (require, exports, base, vars) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -39,16 +39,16 @@ define(["require", "exports", "app/core/baseservice", "../core/variables"], func
                 this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
             };
             AccountService.prototype.Logout = function (Callback) {
-                this.GetApi({ Action: "/logout", RequestData: { uid: variables_1._appData.Uid }, Callback: Callback });
+                this.GetApi({ Action: "/logout", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
             };
             AccountService.prototype.Uid = function (Callback) {
-                this.GetApi({ Action: "/uid", RequestData: { uid: variables_1._appData.Uid }, Callback: Callback });
+                this.GetApi({ Action: "/uid", RequestData: { uid: vars._appData.Uid }, Callback: Callback });
             };
             AccountService.prototype.Settings = function (Callback) {
                 this.GetApi({ Action: "/settings", Callback: Callback });
             };
-            AccountService.prototype.SettingsData = function (lang, isSetup, Callback) {
-                this.GetApi({ Action: "/settingsdata", RequestData: { lang: lang, isSetup: isSetup }, Callback: Callback });
+            AccountService.prototype.SettingsData = function (isSetup, Callback) {
+                this.GetApi({ Action: "/settingsdata", RequestData: { langId: vars._appData.Locale.Id, isSetup: isSetup }, Callback: Callback });
             };
             return AccountService;
         }(base.Services.BaseService));

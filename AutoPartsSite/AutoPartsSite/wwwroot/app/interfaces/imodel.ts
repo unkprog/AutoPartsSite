@@ -82,9 +82,13 @@
         ReleaseDate: string;
     }
 
+    export interface ILang extends IReferenceNamedDbModel {
+        
+    }
+
     export interface ISettings {
+        Language: ILang;
         Country: IReferenceNamedDbModel;
-        Language: IReferenceNamedDbModel;
         Currency: IReferenceNamedDbModel;
     }
 

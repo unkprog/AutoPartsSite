@@ -49,69 +49,75 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        internal static List<Country> GetCountries(string lang, string code = null)
+        internal static List<Country> GetCountries(int langId, int countryId = 0, string code = null)
         {
             List<Country> result = new List<Country>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_countries]"
                 , sqlParameters: new SqlParameter[]
                 {
+                    new SqlParameter("@LocaleLanguageID", langId),
+                    new SqlParameter("@CountryID", countryId == 0 ? (object)DBNull.Value : countryId),
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
                 , onExecute: null
                 , action: (values) =>
                 {
-                    result.Add(new Country() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Country() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[3].ToStr() });
                 });
             return result;
         }
 
         [NonAction]
-        internal static List<Lang> GetLanguages(string lang, string code = null)
+        internal static List<Lang> GetLanguages(int langId, string code = null)
         {
             List<Lang> result = new List<Lang>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
                 , sqlParameters: new SqlParameter[]
                 {
+                    new SqlParameter("@LocaleLanguageID", langId == 0 ? (object)DBNull.Value : langId),
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
                 , onExecute: null
                 , action: (values) =>
                 {
-                    result.Add(new Lang() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Lang() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[2].ToStr().Trim() });
                 });
             return result;
         }
 
-        [NonAction]
-        internal static Lang GetLanguage(int languageId)
-        {
-            List<LangFull> result = new List<LangFull>();
-            AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
-                , sqlParameters: new SqlParameter[]
-                {
-                    new SqlParameter("@Code", (object)DBNull.Value)
-                }
-                , onExecute: null
-                , action: (values) =>
-                {
-                    result.Add(new LangFull() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = (string)values[2], NameRu = (string)values[3] });
-                });
-            return result.FirstOrDefault(l => l.Id == languageId);
-        }
+        //[NonAction]
+        //internal static Lang GetLanguage(int languageId = 0, string langCode = "")
+        //{
+        //    List<LangFull> result = new List<LangFull>();
+        //    AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
+        //        , sqlParameters: new SqlParameter[]
+        //        {
+        //            new SqlParameter("@LanguageId", languageId == 0 ? (object)DBNull.Value : languageId),
+        //            new SqlParameter("@Code", string.IsNullOrEmpty(langCode) ?  (object)DBNull.Value : langCode)
+        //        }
+        //        , onExecute: null
+        //        , action: (values) =>
+        //        {
+        //            result.Add(new LangFull() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = (string)values[2], NameRu = (string)values[3] });
+        //        });
+        //    return result.FirstOrDefault(l => l.Id == languageId);
+        //}
 
         [NonAction]
-        internal List<Currency> GetCurrencies(string lang, string code = null)
+        internal List<Currency> GetCurrencies(int langId, int currencyId = 0, string code = null)
         {
             List<Currency> result = new List<Currency>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_currencies]"
                 , sqlParameters: new SqlParameter[]
                 {
+                    new SqlParameter("@LocaleLanguageID", langId == 0 ? (object)DBNull.Value : langId),
+                    new SqlParameter("@CurrencyID", currencyId == 0 ? (object)DBNull.Value : currencyId),
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
                 , onExecute: null
                 , action: (values) =>
                 {
-                    result.Add(new Currency() { Id = (int)values[0], Code = ((string)values[1]).Trim(), Name = lang == "ru" ? (string)values[3] : (string)values[2] });
+                    result.Add(new Currency() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[3].ToStr(), Symbol = values[4].ToStr(), ShowLeft = values[5].ToBool() });
                 });
             return result;
         }

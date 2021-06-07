@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Linq;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +59,27 @@ namespace AutoPartsSite.Controllers.Api
             {
                 result = new GeoPlugin() { CountryCode = "EN", CurrencyCode = "USD" };
             });
+            return result;
+        }
+
+
+        internal Settings GetDefautSettings(IPAddress remoteIpAddress)
+        {
+            Settings result = new Settings();
+
+            string ip = (remoteIpAddress == null || remoteIpAddress.Equals(IPAddress.IPv6Loopback) || remoteIpAddress.Equals(IPAddress.Loopback) ? GetRemoteIPAdress() : remoteIpAddress.ToString());
+
+            GeoPlugin geo = GetIPGeoPlugin(ip);
+
+            result.Language = GetLanguages(0, string.IsNullOrEmpty(geo.CountryCode) ? "EN" : geo.CountryCode).FirstOrDefault();
+            if (result.Language == null)
+                result.Language = GetLanguages(0, "EN").FirstOrDefault();
+            if (result.Language == null)
+                result.Language = new Models.GlobalParts.Lang() { Id = 0, Code = "EN", Name = "English" };
+
+            result.Country = GetCountries(result.Language.Id, 0, geo.CountryCode).FirstOrDefault();
+            result.Currency = GetCurrencies(result.Language.Id, 0, string.IsNullOrEmpty(geo.CurrencyCode) ? "USD" : geo.CurrencyCode).FirstOrDefault();
+
             return result;
         }
     }

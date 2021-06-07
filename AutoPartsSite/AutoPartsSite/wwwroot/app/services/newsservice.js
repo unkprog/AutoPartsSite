@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/baseservice"], function (require, exports, base) {
+define(["require", "exports", "app/core/baseservice", "app/core/variables"], function (require, exports, base, vars) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Services = void 0;
@@ -29,11 +29,11 @@ define(["require", "exports", "app/core/baseservice"], function (require, export
                 enumerable: false,
                 configurable: true
             });
-            NewsService.prototype.News = function (lang, page, Callback) {
-                this.GetApi({ Action: "/news", RequestData: { lang: lang, pageRows: 25, page: page }, Callback: Callback });
+            NewsService.prototype.News = function (page, Callback) {
+                this.GetApi({ Action: "/news", RequestData: { lang: vars._appData.Locale.Id, pageRows: 25, page: page }, Callback: Callback });
             };
-            NewsService.prototype.New = function (lang, id, Callback) {
-                this.GetApi({ Action: "/new", RequestData: { lang: lang, id: id }, Callback: Callback });
+            NewsService.prototype.New = function (id, Callback) {
+                this.GetApi({ Action: "/new", RequestData: { lang: vars._appData.Locale.Id, id: id }, Callback: Callback });
             };
             return NewsService;
         }(base.Services.BaseService));

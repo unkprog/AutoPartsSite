@@ -101,20 +101,28 @@ export namespace App {
             this._version = version;
         }
 
-        public get Locale(): string {
+        public get Locale(): Interfaces.Model.ILang {
             var locale: string = localStorage.getItem('locale');
-            if (!locale) {
-                locale = "en";
-                localStorage.setItem('locale', locale);
+            var result: Interfaces.Model.ILang = undefined;
+            if (locale && locale != null && locale != "") {
+                try {
+                    result = JSON.parse(locale);
+                } catch {
+                    result = undefined;
+                }
             }
-            return locale ? locale : "en";
+            if (!result)
+            {
+                result = { Id: 0, Code: "EN", Name: "English" };
+                localStorage.setItem('locale', JSON.stringify(result));
+            }
+            return result;
         }
 
-        public set Locale(newlocale: string) {
-            var locale: string = this.Locale;
-            if (!locale || locale !== newlocale) {
-                localStorage.setItem('locale', newlocale);
-
+        public set Locale(newlocale: Interfaces.Model.ILang) {
+            var locale: Interfaces.Model.ILang = this.Locale;
+            if (newlocale && newlocale != null && locale.Id !== newlocale.Id) {
+                localStorage.setItem('locale', JSON.stringify(newlocale));
                 //reload the app
                 location.reload();
             }
@@ -140,9 +148,9 @@ export namespace App {
 
         public set Settings(value: Interfaces.Model.ISettings) {
             localStorage.setItem('apsSettings', JSON.stringify(value));
-            var locale: string = this.Locale;
-            if (!locale || locale.toLocaleLowerCase() !== value.Language.Code.toLocaleLowerCase())
-                this.Locale = value.Language.Code.toLocaleLowerCase();
+            var locale: Interfaces.Model.ILang = this.Locale;
+            if (value && value.Language && locale.Id !== value.Language.Id)
+                this.Locale = value.Language;
         }
 
         public get PageEditItemHeader(): string {

@@ -80,7 +80,7 @@ export namespace Controller.News {
             self.maxPage = 0;
             $('.new-view-pagination').hide().html('');
 
-            self.NewsService.News(vars._appData.Locale, this.currentPage, (responseData) => {
+            self.NewsService.News(this.currentPage, (responseData) => {
                 if (responseData.Result === 0) {
 
                     let templateContent = this.View.find('#new-view-item-template').html();

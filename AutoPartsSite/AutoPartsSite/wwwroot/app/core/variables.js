@@ -77,16 +77,25 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
             Object.defineProperty(Data.prototype, "Locale", {
                 get: function () {
                     var locale = localStorage.getItem('locale');
-                    if (!locale) {
-                        locale = "en";
-                        localStorage.setItem('locale', locale);
+                    var result = undefined;
+                    if (locale && locale != null && locale != "") {
+                        try {
+                            result = JSON.parse(locale);
+                        }
+                        catch (_a) {
+                            result = undefined;
+                        }
                     }
-                    return locale ? locale : "en";
+                    if (!result) {
+                        result = { Id: 0, Code: "EN", Name: "English" };
+                        localStorage.setItem('locale', JSON.stringify(result));
+                    }
+                    return result;
                 },
                 set: function (newlocale) {
                     var locale = this.Locale;
-                    if (!locale || locale !== newlocale) {
-                        localStorage.setItem('locale', newlocale);
+                    if (newlocale && newlocale != null && locale.Id !== newlocale.Id) {
+                        localStorage.setItem('locale', JSON.stringify(newlocale));
                         //reload the app
                         location.reload();
                     }
@@ -117,8 +126,8 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 set: function (value) {
                     localStorage.setItem('apsSettings', JSON.stringify(value));
                     var locale = this.Locale;
-                    if (!locale || locale.toLocaleLowerCase() !== value.Language.Code.toLocaleLowerCase())
-                        this.Locale = value.Language.Code.toLocaleLowerCase();
+                    if (value && value.Language && locale.Id !== value.Language.Id)
+                        this.Locale = value.Language;
                 },
                 enumerable: false,
                 configurable: true

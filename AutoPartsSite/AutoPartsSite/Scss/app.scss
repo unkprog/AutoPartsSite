@@ -845,6 +845,13 @@ input[type='number']:hover::-webkit-outer-spin-button {
     line-height: 30px;
 }
 
+
+@media only screen and (max-height: 736px) {
+    #rigthMenuItems > li > a {
+        padding: 0 0.5rem;
+    }
+}
+
 .app-flag-icon {
     width: 1.5em;
     height: 1.125em;

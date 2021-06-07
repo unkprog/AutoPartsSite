@@ -14,10 +14,10 @@
 
     </div>
 
-    <ul id="app-dropdown-lang-menu" class="dropdown-content">
+    <!--<ul id="app-dropdown-lang-menu" class="dropdown-content">
         <li><a id="app-lang-en"><img class="app-flag-icon" src="/img/flags/en.svg" /><span style="margin:0.5rem">English</span></a></li>
         <li><a id="app-lang-ru"><img class="app-flag-icon" src="/img/flags/ru.svg"><span style="margin:0.5rem">Русский</span></a></li>
-    </ul>
+    </ul>-->
 
     <ul id="app-dropdown-user-menu" class="dropdown-content">
         <li><a id="app-user-logout" href="/account/logout"><i class="material-icons">exit_to_app</i><span data-bind="text:labelUserName"></span></a></li>
@@ -40,6 +40,17 @@
             flex: 1 0 auto;
         }
     </style>
+
+    <div id="app-settings-modal" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
     <footer id="main-view-footer" class="page-footer">
         <div class="container">
             <div class="row">

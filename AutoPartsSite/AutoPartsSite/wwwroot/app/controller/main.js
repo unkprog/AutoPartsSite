@@ -64,9 +64,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
                 this.sideNavBarRight = $("#app-navbar").find(".right");
-                this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale + '.svg"/></a></li>');
+                //this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale + '.svg"/></a></li>');
+                this.menuCountry = $('<li><a id="app-btn-country" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$country") + '">' + vars._appData.Settings.Country.Name + '</a></li>');
+                this.menuLang = $('<li><a id="app-btn-lang" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/></a></li>');
+                this.menuCurrency = $('<li><a id="app-btn-currency" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$currency") + '">' + vars._appData.Settings.Currency.Code + '</a></li>');
                 this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
-                this.sideNavBarRight.append(this.menuLang).append(this.menuBasket);
+                this.sideNavBarRight.append(this.menuCountry).append(this.menuLang).append(this.menuCurrency).append(this.menuBasket);
                 this.menuBasket.find('.app-basket-counter').hide();
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
@@ -119,7 +122,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.ViewShow = function (e) {
                 var result = _super.prototype.ViewShow.call(this, e);
-                this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
+                //this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
                 $("#app-navbar").find('.tooltipped').tooltip();
                 this.LogIn();
                 return result;
@@ -146,8 +149,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 var self = this;
                 self.AppTitleClick = utils.createClickEvent($("#app-title"), self.appTitleClick, self);
                 self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
-                self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
-                self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
+                self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
+                self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
+                self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
+                //self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
+                //self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
                 //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
                 self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
@@ -171,8 +177,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
-                this.destroyClickEvent("app-lang-en", this.LangEnClick);
-                this.destroyClickEvent("app-lang-ru", this.LangRuClick);
+                utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
+                utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
+                utils.destroyClickEvent($("#app-btn-country"), this.MenuCountryClick);
+                //this.destroyClickEvent("app-lang-en", this.LangEnClick);
+                //this.destroyClickEvent("app-lang-ru", this.LangRuClick);
                 //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
                 this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
                 this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
@@ -215,17 +224,26 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 e.preventDefault();
                 return false;
             };
-            Main.prototype.langEnClick = function (e) {
-                vars._appData.Locale = "en"; //            vars._app.changeLocale("en");
-                location.reload();
+            Main.prototype.menuCountryClick = function (e) {
+                this.openSettings();
                 e.preventDefault();
+                e.stopPropagation();
                 return false;
             };
-            Main.prototype.langRuClick = function (e) {
-                vars._appData.Locale = "ru"; //            vars._app.changeLocale("ru");
-                location.reload();
+            Main.prototype.menuLangClick = function (e) {
+                this.openSettings();
                 e.preventDefault();
+                e.stopPropagation();
                 return false;
+            };
+            Main.prototype.menuCurrencyClick = function (e) {
+                this.openSettings();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            };
+            Main.prototype.openSettings = function () {
+                $('#app-settings-modal').modal();
             };
             Main.prototype.basketButtonClick = function (e) {
                 return this.handleMenuItem(e, "basket/index");
@@ -252,7 +270,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return this.handleMenuItemPage(e, "about/contact", "label$contacts");
             };
             Main.prototype.menuSettingsButtonClick = function (e) {
-                return this.handleMenuItem(e, "account/settings");
+                this.openSettings();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             };
             Main.prototype.cmsButtonClick = function (e) {
                 return this.handleMenuItem(e, "cms/index");

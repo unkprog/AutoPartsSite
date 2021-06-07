@@ -29,7 +29,7 @@ export namespace Controller.About {
             vars._app.ShowLoading(true);
 
             let options: Interfaces.IControllerPageOptions = this.Options as Interfaces.IControllerPageOptions;
-            self.CmsService.Page(vars._appData.Locale, options.Page, (responseData) => {
+            self.CmsService.Page(options.Page, (responseData) => {
                 if (responseData.Result === 0) {
                     let model: Interfaces.Model.IPage = responseData.Data;
                     self.View.find('#' + options.Id + '-content').html(model.Content);

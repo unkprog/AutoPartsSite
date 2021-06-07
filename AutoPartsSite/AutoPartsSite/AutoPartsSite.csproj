@@ -430,9 +430,6 @@
     <None Update="Database\GlobalParts\Query\Settings\[get_countries].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Database\GlobalParts\Query\Settings\[get_language].sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Database\GlobalParts\Query\Settings\[get_languages].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
