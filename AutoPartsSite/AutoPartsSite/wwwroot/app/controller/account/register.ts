@@ -73,7 +73,7 @@ export namespace Controller.Account {
         private loadSettingsData(): void {
             let self = this;
             vars._app.ShowLoading(true);
-            self.AccountService.SettingsData(vars._appData.Settings === null, (responseData) => {
+            self.AccountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, (responseData) => {
                 if (responseData.Result === 0) {
                     self.setupLists(responseData.Data);
                 }

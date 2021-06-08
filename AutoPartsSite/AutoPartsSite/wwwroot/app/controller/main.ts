@@ -29,6 +29,12 @@ export namespace Controller {
                 "labelShipping": vars._statres("label$shipping"),
                 "labelContacts": vars._statres("label$contacts"),
 
+                "labelShippingDestination": vars._statres("label$shipping$destination"),
+                "labelLanguage": vars._statres("label$language"),
+                "labelCurrency": vars._statres("label$currency"),
+                "labelSave": vars._statres("button$label$save"),
+                "labelCancel": vars._statres("button$label$cancel"),
+
                 "labelPolicies": vars._statres("label$policies"),
                 "labelTermsConditions": vars._statres("label$termsconditions"),
 
@@ -41,7 +47,9 @@ export namespace Controller {
                 "labelCustomerService": vars._statres("label$customer$service"),
                 "labelInformation": vars._statres("label$information"),
 
-                "labelVersion": ""
+                "labelVersion": "",
+
+                "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
             });
         }
 
@@ -189,6 +197,7 @@ export namespace Controller {
             //self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
             //self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
 
+            self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
             self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
             //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
 
@@ -226,6 +235,7 @@ export namespace Controller {
             //this.destroyClickEvent("app-lang-en", this.LangEnClick);
             //this.destroyClickEvent("app-lang-ru", this.LangRuClick);
 
+            this.destroyClickEvent("app-settings-modal-btn-save", this.AppSettingsSaveButtonClick);
             //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
             this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
 
@@ -281,6 +291,9 @@ export namespace Controller {
             return false;
         }
 
+        /*****************************************************/
+        /*  BEGIN SETTINGS                                   */
+        /*****************************************************/
         public MenuCountryClick: { (e: any): void; };
         private menuCountryClick(e) {
             this.openSettings();
@@ -306,8 +319,158 @@ export namespace Controller {
         }
 
         private openSettings() {
-            $('#app-settings-modal').modal();
+            let self = this;
+            this.sideNav.sidenav('close');
+            vars._app.ShowLoading(true);
+            let accountService = new acc.Services.AccountService();
+            accountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, (responseData) => {
+                if (responseData.Result === 0) {
+                    self.Model.set("SettingsData", responseData.Data);
+                    self.setupLists();
+                }
+                else {
+                    vars._app.ShowError(responseData.Error);
+                }
+                vars._app.HideLoading();
+            });
         }
+
+        private setupLists(): void {
+            let settingsData: Interfaces.Model.ISettingsData = this.Model.get("SettingsData");
+            let settings: Interfaces.Model.ISettings = vars._appData.Settings;
+            if (settings == null)
+                settings = settingsData.Current;
+
+            let setSelectClass = function (sj: JQuery, cls: string) {
+                let el: any = sj[0];
+                let elJq: any = $(el.M_FormSelect.dropdown.dropdownEl);
+                if (elJq.hasClass(cls) == false)
+                    elJq.addClass(cls);
+            }
+            let html: string = '';
+            let countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');;
+            for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
+            }
+            setSelectClass($('#app-settings-modal-list-country').html(html).formSelect(), 'select-max-height-650');
+
+            html = '';
+            let langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');;
+            for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
+                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
+            }
+            setSelectClass($('#app-settings-modal-list-lang').html(html).formSelect(), 'select-max-height-450');
+
+            html = '';
+            let currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');;
+            for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
+            }
+            setSelectClass($('#app-settings-modal-list-currency').html(html).formSelect(), 'select-max-height-300');
+
+            //this.View.find('#app-settings-modal-list-country').formSelect({ classes: 'select-max-height-600' })
+            //this.View.find('#app-settings-modal-list-lang').formSelect({ classes: 'select-max-height-400' });
+            //this.View.find('#app-settings-modal-list-currency').formSelect({ classes: 'select-max-height-400' });
+
+            if (!this.appSettingsModal)
+                this.appSettingsModal = $('#app-settings-modal').modal();
+            this.appSettingsModal.modal('open');
+
+        }
+        private appSettingsModal: JQuery;
+
+        public AppSettingsSaveButtonClick: { (e: any): void; };
+        private appSettingsSaveButtonClick(e: any): boolean {
+            this.saveSettingsData();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        private saveSettingsData(): void {
+            let vsettingsData: Interfaces.Model.ISettingsData = this.Model.get("SettingsData");
+            let vsettings: Interfaces.Model.ISettings = vars._appData.Settings;
+            let country: number = parseInt($('#app-settings-modal-list-country').val() as string, 0);
+            let lang: number = parseInt($('#app-settings-modal-list-lang').val() as string, 0);
+            let currency: number = parseInt($('#app-settings-modal-list-currency').val() as string, 0);
+
+            this.appSettingsModal.modal('close');
+            vars._app.ShowLoading(true);
+            let setReload = function (isForce: boolean, settingsData: Interfaces.Model.ISettingsData, settings: Interfaces.Model.ISettings){
+                if (isForce == true || settings.Country.Id !== country) {
+                for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                    if (settingsData.Countries[i].Id === country) {
+                        settings.Country = {
+                            Id: settingsData.Countries[i].Id,
+                            Code: settingsData.Countries[i].Code,
+                            Name: settingsData.Countries[i].Name
+                        }
+                        break;
+
+                    }
+                }
+                }
+
+                if (isForce == true || settings.Currency.Id !== currency) {
+                    for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                        if (settingsData.Currencies[i].Id === currency) {
+                            settings.Currency = {
+                                Id: settingsData.Currencies[i].Id,
+                                Code: settingsData.Currencies[i].Code,
+                                Name: settingsData.Currencies[i].Name,
+                                Symbol: settingsData.Currencies[i].Symbol,
+                                ShowLeft: settingsData.Currencies[i].ShowLeft
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
+
+            setReload(false, vsettingsData, vsettings);
+
+            let isReloadForce: boolean = false;
+            if (vsettings.Language.Id !== lang) {
+
+                for (let i = 0, icount = vsettingsData.Languages.length; i < icount; i++) {
+                    if (vsettingsData.Languages[i].Id === lang) {
+                        vsettings.Language = {
+                            Id: vsettingsData.Languages[i].Id,
+                            Code: vsettingsData.Languages[i].Code,
+                            Name: vsettingsData.Languages[i].Name
+                        };
+                        isReloadForce = true;
+                        break;
+                    }
+                }
+            }
+            if (isReloadForce) {
+                let accountService = new acc.Services.AccountService();
+                accountService.SettingsData(lang, vars._appData.Settings === null, (responseData) => {
+                    if (responseData.Result === 0) {
+                        vsettingsData = responseData.Data;
+                        this.Model.set("SettingsData", vsettingsData);
+                        setReload(true, vsettingsData, vsettings);
+                        vars._appData.Settings = vsettings;
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
+            }
+            else {
+                vars._appData.Settings = vsettings;
+                vars._app.HideLoading();
+            }
+        }
+
+        /*****************************************************/
+        /*  END SETTINGS                                     */
+        /*****************************************************/
 
         //public LangEnClick: { (e: any): void; };
         //private langEnClick(e) {

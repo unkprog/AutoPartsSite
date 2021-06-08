@@ -38,6 +38,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelPayment": vars._statres("label$payment"),
                     "labelShipping": vars._statres("label$shipping"),
                     "labelContacts": vars._statres("label$contacts"),
+                    "labelShippingDestination": vars._statres("label$shipping$destination"),
+                    "labelLanguage": vars._statres("label$language"),
+                    "labelCurrency": vars._statres("label$currency"),
+                    "labelSave": vars._statres("button$label$save"),
+                    "labelCancel": vars._statres("button$label$cancel"),
                     "labelPolicies": vars._statres("label$policies"),
                     "labelTermsConditions": vars._statres("label$termsconditions"),
                     "labelUserName": "",
@@ -47,7 +52,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelSettings": vars._statres("label$settings"),
                     "labelCustomerService": vars._statres("label$customer$service"),
                     "labelInformation": vars._statres("label$information"),
-                    "labelVersion": ""
+                    "labelVersion": "",
+                    "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
                 });
             };
             Main.prototype.ControllersInit = function () {
@@ -154,6 +160,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
                 //self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
                 //self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
+                self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
                 //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
                 self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
@@ -182,6 +189,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 utils.destroyClickEvent($("#app-btn-country"), this.MenuCountryClick);
                 //this.destroyClickEvent("app-lang-en", this.LangEnClick);
                 //this.destroyClickEvent("app-lang-ru", this.LangRuClick);
+                this.destroyClickEvent("app-settings-modal-btn-save", this.AppSettingsSaveButtonClick);
                 //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
                 this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
                 this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
@@ -243,7 +251,140 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return false;
             };
             Main.prototype.openSettings = function () {
-                $('#app-settings-modal').modal();
+                var self = this;
+                this.sideNav.sidenav('close');
+                vars._app.ShowLoading(true);
+                var accountService = new acc.Services.AccountService();
+                accountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, function (responseData) {
+                    if (responseData.Result === 0) {
+                        self.Model.set("SettingsData", responseData.Data);
+                        self.setupLists();
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
+            };
+            Main.prototype.setupLists = function () {
+                var settingsData = this.Model.get("SettingsData");
+                var settings = vars._appData.Settings;
+                if (settings == null)
+                    settings = settingsData.Current;
+                var setSelectClass = function (sj, cls) {
+                    var el = sj[0];
+                    var elJq = $(el.M_FormSelect.dropdown.dropdownEl);
+                    if (elJq.hasClass(cls) == false)
+                        elJq.addClass(cls);
+                };
+                var html = '';
+                var countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');
+                ;
+                for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                    html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                    html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
+                }
+                setSelectClass($('#app-settings-modal-list-country').html(html).formSelect(), 'select-max-height-650');
+                html = '';
+                var langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');
+                ;
+                for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
+                    html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                    html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
+                }
+                setSelectClass($('#app-settings-modal-list-lang').html(html).formSelect(), 'select-max-height-450');
+                html = '';
+                var currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');
+                ;
+                for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                    html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                    html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
+                }
+                setSelectClass($('#app-settings-modal-list-currency').html(html).formSelect(), 'select-max-height-300');
+                //this.View.find('#app-settings-modal-list-country').formSelect({ classes: 'select-max-height-600' })
+                //this.View.find('#app-settings-modal-list-lang').formSelect({ classes: 'select-max-height-400' });
+                //this.View.find('#app-settings-modal-list-currency').formSelect({ classes: 'select-max-height-400' });
+                if (!this.appSettingsModal)
+                    this.appSettingsModal = $('#app-settings-modal').modal();
+                this.appSettingsModal.modal('open');
+            };
+            Main.prototype.appSettingsSaveButtonClick = function (e) {
+                this.saveSettingsData();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            };
+            Main.prototype.saveSettingsData = function () {
+                var _this = this;
+                var vsettingsData = this.Model.get("SettingsData");
+                var vsettings = vars._appData.Settings;
+                var country = parseInt($('#app-settings-modal-list-country').val(), 0);
+                var lang = parseInt($('#app-settings-modal-list-lang').val(), 0);
+                var currency = parseInt($('#app-settings-modal-list-currency').val(), 0);
+                this.appSettingsModal.modal('close');
+                vars._app.ShowLoading(true);
+                var setReload = function (isForce, settingsData, settings) {
+                    if (isForce == true || settings.Country.Id !== country) {
+                        for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                            if (settingsData.Countries[i].Id === country) {
+                                settings.Country = {
+                                    Id: settingsData.Countries[i].Id,
+                                    Code: settingsData.Countries[i].Code,
+                                    Name: settingsData.Countries[i].Name
+                                };
+                                break;
+                            }
+                        }
+                    }
+                    if (isForce == true || settings.Currency.Id !== currency) {
+                        for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                            if (settingsData.Currencies[i].Id === currency) {
+                                settings.Currency = {
+                                    Id: settingsData.Currencies[i].Id,
+                                    Code: settingsData.Currencies[i].Code,
+                                    Name: settingsData.Currencies[i].Name,
+                                    Symbol: settingsData.Currencies[i].Symbol,
+                                    ShowLeft: settingsData.Currencies[i].ShowLeft
+                                };
+                                break;
+                            }
+                        }
+                    }
+                };
+                setReload(false, vsettingsData, vsettings);
+                var isReloadForce = false;
+                if (vsettings.Language.Id !== lang) {
+                    for (var i = 0, icount = vsettingsData.Languages.length; i < icount; i++) {
+                        if (vsettingsData.Languages[i].Id === lang) {
+                            vsettings.Language = {
+                                Id: vsettingsData.Languages[i].Id,
+                                Code: vsettingsData.Languages[i].Code,
+                                Name: vsettingsData.Languages[i].Name
+                            };
+                            isReloadForce = true;
+                            break;
+                        }
+                    }
+                }
+                if (isReloadForce) {
+                    var accountService = new acc.Services.AccountService();
+                    accountService.SettingsData(lang, vars._appData.Settings === null, function (responseData) {
+                        if (responseData.Result === 0) {
+                            vsettingsData = responseData.Data;
+                            _this.Model.set("SettingsData", vsettingsData);
+                            setReload(true, vsettingsData, vsettings);
+                            vars._appData.Settings = vsettings;
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                }
+                else {
+                    vars._appData.Settings = vsettings;
+                    vars._app.HideLoading();
+                }
             };
             Main.prototype.basketButtonClick = function (e) {
                 return this.handleMenuItem(e, "basket/index");

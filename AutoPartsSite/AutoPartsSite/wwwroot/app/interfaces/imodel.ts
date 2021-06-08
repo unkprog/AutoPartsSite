@@ -86,17 +86,22 @@
         
     }
 
+    export interface ICurrency extends IReferenceNamedDbModel {
+        Symbol: string;
+        ShowLeft: boolean;
+    }
+
     export interface ISettings {
         Language: ILang;
         Country: IReferenceNamedDbModel;
-        Currency: IReferenceNamedDbModel;
+        Currency: ICurrency;
     }
 
     export interface ISettingsData {
         Current: ISettings;
         Countries: IReferenceNamedDbModel[];
-        Languages: IReferenceNamedDbModel[]; 
-        Currencies: IReferenceNamedDbModel[];
+        Languages: ILang[];
+        Currencies: ICurrency[];
     }
 
     export interface IAddressInfo

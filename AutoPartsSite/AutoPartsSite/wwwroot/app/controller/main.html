@@ -43,11 +43,40 @@
 
     <div id="app-settings-modal" class="modal">
         <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+            <div class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="section left">
+                        <h1 class="page-header" data-bind="text:labelSettings"></h1>
+                    </div>
+                    <!--<div class="section right">
+                <a id="settings-view-btn-save" class="waves-effect waves-light btn"><i class="material-icons left">done</i><span data-bind="text:labelSave"></span></a>
+            </div>-->
+                </div>
+                <div class="col s12 m12 l12 xl12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m12 l12 xl12">
+                    <select id="app-settings-modal-list-country">
+                    </select>
+                    <label data-bind="text:labelShippingDestination"></label>
+                </div>
+                <div class="input-field col s12 m12 l12 xl12">
+                    <select id="app-settings-modal-list-lang">
+                    </select>
+                    <label data-bind="text:labelLanguage"></label>
+                </div>
+                <div class="input-field col s12 m12 l12 xl12">
+                    <select id="app-settings-modal-list-currency">
+                    </select>
+                    <label data-bind="text:labelCurrency"></label>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a id="app-settings-modal-btn-save" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">done</i><span data-bind="text:labelSave"></span></a>
+            <a id="app-settings-modal-btn-cancel" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">close</i><span data-bind="text:labelCancel"></span></a>
         </div>
     </div>
 

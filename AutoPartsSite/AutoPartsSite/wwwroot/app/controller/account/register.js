@@ -76,7 +76,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 Register.prototype.loadSettingsData = function () {
                     var self = this;
                     vars._app.ShowLoading(true);
-                    self.AccountService.SettingsData(vars._appData.Settings === null, function (responseData) {
+                    self.AccountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, function (responseData) {
                         if (responseData.Result === 0) {
                             self.setupLists(responseData.Data);
                         }

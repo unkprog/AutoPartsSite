@@ -36,8 +36,8 @@ export namespace Services {
             this.GetApi({ Action: "/settings", Callback: Callback });
         }
 
-        public SettingsData(isSetup: boolean, Callback: (responseData: any) => void) {
-            this.GetApi({ Action: "/settingsdata", RequestData: { langId: vars._appData.Locale.Id, isSetup: isSetup }, Callback: Callback });
+        public SettingsData(langId:number, isSetup: boolean, Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/settingsdata", RequestData: { langId: langId, isSetup: isSetup }, Callback: Callback });
         }
     }
 }

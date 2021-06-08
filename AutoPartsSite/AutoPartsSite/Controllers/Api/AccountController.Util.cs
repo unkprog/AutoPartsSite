@@ -71,13 +71,13 @@ namespace AutoPartsSite.Controllers.Api
 
             GeoPlugin geo = GetIPGeoPlugin(ip);
 
-            result.Language = GetLanguages(0, string.IsNullOrEmpty(geo.CountryCode) ? "EN" : geo.CountryCode).FirstOrDefault();
+            result.Language = GetLanguages(0, 0, string.IsNullOrEmpty(geo.CountryCode) ? "EN" : geo.CountryCode).FirstOrDefault();
             if (result.Language == null)
-                result.Language = GetLanguages(0, "EN").FirstOrDefault();
+                result.Language = GetLanguages(0, 0, "EN").FirstOrDefault();
             if (result.Language == null)
                 result.Language = new Models.GlobalParts.Lang() { Id = 0, Code = "EN", Name = "English" };
 
-            result.Country = GetCountries(result.Language.Id, 0, geo.CountryCode).FirstOrDefault();
+            result.Country = GetCountries(result.Language.Id, 0, string.IsNullOrEmpty(geo.CountryCode) ? "US" : geo.CountryCode.ToLower() == "en" ? "US" : geo.CountryCode).FirstOrDefault();
             result.Currency = GetCurrencies(result.Language.Id, 0, string.IsNullOrEmpty(geo.CurrencyCode) ? "USD" : geo.CurrencyCode).FirstOrDefault();
 
             return result;

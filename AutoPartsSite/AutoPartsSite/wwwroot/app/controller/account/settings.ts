@@ -62,7 +62,7 @@ export namespace Controller.Account {
         private loadSettingsData(): void {
             let self = this;
             vars._app.ShowLoading(true);
-            self.AccountService.SettingsData(vars._appData.Settings === null, (responseData) => {
+            self.AccountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, (responseData) => {
                 if (responseData.Result === 0) {
                     self.Model.set("SettingsData", responseData.Data);
                     self.setupLists();
@@ -98,8 +98,8 @@ export namespace Controller.Account {
 
             html = '';
             let currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');;
-           for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-               html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+            for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
+                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                 html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
             }
             $('#settings-view-list-currency').html(html);
@@ -134,7 +134,9 @@ export namespace Controller.Account {
                         settings.Currency = {
                             Id: settingsData.Currencies[i].Id,
                             Code: settingsData.Currencies[i].Code,
-                            Name: settingsData.Currencies[i].Name
+                            Name: settingsData.Currencies[i].Name,
+                            Symbol: settingsData.Currencies[i].Symbol,
+                            ShowLeft: settingsData.Currencies[i].ShowLeft
                         };
                         break;
                     }

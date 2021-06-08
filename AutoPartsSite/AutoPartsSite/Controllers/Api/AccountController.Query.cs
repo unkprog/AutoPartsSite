@@ -68,13 +68,14 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        internal static List<Lang> GetLanguages(int langId, string code = null)
+        internal static List<Lang> GetLanguages(int langId, int languageId, string code = null)
         {
             List<Lang> result = new List<Lang>();
             AppSettings.Query.GlobalParts.Execute(@"Settings\[get_languages]"
                 , sqlParameters: new SqlParameter[]
                 {
                     new SqlParameter("@LocaleLanguageID", langId == 0 ? (object)DBNull.Value : langId),
+                    new SqlParameter("@LanguageID", languageId == 0 ? (object)DBNull.Value : languageId),
                     new SqlParameter("@Code", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
                 }
                 , onExecute: null

@@ -47,8 +47,8 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             AccountService.prototype.Settings = function (Callback) {
                 this.GetApi({ Action: "/settings", Callback: Callback });
             };
-            AccountService.prototype.SettingsData = function (isSetup, Callback) {
-                this.GetApi({ Action: "/settingsdata", RequestData: { langId: vars._appData.Locale.Id, isSetup: isSetup }, Callback: Callback });
+            AccountService.prototype.SettingsData = function (langId, isSetup, Callback) {
+                this.GetApi({ Action: "/settingsdata", RequestData: { langId: langId, isSetup: isSetup }, Callback: Callback });
             };
             return AccountService;
         }(base.Services.BaseService));

@@ -72,7 +72,7 @@ namespace AutoPartsSite.Controllers.Api
                       result.Current = GetDefautSettings(HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress);
                 
                   result.Countries = GetCountries(langId);
-                  result.Languages = GetLanguages(langId);
+                  result.Languages = GetLanguages(langId, 0);
                   result.Currencies = GetCurrencies(langId);
                   return CreateResponseOk(result);
               });
