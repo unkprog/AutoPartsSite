@@ -1,4 +1,10 @@
-﻿var localeStorage = localStorage.getItem('locale');
+﻿let updateLocalStorage = localStorage.getItem('ls-version');
+if (!updateLocalStorage || updateLocalStorage == null || updateLocalStorage != 'v0') {
+    localStorage.clear();
+    localStorage.setItem('ls-version', 'v0');
+}
+
+var localeStorage = localStorage.getItem('locale');
 var locale = 'en';
 if (localeStorage && localeStorage != null && localeStorage != '') {
     try {
