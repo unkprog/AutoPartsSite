@@ -19,6 +19,7 @@ export namespace Services {
         public Add(id: number, qty: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -31,6 +32,7 @@ export namespace Services {
         public Update(id: number, qty: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -43,6 +45,7 @@ export namespace Services {
         public Delete(id: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -55,6 +58,7 @@ export namespace Services {
         public View(Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -66,6 +70,7 @@ export namespace Services {
         public SetPromocode(promoCode:string, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -78,6 +83,7 @@ export namespace Services {
         public SetDeliveryTariffID(deliveryTariffID: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -90,6 +96,7 @@ export namespace Services {
         public DeliveryAddressData(Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -103,6 +110,7 @@ export namespace Services {
                 DeliveryAddress: delivery,
                 qs :{
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -115,6 +123,7 @@ export namespace Services {
         public BillingAddressData(Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
@@ -128,6 +137,7 @@ export namespace Services {
                 BillingAddress: delivery,
                 qs: {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -140,6 +150,7 @@ export namespace Services {
         public PaymentList(Callback: (responseData: any) => void) {
             let qs = {
                 uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,

@@ -187,6 +187,7 @@ export namespace Controller {
             let self = this;
 
             self.AppTitleClick = utils.createClickEvent($("#app-title"), self.appTitleClick, self);
+            self.AppTitleLogoClick = utils.createClickEvent($("#app-title-logo"), self.appTitleLogoClick, self);
 
             self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
 
@@ -271,6 +272,11 @@ export namespace Controller {
 
         public AppTitleClick: { (e: any): void; };
         private appTitleClick(e) {
+            this.handleMenuItem(e, "search/index");
+        }
+
+        public AppTitleLogoClick: { (e: any): void; };
+        private appTitleLogoClick(e) {
             this.handleMenuItem(e, "search/index");
         }
 

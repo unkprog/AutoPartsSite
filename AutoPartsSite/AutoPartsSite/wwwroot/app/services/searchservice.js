@@ -32,6 +32,7 @@ define(["require", "exports", "app/core/baseservice", "../core/variables"], func
             SearchService.prototype.PartNumber = function (partNumber, page, Callback) {
                 var pq = {
                     partNumber: partNumber,
+                    Auth: variables_1._appData.Identity.Auth,
                     siteUserId: variables_1._appData.Identity.SiteUserId,
                     countryId: variables_1._appData.Settings.Country.Id,
                     languageId: variables_1._appData.Settings.Language.Id,

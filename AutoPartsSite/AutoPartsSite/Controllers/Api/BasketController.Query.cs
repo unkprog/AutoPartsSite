@@ -109,7 +109,7 @@ namespace AutoPartsSite.Controllers.Api
             AppSettings.Query.GlobalParts.Execute(@"Basket\[get_prices]", new SqlParameter[]
             {
                 new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.languageId },
-                new SqlParameter() { ParameterName = "@SiteUserID", Value = model.siteUserId },
+                new SqlParameter() { ParameterName = "@SiteUserID", Value = model.Auth ? model.siteUserId : 0 },
                 new SqlParameter() { ParameterName = "@SiteUserUID", Value = model.uid },
                 new SqlParameter() { ParameterName = "@CountryID", Value = model.countryId },
                 new SqlParameter() { ParameterName = "@CurrencyID", Value = model.currencyId },

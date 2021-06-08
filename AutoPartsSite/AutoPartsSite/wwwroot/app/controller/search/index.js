@@ -59,7 +59,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelPcs": vars._statres("label$pcs"),
                         "labelSearch": vars._statres("label$search"),
                         "labelRequest": vars._statres("label$request"),
-                        "labelOnlineCatalog": vars._statres("label$catalog")
+                        "labelOnlineCatalog": vars._statres("label$catalog"),
+                        "labelNotAvailability": vars._statres("label$not$availability")
                     });
                 };
                 Index.prototype.ViewInit = function (view) {
@@ -70,7 +71,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.OnViewInit = function () {
                     this.searchForm = this.View.find("#search-view-form");
                     vars._appData.BasketIsInit = true;
-                    this.View.find('#search-view-part-number').focus();
                     this.BasketService.Count(this.setBasketCount);
                     if (utils.isNullOrEmpty(this.findArticle) === false) {
                         this.View.find('#search-view-part-number').val(this.findArticle);
@@ -78,6 +78,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     }
                     else
                         this.loadBrands();
+                };
+                Index.prototype.ViewShow = function (e) {
+                    var result = _super.prototype.ViewShow.call(this, e);
+                    this.View.find('#search-view-part-number').focus();
+                    return result;
                 };
                 Index.prototype.setupSearchArticle = function () {
                     var hr = window.location.href.toLocaleLowerCase();

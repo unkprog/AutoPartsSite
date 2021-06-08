@@ -8,6 +8,9 @@ namespace AutoPartsSite.Models
         [DataMember]
         public string uid { get; set; }
         [DataMember]
+        public bool Auth { get; set; }
+        
+        [DataMember]
         public int siteUserId { get; set; }
         [DataMember]
         public int countryId { get; set; }

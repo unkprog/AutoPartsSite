@@ -154,6 +154,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             Main.prototype.createEvents = function () {
                 var self = this;
                 self.AppTitleClick = utils.createClickEvent($("#app-title"), self.appTitleClick, self);
+                self.AppTitleLogoClick = utils.createClickEvent($("#app-title-logo"), self.appTitleLogoClick, self);
                 self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
                 self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
                 self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
@@ -217,6 +218,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav.sidenav('open');
             };
             Main.prototype.appTitleClick = function (e) {
+                this.handleMenuItem(e, "search/index");
+            };
+            Main.prototype.appTitleLogoClick = function (e) {
                 this.handleMenuItem(e, "search/index");
             };
             Main.prototype.loginClick = function (e) {

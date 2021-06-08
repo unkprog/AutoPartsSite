@@ -35,6 +35,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.Add = function (id, qty, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -46,6 +47,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.Update = function (id, qty, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -57,6 +59,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.Delete = function (id, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -68,6 +71,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.View = function (Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -78,6 +82,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.SetPromocode = function (promoCode, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -89,6 +94,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.SetDeliveryTariffID = function (deliveryTariffID, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -100,6 +106,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.DeliveryAddressData = function (Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -112,6 +119,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                     DeliveryAddress: delivery,
                     qs: {
                         uid: vars._appData.Uid,
+                        Auth: vars._appData.Identity.Auth,
                         siteUserId: vars._appData.Identity.SiteUserId,
                         countryId: vars._appData.Settings.Country.Id,
                         languageId: vars._appData.Settings.Language.Id,
@@ -123,6 +131,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.BillingAddressData = function (Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
@@ -135,6 +144,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                     BillingAddress: delivery,
                     qs: {
                         uid: vars._appData.Uid,
+                        Auth: vars._appData.Identity.Auth,
                         siteUserId: vars._appData.Identity.SiteUserId,
                         countryId: vars._appData.Settings.Country.Id,
                         languageId: vars._appData.Settings.Language.Id,
@@ -146,6 +156,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             BasketService.prototype.PaymentList = function (Callback) {
                 var qs = {
                     uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
                     siteUserId: vars._appData.Identity.SiteUserId,
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,

@@ -41,7 +41,8 @@ export namespace Controller.Search {
                 "labelPcs": vars._statres("label$pcs"),
                 "labelSearch": vars._statres("label$search"),
                 "labelRequest": vars._statres("label$request"),
-                "labelOnlineCatalog": vars._statres("label$catalog")
+                "labelOnlineCatalog": vars._statres("label$catalog"),
+                "labelNotAvailability": vars._statres("label$not$availability")
             });
         }
         
@@ -69,7 +70,6 @@ export namespace Controller.Search {
             this.searchForm = this.View.find("#search-view-form");
             vars._appData.BasketIsInit = true;
 
-            this.View.find('#search-view-part-number').focus();
             this.BasketService.Count(this.setBasketCount);
 
             if (utils.isNullOrEmpty(this.findArticle) === false) {
@@ -78,6 +78,12 @@ export namespace Controller.Search {
             }
             else 
                 this.loadBrands();
+        }
+
+        public ViewShow(e: any): boolean {
+            let result = super.ViewShow(e);
+            this.View.find('#search-view-part-number').focus();
+            return result;
         }
 
         private setupSearchArticle(): boolean {
