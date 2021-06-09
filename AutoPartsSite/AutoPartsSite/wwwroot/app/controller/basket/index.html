@@ -13,50 +13,49 @@
     <div id="basket-view-parts" class="row margin-bottom-0">
         <div id="basket-view-parts-empty" class="col s12 m12 l12 xl12 center" style="font-size: 1.7rem;" data-bind="text:labelEmptyBasket"></div>
         <div id="basket-view-parts-table" class="col s12 m12 l12 xl12">
-            <div id="basket-view-parts-rows"class="row margin-bottom-0">
+            <div id="basket-view-parts-rows" class="row margin-bottom-0 hide-on-large-only">
             </div>
-            <!--<table id="basket-view-parts-table">
-                <thead>
+            <table class="hide-on-med-and-down">
+                <thead style="font-size:0.81rem;">
                     <tr>
-                        <th class="td-medium-and-up"><span data-bind="text:labelBrand"></span></th>
-                        <th class="td-medium-and-up"><span data-bind="text:labelPartNumber"></span></th>
-                        <th class="td-medium-and-up"><span data-bind="text:labelName"></span></th>
-                        <th class="td-small"><span data-bind="text:labelBrand"></span>, <span data-bind="text:labelPartNumber"></span>, <span data-bind="text:labelName"></span></th>
-                        <th><span data-bind="text:labelShipIn"></span></th>
-                        <th class="td-right"><span data-bind="text:labelPrice"></span></th>
-                        <th class="td-right"><span data-bind="text:labelQty"></span></th>
-                        <th class="td-right"><span data-bind="text:labelSum"></span></th>
-                        <th class="td-right"></th>
+                        <th style="width:130px;"><span data-bind="text:labelBrand"></span></th>
+                        <th style="width:130px;"><span data-bind="text:labelPartNumber"></span></th>
+                        <th><span data-bind="text:labelName"></span></th>
+                        <th class="td-right" style="width:110px;"><span data-bind="text:labelShipIn"></span></th>
+                        <th class="td-right" style="width:100px;"><span data-bind="text:labelPrice"></span></th>
+                        <th class="td-right" style="width:100px;"><span data-bind="text:labelQty"></span></th>
+                        <th class="td-right" style="width:100px;"><span data-bind="text:labelSum"></span></th>
+                        <th class="td-right" style="width:70px;"></th>
                     </tr>
                 </thead>
-
-                <tbody id="basket-view-parts-rows">
+                <tbody id="basket-view-parts-table-rows">
                 </tbody>
-            </table>-->
+            </table>
         </div>
     </div>
 
     <div id="basket-view-additional">
+        <div class="row margin-bottom-0 hide-on-large-only">
+            <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+                <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
+            </div>
+        </div>
 
         <div class="row margin-bottom-0">
             <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
                 <div class="row margin-bottom-0">
-                    <div class="input-field col s12 m6 l6 xl6">
+                    <div id="div-basket-promocode" class="input-field col s12 m6 l6 xl6">
                         <input id="basket-promocode" type="text" data-bind="value:basketData.Header.PromoCode" class="validate">
                         <label for="basket-promocode" data-bind="text:labelPromoCode"></label>
                     </div>
-                    <div class="input-field col s12 m6 l6 xl6">
+                    <div id="div-basket-promocode-btn" class="input-field col s12 m6 l6 xl6">
                         <a id="basket-promocode-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">verified</i><span data-bind="text:labelApplyPromocode"></span></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row margin-bottom-0">
-            <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-                <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalSum"></span><span id="basket-view-sum" data-bind="text:TotalSumValue"></span></div>
-            </div>
-        </div>
+
 
         <div class="row">
             <div class="col s12 m12 l12 xl12">
@@ -119,7 +118,7 @@
 
                     <div class="col s12 m6 l5 xl5">
                         <div class="card-search-part-caption-price center-align">
-                            <span data-bind="text:labelPrice"></span>
+                            <span data-bind="text:labelPrice">:</span>
 #if(PriceChanged == true) {#
                             <span class="basket-label through">
     #if(Goods.Currency.ShowLeft===true) {#
@@ -217,123 +216,13 @@
         </div>
     </script>
 
-    <script type="text/x-kendo-template" id="basket-view-parts-template2">
-        <div id="basket-view-item-#=Goods.Id#" class="col s12 m12 l12 xl12">
-            <div class="white hoverable margin-0_1rem" style="padding:1rem;">
-                <div class="row" style="margin:0;">
-                    <div class="col s12 m7 l8 xl8" style="margin:0;padding:0;">
-                        <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
-                            <tbody>
-                                <tr class="card-search-table-props-row">
-                                    <td class="card-search-table-props-td" style="width:35%;padding-right:0;" data-bind="text:labelBrand">Бренд:</td>
-                                    <td class="card-search-table-props-td" style="width:66%;">#=Goods.Brand.Code#</td>
-                                </tr>
-                                <tr class="card-search-table-props-row">
-                                    <td class="card-search-table-props-td" style="width:35%;padding-right:0;" data-bind="text:labelPartNumber"></td>
-                                    <td class="card-search-table-props-td" style="width:65%;">#=Goods.PartNumber#</td>
-                                </tr>
-                                <tr class="card-search-table-props-row">
-                                    <td class="card-search-table-props-td" style="width:35%;padding-right:0;" data-bind="text:labelName"></td>
-                                    <td class="card-search-table-props-td" style="width:65%;">#=Goods.Name#</td>
-                                </tr>
-                                <tr class="card-search-table-props-row">
-                                    <td class="card-search-table-props-td" style="width:35%;padding-right:0;" data-bind="text:labelShipIn"></td>
-                                    <td class="card-search-table-props-td" style="width:65%;">#=Goods.ShipInDays#</td>
-                                </tr>
-                                <tr class="card-search-table-props-row">
-                                    <td class="card-search-table-props-td" style="width:35%;padding-right:0;" data-bind="text:labelPrice"></td>
-                                    <td class="card-search-table-props-td" style="width:65%;">
-                                    #if(PriceChanged == true) {#
-                                        <span class="basket-label through">
-                                            #if(Goods.Currency.ShowLeft===true) {#
-                                                #=Goods.Currency.Symbol#
-                                            #}#
-                                            #=numberToString(Price,2)#
-                                            #if(Goods.Currency.ShowLeft !== true) {#
-                                                #=Goods.Currency.Symbol#
-                                            #}#
-                                        </span>
-                                    #}#
-                                    #if(Goods.Currency.ShowLeft===true) {#
-                                        #=Goods.Currency.Symbol#
-                                    #}#
-                                        #=numberToString(Price,2)#
-                                    #if(Goods.Currency.ShowLeft !== true) {#
-                                        #=Goods.Currency.Symbol#
-                                    #}#
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col s12 m5 l4 xl4">
-                        <div class="card-search-part-caption-price center-align" style="font-size:1.3rem">
-                        #if(Qty == 0) {#
-                            <span class="basket-label" data-bind="text:labelNoLongerAvailabile"></span>
-                        #} else {#
-                            <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form" style="padding:0">
-                                <span data-bind="text:labelQty"></span>
-                                <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" style="font-size:1.5rem" value="#=Quantity#">
-                                <span class="margin-right-050rem basket-label" data-bind="text:labelPcs" style="font-weight:normal;"></span>
-                            #if(QtyChanged == true) {#
-                                <span class="margin-right-050rem basket-label" style="font-weight:normal;" data-bind="text:labelWas"></span><span class="basket-label through" style="font-weight:normal;">#=OldQty#</span>
-                            #}#
-                            </form>
-                        #}#
-                        </div>
-                        <div class="card-search-part-caption-price center-align" style="font-size:1.3rem">
-                            <span data-bind="text:labelSum"></span>
-                            #if(!(CartDiscountsAmount == 0)) {#
-                                <span class="basket-label through" style="font-weight:normal;">
-                                #if(Goods.Currency.ShowLeft===true) {#
-                                    #=Goods.Currency.Symbol#
-                                #}#
-                                #=numberToString(Sum,2)#
-                                #if(Goods.Currency.ShowLeft !== true) {#
-                                    #=Goods.Currency.Symbol#
-                                #}#
-                                </span>
-                            #}#
-                            <span>
-                            #if(Goods.Currency.ShowLeft===true) {#
-                                #=Goods.Currency.Symbol#
-                            #}#
-                            #=numberToString(Sum,2)#
-                            #if(Goods.Currency.ShowLeft !== true) {#
-                                #=Goods.Currency.Symbol#
-                            #}#
-                            </span>
-                            #if(!(CartDiscountsAmount == 0)) {#
-                                <span class="basket-item-discount" data-bind="text:labelSave"></span>
-                                <span class="basket-item-discount-sum">-
-                                #if(Goods.Currency.ShowLeft===true) {#
-                                    #=Goods.Currency.Symbol#
-                                #}#
-                                #=numberToString(CartDiscountsAmount,2)#
-                                #if(Goods.Currency.ShowLeft !== true) {#
-                                    #=Goods.Currency.Symbol#
-                                #}#
-                                </span>
-                            #}#
-
-                        </div>
-                        <div class="card-search-part-caption-price center-align" style="font-size:1.3rem;margin-bottom:0;">
-                            <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat" data-id="#=Goods.Id#" data-tooltip="#=deleteLabel#"><i class="material-icons" style="font-size:2rem;">delete_forever</i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <script type="text/x-kendo-template" id="basket-view-parts-template1">
+    <script type="text/x-kendo-template" id="basket-view-parts-table-template">
         <tr id="basket-view-item-#=Goods.Id#">
-            <td class="td-medium-and-up">#=Goods.Brand.Code#</td>
-            <td class="td-medium-and-up">#=Goods.PartNumber#</td>
-            <td class="td-medium-and-up">#=Goods.Name#</td>
-            <td class="td-small">#=Goods.Brand.Code#<br/>#=Goods.PartNumber#<br/>#=Goods.Name#</td>
-            <td>#=Goods.ShipInDays#</td>
-            <td class="td-right">
+            <td style="width:130px;">#=Goods.Brand.Code#</td>
+            <td style="width:130px;">#=Goods.PartNumber#</td>
+            <td>#=Goods.Name#</td>
+            <td class="td-right" style="width:110px;">#=Goods.ShipInDays#</td>
+            <td class="td-right" style="width:100px;">
                 <span>
                                         #if(Goods.Currency.ShowLeft===true) {#
                                             #=Goods.Currency.Symbol#
@@ -349,26 +238,26 @@
                                         #if(Goods.Currency.ShowLeft===true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#
-                                        #=numberToString(Price,2)#
+                                        #=numberToString(OldCartPrice,2)#
                                         #if(Goods.Currency.ShowLeft !== true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#
                 </span>
         #}#
             </td>
-            <td class="td-right">
+            <td class="td-right" style="width:100px;">
         #if(Qty == 0) {#
                 <span class="basket-label" data-bind="text:labelNoLongerAvailabile"></span>
         #} else {#
-                <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form" style="padding:0">
-                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
+                <form id="basket-qty-form-table-#=Goods.Id#" class="basket-qty-form" style="padding:0">
+                    <input id="basket-qty-table-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
                 </form>
             #if(QtyChanged == true) {#
                <span class="margin-right-1rem basket-label" data-bind="text:labelWas"></span><span class="basket-label through" style="margin-right:0.6rem;">#=OldQty#</span>
             #}#
         #}#
             </td>
-            <td class="td-right">
+            <td class="td-right" style="width:100px;">
         #if(!(CartDiscountsAmount == 0)) {#
                 <span class="basket-label through">
                                         #if(Goods.Currency.ShowLeft===true) {#
@@ -404,8 +293,8 @@
                 </span>
         #}#
             </td>
-            <td class="td-right">
-                <a class="waves-effect waves-light btn basket-del-btn tooltipped" data-id="#=Goods.Id#" data-position="bottom" data-tooltip="#=deleteLabel#"><i class="material-icons">remove_shopping_cart</i></a>
+            <td class="td-right" style="width:70px;">
+                <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat" data-id="#=Goods.Id#" data-tooltip="#=deleteLabel#"><i class="material-icons" style="font-size:2rem;">delete_forever</i></a>
             </td>
         </tr>
     </script>

@@ -937,6 +937,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .basket-input {
     height: 2rem !important;
     margin: 0 .5rem !important;
+    width: 2.3rem !important;
 }
 
 .basket-label {
@@ -946,6 +947,15 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .basket-input-label {
     color: rgba(0,0,0,0.5);
     font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+     #div-basket-promocode {
+        margin-bottom: 0;
+    }
+    #div-basket-promocode-btn {
+        margin-top: 0;
+    }
 }
 
 #basket-search-btn, #basket-done-btn {

@@ -45,7 +45,7 @@ namespace AutoPartsSite.Controllers.Api
         }
             
 
-            [NonAction]
+        [NonAction]
         private decimal UpdatePartBasket(BasketQuery pq, bool isAdd = false)
         {
             decimal result = pq.qty;
@@ -473,8 +473,8 @@ namespace AutoPartsSite.Controllers.Api
                         {
                             deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID, Currency = new Currency() };
                             resultDelivery.Add(deliveryTariffID, deliveryInfo);
-                                 if (deliveryTariffID == 8) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
-                            else if (deliveryTariffID == 9) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
+                                 if (deliveryTariffID == 5) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
+                            else if (deliveryTariffID == 6) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
 
                             if (f_DeliveryTariffCode  > -1) deliveryInfo.Code            = values[f_DeliveryTariffCode].ToStr();
                             if (f_DeliveryTariffDescr > -1) deliveryInfo.Name            = values[f_DeliveryTariffDescr].ToStr();

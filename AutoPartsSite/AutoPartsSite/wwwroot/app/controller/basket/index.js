@@ -42,28 +42,28 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$basket"),
                         "labelEmptyBasket": vars._statres("label$empty$basket"),
                         "labelDelivery": vars._statres("label$shipping"),
-                        "labelBrand": vars._statres("label$brand") + ":",
-                        "labelPartNumber": vars._statres("label$partnumber") + ":",
-                        "labelName": vars._statres("label$description") + ":",
-                        "labelCountry": vars._statres("label$country") + ":",
-                        "labelShipIn": vars._statres("label$shipin") + ":",
-                        "labelDimensions": vars._statres("label$dimensions") + ":",
-                        "labelWeight": vars._statres("label$weight") + ":",
-                        "labelQty": vars._statres("label$qty") + ":",
-                        "labelPrice": vars._statres("label$price") + ":",
-                        "labelSum": vars._statres("label$amount") + ":",
-                        "labelPromoCode": vars._statres("label$promocode") + ":",
+                        "labelBrand": vars._statres("label$brand"),
+                        "labelPartNumber": vars._statres("label$partnumber"),
+                        "labelName": vars._statres("label$description"),
+                        "labelCountry": vars._statres("label$country"),
+                        "labelShipIn": vars._statres("label$shipin"),
+                        "labelDimensions": vars._statres("label$dimensions"),
+                        "labelWeight": vars._statres("label$weight"),
+                        "labelQty": vars._statres("label$qty"),
+                        "labelPrice": vars._statres("label$price"),
+                        "labelSum": vars._statres("label$amount"),
+                        "labelPromoCode": vars._statres("label$promocode"),
                         "labelApplyPromocode": vars._statres("label$promocode$apply"),
-                        "labelTotalSum": vars._statres("label$items$subtotal") + ":",
-                        "labelPriceHasChanged": vars._statres("label$price$haschanged") + ":",
+                        "labelTotalSum": vars._statres("label$items$subtotal"),
+                        "labelPriceHasChanged": vars._statres("label$price$haschanged"),
                         "labelPcs": vars._statres("label$pcs"),
-                        "labelWas": vars._statres("label$qty$was") + ":",
+                        "labelWas": vars._statres("label$qty$was"),
                         "labelNoLongerAvailabile": vars._statres("label$no$longeravailable"),
-                        "labelSave": vars._statres("label$saving") + ":",
+                        "labelSave": vars._statres("label$saving"),
                         "TotalSumValue": "0$",
                         "curSymbol": "$",
-                        "labelTotalVatDelivery": vars._statres("label$total$taxvat") + ":",
-                        "labelTotalSumDelivery": vars._statres("label$total$estimated") + ":",
+                        "labelTotalVatDelivery": vars._statres("label$total$taxvat"),
+                        "labelTotalSumDelivery": vars._statres("label$total$estimated"),
                         "TotalVat": "0$",
                         "TotalSum": "0$",
                         "labelSumParts": vars._statres("label$sum$parts") + ":",
@@ -123,8 +123,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         var items = responseData.Data.Positions;
                         var icount = items.length;
                         var templateContent = self.View.find('#basket-view-parts-template').html();
+                        var templateContentTable = self.View.find('#basket-view-parts-table-template').html();
                         var template = vars.getTemplate(templateContent);
-                        var htmlResult = '';
+                        var templateTable = vars.getTemplate(templateContentTable);
+                        var htmlResult = '', tmlTableResult = '';
                         var curSymbol = vars._appData.Settings.Currency.Code;
                         var isSymbolLeft = false;
                         var sum = 0;
@@ -139,11 +141,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 1);
                             sum += items[i].Sum;
                             htmlResult = (htmlResult + template(items[i]));
+                            tmlTableResult = (tmlTableResult + templateTable(items[i]));
                         }
+                        tmlTableResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
+                        tmlTableResult += '<td colspan="6" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;">' + vars._statres("label$items$subtotal") + '</td>';
+                        tmlTableResult += '<td class="td-right" style="width:100px;">' + (isSymbolLeft === true ? curSymbol + ' ' : '') + window.numberToString(sum, 2) + (isSymbolLeft === false ? curSymbol + ' ' : '') + '</td>';
+                        tmlTableResult += '<td style="width:70px;"></td></tr>';
                         if (icount > 0) {
                             self.View.find('#basket-view-additional').show();
                             self.View.find("#basket-view-parts-empty").hide();
                             self.View.find('#basket-view-parts-rows').html(htmlResult);
+                            self.View.find('#basket-view-parts-table-rows').html(tmlTableResult);
                             self.View.find("#basket-view-parts-table").show();
                         }
                         if (isSymbolLeft === true)
@@ -210,8 +218,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     vars._app.ShowLoading(false);
                     var self = this;
                     var formid = e.currentTarget.id;
-                    var id = parseInt(formid.replace('basket-qty-form-', ''));
-                    var qty = parseFloat($(e.target).find('#basket-qty-' + id).val());
+                    var id = parseInt(formid.replace('basket-qty-form-table-', '').replace('basket-qty-form-', ''));
+                    var qtyJq = $(e.target).find('#basket-qty-' + id);
+                    if (!qtyJq || qtyJq.length < 1)
+                        qtyJq = $(e.target).find('#basket-qty-table-' + id);
+                    var qtyStr = qtyJq.val();
+                    var qty = parseFloat(qtyStr);
                     self.BasketService.Update(id, qty, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     return false;
