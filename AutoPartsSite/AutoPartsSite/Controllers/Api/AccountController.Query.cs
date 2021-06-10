@@ -62,7 +62,7 @@ namespace AutoPartsSite.Controllers.Api
                 , onExecute: null
                 , action: (values) =>
                 {
-                    result.Add(new Country() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[3].ToStr() });
+                    result.Add(new Country() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[2].ToStr() });
                 });
             return result;
         }
@@ -118,7 +118,7 @@ namespace AutoPartsSite.Controllers.Api
                 , onExecute: null
                 , action: (values) =>
                 {
-                    result.Add(new Currency() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[3].ToStr(), Symbol = values[4].ToStr(), ShowLeft = values[5].ToBool() });
+                    result.Add(new Currency() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[2].ToStr(), Symbol = values[4].ToStr(), ShowLeft = values[5].ToBool() });
                 });
             return result;
         }

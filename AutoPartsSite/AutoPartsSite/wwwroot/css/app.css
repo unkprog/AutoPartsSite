@@ -711,6 +711,10 @@ input[type='number']:hover::-webkit-outer-spin-button {
   font-size: 2rem;
   font-weight: bold; }
 
+@media only screen and (max-width: 460px) {
+  .basket-total-sum {
+    font-size: 1.3rem; } }
+
 .basket-item-sum {
   color: #000;
   font-weight: bold; }
@@ -753,7 +757,7 @@ input[type='number']:hover::-webkit-outer-spin-button {
     margin-top: 0; } }
 
 #basket-search-btn, #basket-done-btn {
-  margin: 0 1rem; }
+  margin: 0.5rem 0; }
 
 .view {
   padding: 1rem; }
@@ -776,9 +780,10 @@ input[type='number']:hover::-webkit-outer-spin-button {
 .card-delivery-image {
   height: 25px !important;
   width: 50px;
-  background-image: url(/img/noimage.png);
-  background-repeat: no-repeat;
-  background-position: center;
+  object-fit: contain;
+  /*    background-image: url(/img/noimage.png);
+    background-repeat: no-repeat;
+    background-position: center;*/
   margin: 0.1rem; }
 
 .card-delivery-item {

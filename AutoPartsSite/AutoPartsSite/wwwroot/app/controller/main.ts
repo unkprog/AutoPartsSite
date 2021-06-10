@@ -65,6 +65,8 @@ export namespace Controller {
 
         private menu: JQuery;
         private menuRight: JQuery;
+
+        private menuSettings: JQuery;
         private menuCountry: JQuery;
         private menuLang: JQuery;
         private menuCurrency: JQuery;
@@ -88,11 +90,18 @@ export namespace Controller {
 
             this.sideNavBarRight = $("#app-navbar").find(".right");
             //this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale + '.svg"/></a></li>');
-            this.menuCountry = $('<li><a id="app-btn-country" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$country") + '">' + vars._appData.Settings.Country.Name + '</a></li>');
-            this.menuLang = $('<li><a id="app-btn-lang" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/></a></li>');
-            this.menuCurrency = $('<li><a id="app-btn-currency" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom" data-tooltip="' + vars._statres("label$currency") + '">' + vars._appData.Settings.Currency.Code + '</a></li>');
-            this.menuBasket = $('<li><a id="app-btn-basket" class="tooltipped" data-position="bottom" data-tooltip="' + vars._statres("label$basket") + '"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
-            this.sideNavBarRight.append(this.menuCountry).append(this.menuLang).append(this.menuCurrency).append(this.menuBasket);
+            //this.menuCountry = $('<li><a id="app-btn-country" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom">' + vars._appData.Settings.Country.Code + '</a></li>'); //data-tooltip="' + vars._statres("label$country") + '"
+            //this.menuLang = $('<li><a id="app-btn-lang" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/></a></li>'); //data-tooltip="' + vars._statres("label$language") + '"
+            //this.menuCurrency = $('<li><a id="app-btn-currency" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom">' + vars._appData.Settings.Currency.Code + '</a></li>'); //data-tooltip="' + vars._statres("label$currency") + '"
+
+            this.menuSettings = $('<li><a class="modal-trigger" href="#app-settings-modal"></a></li>');
+            this.menuCountry = $('<span id="app-btn-country" style="margin: 0 0.5rem 0 0;">' + vars._appData.Settings.Country.Code + '<span>');
+            this.menuLang = $('<img class="app-flag-icon" style="margin-top:-4px;width:1.5rem;height:1.35em;" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/>');
+            this.menuCurrency = $('<span id="app-btn-currency" style="margin: 0 0 0 0.5rem;">' + vars._appData.Settings.Currency.Code + '<span>');
+            this.menuSettings.find('a').append(this.menuCountry).append(this.menuLang).append(this.menuCurrency);
+
+            this.menuBasket = $('<li><a id="app-btn-basket" data-position="bottom"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>'); //class="tooltipped"  data-tooltip="' + vars._statres("label$basket") + '"
+            this.sideNavBarRight.append(this.menuSettings)/*.append(this.menuCountry).append(this.menuLang).append(this.menuCurrency)*/.append(this.menuBasket);
             this.menuBasket.find('.app-basket-counter').hide();
 
             this.buttonMenu = this.menu.find("#app-btn-menu");
@@ -191,6 +200,7 @@ export namespace Controller {
 
             self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
 
+            self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
             self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
             self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
             self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
@@ -228,7 +238,7 @@ export namespace Controller {
         protected destroyEvents(): void {
             this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
 
-
+            utils.destroyClickEvent(this.menuSettings, this.MenuSettingsClick);
             utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
             utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
             utils.destroyClickEvent($("#app-btn-country"), this.MenuCountryClick);
@@ -300,6 +310,14 @@ export namespace Controller {
         /*****************************************************/
         /*  BEGIN SETTINGS                                   */
         /*****************************************************/
+        public MenuSettingsClick: { (e: any): void; };
+        private menuSettingsClick(e) {
+            this.openSettings();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
         public MenuCountryClick: { (e: any): void; };
         private menuCountryClick(e) {
             this.openSettings();
@@ -307,6 +325,7 @@ export namespace Controller {
             e.stopPropagation();
             return false;
         }
+
 
         public MenuLangClick: { (e: any): void; };
         private menuLangClick(e) {
@@ -357,7 +376,7 @@ export namespace Controller {
             let countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
                 html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                html = html + settingsData.Countries[i].Code + ' - ' + settingsData.Countries[i].Name + '</option>';
+                html = html + /*settingsData.Countries[i].Code + ' - ' +*/ settingsData.Countries[i].Name + '</option>';
             }
             setSelectClass($('#app-settings-modal-list-country').html(html).formSelect(), 'select-max-height-650');
 
@@ -365,7 +384,7 @@ export namespace Controller {
             let langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
                 html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                html = html + settingsData.Languages[i].Code + ' - ' + settingsData.Languages[i].Name + '</option>';
+                html = html + /*settingsData.Languages[i].Code + ' - ' +*/ settingsData.Languages[i].Name + '</option>';
             }
             setSelectClass($('#app-settings-modal-list-lang').html(html).formSelect(), 'select-max-height-450');
 
@@ -373,7 +392,7 @@ export namespace Controller {
             let currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
                 html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                html = html + settingsData.Currencies[i].Code + ' - ' + settingsData.Currencies[i].Name + '</option>';
+                html = html + /*settingsData.Currencies[i].Code + ' - ' +*/ settingsData.Currencies[i].Name + '</option>';
             }
             setSelectClass($('#app-settings-modal-list-currency').html(html).formSelect(), 'select-max-height-300');
 
@@ -405,6 +424,7 @@ export namespace Controller {
 
             this.appSettingsModal.modal('close');
             vars._app.ShowLoading(true);
+
             let setReload = function (isForce: boolean, settingsData: Interfaces.Model.ISettingsData, settings: Interfaces.Model.ISettings){
                 if (isForce == true || settings.Country.Id !== country) {
                 for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
@@ -414,6 +434,7 @@ export namespace Controller {
                             Code: settingsData.Countries[i].Code,
                             Name: settingsData.Countries[i].Name
                         }
+                        $("#app-btn-country").html(settings.Country.Code);
                         break;
 
                     }
@@ -430,6 +451,7 @@ export namespace Controller {
                                 Symbol: settingsData.Currencies[i].Symbol,
                                 ShowLeft: settingsData.Currencies[i].ShowLeft
                             };
+                            $("#app-btn-country").html(settings.Currency.Code);
                             break;
                         }
                     }

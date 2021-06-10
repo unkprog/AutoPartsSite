@@ -88,9 +88,13 @@ namespace AutoPartsSite.Controllers.Api
                    pq.promoCode = result.Header.PromoCode = GetBaskePromoCode(pq.uid);
                    List<GoodsSearch> goodsSearch = GetBasketGoods(result.Positions);
                    FillBasketData(result, goodsSearch, userId, pq);
-
-                   if(result.Positions.Count == 0)
+                   if (result.Positions.Count == 0)
                        DeleteHeaderBasket(pq);
+                   else if (result.Header.DeliveryTariffID == 0 && result.Deliveries.Count > 0)
+                   {
+                       result.Header.DeliveryTariffID = result.Deliveries[0].Id;
+                       SetBaskeDeliveryTariffID(pq.uid, result.Header.DeliveryTariffID);
+                   }
                    
                    return CreateResponseOk(result);
                });
