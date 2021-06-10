@@ -148,9 +148,9 @@ export namespace Controller.Basket {
                 }
 
                 tmlTableResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
-                tmlTableResult += '<td colspan="6" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;">' + vars._statres("label$items$subtotal") + '</td>';
-                tmlTableResult += '<td class="td-right" style="width:100px;">' + (isSymbolLeft === true ? curSymbol + ' ' : '') + window.numberToString(sum, 2) + (isSymbolLeft === false ? curSymbol + ' ' : '') + '</td>';
-                tmlTableResult += '<td style="width:70px;"></td></tr>';
+                tmlTableResult += '<td colspan="6" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
+                tmlTableResult += '<td style="width:13%;">' + (isSymbolLeft === true ? curSymbol + ' ' : '') + window.numberToString(sum, 2) + (isSymbolLeft === false ? curSymbol + ' ' : '') + '</td>';
+                tmlTableResult += '<td style="width:8%;"></td></tr>';
 
                 if (icount > 0) {
                     self.View.find('#basket-view-additional').show();
