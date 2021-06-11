@@ -150,7 +150,7 @@
         #} else {#
                                                                 <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form" style="padding:0">
                                                                     <span data-bind="text:labelQty"></span>
-                                                                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" style="font-size:1.5rem;width:3rem !important;" value="#=Quantity#">
+                                                                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" style="font-size:1.5rem;width:3rem !important;background:\#f8f8f8;" value="#=Quantity#">
                                                                     <span class="margin-right-050rem basket-label" data-bind="text:labelPcs" style="font-weight:normal;"></span>
             #if(QtyChanged == true) {#
                                                                     <span class="margin-right-050rem basket-label" style="font-weight:normal;" data-bind="text:labelWas"></span><span class="basket-label through" style="font-weight:normal;">#=OldQtyLabel#</span>
@@ -249,7 +249,7 @@
                 <span class="basket-label" data-bind="text:labelNoLongerAvailabile"></span>
         #} else {#
                 <form id="basket-qty-form-table-#=Goods.Id#" class="basket-qty-form" style="padding:0">
-                    <input id="basket-qty-table-#=Goods.Id#" type="number" class="validate input-number basket-input" value="#=Quantity#">
+                    <input id="basket-qty-table-#=Goods.Id#" type="number" class="validate input-number basket-input" style="background:\#f8f8f8;" value="#=Quantity#">
                 </form>
             #if(QtyChanged == true) {#
                <span class="margin-right-1rem basket-label" data-bind="text:labelWas" style="font-size:0.7rem;"></span><span class="basket-label through" style="margin-right:0.6rem;font-size:0.9rem;">#=OldQty#</span>
@@ -337,12 +337,15 @@
                     <input id="basket-view-delivery-input-#=Id#" type="checkbox" style="margin-left: 1rem;">
                     <span class="card-delivery-item">
                         <img class="card-delivery-image left" #if(Logo) {# src="#=Logo#" #}# />
-                        <span class="card-delivery-item" style="margin-left:1rem;">#=Name#</span> <br class="hide-on-med-and-up"/>
+                        <span class="card-delivery-item" style="margin-left:1rem;">#=Name#</span>
+                        <br class="hide-on-med-and-up"/>
                         <span class="card-delivery-item" style="margin-left:1rem; color:rgba(0,0,0,.5);">
                             <span data-bind="text:labelShipIn"></span>: #=DeliveryDays#
-                        </span> <br class="hide-on-med-and-up"/>
-                        <span class="card-delivery-item" style="margin-left:1rem; color:rgba(0,0,0,.5);">
+                        </span>
+                        <br class="hide-on-med-and-up"/>
+                        <span class="card-delivery-item card-delivery-item-sum">
                             <span data-bind="text:labelSum"></span>:
+                                <span style="font-weight:bold;">
                                         #if(Currency.ShowLeft===true) {#
                                             #=Currency.Symbol#
                                         #}#
@@ -350,6 +353,7 @@
                                         #if(Currency.ShowLeft !== true) {#
                                             #=Currency.Symbol#
                                         #}#
+                                </span>
                         </span>
                     </span>
 

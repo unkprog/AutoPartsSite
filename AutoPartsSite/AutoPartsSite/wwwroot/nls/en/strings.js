@@ -182,6 +182,7 @@ define({
     "label$phonecode": "Phone code",
 
     "label$terms": "I accept the terms and conditions",
+    "label$select$paymethod": "Select a payment method",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

@@ -792,6 +792,10 @@ input[type='number']:hover::-webkit-outer-spin-button {
   color: #000;
   width: 100%; }
 
+.card-delivery-item-sum {
+  margin-left: 1rem;
+  color: rgba(0, 0, 0, 0.5); }
+
 .through {
   text-decoration: line-through;
   font-style: italic; }
@@ -803,7 +807,9 @@ input[type='number']:hover::-webkit-outer-spin-button {
   .td-medium-and-up {
     display: none !important; }
   .td-small {
-    display: table-cell !important; } }
+    display: table-cell !important; }
+  .card-delivery-item-sum {
+    margin-left: 4.7rem; } }
 
 @media only screen and (min-width: 601px) {
   .td-medium-and-up {

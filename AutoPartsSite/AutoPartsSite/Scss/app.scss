@@ -1007,6 +1007,11 @@ input[type='number']:hover::-webkit-outer-spin-button {
     width: 100%;
 }
 
+.card-delivery-item-sum {
+    margin-left: 1rem;
+    color: rgba(0,0,0,.5);
+}
+
 .through {
     text-decoration: line-through;
     font-style: italic;
@@ -1022,6 +1027,9 @@ input[type='number']:hover::-webkit-outer-spin-button {
     }
     .td-small {
         display: table-cell !important;
+    }
+    .card-delivery-item-sum {
+        margin-left: 4.7rem;
     }
 }
 
