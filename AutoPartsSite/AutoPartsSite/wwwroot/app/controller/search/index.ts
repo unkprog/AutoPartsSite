@@ -51,6 +51,7 @@ export namespace Controller.Search {
         private proxyPage;
         private proxyPagePrev;
         private proxyPageNext;
+        private proxySearchExample;
         private proxyAddToCard;
         private proxyReqToCard;
         private proxyWhatCar;
@@ -130,19 +131,23 @@ export namespace Controller.Search {
                 this.searchForm.on('submit', this.proxySearch);
             }
             this.proxyPage = $.proxy(this.searchPage, this);
+           
             this.proxyPagePrev = $.proxy(this.searchPagePrev, this);
             this.proxyPageNext = $.proxy(this.searchPageNext, this);
             this.proxyAddToCard = $.proxy(this.addToCard, this);
             this.proxyReqToCard = $.proxy(this.reqToCard, this)
             this.proxyWhatCar = $.proxy(this.whatCar, this);
-            $('search-view')
             this.SearchButtonClick = this.createClickEvent("search-view-btn", this.searchButtonClick);
             this.ClearButtonClick = this.createClickEvent("card-view-search-clear", this.clearButtonClick);
+
+            this.proxySearchExample = $.proxy(this.searchExample, this);
+            this.View.find('#search-view-example').find('a').on('click', this.proxySearchExample);
         }
 
         protected destroyEvents(): void {
             this.destroyClickEvent("search-view-btn", this.SearchButtonClick);
             if (this.searchForm) this.searchForm.off('submit', this.proxySearch);
+            this.destroyEventItems();
         }
 
         private createEventItems() {
@@ -290,6 +295,26 @@ export namespace Controller.Search {
                 e.stopPropagation();
             }
             return false;
+        }
+
+        private searchExample(e: any): boolean {
+            let self = this;
+
+            if (e.target.href) {
+                let hr = e.target.href;
+                var i = hr.indexOf('?');
+                hr = (i > -1 ? hr.substring(i + 1) : '');
+
+                let searchParams = new URLSearchParams(hr);
+                if (searchParams.has("partnumber") === true) {
+                    self.View.find('#search-view-part-number').val(searchParams.get("partnumber"));
+                    e.preventDefault();
+                    e.stopPropagation();
+                    self.search(e);
+                    return false;
+                }
+            }
+            return true;
         }
 
         private searchPage(e: any): boolean {

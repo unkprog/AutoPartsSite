@@ -161,6 +161,10 @@ nav.card-search-nav .input-field label i {
     color: #9e9e9e;
 }
 
+.input-field input[type=search] ~ .mdi-navigation-close, .input-field input[type=search] ~ .material-icons {
+    color: #9e9e9e;
+}
+
 div.example-numbers, div.example-vin, .example-numbers {
     font-size: 11px;
     padding-top: 0.2rem;

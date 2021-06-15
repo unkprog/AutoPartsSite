@@ -57,11 +57,18 @@ requirejs.config({
 })();
 
 require(["domReady", "jquery"], function (domReady, _jquery) {
-    $("#progress-container").show();
-    require(["materialize", "kendo.binder", "i18n"], function (_materialize, _kendoBinder, _i18n) {
+    domReady(function () {
+        $("#progress-container").show();
 
-        domReady(function () {
-            require(["app/app"], function (app) {
+        require(["materialize", "kendo.binder", "i18n", "app/core/utils", "app/core/variables"
+            , "app/core/baseservice", "app/services/accountservice", "app/services/searchservice", "app/services/basketservice"
+            , "app/core/basecontroller", "app/core/baseapplication", "app/app"]
+            , function (_materialize, _kendoBinder, _i18n, utils, vars
+                , basesvc, accsvc, srhsvc, bsksvc
+                , basectrl, baseapp, app) {
+
+
+            //require(["app/app"], function (app) {
                 var _app = new app.App.Application();
                 $(window).on('resize', function (e) {
                     _app.Resize(e);
@@ -70,7 +77,7 @@ require(["domReady", "jquery"], function (domReady, _jquery) {
                 //    _app.ControllerBack(e);
                 //};
                 //disableBackButton();
-            });
+            //});
         });
     });
 });
