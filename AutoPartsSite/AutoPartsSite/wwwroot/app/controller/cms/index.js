@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return _super.call(this) || this;
                 }
                 Index.prototype.createOptions = function () {
-                    return { Url: "/app/controller/cms/index.html", Id: "cms-view" };
+                    var options = { Url: "/app/controller/cms/index.html", Id: "cms-view", Page: "/cms/index" };
+                    return options;
                 };
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

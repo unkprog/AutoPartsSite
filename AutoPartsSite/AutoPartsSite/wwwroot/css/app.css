@@ -753,6 +753,9 @@ input[type='number']:hover::-webkit-outer-spin-button {
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold; }
 
+#basket-promocode {
+  background: #f8f8f8; }
+
 @media only screen and (max-width: 600px) {
   #div-basket-promocode {
     margin-bottom: 0; }

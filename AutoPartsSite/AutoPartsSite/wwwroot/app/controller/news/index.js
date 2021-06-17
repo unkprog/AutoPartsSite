@@ -34,7 +34,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     configurable: true
                 });
                 Index.prototype.createOptions = function () {
-                    return { Url: "/app/controller/news/index.html", Id: "news-view" };
+                    var options = { Url: "/app/controller/news/index.html", Id: "news-view", Page: "/news/index" };
+                    return options;
                 };
                 Index.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

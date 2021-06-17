@@ -38,12 +38,18 @@ namespace AutoPartsSite.Core.Models.Security
     }
 
     [DataContract]
-    public class UidResult
+    public class VersionResult
+    {
+        [DataMember]
+        public string Version { get; set; }
+
+    }
+
+    [DataContract]
+    public class UidResult : VersionResult
     {
         [DataMember]
         public IdentityResult Identity { get; set; }
-        [DataMember]
-        public string Version { get; set; }
         
     }
 }

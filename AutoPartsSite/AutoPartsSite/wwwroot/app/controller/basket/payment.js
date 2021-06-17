@@ -42,7 +42,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     configurable: true
                 });
                 Payment.prototype.createOptions = function () {
-                    return { Url: "/app/controller/basket/payment.html", Id: "payment-view" };
+                    var options = { Url: "/app/controller/basket/payment.html", Id: "payment-view", Page: "/basket/payment" };
+                    return options;
                 };
                 Payment.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

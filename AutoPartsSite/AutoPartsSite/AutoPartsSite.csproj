@@ -437,6 +437,7 @@
 
   <ItemGroup>
     <Folder Include="Scss\MaterializeCSS\" />
+    <Folder Include="wwwroot\lib\jquery\plugin\" />
   </ItemGroup>
 
   <ItemGroup>

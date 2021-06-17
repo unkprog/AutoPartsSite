@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     return _super.call(this) || this;
                 }
                 Garage.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/garage.html", Id: "garage-view" };
+                    var options = { Url: "/app/controller/account/garage.html", Id: "garage-view", Page: "/account/garage" };
+                    return options;
                 };
                 Garage.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

@@ -120,9 +120,9 @@
                                 <tr class="card-search-table-props-row">
                                     <td class="card-search-table-props-td center-align" style="height: 3.9rem">
                                     #if(StockQty > 0) {#
-                                        <a class="waves-effect waves-light btn card-btn-add-basket center add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}# style="margin:1rem 0 0 0;height:36px;line-height:36px;width:100%;" data-id=""><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
+                                        <a class="waves-effect waves-light btn card-btn-add-basket center add-to-basket-id" data-id="#=Id#" #if(StockQty<1) {#disabled#}# style="margin:1rem 0 0 0;height:36px;line-height:36px;width:100%;"><i class="material-icons left">add_shopping_cart</i>#=labelAddToCard#</a>
                                     #} else {#
-                                        <a class="waves-effect waves-light btn card-btn-add-basket center req-to-basket-id" data-id="#=Id#"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
+                                        <a class="waves-effect waves-light btn card-btn-add-basket center req-to-basket-id" data-id="#=Id#" style="margin:1rem 0 0 0;height:36px;line-height:36px;width:100%;"><i class="material-icons left">update</i><span data-bind="text:labelRequest"></span></a>
                                     #}#
                                     </td>
                                 </tr>

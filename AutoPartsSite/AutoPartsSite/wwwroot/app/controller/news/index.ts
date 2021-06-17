@@ -15,7 +15,8 @@ export namespace Controller.News {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/news/index.html", Id: "news-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/news/index.html", Id: "news-view", Page: "/news/index" };
+            return options;
         }
 
         protected createModel(): kendo.data.ObservableObject {

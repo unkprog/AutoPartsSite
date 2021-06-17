@@ -17,4 +17,4 @@ from [dbo].[r_PriceGet]
    , @PromoCode
    ) [t]
 left join [Goods] [g] with(nolock) on [t].[GoodsID] = [g].[GoodsID]
-order by [t].[DeliveryTariffCode], [t].[RowNumber]
+order by [t].[SubsTypeSortIndex], [t].[RequestedBrand], [t].[Articul] asc

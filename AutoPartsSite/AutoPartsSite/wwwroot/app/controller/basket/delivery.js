@@ -34,7 +34,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     configurable: true
                 });
                 Delivery.prototype.createOptions = function () {
-                    return { Url: "/app/controller/basket/delivery.html", Id: "delivery-view" };
+                    var options = { Url: "/app/controller/basket/delivery.html", Id: "delivery-view", Page: "/basket/delivery" };
+                    return options;
                 };
                 Delivery.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

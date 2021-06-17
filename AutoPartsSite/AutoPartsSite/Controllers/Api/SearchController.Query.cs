@@ -56,11 +56,17 @@ namespace AutoPartsSite.Controllers.Api
             return xmlParts.ToString();
         }
 
+        public class GoodsSubType
+        {
+            public int Id { get; set; }
+            public string Descr { get; set; } = "";
+            public Dictionary<int, Goods> Goods = new Dictionary<int, Goods>();
+        }
         public class GoodsResult
         {
-            public Dictionary<int, Goods> Result = new Dictionary<int, Goods>();
-            public Dictionary<int, Goods> ResultSubs = new Dictionary<int, Goods>();
+            public Dictionary<int, GoodsSubType> Result = new Dictionary<int, GoodsSubType>();
         }
+
         [NonAction]
         private GoodsResult GetGoods(List<GoodsSearch> goods, int userId, PartNumberQuery pq, bool WithSubst)
         {
@@ -76,6 +82,7 @@ namespace AutoPartsSite.Controllers.Api
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
             int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1;
+            int f_SubsTypeDescr = -1;
 
             GoodsResult result = new GoodsResult();
 
@@ -126,6 +133,7 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "HeightCm") f_HeightCm = i;
 
                         else if (fname == "SubsTypeID") f_SubsTypeID = i;
+                        else if (fname == "SubsTypeDescr") f_SubsTypeDescr = i;
 
                         else if (fname == "DeliveryTariffID") f_DeliveryTariffID = i;
                         else if (fname == "DeliveryTariffCode") f_DeliveryTariffCode = i;
@@ -146,19 +154,19 @@ namespace AutoPartsSite.Controllers.Api
                     if (id > 0)
                     {
                         Goods item = null;
-                        if (subTypeid == 0)
+                        GoodsSubType itemSub = null;
+
+                        if (!result.Result.TryGetValue(subTypeid, out itemSub))
                         {
-                            if (!result.Result.TryGetValue(id, out item))
-                            {
-                                item = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters(), Deliveries = new List<DeliveryInfo>() };
-                                result.Result.Add(id, item);
-                            }
+                            itemSub = new GoodsSubType() { Id = subTypeid };
+                            if (f_SubsTypeDescr > -1) itemSub.Descr = values[f_SubsTypeDescr].ToStr();
+                            result.Result.Add(subTypeid, itemSub);
                         }
-                        else
-                        if (!result.ResultSubs.TryGetValue(id, out item))
+
+                        if (!itemSub.Goods.TryGetValue(id, out item))
                         {
                             item = new Goods() { Id = id, Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters(), Deliveries = new List<DeliveryInfo>() };
-                            result.ResultSubs.Add(id, item);
+                            itemSub.Goods.Add(id, item);
                         }
 
                         if (f_PartNumber > -1) item.PartNumber = values[f_PartNumber].ToStr();

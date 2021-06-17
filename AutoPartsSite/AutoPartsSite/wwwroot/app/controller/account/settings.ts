@@ -10,7 +10,8 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/settings.html", Id: "settings-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/account/settings.html", Id: "settings-view", Page: "/account/settings" };
+            return options
         }
 
         protected createModel(): kendo.data.ObservableObject {

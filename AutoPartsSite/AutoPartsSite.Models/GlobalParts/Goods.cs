@@ -164,6 +164,16 @@ namespace AutoPartsSite.Models.GlobalParts
         public decimal Quantity { get; set; }
     }
 
+    [DataContract]
+    public class GoodsSubTypeSearchResult
+    {
+        [DataMember]
+        public int Id { get; set; }
+        [DataMember]
+        public string Descr { get; set; } = "";
+        [DataMember]
+        public List<Goods> Goods { get; set; } = new List<Goods>();
+    }
 
     [DataContract]
     public class GoodsSearchResult
@@ -172,9 +182,8 @@ namespace AutoPartsSite.Models.GlobalParts
         /// Результат поиска
         /// </summary>
         [DataMember]
-        public List<Goods> Result { get; set; }
-        [DataMember]
-        public List<Goods> ResultSub { get; set; }
+        public List<GoodsSubTypeSearchResult> Result { get; set; }
+      
         [DataMember]
         public long Page { get; set; }
         [DataMember]

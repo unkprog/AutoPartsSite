@@ -215,7 +215,8 @@ export namespace Controller.Search {
             //this.View.find('#search-view-part-number').val('');
             //this.View.find('#search-view-parts').html('');
             //this.View.find('#search-view-brand-catalogs').show();
-            window.location.replace('/index.html');
+            //window.location.replace('/index.html');
+            history.replaceState({}, null, null);
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -251,8 +252,12 @@ export namespace Controller.Search {
                     self.maxPage = responseData.Data.MaxPage;
                     self.currentPage = responseData.Data.Page;
 
-                    let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
-                    htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
+                    //let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
+                    //htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
+                    let htmlResult = '';
+                    for (let sti = 0, isti = (responseData.Data.Result && responseData.Data.Result.length ? responseData.Data.Result.length : 0); sti < isti; sti++)
+                        htmlResult = htmlResult + this.htmlItems(responseData.Data.Result[sti].Goods, responseData.Data.Result[sti].Descr, template);
+
                     if (utils.isNullOrEmpty(htmlResult)) {
                         if (!utils.isNullOrEmpty(partNum))
                             self.View.find('#search-view-parts').html('<div class="center" style="font-size:1.5rem;font-style:italic;color:red;">' + vars._statres("message$article$notfound") + '</div>');

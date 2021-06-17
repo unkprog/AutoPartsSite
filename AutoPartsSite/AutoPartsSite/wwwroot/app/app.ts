@@ -73,7 +73,7 @@ export module App {
 
         private loadAppView_() {
             let self = this;
-            $.when($.ajax({ url: "/app/app.html", cache: false })).done((template) => {
+            $.when($.ajax({ url: "/app/app.html"/*, cache: false*/ })).done((template) => {
                 try {
                     $("#app-view").html(template);
                     kendo.bind($("#app-view"), self.Model);

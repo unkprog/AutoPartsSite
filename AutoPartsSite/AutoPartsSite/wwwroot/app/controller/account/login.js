@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return _super.call(this) || this;
                 }
                 Login.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/login.html", Id: "login-view" };
+                    var options = { Url: "/app/controller/account/login.html", Id: "login-view", Page: "/account/login" };
+                    return options;
                 };
                 Login.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

@@ -10,7 +10,8 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/messages.html", Id: "messages-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/account/messages.html", Id: "messages-view", Page: "/account/messages" };
+            return options;
         }
 
         protected createModel(): kendo.data.ObservableObject {

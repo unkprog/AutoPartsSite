@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     return _super.call(this) || this;
                 }
                 Orders.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/orders.html", Id: "orders-view" };
+                    var options = { Url: "/app/controller/account/orders.html", Id: "orders-view", Page: "/account/orders" };
+                    return options;
                 };
                 Orders.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

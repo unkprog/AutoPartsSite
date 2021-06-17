@@ -22,7 +22,8 @@ export namespace Controller.Basket {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/basket/payment.html", Id: "payment-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/basket/payment.html", Id: "payment-view", Page: "/basket/payment" };
+            return options;
         }
 
         protected createModel(): kendo.data.ObservableObject {

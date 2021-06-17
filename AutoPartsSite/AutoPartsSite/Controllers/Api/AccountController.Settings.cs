@@ -15,6 +15,18 @@ namespace AutoPartsSite.Controllers.Api
     public partial class AccountController
     {
         [HttpGet]
+        [Route("ver")]
+        public async Task<HttpMessage<VersionResult>> Version(string uid)
+         => await TryCatchResponseAsync(async () =>
+         {
+             return await Task.Run(() =>
+             {
+                 string version = this.GetType().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+                 return CreateResponseOk(new VersionResult() { Version = version });
+             });
+         });
+
+        [HttpGet]
         [Route("uid")]
         public async Task<HttpMessage<UidResult>> Uid(string uid)
          => await TryCatchResponseAsync(async () =>

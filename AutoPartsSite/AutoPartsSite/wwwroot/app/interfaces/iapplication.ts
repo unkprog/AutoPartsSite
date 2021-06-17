@@ -11,6 +11,7 @@
         template?: string;
         backController?: Interfaces.IController;
         isRestore?: boolean;
+        isPopState?: boolean;
     }
 
     export interface IApplication extends IControllerNavigation {

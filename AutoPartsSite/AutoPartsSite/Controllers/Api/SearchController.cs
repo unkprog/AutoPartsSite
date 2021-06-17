@@ -64,22 +64,30 @@ namespace AutoPartsSite.Controllers.Api
                     GoodsResult goodsResult = GetGoods(resultSearch, userId, pq, true);
                     GoodsSearchResult result = new GoodsSearchResult()
                     {
-                        Result = goodsResult.Result.Values.ToList(),
-                        ResultSub = goodsResult.ResultSubs.Values.ToList(),
+                        //Result = goodsResult.Result.Values.ToList(),
+                        //ResultSub = goodsResult.ResultSubs.Values.ToList(),
+                        Result = new List<GoodsSubTypeSearchResult>(),
                         Page = resultSearch.Count > 0 ? resultSearch[0].Page : 0,
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };
 
-                    foreach(var ritem in result.Result)
+                    foreach(var sti in goodsResult.Result.Values)
+                        result.Result.Add(new GoodsSubTypeSearchResult() { Id = sti.Id, Descr = sti.Descr, Goods = sti.Goods.Values.ToList() });
+
+                    foreach(var sti  in result.Result)
                     {
-                        ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
-                        ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
+                        foreach (var ritem in sti.Goods)
+                        {
+                            ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
+                            ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
+                        }
                     }
-                    foreach (var ritem in result.ResultSub)
-                    {
-                        ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
-                        ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
-                    }
+
+                    //foreach (var ritem in result.ResultSub)
+                    //{
+                    //    ritem.Deliveries.Sort((x, y) => x.DeliveryAmount.CompareTo(y.DeliveryAmount));
+                    //    ritem.DefaultDelivery = ritem.Deliveries.Count > 0 ? ritem.Deliveries[0] : new DeliveryInfo();
+                    //}
                     return CreateResponseOk(result);
                 });
             });

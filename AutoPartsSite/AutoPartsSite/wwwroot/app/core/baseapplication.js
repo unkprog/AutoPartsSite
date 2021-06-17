@@ -129,6 +129,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     }
                     else {
                         self.ResetScroll();
+                        var pageOpt = options.controller.Options;
+                        //if (options.isPopState == undefined || options.isPopState == false)
+                        //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
+                        history.replaceState(pageOpt, options.controller.Header, pageOpt && pageOpt.Page ? pageOpt.Page : '/');
                         content.html(view[0]);
                         isInit = self._controller.ViewShow(self) && isInit;
                         self._controller.ViewResize(self);
@@ -207,14 +211,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         var controller = ctrlCreate(module);
                         if (options.onLoadController)
                             options.onLoadController(controller);
-                        self.OpenView({ controller: controller, isModal: options.isModal, backController: options.backController });
+                        self.OpenView({ controller: controller, isModal: options.isModal, backController: options.backController, isPopState: options.isPopState });
                     }
                 });
             };
             Application.prototype.OpenView = function (options) {
                 var self = this;
                 if (options.isModal && options.isModal === true) {
-                    $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
+                    $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version /*, cache: false*/ })).done(function (template) {
                         self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
                     }).fail(function (e) {
                         self.HideLoading();
@@ -229,8 +233,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     return; //Already loaded and current
                 self.ShowLoading(true);
                 //<div id="main-view-content-modal" style="display:none"></div>
-                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done(function (template) {
-                    self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
+                $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version /*, cache: false*/ })).done(function (template) {
+                    self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore, isPopState: options.isPopState });
                 }).fail(function (e) {
                     self.HideLoading();
                 });

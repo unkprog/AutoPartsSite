@@ -9,7 +9,8 @@ export namespace Controller.Cms {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/cms/index.html", Id: "cms-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/cms/index.html", Id: "cms-view", Page: "/cms/index" };
+            return options;
         }
 
         protected createModel(): kendo.data.ObservableObject {

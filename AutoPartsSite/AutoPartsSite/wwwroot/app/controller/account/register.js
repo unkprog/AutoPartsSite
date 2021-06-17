@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return _super.call(this) || this;
                 }
                 Register.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/register.html", Id: "register-view" };
+                    var options = { Url: "/app/controller/account/register.html", Id: "register-view", Page: "/account/register" };
+                    return options;
                 };
                 Register.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

@@ -166,6 +166,10 @@ export namespace App {
                 }
                 else {
                     self.ResetScroll();
+                    let pageOpt = options.controller.Options as Interfaces.IControllerPageOptions;
+                    //if (options.isPopState == undefined || options.isPopState == false)
+                        //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
+                    history.replaceState(pageOpt, options.controller.Header, pageOpt && pageOpt.Page ? pageOpt.Page : '/');
                     content.html(view[0]);
                     isInit = self._controller.ViewShow(self) && isInit;
                     self._controller.ViewResize(self);
@@ -247,7 +251,7 @@ export namespace App {
                     let controller: Interfaces.IController = ctrlCreate(module);
                     if (options.onLoadController)
                         options.onLoadController(controller);
-                    self.OpenView({ controller: controller, isModal: options.isModal, backController: options.backController });
+                    self.OpenView({ controller: controller, isModal: options.isModal, backController: options.backController, isPopState: options.isPopState });
                 }
             });
         }
@@ -256,7 +260,7 @@ export namespace App {
             let self = this;
 
             if (options.isModal && options.isModal === true) {
-                $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
+                $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version /*, cache: false*/ })).done((template) => {
                     self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
                 }).fail((e) => {
                     self.HideLoading();
@@ -273,8 +277,8 @@ export namespace App {
             self.ShowLoading(true);
 
             //<div id="main-view-content-modal" style="display:none"></div>
-            $.when($.ajax({ url: options.controller.Options.Url, cache: false })).done((template) => {
-                self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
+            $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version/*, cache: false*/ })).done((template) => {
+                self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore, isPopState: options.isPopState });
             }).fail((e) => {
                 self.HideLoading();
             });

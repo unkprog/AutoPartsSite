@@ -70,8 +70,14 @@ namespace AutoPartsSite
             app.UseStaticHttpContext1();
             app.UseHttpsRedirection();
 
-            app.UseDefaultFiles();
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("app/index.html");
+            app.UseDefaultFiles(options);
             app.UseStaticFiles();
+
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
 
             app.UseApiAuthorization();
 

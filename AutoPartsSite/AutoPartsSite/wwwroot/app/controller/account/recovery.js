@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return _super.call(this) || this;
                 }
                 Recovery.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/recovery.html", Id: "recovery-view" };
+                    var options = { Url: "/app/controller/account/recovery.html", Id: "recovery-view", Page: "/account/recovery" };
+                    return options;
                 };
                 Recovery.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

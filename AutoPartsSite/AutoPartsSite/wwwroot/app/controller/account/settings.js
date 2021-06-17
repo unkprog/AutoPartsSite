@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return _super.call(this) || this;
                 }
                 Settings.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/settings.html", Id: "settings-view" };
+                    var options = { Url: "/app/controller/account/settings.html", Id: "settings-view", Page: "/account/settings" };
+                    return options;
                 };
                 Settings.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

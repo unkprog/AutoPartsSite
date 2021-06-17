@@ -55,6 +55,7 @@
         isModal?: boolean;
         backController?: Interfaces.IController;
         onLoadController?: (controller: Interfaces.IController) => void;
+        isPopState?: boolean;
     }
 
 
@@ -63,6 +64,7 @@
         isModal?: boolean;
         backController?: Interfaces.IController;
         isRestore?: boolean;
+        isPopState?: boolean;
     }
 
     export interface IControllerNavigation {

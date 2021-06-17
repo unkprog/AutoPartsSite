@@ -70,7 +70,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             Application.prototype.loadAppView_ = function () {
                 var self = this;
-                $.when($.ajax({ url: "/app/app.html", cache: false })).done(function (template) {
+                $.when($.ajax({ url: "/app/app.html" /*, cache: false*/ })).done(function (template) {
                     try {
                         $("#app-view").html(template);
                         kendo.bind($("#app-view"), self.Model);

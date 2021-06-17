@@ -25,7 +25,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     return _super.call(this) || this;
                 }
                 Messages.prototype.createOptions = function () {
-                    return { Url: "/app/controller/account/messages.html", Id: "messages-view" };
+                    var options = { Url: "/app/controller/account/messages.html", Id: "messages-view", Page: "/account/messages" };
+                    return options;
                 };
                 Messages.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

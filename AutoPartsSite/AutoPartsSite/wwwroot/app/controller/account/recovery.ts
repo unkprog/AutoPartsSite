@@ -10,7 +10,8 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/recovery.html", Id: "recovery-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/account/recovery.html", Id: "recovery-view", Page: "/account/recovery" };
+            return options
         }
 
         protected createModel(): kendo.data.ObservableObject {

@@ -34,7 +34,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     configurable: true
                 });
                 Billing.prototype.createOptions = function () {
-                    return { Url: "/app/controller/basket/billing.html", Id: "billing-view" };
+                    var options = { Url: "/app/controller/basket/billing.html", Id: "billing-view", Page: "/basket/billing" };
+                    return options;
                 };
                 Billing.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({

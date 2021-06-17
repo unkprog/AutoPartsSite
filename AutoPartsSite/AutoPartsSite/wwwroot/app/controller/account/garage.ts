@@ -10,7 +10,8 @@ export namespace Controller.Account {
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
-            return { Url: "/app/controller/account/garage.html", Id: "garage-view" };
+            let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/account/garage.html", Id: "garage-view", Page: "/account/garage" };
+            return options;
         }
 
         protected createModel(): kendo.data.ObservableObject {
