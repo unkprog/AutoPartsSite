@@ -216,7 +216,10 @@ export namespace Controller.Search {
             //this.View.find('#search-view-parts').html('');
             //this.View.find('#search-view-brand-catalogs').show();
             //window.location.replace('/index.html');
-            history.replaceState({}, null, null);
+            history.replaceState({}, null, '/');
+            this.View.find('#search-view-part-number').val('');
+            this.search(undefined);
+            //pageOpt, options.controller.Header, (pageOpt && pageOpt.Page ? pageOpt.Page : '/') + hr
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -261,6 +264,10 @@ export namespace Controller.Search {
                     if (utils.isNullOrEmpty(htmlResult)) {
                         if (!utils.isNullOrEmpty(partNum))
                             self.View.find('#search-view-parts').html('<div class="center" style="font-size:1.5rem;font-style:italic;color:red;">' + vars._statres("message$article$notfound") + '</div>');
+                        else {
+                            self.View.find('#search-view-parts').html('');
+                            self.loadBrands();
+                        }
                         self.View.find('#search-view-brand-catalogs').show();
                     }
                     else {

@@ -110,9 +110,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         self.SetHeader(self._controller);
                     var view = $(options.template);
                     if (view.length > 0) {
-                        for (var i = 0, icount = view.length; i < icount; i++) {
-                            if (self._controller.Options.Id === view[i].id)
-                                view = $(view[i]);
+                        for (var i_1 = 0, icount = view.length; i_1 < icount; i_1++) {
+                            if (self._controller.Options.Id === view[i_1].id)
+                                view = $(view[i_1]);
                         }
                     }
                     isInit = self._controller.ViewInit(view);
@@ -132,7 +132,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         var pageOpt = options.controller.Options;
                         //if (options.isPopState == undefined || options.isPopState == false)
                         //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
-                        history.replaceState(pageOpt, options.controller.Header, pageOpt && pageOpt.Page ? pageOpt.Page : '/');
+                        var hr = window.location.href.toLocaleLowerCase();
+                        var i = hr.indexOf('?');
+                        hr = (i > -1 ? hr.substring(i) : '');
+                        history.replaceState(pageOpt, options.controller.Header, (pageOpt && pageOpt.Page ? pageOpt.Page : '/') + hr);
                         content.html(view[0]);
                         isInit = self._controller.ViewShow(self) && isInit;
                         self._controller.ViewResize(self);

@@ -169,7 +169,12 @@ export namespace App {
                     let pageOpt = options.controller.Options as Interfaces.IControllerPageOptions;
                     //if (options.isPopState == undefined || options.isPopState == false)
                         //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
-                    history.replaceState(pageOpt, options.controller.Header, pageOpt && pageOpt.Page ? pageOpt.Page : '/');
+                    var hr = window.location.href.toLocaleLowerCase();
+
+                    var i = hr.indexOf('?');
+                    hr = (i > -1 ? hr.substring(i) : '');
+
+                    history.replaceState(pageOpt, options.controller.Header, (pageOpt && pageOpt.Page ? pageOpt.Page : '/') + hr);
                     content.html(view[0]);
                     isInit = self._controller.ViewShow(self) && isInit;
                     self._controller.ViewResize(self);
