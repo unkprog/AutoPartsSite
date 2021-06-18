@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, srh, bsk, utils) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice", "app/core/utils", "app/core/variables"], function (require, exports, vars, base, srh, bsk, utils, variables_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -81,7 +81,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.ViewShow = function (e) {
                     var result = _super.prototype.ViewShow.call(this, e);
-                    this.View.find('#search-view-part-number').focus();
+                    var self = this;
+                    //this.View.find('#search-view-part-number').focus();
+                    //this.View.find('#search-view-btn1').on('click', );
+                    setTimeout(function () { self.View.find('#search-view-part-number').focus(); }, 2000);
                     return result;
                 };
                 Index.prototype.setupSearchArticle = function () {
@@ -91,6 +94,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var searchParams = new URLSearchParams(hr);
                     if (searchParams.has("partnumber") === true) {
                         this.findArticle = searchParams.get("partnumber");
+                        history.replaceState({}, null, '/');
                         return false;
                     }
                     return true;
@@ -334,6 +338,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.reqToCard = function (e) {
                     //  vars._app.ShowLoading(false);
+                    var artikle = $(e.currentTarget).data('artikle');
+                    localStorage.setItem("artikle", artikle);
+                    variables_1._app.OpenController({ urlController: "search/askquestion" });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

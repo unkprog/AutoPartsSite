@@ -125,4 +125,10 @@
 
     export interface IBillingAddressInfo extends IAddressInfo {
     }
+
+    export interface IAskQuestion  {
+        Name: string;
+        Email: string;
+        Question: string;
+    }
 }

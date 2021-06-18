@@ -11,6 +11,8 @@
     chips(methodName?: any, paramName?: any): JQuery;
     collapsible(methodName?: any, paramName?: any): JQuery;
     tooltip(methodName?: any, paramName?: any): JQuery;
+
+    destroy();
 }
 
 
@@ -33,6 +35,7 @@ declare namespace M {
         function getInstance(elems: any, options?: any): any;
     }
     export namespace FormSelect {
+        function getInstance(elems: any): any;
         function init(elems: any, options?: any): JQuery;
     }
 

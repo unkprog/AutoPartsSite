@@ -142,6 +142,14 @@ define({
     "label$catalog": "Catalog",
     "label$onlinecatalog": "Online catalog",
     "message$article$notfound": "The requested part number was not found",
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Ask question                                                               //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$ask$name": "Your name (optional)",
+    "label$ask$question": "Leave us message",
+    "label$howcan$help": "How can we help you?",
+    "label$send": "Send",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,7 @@ import base = require('app/core/basecontroller');
 import srh = require('app/services/searchservice');
 import bsk = require('app/services/basketservice');
 import utils = require('app/core/utils');
+import { _app } from 'app/core/variables';
 
 export namespace Controller.Search {
     export class Index extends base.Controller.Base {
@@ -83,7 +84,11 @@ export namespace Controller.Search {
 
         public ViewShow(e: any): boolean {
             let result = super.ViewShow(e);
-            this.View.find('#search-view-part-number').focus();
+            let self = this;
+            //this.View.find('#search-view-part-number').focus();
+            //this.View.find('#search-view-btn1').on('click', );
+
+            setTimeout(function () { self.View.find('#search-view-part-number').focus(); }, 2000);
             return result;
         }
 
@@ -97,6 +102,7 @@ export namespace Controller.Search {
             let searchParams = new URLSearchParams(hr);
             if (searchParams.has("partnumber") === true) {
                 this.findArticle = searchParams.get("partnumber");
+                history.replaceState({}, null, '/');
                 return false;
             }
             return true;
@@ -385,8 +391,10 @@ export namespace Controller.Search {
         }
 
         private reqToCard(e: any): boolean {
-          //  vars._app.ShowLoading(false);
-          
+            //  vars._app.ShowLoading(false);
+            let artikle: string = $(e.currentTarget).data('artikle');
+            localStorage.setItem("artikle", artikle);
+            _app.OpenController({ urlController: "search/askquestion" });
             e.preventDefault();
             e.stopPropagation();
             return false;

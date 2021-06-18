@@ -269,10 +269,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.openSettings = function () {
                 var self = this;
-                this.sideNav.sidenav('close');
+                self.sideNav.sidenav('close');
+                self.currentLocaleId = vars._appData.Locale.Id;
+                self.openSettingsWithLocale(self.currentLocaleId);
+            };
+            Main.prototype.openSettingsWithLocale = function (localeId) {
+                var self = this;
                 vars._app.ShowLoading(true);
                 var accountService = new acc.Services.AccountService();
-                accountService.SettingsData(vars._appData.Locale.Id, vars._appData.Settings === null, function (responseData) {
+                accountService.SettingsData(localeId, vars._appData.Settings === null, function (responseData) {
                     if (responseData.Result === 0) {
                         self.Model.set("SettingsData", responseData.Data);
                         self.setupLists();
@@ -284,7 +289,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 });
             };
             Main.prototype.setupLists = function () {
-                var settingsData = this.Model.get("SettingsData");
+                var self = this;
+                var settingsData = self.Model.get("SettingsData");
                 var settings = vars._appData.Settings;
                 if (settings == null)
                     settings = settingsData.Current;
@@ -293,6 +299,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var elJq = $(el.M_FormSelect.dropdown.dropdownEl);
                     if (elJq.hasClass(cls) == false)
                         elJq.addClass(cls);
+                    return sj;
                 };
                 var html = '';
                 var countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');
@@ -301,15 +308,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
                     html = html + /*settingsData.Countries[i].Code + ' - ' +*/ settingsData.Countries[i].Name + '</option>';
                 }
-                setSelectClass($('#app-settings-modal-list-country').html(html).formSelect(), 'select-max-height-650');
+                self.setCountryQ = $('#app-settings-modal-list-country').html(html).formSelect();
+                setSelectClass(self.setCountryQ, 'select-max-height-650');
                 html = '';
-                var langVal = (settings.Language && settings.Language != null && !utils.isNullOrEmpty(settings.Language.Code) ? settings.Language.Code.toLowerCase() : '');
-                ;
+                //let langVal = (settings.Language && settings.Language != null ? settings.Language.Id : 0);
                 for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                    html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (langVal == settingsData.Languages[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                    html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settingsData.Languages[i].Id == self.currentLocaleId ? 'selected' : '') + '>';
                     html = html + /*settingsData.Languages[i].Code + ' - ' +*/ settingsData.Languages[i].Name + '</option>';
                 }
-                setSelectClass($('#app-settings-modal-list-lang').html(html).formSelect(), 'select-max-height-450');
+                self.setLangQ = $('#app-settings-modal-list-lang').html(html).formSelect();
+                setSelectClass(self.setLangQ, 'select-max-height-450');
+                var changeLangQ = function (e) {
+                    self.currentLocaleId = parseInt($('#app-settings-modal-list-lang').val(), 0);
+                    self.setLangQ.off('change');
+                    M.FormSelect.getInstance(self.setCountryQ[0]).destroy();
+                    M.FormSelect.getInstance(self.setLangQ[0]).destroy();
+                    M.FormSelect.getInstance(self.setCurrencyQ[0]).destroy();
+                    self.openSettingsWithLocale(self.currentLocaleId);
+                };
+                self.setLangQ.on('change', changeLangQ);
                 html = '';
                 var currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');
                 ;
@@ -317,7 +334,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
                     html = html + /*settingsData.Currencies[i].Code + ' - ' +*/ settingsData.Currencies[i].Name + '</option>';
                 }
-                setSelectClass($('#app-settings-modal-list-currency').html(html).formSelect(), 'select-max-height-300');
+                self.setCurrencyQ = $('#app-settings-modal-list-currency').html(html).formSelect();
+                setSelectClass(self.setCurrencyQ, 'select-max-height-300');
                 //this.View.find('#app-settings-modal-list-country').formSelect({ classes: 'select-max-height-600' })
                 //this.View.find('#app-settings-modal-list-lang').formSelect({ classes: 'select-max-height-400' });
                 //this.View.find('#app-settings-modal-list-currency').formSelect({ classes: 'select-max-height-400' });

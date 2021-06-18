@@ -272,6 +272,7 @@
 
     <TypeScriptCompile Include="wwwroot\app\controller\main.ts" DependentUpon="main.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\search\index.ts" DependentUpon="index.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\search\askquestion.ts" DependentUpon="askquestion.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\about\index.ts" DependentUpon="index.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\about\faq.ts" DependentUpon="faq.html" />
