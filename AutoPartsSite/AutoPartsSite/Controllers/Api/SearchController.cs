@@ -71,10 +71,10 @@ namespace AutoPartsSite.Controllers.Api
                         MaxPage = resultSearch.Count > 0 ? resultSearch[0].MaxPage : 0
                     };
 
-                    foreach(var sti in goodsResult.Result.Values)
+                    foreach (var sti in goodsResult.Result.Values)
                         result.Result.Add(new GoodsSubTypeSearchResult() { Id = sti.Id, Descr = sti.Descr, Goods = sti.Goods.Values.ToList() });
 
-                    foreach(var sti  in result.Result)
+                    foreach (var sti in result.Result)
                     {
                         foreach (var ritem in sti.Goods)
                         {
@@ -92,6 +92,23 @@ namespace AutoPartsSite.Controllers.Api
                 });
             });
 
+        [HttpPost]
+        [Route("askquestion")]
+        public async Task<HttpMessage<string>> AskQuestion(AskQuestion q)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  string result = "Ok";
 
+                  string body = string.Empty;
+                  if (!string.IsNullOrEmpty(q.Name))
+                      body = string.Concat(body, string.IsNullOrEmpty(body) ? System.Environment.NewLine : string.Empty, "Name: ", q.Name);
+                  body = string.Concat(body, "Question: ", q.Question);
+                  Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, q.Email, body);
+
+                  return CreateResponseOk(result);
+              });
+          });
     }
 }

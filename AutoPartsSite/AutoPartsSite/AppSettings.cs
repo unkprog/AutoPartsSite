@@ -104,5 +104,61 @@ namespace AutoPartsSite
                 }
             }
         }
+
+        public static class Smtp
+        {
+            static IConfiguration Settings { get; }
+            static Smtp()
+            {
+                Settings = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+                        .AddJsonFile(@"\\appsettings.jsn")
+#else
+                        .AddJsonFile(@"\\appsettings.json")
+#endif
+                        .Build();
+            }
+            public static string Host => Settings["Smtp:Host"];
+            public static int Port => Settings.GetValue<int>("Smtp:Port");
+            public static bool EnableSsl => Settings.GetValue<bool>("Smtp:EnableSsl");
+
+        }
+
+        public static class Mail
+        {
+            static IConfiguration Settings { get; }
+            static Mail()
+            {
+                Settings = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+                        .AddJsonFile(@"\\appsettings.jsn")
+#else
+                        .AddJsonFile(@"\\appsettings.json")
+#endif
+                        .Build();
+            }
+            public static string Address => Settings["Mail:Address"];
+            public static string Password => Settings["Mail:Password"];
+        }
+
+        public static class MailAskQuestions
+        {
+            static IConfiguration Settings { get; }
+            static MailAskQuestions()
+            {
+                Settings = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+                        .AddJsonFile(@"\\appsettings.jsn")
+#else
+                        .AddJsonFile(@"\\appsettings.json")
+#endif
+                        .Build();
+            }
+            public static string Address => Settings["Mail:Ask:Address"];
+            public static string Password => Settings["Mail:Ask:Password"];
+        }
     }
 }

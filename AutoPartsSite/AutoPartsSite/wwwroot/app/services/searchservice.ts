@@ -29,5 +29,9 @@ export namespace Services {
             this.GetApi({ Action: "/listBrands", Callback: Callback });
         }
 
+        
+        public SendAskQuestion(question: Interfaces.Model.IAskQuestion, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
+        }
     }
 }

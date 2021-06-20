@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, bsk, utils) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/core/utils"], function (require, exports, vars, base, srh, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -23,12 +23,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 __extends(AskQuestion, _super);
                 function AskQuestion() {
                     var _this = _super.call(this) || this;
-                    _this.basketService = new bsk.Services.BasketService();
+                    _this.searchService = new srh.Services.SearchService();
                     return _this;
                 }
-                Object.defineProperty(AskQuestion.prototype, "BasketService", {
+                Object.defineProperty(AskQuestion.prototype, "SearchService", {
                     get: function () {
-                        return this.basketService;
+                        return this.searchService;
                     },
                     enumerable: false,
                     configurable: true
@@ -57,7 +57,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 AskQuestion.prototype.OnViewInit = function () {
                     ////vars._app.ShowLoading(true);
                     //let self = this;
-                    //this.BasketService.DeliveryAddressData((responseData) => {
+                    //this.SearchService.DeliveryAddressData((responseData) => {
                     //    if (responseData.Result === 0) {
                     //        self.setupDeliveryData(responseData);
                     //    }
@@ -98,15 +98,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 AskQuestion.prototype.sendButtonClick = function (e) {
                     var question = this.Model.get("AskQuestion").toJSON();
                     if (this.validate(question)) {
-                        //this.BasketService.SetDeliveryAddressData(delivery, (responseData) => {
-                        //    if (responseData.Result === 0) {
-                        //        vars._app.OpenController({ urlController: "basket/billing" });
-                        //    }
-                        //    else {
-                        //        vars._app.ShowError(responseData.Error);
-                        //    }
-                        //    vars._app.HideLoading();
-                        //});
+                        this.SearchService.SendAskQuestion(question, function (responseData) {
+                            if (responseData.Result === 0) {
+                                vars._app.OpenController({ urlController: "search/index" });
+                            }
+                            else {
+                                vars._app.ShowError(responseData.Error);
+                            }
+                            vars._app.HideLoading();
+                        });
                     }
                     e.preventDefault();
                     e.stopPropagation();
@@ -114,16 +114,16 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 AskQuestion.prototype.validate = function (model) {
                     var result = true;
-                    if (utils.isNullOrEmpty(model.Name)) {
-                        M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
-                        result = false;
-                    }
-                    if (utils.isNullOrEmpty(model.Email)) {
-                        M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                    //if (utils.isNullOrEmpty(model.Name)) {
+                    //    M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                    //    result = false;
+                    //}
+                    if (!utils.validateEmail(model.Email)) {
+                        M.toast({ html: vars._statres("msg$error$emailIncorrect") });
                         result = false;
                     }
                     if (utils.isNullOrEmpty(model.Question)) {
-                        M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                        M.toast({ html: vars._statres("label$ask$question$incorrect") });
                         result = false;
                     }
                     return result;

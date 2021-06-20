@@ -44,6 +44,9 @@ define(["require", "exports", "app/core/baseservice", "../core/variables"], func
             SearchService.prototype.ListBrands = function (Callback) {
                 this.GetApi({ Action: "/listBrands", Callback: Callback });
             };
+            SearchService.prototype.SendAskQuestion = function (question, Callback) {
+                this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
+            };
             return SearchService;
         }(base.Services.BaseService));
         Services.SearchService = SearchService;

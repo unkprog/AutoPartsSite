@@ -150,6 +150,7 @@ define({
     "label$ask$question": "Leave us message",
     "label$howcan$help": "How can we help you?",
     "label$send": "Send",
+    "label$ask$question$incorrect": "Message not completed",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

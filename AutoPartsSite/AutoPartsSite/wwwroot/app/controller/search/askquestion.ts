@@ -1,6 +1,6 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
-import bsk = require('app/services/basketservice');
+import srh = require('app/services/searchservice');
 import utils = require('app/core/utils');
 
 export namespace Controller.Search {
@@ -8,12 +8,11 @@ export namespace Controller.Search {
 
         constructor() {
             super();
-            this.basketService = new bsk.Services.BasketService();
+            this.searchService = new srh.Services.SearchService();
         }
-
-        private basketService: bsk.Services.BasketService;
-        public get BasketService(): bsk.Services.BasketService {
-            return this.basketService;
+        private searchService: srh.Services.SearchService;
+        public get SearchService(): srh.Services.SearchService {
+            return this.searchService;
         }
 
         protected createOptions(): Interfaces.IControllerOptions {
@@ -44,7 +43,7 @@ export namespace Controller.Search {
             ////vars._app.ShowLoading(true);
             //let self = this;
 
-            //this.BasketService.DeliveryAddressData((responseData) => {
+            //this.SearchService.DeliveryAddressData((responseData) => {
 
             //    if (responseData.Result === 0) {
             //        self.setupDeliveryData(responseData);
@@ -94,15 +93,15 @@ export namespace Controller.Search {
         private sendButtonClick(e) {
             let question: Interfaces.Model.IAskQuestion = this.Model.get("AskQuestion").toJSON();
             if (this.validate(question)) {
-                //this.BasketService.SetDeliveryAddressData(delivery, (responseData) => {
-                //    if (responseData.Result === 0) {
-                //        vars._app.OpenController({ urlController: "basket/billing" });
-                //    }
-                //    else {
-                //        vars._app.ShowError(responseData.Error);
-                //    }
-                //    vars._app.HideLoading();
-                //});
+                this.SearchService.SendAskQuestion(question, (responseData) => {
+                    if (responseData.Result === 0) {
+                        vars._app.OpenController({ urlController: "search/index" });
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
             }
             e.preventDefault();
             e.stopPropagation();
@@ -112,18 +111,18 @@ export namespace Controller.Search {
         private validate(model: Interfaces.Model.IAskQuestion): boolean {
             let result: boolean = true;
             
-            if (utils.isNullOrEmpty(model.Name)) {
-                M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
-                result = false;
-            }
+            //if (utils.isNullOrEmpty(model.Name)) {
+            //    M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+            //    result = false;
+            //}
 
-            if (utils.isNullOrEmpty(model.Email)) {
-                M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+            if (!utils.validateEmail(model.Email)) {
+                M.toast({ html: vars._statres("msg$error$emailIncorrect") });
                 result = false;
             }
 
             if (utils.isNullOrEmpty(model.Question)) {
-                M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
+                M.toast({ html: vars._statres("label$ask$question$incorrect") });
                 result = false;
             }
 
