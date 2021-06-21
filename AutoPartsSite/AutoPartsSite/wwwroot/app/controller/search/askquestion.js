@@ -55,17 +55,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return _super.prototype.ViewInit.call(this, view);
                 };
                 AskQuestion.prototype.OnViewInit = function () {
-                    ////vars._app.ShowLoading(true);
-                    //let self = this;
-                    //this.SearchService.DeliveryAddressData((responseData) => {
-                    //    if (responseData.Result === 0) {
-                    //        self.setupDeliveryData(responseData);
-                    //    }
-                    //    else {
-                    //        vars._app.ShowError(responseData.Error);
-                    //    }
-                    //    vars._app.HideLoading();
-                    //});
+                    var self = this;
+                    if (vars._appData.Identity && vars._appData.Identity.User && vars._appData.Identity.User.Email && !utils.isNullOrEmpty(vars._appData.Identity.User.Email))
+                        self.Model.set("AskQuestion.Email", vars._appData.Identity.User.Email);
+                    var artikle = localStorage.getItem("artikle");
+                    localStorage.removeItem("artikle");
+                    if (!utils.isNullOrEmpty(artikle)) {
+                        self.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - <' + artikle + '>?');
+                    }
                 };
                 AskQuestion.prototype.ViewShow = function (e) {
                     var result = _super.prototype.ViewShow.call(this, e);
@@ -74,28 +71,15 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     M.textareaAutoResize(self.View.find('#askquestion-view-question'));
                     return result;
                 };
-                //private setupDeliveryData(responseData) {
-                //    let settings: Interfaces.Model.ISettings = vars._appData.Settings;
-                //    let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data.Countries;
-                //    this.Model.set("DeliveryAddress", responseData.Data.DeliveryAddress);
-                //    let html: string = '';
-                //    for (let i = 0, icount = countries.length; i < icount; i++) {
-                //        if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
-                //            this.Model.set("DeliveryAddress.CountryId", countries[i].Id);
-                //        html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                //        html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
-                //    }
-                //    $('#delivery-view-country').html(html);
-                //    this.View.find('select').formSelect();
-                //    M.updateTextFields();
-                //}   
                 AskQuestion.prototype.createEvents = function () {
                     this.SendButtonClick = this.createClickEvent("askquestion-send-btn", this.sendButtonClick);
                 };
                 AskQuestion.prototype.destroyEvents = function () {
+                    localStorage.removeItem("artikle");
                     this.destroyClickEvent("askquestion-send-btn", this.SendButtonClick);
                 };
                 AskQuestion.prototype.sendButtonClick = function (e) {
+                    vars._app.ShowLoading(false);
                     var question = this.Model.get("AskQuestion").toJSON();
                     if (this.validate(question)) {
                         this.SearchService.SendAskQuestion(question, function (responseData) {
@@ -114,10 +98,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 AskQuestion.prototype.validate = function (model) {
                     var result = true;
-                    //if (utils.isNullOrEmpty(model.Name)) {
-                    //    M.toast({ html: vars._statres('msg$error$notspecified$fullname') });
-                    //    result = false;
-                    //}
                     if (!utils.validateEmail(model.Email)) {
                         M.toast({ html: vars._statres("msg$error$emailIncorrect") });
                         result = false;

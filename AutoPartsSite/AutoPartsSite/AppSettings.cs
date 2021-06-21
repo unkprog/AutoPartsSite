@@ -158,7 +158,6 @@ namespace AutoPartsSite
                         .Build();
             }
             public static string Address => Settings["Mail:Ask:Address"];
-            public static string Password => Settings["Mail:Ask:Password"];
         }
     }
 }

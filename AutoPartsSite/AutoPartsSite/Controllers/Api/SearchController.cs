@@ -103,9 +103,10 @@ namespace AutoPartsSite.Controllers.Api
 
                   string body = string.Empty;
                   if (!string.IsNullOrEmpty(q.Name))
-                      body = string.Concat(body, string.IsNullOrEmpty(body) ? System.Environment.NewLine : string.Empty, "Name: ", q.Name);
-                  body = string.Concat(body, "Question: ", q.Question);
-                  Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, q.Email, body);
+                      body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Name: ", q.Name);
+                  body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Email: ", q.Email);
+                  body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Question: ", q.Question);
+                  Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, "Ask question", body);
 
                   return CreateResponseOk(result);
               });

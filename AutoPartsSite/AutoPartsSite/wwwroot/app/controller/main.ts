@@ -348,11 +348,22 @@ export namespace Controller {
         private setLangQ: JQuery;
         private setCurrencyQ: JQuery;
 
+        private saveLocaleId: number;
+        private saveCurrencyId: number;
+        private saveCountryId: number;
+        private currentLocaleId: number;
+        private currentCurrencyId: number;
+        private currentCountryId: number;
         private openSettings() {
             let self = this;
             self.sideNav.sidenav('close');
-            self.currentLocaleId = vars._appData.Locale.Id;
-            self.openSettingsWithLocale(self.currentLocaleId);
+            self.saveLocaleId = vars._appData.Locale && vars._appData.Locale.Id ? vars._appData.Locale.Id : 0;
+            self.saveCurrencyId = vars._appData.Settings && vars._appData.Settings.Currency && vars._appData.Settings.Currency.Id ? vars._appData.Settings.Currency.Id : 0;
+            self.saveCountryId = vars._appData.Settings && vars._appData.Settings.Country && vars._appData.Settings.Country.Id ? vars._appData.Settings.Country.Id : 0;
+            self.currentLocaleId = self.saveLocaleId;
+            self.currentCurrencyId = self.saveCurrencyId;
+            self.currentCountryId = self.saveCountryId;
+            self.openSettingsWithLocale(self.saveLocaleId);
         }
 
         private openSettingsWithLocale(localeId:number) {
@@ -371,8 +382,8 @@ export namespace Controller {
             });
         }
 
-        private currentLocaleId: number;
-        
+        //private currentLocaleId: number;
+      
 
         private setupLists(): void {
             let self = this;
@@ -389,18 +400,16 @@ export namespace Controller {
                 return sj;
             }
             let html: string = '';
-            let countryVal = (settings.Country && settings.Country != null && !utils.isNullOrEmpty(settings.Country.Code) ? settings.Country.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (countryVal == settingsData.Countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (self.currentCountryId == settingsData.Countries[i].Id ? 'selected' : '') + '>';
                 html = html + /*settingsData.Countries[i].Code + ' - ' +*/ settingsData.Countries[i].Name + '</option>';
             }
             self.setCountryQ = $('#app-settings-modal-list-country').html(html).formSelect();
             setSelectClass(self.setCountryQ, 'select-max-height-650');
 
             html = '';
-            //let langVal = (settings.Language && settings.Language != null ? settings.Language.Id : 0);
             for (let i = 0, icount = settingsData.Languages.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (settingsData.Languages[i].Id == self.currentLocaleId ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (self.currentLocaleId == settingsData.Languages[i].Id ? 'selected' : '') + '>';
                 html = html + /*settingsData.Languages[i].Code + ' - ' +*/ settingsData.Languages[i].Name + '</option>';
             }
 
@@ -408,8 +417,10 @@ export namespace Controller {
             setSelectClass(self.setLangQ, 'select-max-height-450');
 
             let changeLangQ = function (e) {
-                self.currentLocaleId = parseInt($('#app-settings-modal-list-lang').val() as string, 0);
                 self.setLangQ.off('change');
+                self.currentLocaleId = parseInt(self.setLangQ.val() as string, 0);
+                self.currentCurrencyId = parseInt(self.setCurrencyQ.val() as string, 0);
+                self.currentCountryId = parseInt(self.setCountryQ.val() as string, 0);
 
                 M.FormSelect.getInstance(self.setCountryQ[0]).destroy();
                 M.FormSelect.getInstance(self.setLangQ[0]).destroy();
@@ -420,17 +431,12 @@ export namespace Controller {
             self.setLangQ.on('change', changeLangQ);
 
             html = '';
-            let currVal = (settings.Currency && settings.Currency != null && !utils.isNullOrEmpty(settings.Currency.Code) ? settings.Currency.Code.toLowerCase() : '');;
             for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (currVal == settingsData.Currencies[i].Code.toLowerCase() ? 'selected' : '') + '>';
+                html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (self.currentCurrencyId == settingsData.Currencies[i].Id ? 'selected' : '') + '>';
                 html = html + /*settingsData.Currencies[i].Code + ' - ' +*/ settingsData.Currencies[i].Name + '</option>';
             }
             self.setCurrencyQ = $('#app-settings-modal-list-currency').html(html).formSelect();
             setSelectClass(self.setCurrencyQ, 'select-max-height-300');
-
-            //this.View.find('#app-settings-modal-list-country').formSelect({ classes: 'select-max-height-600' })
-            //this.View.find('#app-settings-modal-list-lang').formSelect({ classes: 'select-max-height-400' });
-            //this.View.find('#app-settings-modal-list-currency').formSelect({ classes: 'select-max-height-400' });
 
             if (!this.appSettingsModal)
                 this.appSettingsModal = $('#app-settings-modal').modal();
@@ -448,19 +454,21 @@ export namespace Controller {
         }
 
         private saveSettingsData(): void {
+            let self = this;
             let vsettingsData: Interfaces.Model.ISettingsData = this.Model.get("SettingsData");
             let vsettings: Interfaces.Model.ISettings = vars._appData.Settings;
-            let country: number = parseInt($('#app-settings-modal-list-country').val() as string, 0);
-            let lang: number = parseInt($('#app-settings-modal-list-lang').val() as string, 0);
-            let currency: number = parseInt($('#app-settings-modal-list-currency').val() as string, 0);
+
+            self.currentLocaleId = parseInt(self.setLangQ.val() as string, 0);
+            self.currentCurrencyId = parseInt(self.setCurrencyQ.val() as string, 0);
+            self.currentCountryId = parseInt(self.setCountryQ.val() as string, 0);
 
             this.appSettingsModal.modal('close');
             vars._app.ShowLoading(true);
 
-            let setReload = function (isForce: boolean, settingsData: Interfaces.Model.ISettingsData, settings: Interfaces.Model.ISettings){
-                if (isForce == true || settings.Country.Id !== country) {
-                for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
-                    if (settingsData.Countries[i].Id === country) {
+            let setReload = function (isForce: boolean, settingsData: Interfaces.Model.ISettingsData, settings: Interfaces.Model.ISettings) {
+                if (isForce == true || self.currentCountryId !== self.saveCountryId) {
+                    for (let i = 0, icount = settingsData.Countries.length; i < icount; i++) {
+                        if (settingsData.Countries[i].Id === self.currentCountryId) {
                         settings.Country = {
                             Id: settingsData.Countries[i].Id,
                             Code: settingsData.Countries[i].Code,
@@ -473,9 +481,9 @@ export namespace Controller {
                 }
                 }
 
-                if (isForce == true || settings.Currency.Id !== currency) {
+                if (isForce == true || self.currentCurrencyId !== self.saveCurrencyId) {
                     for (let i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
-                        if (settingsData.Currencies[i].Id === currency) {
+                        if (settingsData.Currencies[i].Id === self.currentCurrencyId) {
                             settings.Currency = {
                                 Id: settingsData.Currencies[i].Id,
                                 Code: settingsData.Currencies[i].Code,
@@ -493,10 +501,9 @@ export namespace Controller {
             setReload(false, vsettingsData, vsettings);
 
             let isReloadForce: boolean = false;
-            if (vsettings.Language.Id !== lang) {
-
+            if (self.currentLocaleId !== self.saveLocaleId) {
                 for (let i = 0, icount = vsettingsData.Languages.length; i < icount; i++) {
-                    if (vsettingsData.Languages[i].Id === lang) {
+                    if (vsettingsData.Languages[i].Id === self.currentLocaleId) {
                         vsettings.Language = {
                             Id: vsettingsData.Languages[i].Id,
                             Code: vsettingsData.Languages[i].Code,
@@ -507,9 +514,10 @@ export namespace Controller {
                     }
                 }
             }
+
             if (isReloadForce) {
                 let accountService = new acc.Services.AccountService();
-                accountService.SettingsData(lang, vars._appData.Settings === null, (responseData) => {
+                accountService.SettingsData(self.currentLocaleId, vars._appData.Settings === null, (responseData) => {
                     if (responseData.Result === 0) {
                         vsettingsData = responseData.Data;
                         this.Model.set("SettingsData", vsettingsData);
