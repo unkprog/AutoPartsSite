@@ -38,6 +38,7 @@ define({
     "button$label$find": "Поиск",
     "button$label$print": "Печать",
     "label$back": "Назад",
+    "label$forward": "Далее",
     "button$label$сheckout": "Оформить",
 
     "button$label$register": "Регистрация",
@@ -165,7 +166,8 @@ define({
     "label$price$haschanged": "Цена изменилась",
     "label$sum": "Сумма",
     "label$amount": "Сумма",
-    "label$promocode": "Промокод", 
+    "label$promocode": "Промокод",
+    "mesage$promocode$applied": "Промокод применен",
     "label$promocode$apply": "Применить промокод",
     "label$total$goods$sum": "Всего товаров на сумму",
 

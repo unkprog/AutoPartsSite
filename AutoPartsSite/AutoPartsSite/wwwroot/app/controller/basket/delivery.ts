@@ -25,7 +25,7 @@ export namespace Controller.Basket {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$address$delivery"),
                 "labelBack": vars._statres("label$back"),
-                "labelCheckout": vars._statres("button$label$сheckout"),
+                "labelForward": vars._statres("label$forward"),
 
                 "labelFullName": vars._statres("label$fullname"),
                 "labelCountry": vars._statres("label$country"),

@@ -41,7 +41,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$address$billing"),
                         "labelBack": vars._statres("label$back"),
-                        "labelCheckout": vars._statres("button$label$сheckout"),
+                        "labelForward": vars._statres("label$forward"),
                         "labelFullName": vars._statres("label$fullname"),
                         "labelCountry": vars._statres("label$country"),
                         "labelRegion": vars._statres("label$region"),
@@ -102,7 +102,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Billing.prototype.checkoutButtonClick = function (e) {
                     var billingInfo = this.Model.get("BillingAddress").toJSON();
-                    ;
                     if (this.validate(billingInfo)) {
                         this.BasketService.SetBillingAddressData(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {

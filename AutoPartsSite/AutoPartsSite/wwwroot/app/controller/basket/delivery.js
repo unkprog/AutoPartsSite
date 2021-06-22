@@ -41,7 +41,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$address$delivery"),
                         "labelBack": vars._statres("label$back"),
-                        "labelCheckout": vars._statres("button$label$сheckout"),
+                        "labelForward": vars._statres("label$forward"),
                         "labelFullName": vars._statres("label$fullname"),
                         "labelCountry": vars._statres("label$country"),
                         "labelRegion": vars._statres("label$region"),

@@ -82,6 +82,7 @@ export namespace Controller.Basket {
                 self.setupBasketData(responseData);
             else
                 vars._app.ShowError(responseData.Error);
+            self.isShowPromocodeApplyMsg = false;
             vars._app.HideLoading();
 
             //if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
@@ -206,6 +207,9 @@ export namespace Controller.Basket {
                 vars._app.ShowError(responseData.Error);
 
             M.updateTextFields();
+
+            if (self.isShowPromocodeApplyMsg == true)
+                M.toast({ html: vars._statres("mesage$promocode$applied") });
         }
 
         private deliveryId: number = 0;
@@ -292,10 +296,12 @@ export namespace Controller.Basket {
             this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
         }
 
+        private isShowPromocodeApplyMsg: boolean;
         public ApplyPromocodeButtonClick: { (e: any): void; };
         private applyPromocodeButtonClick(e) {
             let self = this;
             let promoCode: string = self.View.find('#basket-promocode').val() as string;
+            self.isShowPromocodeApplyMsg = true;
             self.BasketService.SetPromocode(promoCode, (responseData) => self.endCommand(responseData));
             e.preventDefault();
             e.stopPropagation();

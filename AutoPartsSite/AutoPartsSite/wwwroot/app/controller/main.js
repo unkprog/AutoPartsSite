@@ -383,7 +383,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                                     Symbol: settingsData.Currencies[i].Symbol,
                                     ShowLeft: settingsData.Currencies[i].ShowLeft
                                 };
-                                $("#app-btn-country").html(settings.Currency.Code);
+                                $("#app-btn-currency").html(settings.Currency.Code);
                                 break;
                             }
                         }

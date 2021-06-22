@@ -38,6 +38,7 @@ define({
     "button$label$find": "Find",
     "button$label$print": "Print",
     "label$back": "Back",
+    "label$forward": "Forward",
     "button$label$сheckout": "Checkout",
 
     "button$label$register": "Register",
@@ -164,7 +165,8 @@ define({
     "label$no$longeravailable":"No longer available",
     "label$sum": "Sum",
     "label$amount": "Amount",
-    "label$promocode": "Promocode", 
+    "label$promocode": "Promocode",
+    "mesage$promocode$applied": "Promo code applied",
     "label$promocode$apply": "Apply promocode",
 
     "label$total$goods$sum": "Total goods for the amount",

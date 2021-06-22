@@ -30,7 +30,7 @@ export namespace Controller.Basket {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$payment"),
                 "labelTerms": vars._statres("label$terms"),
-                "labelBack": vars._statres("label$back"),
+                "labelContinueShopping": vars._statres("button$label$continueShopping"),
                 "labelCheckout": vars._statres("button$label$сheckout"),
                 "labelTermsConditions": vars._statres("label$termsconditions"),
                 "labelOk": vars._statres("button$label$ok"),
@@ -109,7 +109,7 @@ export namespace Controller.Basket {
 
         public BackButtonClick: { (e: any): void; };
         private backButtonClick(e) {
-            vars._app.OpenController({ urlController: "basket/billing" });
+            vars._app.OpenController({ urlController: "search/index" });
             e.preventDefault();
             e.stopPropagation();
             return false;

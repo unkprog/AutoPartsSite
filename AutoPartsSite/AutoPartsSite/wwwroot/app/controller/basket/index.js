@@ -94,6 +94,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         self.setupBasketData(responseData);
                     else
                         vars._app.ShowError(responseData.Error);
+                    self.isShowPromocodeApplyMsg = false;
                     vars._app.HideLoading();
                     //if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
                     //    vars._appData.IsBasketCheckOut = false;
@@ -193,6 +194,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                     M.updateTextFields();
+                    if (self.isShowPromocodeApplyMsg == true)
+                        M.toast({ html: vars._statres("mesage$promocode$applied") });
                 };
                 Index.prototype.deliveryClick = function (e) {
                     var self = this;
@@ -271,6 +274,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.applyPromocodeButtonClick = function (e) {
                     var self = this;
                     var promoCode = self.View.find('#basket-promocode').val();
+                    self.isShowPromocodeApplyMsg = true;
                     self.BasketService.SetPromocode(promoCode, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     e.stopPropagation();
