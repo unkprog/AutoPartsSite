@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using System.IO;
 using Utf8Json.Resolvers;
 
 namespace AutoPartsSite
@@ -91,7 +92,13 @@ namespace AutoPartsSite
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Auto parts site" + context.Request.Method); // System.Environment.NewLine + AppSettings.PhysicalApplicationPath);
+                System.Type t = typeof(Startup);
+
+                string file = string.Concat(t.Assembly.Location.Replace(t.Assembly.ManifestModule.Name, string.Empty), @"wwwroot\app\controller", context.Request.Path.ToString().Replace(@"/", @"\"), ".html");
+                if (File.Exists(file))
+                    await context.Response.WriteAsync("Auto parts site " + context.Request.Path.ToString()); // System.Environment.NewLine + AppSettings.PhysicalApplicationPath);
+                else
+                    await context.Response.WriteAsync("Auto parts site - page " + context.Request.Path.ToString() + " not found!");
             });
         }
     }

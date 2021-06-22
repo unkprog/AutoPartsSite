@@ -67,9 +67,7 @@
     <Content Remove="wwwroot\app\init.js" />
     <None Remove="appsettings.jsn" />
     <Content Include="appsettings.jsn" />
-    <Content Include="wwwroot\app\init.js" DependentUpon="index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="wwwroot\img\payments\flat\alipay.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
