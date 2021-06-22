@@ -24,9 +24,27 @@ define(["require", "exports", "app/core/variables", "app/controller/about/aboutv
                 function Contact() {
                     return _super.call(this) || this;
                 }
+                Contact.prototype.createModel = function () {
+                    return new kendo.data.ObservableObject({
+                        "Header": vars._statres("label$contacts"),
+                        "labelAskQuestion": vars._statres("label$ask$question"),
+                    });
+                };
                 Contact.prototype.createOptions = function () {
                     var options = { Url: "/app/controller/about/contact.html", Id: "contact-view", Page: "/about/contact" };
                     return options;
+                };
+                Contact.prototype.createEvents = function () {
+                    this.AskButtonClick = this.createTouchClickEvent("contact-view-askq-btn", this.askButtonClick);
+                };
+                Contact.prototype.destroyEvents = function () {
+                    this.destroyTouchClickEvent("contact-view-askq-btn", this.AskButtonClick);
+                };
+                Contact.prototype.askButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "search/askquestion" });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 return Contact;
             }(base.Controller.About.AboutView));

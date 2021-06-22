@@ -134,6 +134,7 @@ define({
     "label$availability": "Availability",
     "label$not$availability": "Not Available",
     "label$request": "Request",
+    "label$ask$question": "Ask question",
     "message$added$tocart": "The product has been added to the cart",
     "label$deliveryfrom": "Delivery from",
 

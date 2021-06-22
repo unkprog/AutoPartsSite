@@ -7,9 +7,32 @@ export namespace Controller.About {
             super();
         }
 
+        protected createModel(): kendo.data.ObservableObject {
+            return new kendo.data.ObservableObject({
+                "Header": vars._statres("label$contacts"),
+                "labelAskQuestion": vars._statres("label$ask$question"),
+            });
+        }
+
         protected createOptions(): Interfaces.IControllerOptions {
             let options: Interfaces.IControllerPageOptions = { Url: "/app/controller/about/contact.html", Id: "contact-view", Page: "/about/contact" };
             return options;
+        }
+
+        protected createEvents(): void {
+            this.AskButtonClick = this.createTouchClickEvent("contact-view-askq-btn", this.askButtonClick);
+        }
+
+        protected destroyEvents(): void {
+            this.destroyTouchClickEvent("contact-view-askq-btn", this.AskButtonClick);
+        }
+
+        public AskButtonClick: { (e: any): void; };
+        private askButtonClick(e) {
+            vars._app.OpenController({ urlController: "search/askquestion" });
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
     }
 }
