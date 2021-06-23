@@ -93,10 +93,17 @@ namespace AutoPartsSite
             app.Run(async (context) =>
             {
                 System.Type t = typeof(Startup);
-
                 string file = string.Concat(t.Assembly.Location.Replace(t.Assembly.ManifestModule.Name, string.Empty), @"wwwroot\app\controller", context.Request.Path.ToString().Replace(@"/", @"\"), ".html");
                 if (File.Exists(file))
-                    await context.Response.WriteAsync("Auto parts site " + context.Request.Path.ToString()); // System.Environment.NewLine + AppSettings.PhysicalApplicationPath);
+                {
+                    file = string.Concat(t.Assembly.Location.Replace(t.Assembly.ManifestModule.Name, string.Empty), @"wwwroot\app\index.html");
+                    string html = Core.IO.Helper.ReadFileAsString(file);
+                    file = context.Request.Path.ToString();
+                    if (file[0] == '/')
+                        file = file.Substring(1);
+                    html = html.Replace("<!--location-->", "<script>localStorage.setItem('startupPage','" + file + "');</script>");
+                    await context.Response.WriteAsync(html);
+                }
                 else
                     await context.Response.WriteAsync("Auto parts site - page " + context.Request.Path.ToString() + " not found!");
             });

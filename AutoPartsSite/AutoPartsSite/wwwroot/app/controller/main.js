@@ -89,7 +89,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 _super.prototype.ViewInit.call(this, view);
                 this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
                 this.initLogIn();
-                variables_1._app.OpenController({ urlController: "search/index" });
+                var startupPage = localStorage.getItem('startupPage');
+                localStorage.removeItem('startupPage');
+                if (utils.isNullOrEmpty(startupPage))
+                    variables_1._app.OpenController({ urlController: "search/index" });
+                else {
+                    variables_1._app.OpenController({ urlController: startupPage });
+                }
                 return false;
             };
             Main.prototype.initLogIn = function () {

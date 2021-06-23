@@ -113,7 +113,13 @@ export namespace Controller {
             this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
             this.initLogIn();
 
-            _app.OpenController({ urlController: "search/index" });
+            let startupPage = localStorage.getItem('startupPage');
+            localStorage.removeItem('startupPage');
+            if (utils.isNullOrEmpty(startupPage))
+                _app.OpenController({ urlController: "search/index" });
+            else {
+                _app.OpenController({ urlController: startupPage });
+            }
             return false;
         }
 
