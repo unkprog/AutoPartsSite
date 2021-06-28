@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
     exports.App = void 0;
     var App;
     (function (App) {
-        var Application = /** @class */ (function (_super) {
+        var Application = (function (_super) {
             __extends(Application, _super);
             function Application() {
                 return _super.call(this) || this;
@@ -70,7 +70,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             Application.prototype.loadAppView_ = function () {
                 var self = this;
-                $.when($.ajax({ url: "/app/app.html" /*, cache: false*/ })).done(function (template) {
+                $.when($.ajax({ url: "/app/app.html" })).done(function (template) {
                     try {
                         $("#app-view").html(template);
                         kendo.bind($("#app-view"), self.Model);
@@ -98,7 +98,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             Application.prototype.SetHeader = function (controller) {
                 var header = controller.Header;
                 if (header)
-                    this.Model.set("AppHeader", header); // + ' ' + self.contentControl.width()
+                    this.Model.set("AppHeader", header);
                 else if (vars._statres("label$AutoPartsSite") !== this.Model.get("AppHeader"))
                     this.Model.set("AppHeader", vars._statres("label$AutoPartsSite"));
             };

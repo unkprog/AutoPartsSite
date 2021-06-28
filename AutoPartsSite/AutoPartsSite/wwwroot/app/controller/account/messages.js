@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
     (function (Controller) {
         var Account;
         (function (Account) {
-            var Messages = /** @class */ (function (_super) {
+            var Messages = (function (_super) {
                 __extends(Messages, _super);
                 function Messages() {
                     return _super.call(this) || this;

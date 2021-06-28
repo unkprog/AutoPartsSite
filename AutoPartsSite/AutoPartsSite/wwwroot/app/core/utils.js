@@ -101,7 +101,7 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.dateToday = dateToday;
     function date_parse(date) {
-        var result; // = new Date();
+        var result;
         var split1 = date.split(' ');
         var splitDate = (split1.length > 0 ? split1[0].split('.') : []);
         var splitTime = (split1.length > 1 ? split1[1].split(':') : []);
@@ -113,7 +113,7 @@ define(["require", "exports"], function (require, exports) {
     function date_ddmmyyyy(date) {
         var _date = (date ? (typeof date === 'string' || date instanceof String ? date_parse(date) : date) : new Date());
         var yyyy = _date.getFullYear().toString();
-        var mm = (_date.getMonth() + 1).toString(); // getMonth() is zero-based         
+        var mm = (_date.getMonth() + 1).toString();
         var dd = _date.getDate().toString();
         return (dd[1] ? dd : '0' + dd[0]) + '.' + (mm[1] ? mm : '0' + mm[0]) + '.' + yyyy;
     }
@@ -123,7 +123,7 @@ define(["require", "exports"], function (require, exports) {
     function date_ddmmyyyy_withtime(date) {
         var _date = (date ? (typeof date === 'string' || date instanceof String ? new Date(date) : date) : new Date());
         var yyyy = _date.getFullYear().toString();
-        var mm = (_date.getMonth() + 1).toString(); // getMonth() is zero-based         
+        var mm = (_date.getMonth() + 1).toString();
         var dd = _date.getDate().toString();
         var hh = _date.getHours().toString();
         var mn = _date.getMinutes().toString();
@@ -148,7 +148,7 @@ define(["require", "exports"], function (require, exports) {
             if (value === 0)
                 result = '-';
             else
-                result = value.toFixed(decimal); // parseFloat(value).toFixed(2);
+                result = value.toFixed(decimal);
         }
         return result;
     }
@@ -168,10 +168,6 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.numberRound = numberRound;
     window.numberRound = numberRound;
-    /**
-     * @see http://stackoverflow.com/q/7616461/940217
-     * @return {number}
-     */
     function strToHashCode(value) {
         var hash = 0;
         if (value && value.length !== 0) {
@@ -182,7 +178,7 @@ define(["require", "exports"], function (require, exports) {
                 for (var i = 0, icount = value.length; i < icount; i++) {
                     var character = value.charCodeAt(i);
                     hash = ((hash << 5) - hash) + character;
-                    hash = hash & hash; // Convert to 32bit integer
+                    hash = hash & hash;
                 }
             }
         }

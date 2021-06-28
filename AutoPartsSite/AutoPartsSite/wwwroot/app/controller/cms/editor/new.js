@@ -21,7 +21,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
         (function (Cms) {
             var Editor;
             (function (Editor) {
-                var New = /** @class */ (function (_super) {
+                var New = (function (_super) {
                     __extends(New, _super);
                     function New() {
                         return _super.call(this) || this;
@@ -83,15 +83,10 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         this.Model.set("editModel.ContentRu", $('#new-view-summernote-ru').summernote('code'));
                         return true;
                     };
-                    //protected createEvents(): void {
-                    //}
-                    //protected destroyEvents(): void {
-                    //}
                     New.prototype.afterLoad = function (responseData) {
                         _super.prototype.afterLoad.call(this, responseData);
                         var self = this;
                         var model = this.EditorModel;
-                        //let dateTime: Date = new Date(responseData.Data.ReleaseDate);
                         require(["lib/summernote-0.8.18-dist/summernote-lite.min"], function (_summernote_lite) {
                             $('#new-view-tabs').tabs();
                             M.Tabs.getInstance($('#new-view-tabs')[0]).updateTabIndicator();

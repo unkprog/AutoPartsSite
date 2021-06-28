@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var Main = /** @class */ (function (_super) {
+        var Main = (function (_super) {
             __extends(Main, _super);
             function Main() {
                 var _this = _super.call(this) || this;
@@ -70,17 +70,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.sideNav.sidenav({ edge: 'left', closeOnClick: false, draggable: false });
                 $("#app-navbar").find(".left").append(this.menu);
                 this.sideNavBarRight = $("#app-navbar").find(".right");
-                //this.menuLang = $('<li><a id="app-btn-lang" class="dropdown-trigger tooltipped" data-target="app-dropdown-lang-menu" data-position="bottom" data-tooltip="' + vars._statres("label$language") + '"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale + '.svg"/></a></li>');
-                //this.menuCountry = $('<li><a id="app-btn-country" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom">' + vars._appData.Settings.Country.Code + '</a></li>'); //data-tooltip="' + vars._statres("label$country") + '"
-                //this.menuLang = $('<li><a id="app-btn-lang" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom"><img class="app-flag-icon" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/></a></li>'); //data-tooltip="' + vars._statres("label$language") + '"
-                //this.menuCurrency = $('<li><a id="app-btn-currency" class="tooltipped modal-trigger" href="#app-settings-modal" data-position="bottom">' + vars._appData.Settings.Currency.Code + '</a></li>'); //data-tooltip="' + vars._statres("label$currency") + '"
                 this.menuSettings = $('<li><a class="modal-trigger" href="#app-settings-modal"></a></li>');
                 this.menuCountry = $('<span id="app-btn-country" style="margin: 0 0.5rem 0 0;">' + vars._appData.Settings.Country.Code + '<span>');
                 this.menuLang = $('<img class="app-flag-icon" style="margin-top:-4px;width:1.5rem;height:1.35em;" src="/img/flags/' + vars._appData.Locale.Code.toLowerCase() + '.svg"/>');
                 this.menuCurrency = $('<span id="app-btn-currency" style="margin: 0 0 0 0.5rem;">' + vars._appData.Settings.Currency.Code + '<span>');
                 this.menuSettings.find('a').append(this.menuCountry).append(this.menuLang).append(this.menuCurrency);
-                this.menuBasket = $('<li><a id="app-btn-basket" data-position="bottom"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>'); //class="tooltipped"  data-tooltip="' + vars._statres("label$basket") + '"
-                this.sideNavBarRight.append(this.menuSettings) /*.append(this.menuCountry).append(this.menuLang).append(this.menuCurrency)*/.append(this.menuBasket);
+                this.menuBasket = $('<li><a id="app-btn-basket" data-position="bottom"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
+                this.sideNavBarRight.append(this.menuSettings).append(this.menuBasket);
                 this.menuBasket.find('.app-basket-counter').hide();
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
@@ -139,7 +135,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.ViewShow = function (e) {
                 var result = _super.prototype.ViewShow.call(this, e);
-                //this.menuLang.find('#app-btn-lang').dropdown({ constrainWidth: false });
                 $("#app-navbar").find('.tooltipped').tooltip();
                 this.LogIn();
                 return result;
@@ -152,14 +147,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             Main.prototype.OnSetViewSize = function (e) {
                 var content = this.GetContent();
                 var footerHeight = this.foother.innerHeight(), height = window.innerHeight - footerHeight;
-                //let childsHeight = footerHeight;
-                //content.children().each(function () {
-                //    childsHeight += $(this).innerHeight();
-                //});
-                //;
-                //if (height < childsHeight)
-                //    height = childsHeight;
-                ////content.height(height);
                 content.css("min-height", height);
             };
             Main.prototype.createEvents = function () {
@@ -171,11 +158,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
                 self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
                 self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
-                //self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
-                //self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
                 self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
-                //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
                 self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
                 self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
                 self.MenuNewsButtonClick = self.createClickEvent("main-view-btn-news", self.menuNewsButtonClick);
@@ -201,10 +185,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
                 utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
                 utils.destroyClickEvent($("#app-btn-country"), this.MenuCountryClick);
-                //this.destroyClickEvent("app-lang-en", this.LangEnClick);
-                //this.destroyClickEvent("app-lang-ru", this.LangRuClick);
                 this.destroyClickEvent("app-settings-modal-btn-save", this.AppSettingsSaveButtonClick);
-                //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
                 this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
                 this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
                 this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
@@ -299,7 +280,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     vars._app.HideLoading();
                 });
             };
-            //private currentLocaleId: number;
             Main.prototype.setupLists = function () {
                 var self = this;
                 var settingsData = self.Model.get("SettingsData");
@@ -316,14 +296,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 var html = '';
                 for (var i = 0, icount = settingsData.Countries.length; i < icount; i++) {
                     html = html + '<option value="' + settingsData.Countries[i].Id + '" ' + (self.currentCountryId == settingsData.Countries[i].Id ? 'selected' : '') + '>';
-                    html = html + /*settingsData.Countries[i].Code + ' - ' +*/ settingsData.Countries[i].Name + '</option>';
+                    html = html + settingsData.Countries[i].Name + '</option>';
                 }
                 self.setCountryQ = $('#app-settings-modal-list-country').html(html).formSelect();
                 setSelectClass(self.setCountryQ, 'select-max-height-650');
                 html = '';
                 for (var i = 0, icount = settingsData.Languages.length; i < icount; i++) {
                     html = html + '<option value="' + settingsData.Languages[i].Id + '" ' + (self.currentLocaleId == settingsData.Languages[i].Id ? 'selected' : '') + '>';
-                    html = html + /*settingsData.Languages[i].Code + ' - ' +*/ settingsData.Languages[i].Name + '</option>';
+                    html = html + settingsData.Languages[i].Name + '</option>';
                 }
                 self.setLangQ = $('#app-settings-modal-list-lang').html(html).formSelect();
                 setSelectClass(self.setLangQ, 'select-max-height-450');
@@ -341,7 +321,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 html = '';
                 for (var i = 0, icount = settingsData.Currencies.length; i < icount; i++) {
                     html = html + '<option value="' + settingsData.Currencies[i].Id + '" ' + (self.currentCurrencyId == settingsData.Currencies[i].Id ? 'selected' : '') + '>';
-                    html = html + /*settingsData.Currencies[i].Code + ' - ' +*/ settingsData.Currencies[i].Name + '</option>';
+                    html = html + settingsData.Currencies[i].Name + '</option>';
                 }
                 self.setCurrencyQ = $('#app-settings-modal-list-currency').html(html).formSelect();
                 setSelectClass(self.setCurrencyQ, 'select-max-height-300');

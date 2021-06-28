@@ -21,7 +21,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
         (function (Cms) {
             var Card;
             (function (Card) {
-                var New = /** @class */ (function (_super) {
+                var New = (function (_super) {
                     __extends(New, _super);
                     function New() {
                         return _super.call(this) || this;
@@ -48,7 +48,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
                     });
                     New.prototype.columns = function () {
                         var result = [
-                            { Header: vars._statres("label$date"), Field: "ReleaseDate" /*, FieldTemplate: "#=date_ddmmyyyy(new Date(ReleaseDate))#"*/ },
+                            { Header: vars._statres("label$date"), Field: "ReleaseDate" },
                             { Header: vars._statres("label$header") + " En", Field: "HeaderEn" },
                             { Header: vars._statres("label$header") + " Ru", Field: "HeaderRu" },
                         ];
@@ -75,9 +75,6 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/card/car
                         enumerable: false,
                         configurable: true
                     });
-                    //protected get DocType(): number {
-                    //    return 50;
-                    //}
                     New.prototype.ViewInit = function (view) {
                         var result = _super.prototype.ViewInit.call(this, view);
                         return result;

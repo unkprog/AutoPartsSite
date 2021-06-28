@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
     (function (Controller) {
         var Account;
         (function (Account) {
-            var Recovery = /** @class */ (function (_super) {
+            var Recovery = (function (_super) {
                 __extends(Recovery, _super);
                 function Recovery() {
                     return _super.call(this) || this;
@@ -69,6 +69,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
             Account.Recovery = Recovery;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("account/recovery", function (module) { return new module.Controller.Account.Recovery(); }); //vars._app.SetControlNavigation(vars._app);
+    vars.registerController("account/recovery", function (module) { return new module.Controller.Account.Recovery(); });
 });
 //# sourceMappingURL=recovery.js.map

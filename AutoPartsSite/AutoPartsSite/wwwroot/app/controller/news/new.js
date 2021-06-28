@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var News;
         (function (News) {
-            var New = /** @class */ (function (_super) {
+            var New = (function (_super) {
                 __extends(New, _super);
                 function New() {
                     var _this = _super.call(this) || this;

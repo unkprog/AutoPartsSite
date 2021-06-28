@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
     exports.Services = void 0;
     var Services;
     (function (Services) {
-        var BasketService = /** @class */ (function (_super) {
+        var BasketService = (function (_super) {
             __extends(BasketService, _super);
             function BasketService() {
                 return _super.call(this) || this;

@@ -21,7 +21,7 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
         (function (Cms) {
             var Editor;
             (function (Editor_1) {
-                var Editor = /** @class */ (function (_super) {
+                var Editor = (function (_super) {
                     __extends(Editor, _super);
                     function Editor() {
                         return _super.call(this) || this;

@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Search;
         (function (Search) {
-            var Index = /** @class */ (function (_super) {
+            var Index = (function (_super) {
                 __extends(Index, _super);
                 function Index() {
                     var _this = _super.call(this) || this;
@@ -82,8 +82,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.ViewShow = function (e) {
                     var result = _super.prototype.ViewShow.call(this, e);
                     var self = this;
-                    //this.View.find('#search-view-part-number').focus();
-                    //this.View.find('#search-view-btn1').on('click', );
                     setTimeout(function () { self.View.find('#search-view-part-number').focus(); }, 2000);
                     return result;
                 };
@@ -187,14 +185,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.clearButtonClick = function (e) {
-                    //this.View.find('#search-view-part-number').val('');
-                    //this.View.find('#search-view-parts').html('');
-                    //this.View.find('#search-view-brand-catalogs').show();
-                    //window.location.replace('/index.html');
                     history.replaceState({}, null, '/');
                     this.View.find('#search-view-part-number').val('');
                     this.search(undefined);
-                    //pageOpt, options.controller.Header, (pageOpt && pageOpt.Page ? pageOpt.Page : '/') + hr
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
@@ -222,8 +215,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             var template = vars.getTemplate(templateContent);
                             self.maxPage = responseData.Data.MaxPage;
                             self.currentPage = responseData.Data.Page;
-                            //let htmlResult = this.htmlItems(responseData.Data.Result, vars._statres("label$parts$original"), template);
-                            //htmlResult = htmlResult + this.htmlItems(responseData.Data.ResultSub, vars._statres("label$parts$substitution"), template);
                             var htmlResult = '';
                             for (var sti = 0, isti = (responseData.Data.Result && responseData.Data.Result.length ? responseData.Data.Result.length : 0); sti < isti; sti++)
                                 htmlResult = htmlResult + _this.htmlItems(responseData.Data.Result[sti].Goods, responseData.Data.Result[sti].Descr, template);
@@ -337,7 +328,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Index.prototype.reqToCard = function (e) {
-                    //  vars._app.ShowLoading(false);
                     var artikle = $(e.currentTarget).data('artikle');
                     localStorage.setItem("artikle", artikle);
                     variables_1._app.OpenController({ urlController: "search/askquestion" });

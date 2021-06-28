@@ -4,7 +4,7 @@ define(["require", "exports", "./variables"], function (require, exports, variab
     exports.Services = void 0;
     var Services;
     (function (Services) {
-        var BaseService = /** @class */ (function () {
+        var BaseService = (function () {
             function BaseService() {
             }
             Object.defineProperty(BaseService.prototype, "Options", {
@@ -23,7 +23,6 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                     variables_1._app.HandleError(e);
             };
             BaseService.prototype.GetApi = function (options) {
-                //_app.ShowLoading();
                 var self = this;
                 var action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
                 $.ajax({
@@ -42,7 +41,6 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                         }
                         else if (options.Callback)
                             options.Callback(responseData);
-                        //_app.HideLoading();
                     },
                     error: function (e, textStatus, errorThrown) {
                         if (options.Error)
@@ -53,7 +51,6 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                 });
             };
             BaseService.prototype.PostApi = function (options) {
-                //_app.ShowLoading();
                 var self = this;
                 var action = (self.Options && self.Options.BaseUrl ? self.Options.BaseUrl : '') + options.Action;
                 $.ajax({
@@ -71,7 +68,6 @@ define(["require", "exports", "./variables"], function (require, exports, variab
                         }
                         else if (options.Callback)
                             options.Callback(responseData);
-                        // _app.HideLoading();
                     },
                     error: function (e, textStatus, errorThrown) {
                         if (options.Error)

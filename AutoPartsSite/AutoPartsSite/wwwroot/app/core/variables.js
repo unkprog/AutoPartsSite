@@ -1,11 +1,10 @@
-/// <amd-dependency path="i18n!nls/strings" />
 define(["require", "exports", "./utils", "i18n!nls/strings"], function (require, exports, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports._appData = exports.getTemplate = exports.unRegisterController = exports.registerController = exports.App = void 0;
     var App;
     (function (App) {
-        var StaticResources = /** @class */ (function () {
+        var StaticResources = (function () {
             function StaticResources() {
                 this.i18nData = require("i18n!nls/strings");
             }
@@ -50,7 +49,7 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
     exports.checkTextColor = '#ff9800';
     exports.positionTextColor = '#4caf50';
     (function (App) {
-        var Data = /** @class */ (function () {
+        var Data = (function () {
             function Data() {
                 this._identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
             }
@@ -96,7 +95,6 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                     var locale = this.Locale;
                     if (newlocale && newlocale != null && locale.Id !== newlocale.Id) {
                         localStorage.setItem('locale', JSON.stringify(newlocale));
-                        //reload the app
                         location.reload();
                     }
                 },

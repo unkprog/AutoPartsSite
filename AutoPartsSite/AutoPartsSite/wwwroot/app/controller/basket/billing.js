@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Basket;
         (function (Basket) {
-            var Billing = /** @class */ (function (_super) {
+            var Billing = (function (_super) {
                 __extends(Billing, _super);
                 function Billing() {
                     var _this = _super.call(this) || this;
@@ -58,7 +58,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Billing.prototype.OnViewInit = function () {
-                    //vars._app.ShowLoading(true);
                     var self = this;
                     this.BasketService.BillingAddressData(function (responseData) {
                         if (responseData.Result === 0) {
@@ -94,7 +93,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("billing-checkout-btn", this.CheckoutButtonClick);
                 };
                 Billing.prototype.backButtonClick = function (e) {
-                    //vars._app.ControllerBack(e);
                     vars._app.OpenController({ urlController: "basket/delivery" });
                     e.preventDefault();
                     e.stopPropagation();

@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Basket;
         (function (Basket) {
-            var Payment = /** @class */ (function (_super) {
+            var Payment = (function (_super) {
                 __extends(Payment, _super);
                 function Payment() {
                     var _this = _super.call(this) || this;

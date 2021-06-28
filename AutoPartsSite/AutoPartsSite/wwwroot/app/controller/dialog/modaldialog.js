@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basedialog"], func
     (function (Controller) {
         var Dialog;
         (function (Dialog) {
-            var ModalDialog = /** @class */ (function (_super) {
+            var ModalDialog = (function (_super) {
                 __extends(ModalDialog, _super);
                 function ModalDialog() {
                     var _this = _super.call(this) || this;
@@ -34,7 +34,6 @@ define(["require", "exports", "app/core/variables", "app/core/basedialog"], func
                 };
                 ModalDialog.prototype.createView = function () {
                     var viewHtml;
-                    //<!-- Modal Structure -->
                     viewHtml = '<div class="error-dialog modal modal-fixed-footer">';
                     viewHtml += '    <div class="modal-content">';
                     viewHtml += '        <h4 class="error-dialog-header" data-bind="text:Header">Error</h4>';

@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
     exports.Services = void 0;
     var Services;
     (function (Services) {
-        var AccountService = /** @class */ (function (_super) {
+        var AccountService = (function (_super) {
             __extends(AccountService, _super);
             function AccountService() {
                 return _super.call(this) || this;

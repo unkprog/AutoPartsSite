@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/basecontroller"], function (require, exp
     (function (Controller) {
         var Dialog;
         (function (Dialog) {
-            var Base = /** @class */ (function (_super) {
+            var Base = (function (_super) {
                 __extends(Base, _super);
                 function Base() {
                     return _super !== null && _super.apply(this, arguments) || this;

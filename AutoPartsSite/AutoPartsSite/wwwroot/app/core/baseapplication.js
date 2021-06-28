@@ -4,7 +4,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
     exports.App = void 0;
     var App;
     (function (App) {
-        var Application = /** @class */ (function () {
+        var Application = (function () {
             function Application() {
                 this.contentModals = [];
                 vars._app = this;
@@ -32,12 +32,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             });
             Application.prototype.GlobalAjaxSetup = function () {
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-                    //jqXHR.setRequestHeader("X-Application-Language", _config.Language);
                     if (vars._appData.Identity && vars._appData.Identity.Auth && vars._appData.Identity.Token) {
                         jqXHR.setRequestHeader("Authorization", "APS-ApiKey " + vars._appData.Identity.Token);
                     }
                 });
-                // $(document).ajaxError(this.GlobalAjaxErrorHandler);
             };
             Application.prototype.Initailize = function () {
                 var app = this;
@@ -52,8 +50,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 height = height - (this.navbarControl ? this.navbarControl.innerHeight() : 0);
                 if (this.contentControl) {
                     this.contentControl.height(height);
-                    //this.contentControl.css("min-height", height);
-                    //this.contentControl.css("height", "auto"); //
                 }
                 if (this._controller)
                     this._controller.ViewResize(e);
@@ -130,8 +126,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     else {
                         self.ResetScroll();
                         var pageOpt = options.controller.Options;
-                        //if (options.isPopState == undefined || options.isPopState == false)
-                        //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
                         var hr = window.location.href.toLocaleLowerCase();
                         var i = hr.indexOf('?');
                         hr = (i > -1 ? hr.substring(i) : '');
@@ -139,10 +133,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         content.html(view[0]);
                         isInit = self._controller.ViewShow(self) && isInit;
                         self._controller.ViewResize(self);
-                        //content.html(view[0]);
-                        //isInit = self._controller.ViewShow(this) && isInit;
-                        ////if (isInit == false)
-                        ////    self._controller.ViewResize({});
                     }
                 }
                 finally {
@@ -221,7 +211,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
             Application.prototype.OpenView = function (options) {
                 var self = this;
                 if (options.isModal && options.isModal === true) {
-                    $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version /*, cache: false*/ })).done(function (template) {
+                    $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version })).done(function (template) {
                         self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore });
                     }).fail(function (e) {
                         self.HideLoading();
@@ -233,10 +223,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     return;
                 }
                 if ($("#" + options.controller.Options.Id).length > 0)
-                    return; //Already loaded and current
+                    return;
                 self.ShowLoading(true);
-                //<div id="main-view-content-modal" style="display:none"></div>
-                $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version /*, cache: false*/ })).done(function (template) {
+                $.when($.ajax({ url: options.controller.Options.Url + '?v=' + vars._appData.Version })).done(function (template) {
                     self.OpenViewTemplate({ controller: options.controller, isModal: options.isModal, template: template, backController: options.backController, isRestore: options.isRestore, isPopState: options.isPopState });
                 }).fail(function (e) {
                     self.HideLoading();

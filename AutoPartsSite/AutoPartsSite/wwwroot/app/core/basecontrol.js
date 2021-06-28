@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
     exports.Control = void 0;
     var Control;
     (function (Control) {
-        var ReferenceFieldControl = /** @class */ (function () {
+        var ReferenceFieldControl = (function () {
             function ReferenceFieldControl() {
             }
             ReferenceFieldControl.prototype.InitControl = function (view, name, field, fieldout, header, cardcontroller, model) {
@@ -80,7 +80,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
             return ReferenceFieldControl;
         }());
         Control.ReferenceFieldControl = ReferenceFieldControl;
-        var BaseCardFilterSettings = /** @class */ (function () {
+        var BaseCardFilterSettings = (function () {
             function BaseCardFilterSettings(setupRows) {
                 this.fieldSearch = "name";
                 this.setupRows = setupRows;
@@ -151,7 +151,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
             };
             BaseCardFilterSettings.prototype.GetItemsForView = function (data) {
                 var result = [];
-                var strSearch = (this.inputSearch ? this.inputSearch.val() : ""); // ($("#card-view-search").val() as string);
+                var strSearch = (this.inputSearch ? this.inputSearch.val() : "");
                 var fieldSearch = this.FieldSearch;
                 var isNotSearch = (utils.isNullOrEmpty(fieldSearch) || utils.isNullOrEmpty(strSearch));
                 if (!isNotSearch)
@@ -169,7 +169,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
             return BaseCardFilterSettings;
         }());
         Control.BaseCardFilterSettings = BaseCardFilterSettings;
-        var BaseTable = /** @class */ (function () {
+        var BaseTable = (function () {
             function BaseTable() {
                 this.columns = [];
                 this.isScroll = true;
@@ -310,9 +310,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
                         this.sumFieldsInfo.sumFied[columns[i].Field] = 0;
                     }
                     html += '</th>';
-                    //if (columns[i].HeaderColSpan) {
-                    //    i = i + (columns[i].HeaderColSpan - 1);
-                    //}
                 }
                 if (this.IsScroll === true)
                     html += '<th style="width:' + (knSupport.support.browser.chrome === true ? "17" : "17") + 'px;"></th>';
@@ -487,7 +484,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables"], function 
             return BaseTable;
         }());
         Control.BaseTable = BaseTable;
-        var BaseEditTable = /** @class */ (function (_super) {
+        var BaseEditTable = (function (_super) {
             __extends(BaseEditTable, _super);
             function BaseEditTable() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;

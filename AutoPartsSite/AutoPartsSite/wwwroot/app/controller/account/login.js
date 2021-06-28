@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
     (function (Controller) {
         var Account;
         (function (Account) {
-            var Login = /** @class */ (function (_super) {
+            var Login = (function (_super) {
                 __extends(Login, _super);
                 function Login() {
                     return _super.call(this) || this;
@@ -101,6 +101,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
             Account.Login = Login;
         })(Account = Controller.Account || (Controller.Account = {}));
     })(Controller = exports.Controller || (exports.Controller = {}));
-    vars.registerController("account/login", function (module) { return new module.Controller.Account.Login(); }); //vars._app.SetControlNavigation(vars._app); 
+    vars.registerController("account/login", function (module) { return new module.Controller.Account.Login(); });
 });
 //# sourceMappingURL=login.js.map

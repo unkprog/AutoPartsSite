@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
     exports.Controller = void 0;
     var Controller;
     (function (Controller) {
-        var Base = /** @class */ (function () {
+        var Base = (function () {
             function Base() {
                 this._options = this.createOptions();
                 this._model = this.createModel();
@@ -80,8 +80,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 M.updateTextFields();
                 return true;
             };
-            //public AfterShow(e: any): void {
-            //}
             Base.prototype.ViewHide = function (e) {
                 this.destroyEvents();
             };
@@ -127,7 +125,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             return Base;
         }());
         Controller.Base = Base;
-        var ControllersStack = /** @class */ (function () {
+        var ControllersStack = (function () {
             function ControllersStack() {
                 this._controllers = [];
             }
@@ -163,7 +161,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             return ControllersStack;
         }());
         Controller.ControllersStack = ControllersStack;
-        var BaseContent = /** @class */ (function (_super) {
+        var BaseContent = (function (_super) {
             __extends(BaseContent, _super);
             function BaseContent() {
                 var _this = _super.call(this) || this;
@@ -193,9 +191,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 this._content.scrollTop(0);
             };
             BaseContent.prototype.OnSetViewSize = function (e) {
-                //let height = window.innerHeight;
-                //height = height - this._content.offset().top;
-                //this._content.height(height);
             };
             BaseContent.prototype.ViewResize = function (e) {
                 if (this._content)
@@ -225,9 +220,9 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                     return;
                 }
                 if ($("#" + options.controller.Options.Id).length > 0)
-                    return; //Already loaded and current
+                    return;
                 vars._app.ShowLoading(true);
-                $.when($.ajax({ url: options.controller.Options.Url /*, cache: false*/ })).done(function (template) {
+                $.when($.ajax({ url: options.controller.Options.Url })).done(function (template) {
                     self.OpenViewTemplate({ controller: options.controller, template: template, backController: options.backController, isRestore: options.isRestore, isPopState: options.isPopState });
                 }).fail(function (e) {
                     vars._app.HideLoading();
@@ -235,10 +230,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             BaseContent.prototype.OpenViewTemplate = function (options) {
                 var self = this;
-                //if (options.isModal && options.isModal === true) {
-                //    _app.OpenViewTemplate(options);
-                //    return;
-                //}
                 var isInit = false;
                 try {
                     if (self._controller) {
@@ -263,8 +254,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                         isInit = self._controller.ViewInit(view);
                         self.ResetScroll();
                         var pageOpt = options.controller.Options;
-                        //if (options.isPopState == undefined || options.isPopState == false)
-                        //history.pushState(pageOpt, options.controller.Header, pageOpt ? pageOpt.Page : null);
                         var hr = window.location.href.toLocaleLowerCase();
                         var i = hr.indexOf('?');
                         hr = (i > -1 ? hr.substring(i) : '');
@@ -283,18 +272,11 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 }
             };
             BaseContent.prototype.SetHeader = function (controller) {
-                //TODO: Пока не заморачиваемся с заголовком
-                //let header = controller.Header;
-                //if (header)
-                //    self._model.set("AppHeader", header); // + ' ' + self.contentControl.width()
-                //else
-                //    if ("POS Cloud" !== self._model.get("AppHeader"))
-                //        self._model.set("AppHeader", "POS Cloud");
             };
             return BaseContent;
         }(Base));
         Controller.BaseContent = BaseContent;
-        var BaseEditor = /** @class */ (function (_super) {
+        var BaseEditor = (function (_super) {
             __extends(BaseEditor, _super);
             function BaseEditor() {
                 var _this = _super.call(this) || this;
@@ -469,7 +451,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             return BaseEditor;
         }(Base));
         Controller.BaseEditor = BaseEditor;
-        var BaseCard = /** @class */ (function (_super) {
+        var BaseCard = (function (_super) {
             __extends(BaseCard, _super);
             function BaseCard() {
                 var _this = _super.call(this) || this;
@@ -827,7 +809,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             return BaseCard;
         }(Base));
         Controller.BaseCard = BaseCard;
-        var BaseReportWithFilter = /** @class */ (function (_super) {
+        var BaseReportWithFilter = (function (_super) {
             __extends(BaseReportWithFilter, _super);
             function BaseReportWithFilter() {
                 var _this = _super.call(this) || this;
@@ -864,7 +846,6 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 else
                     filter = JSON.parse(saved);
                 this.Model.set("filterModel", filter);
-                // this.Filter = filter;
             };
             BaseReportWithFilter.prototype.getDefaultFilter = function () {
                 return { datefrom: utils.date_ddmmyyyy(utils.dateToday()), dateto: utils.date_ddmmyyyy(utils.dateToday()) };
@@ -886,7 +867,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             return BaseReportWithFilter;
         }(BaseEditor));
         Controller.BaseReportWithFilter = BaseReportWithFilter;
-        var BaseReportTable = /** @class */ (function (_super) {
+        var BaseReportTable = (function (_super) {
             __extends(BaseReportTable, _super);
             function BaseReportTable() {
                 return _super.call(this) || this;

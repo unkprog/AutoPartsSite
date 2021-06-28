@@ -17,7 +17,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
     exports.Services = void 0;
     var Services;
     (function (Services) {
-        var CmsService = /** @class */ (function (_super) {
+        var CmsService = (function (_super) {
             __extends(CmsService, _super);
             function CmsService() {
                 return _super.call(this) || this;

@@ -21,7 +21,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
         (function (Cms) {
             var Card;
             (function (Card_1) {
-                var CardFilterSettings = /** @class */ (function () {
+                var CardFilterSettings = (function () {
                     function CardFilterSettings(setupRows, fieldSearch) {
                         this.fieldSearch = fieldSearch;
                         this.setupRows = setupRows;
@@ -66,7 +66,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                     };
                     CardFilterSettings.prototype.restoreFilter = function () {
                         var result;
-                        //localStorage.clear();
                         var saved = window.localStorage.getItem(this.fieldSearch);
                         if (!saved || saved === "\"{}\"") {
                             var dateTime = utils.date_ddmmyyyy(this.getDefDate());
@@ -96,7 +95,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                         filterHtml += '</div>';
                         filterHtml += '<div class="row row-inputs">';
                         filterHtml += '    <div class="input-field col s12 m12 l12 xl12 col-input-numpad" style="margin-top: 0;">';
-                        filterHtml += '        <a id="card-filter-view-btn-find" class="btn btncol"  data-bind="text:labelFind"></a>'; // data-bind="text:labelDate"
+                        filterHtml += '        <a id="card-filter-view-btn-find" class="btn btncol"  data-bind="text:labelFind"></a>';
                         filterHtml += '    </div>';
                         filterHtml += '</div>';
                         filterHtml += '';
@@ -148,7 +147,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                     return CardFilterSettings;
                 }());
                 Card_1.CardFilterSettings = CardFilterSettings;
-                var Card = /** @class */ (function (_super) {
+                var Card = (function (_super) {
                     __extends(Card, _super);
                     function Card() {
                         return _super.call(this) || this;
@@ -220,21 +219,21 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/core/
                     });
                     Object.defineProperty(Card.prototype, "CreateCardFilterSettings", {
                         get: function () {
-                            return undefined; //this.createCardFilterSettings()
+                            return undefined;
                         },
                         enumerable: false,
                         configurable: true
                     });
                     Object.defineProperty(Card.prototype, "LoadProxy", {
                         get: function () {
-                            return undefined; //$.proxy(this.getRecords, this);
+                            return undefined;
                         },
                         enumerable: false,
                         configurable: true
                     });
                     Object.defineProperty(Card.prototype, "DeleteProxy", {
                         get: function () {
-                            return undefined; //$.proxy(this.CmsService.DelDocument, this.CmsService);
+                            return undefined;
                         },
                         enumerable: false,
                         configurable: true

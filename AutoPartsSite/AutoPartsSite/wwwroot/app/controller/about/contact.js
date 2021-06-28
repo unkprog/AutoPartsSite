@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/controller/about/aboutv
     (function (Controller) {
         var About;
         (function (About) {
-            var Contact = /** @class */ (function (_super) {
+            var Contact = (function (_super) {
                 __extends(Contact, _super);
                 function Contact() {
                     return _super.call(this) || this;

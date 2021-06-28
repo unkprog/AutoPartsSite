@@ -21,7 +21,7 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
         (function (Cms) {
             var Editor;
             (function (Editor) {
-                var Page = /** @class */ (function (_super) {
+                var Page = (function (_super) {
                     __extends(Page, _super);
                     function Page() {
                         return _super.call(this) || this;
@@ -49,7 +49,6 @@ define(["require", "exports", "app/core/variables", "app/controller/cms/cms"], f
                             $('#page-view-tabs').tabs();
                             $('#page-view-summernote-en').summernote();
                             $('#page-view-summernote-ru').summernote();
-                            //M.Tabs.updateTabIndicator();
                             self.loadData();
                         });
                         return result;

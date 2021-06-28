@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/basecontroller", "app/services/cmsservic
     (function (Controller) {
         var Cms;
         (function (Cms_1) {
-            var Cms = /** @class */ (function (_super) {
+            var Cms = (function (_super) {
                 __extends(Cms, _super);
                 function Cms() {
                     var _this = _super.call(this) || this;

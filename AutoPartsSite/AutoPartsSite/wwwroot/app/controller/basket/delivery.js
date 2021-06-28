@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Basket;
         (function (Basket) {
-            var Delivery = /** @class */ (function (_super) {
+            var Delivery = (function (_super) {
                 __extends(Delivery, _super);
                 function Delivery() {
                     var _this = _super.call(this) || this;
@@ -58,7 +58,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Delivery.prototype.OnViewInit = function () {
-                    //vars._app.ShowLoading(true);
                     var self = this;
                     this.BasketService.DeliveryAddressData(function (responseData) {
                         if (responseData.Result === 0) {
@@ -94,7 +93,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.destroyClickEvent("delivery-checkout-btn", this.CheckoutButtonClick);
                 };
                 Delivery.prototype.backButtonClick = function (e) {
-                    //vars._app.ControllerBack(e);
                     vars._app.OpenController({ urlController: "basket/index" });
                     e.preventDefault();
                     e.stopPropagation();

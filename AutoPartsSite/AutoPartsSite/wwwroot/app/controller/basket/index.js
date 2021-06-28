@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
     (function (Controller) {
         var Basket;
         (function (Basket) {
-            var Index = /** @class */ (function (_super) {
+            var Index = (function (_super) {
                 __extends(Index, _super);
                 function Index() {
                     var _this = _super.call(this) || this;
@@ -96,10 +96,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         vars._app.ShowError(responseData.Error);
                     self.isShowPromocodeApplyMsg = false;
                     vars._app.HideLoading();
-                    //if (vars._appData.IsBasketCheckOut === true && vars._appData.Identity.Auth === true) {
-                    //    vars._appData.IsBasketCheckOut = false;
-                    //    vars._app.OpenController({ urlController: "basket/delivery" });
-                    //}
                 };
                 Index.prototype.setBasketCount = function (responseData) {
                     if (responseData.Result === 0) {
@@ -119,7 +115,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     self.View.find("#basket-view-parts-table").hide();
                     self.View.find('#basket-view-additional').hide();
                     self.View.find("#basket-view-parts-empty").show();
-                    //self.View.find('#basket-view-parts').html('<div class="center" style="font-size: 1.7rem;">' + vars._statres("label$empty$basket") + '</div>');
                     if (responseData.Result === 0) {
                         this.Model.set("basketData", responseData.Data);
                         var items = responseData.Data.Positions;
@@ -161,7 +156,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         else
                             self.Model.set("TotalSumValue", window.numberToString(sum, 2) + ' ' + curSymbol);
                         self.Model.set("curSymbol", curSymbol);
-                        //Items Subtotal
                         htmlResult = '';
                         templateContent = self.View.find('#basket-view-delivery-template').html();
                         template = vars.getTemplate(templateContent);

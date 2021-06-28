@@ -19,7 +19,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
     (function (Controller) {
         var Account;
         (function (Account) {
-            var Settings = /** @class */ (function (_super) {
+            var Settings = (function (_super) {
                 __extends(Settings, _super);
                 function Settings() {
                     return _super.call(this) || this;
@@ -47,11 +47,9 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 };
                 Settings.prototype.createEvents = function () {
                     this.SaveButtonClick = this.createClickEvent("settings-view-btn-save", this.saveButtonClick);
-                    //this.CancelButtonClick = this.createClickEvent("settings-view-btn-cancel", this.cancelButtonClick);
                 };
                 Settings.prototype.destroyEvents = function () {
                     this.destroyClickEvent("settings-view-btn-save", this.SaveButtonClick);
-                    //this.destroyClickEvent("settings-view-btn-cancel", this.CancelButtonClick);
                 };
                 Settings.prototype.saveButtonClick = function (e) {
                     this.saveSettingsData();
@@ -59,13 +57,6 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     e.stopPropagation();
                     return false;
                 };
-                //public CancelButtonClick: { (e: any): void; };
-                //private cancelButtonClick(e: any): boolean {
-                //    vars._main.ControllerBack(this);
-                //    e.preventDefault();
-                //    e.stopPropagation();
-                //    return false;
-                //}
                 Settings.prototype.loadSettingsData = function () {
                     var self = this;
                     vars._app.ShowLoading(true);
