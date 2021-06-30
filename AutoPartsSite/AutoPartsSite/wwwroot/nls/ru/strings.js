@@ -40,6 +40,7 @@ define({
     "label$back": "Назад",
     "label$forward": "Далее",
     "button$label$сheckout": "Оформить",
+    "button$label$pay": "Оплатить",
 
     "button$label$register": "Регистрация",
     "button$label$forgot": "Забыли пароль?",

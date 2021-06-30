@@ -50,8 +50,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "Header": vars._statres("label$payment"),
                         "labelTerms": vars._statres("label$terms"),
                         "labelContinueShopping": vars._statres("button$label$continueShopping"),
-                        "labelCheckout": vars._statres("button$label$сheckout"),
                         "labelTermsConditions": vars._statres("label$termsconditions"),
+                        "labelPay": vars._statres("button$label$pay"),
                         "labelOk": vars._statres("button$label$ok"),
                         "IsAcceptTC": false,
                         "payCardId": 0

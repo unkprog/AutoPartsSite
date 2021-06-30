@@ -180,7 +180,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         else
                             self.Model.set("TotalSum", window.numberToString(sum, 2) + ' ' + curSymbol);
                         if (self.deliveryId !== 0) {
-                            self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
+                            var deliveryitems = self.View.find('.card-delivery-item-row');
+                            for (var i = 0, icount_2 = deliveryitems && deliveryitems.length ? deliveryitems.length : 0; i < icount_2; i++) {
+                                var cardDelivery = $(self.View.find('.card-delivery-item-row')[i]);
+                                var did = cardDelivery.parent().data('id');
+                                if (self.deliveryId == did) {
+                                    vat = items[i].VatAmount;
+                                    sum = items[i].TotalAmount;
+                                    self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
+                                    cardDelivery.addClass('card-delivery-item-row-selected');
+                                }
+                            }
                         }
                         self.rebindModel();
                         self.createCardsItems();

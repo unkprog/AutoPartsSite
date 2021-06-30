@@ -197,7 +197,23 @@ export namespace Controller.Basket {
                     self.Model.set("TotalSum", window.numberToString(sum, 2) + ' ' + curSymbol);
                
                 if (self.deliveryId !== 0) {
-                    self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
+                    let deliveryitems = self.View.find('.card-delivery-item-row');
+                    for (let i = 0, icount = deliveryitems && deliveryitems.length ? deliveryitems.length : 0; i < icount; i++) {
+                        let cardDelivery = $(self.View.find('.card-delivery-item-row')[i]);
+                        let did = cardDelivery.parent().data('id');
+                        if (self.deliveryId == did) {
+                            vat = items[i].VatAmount;
+                            sum = items[i].TotalAmount;
+                            self.View.find('#basket-view-delivery-input-' + self.deliveryId).prop('checked', true);
+                            cardDelivery.addClass('card-delivery-item-row-selected');
+                        }
+                    }
+
+                    //$(self.View.find('.card-delivery-item-row')[1]).parent().data('id')
+
+                    //let cardDelivery = self.View.find('#basket-view-delivery-input-' + self.deliveryId);
+                    //cardDelivery.find('.card-delivery-item-row').addClass('card-delivery-item-row-selected');
+                    //cardDelivery.prop('checked', true);
                 }
                 
                 self.rebindModel();

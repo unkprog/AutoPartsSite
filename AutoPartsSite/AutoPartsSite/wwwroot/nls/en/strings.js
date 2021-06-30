@@ -40,6 +40,7 @@ define({
     "label$back": "Back",
     "label$forward": "Forward",
     "button$label$сheckout": "Checkout",
+    "button$label$pay": "Pay",
 
     "button$label$register": "Register",
     "button$label$forgot": "Forgot password?",
