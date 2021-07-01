@@ -93,7 +93,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Payment.prototype.createCardsItems = function () {
                     var self = this;
-                    self.payCardItems = self.View.find('#payment-view-info').find(".pay-card-item");
+                    self.payCardItems = self.View.find('#payment-view-info').find(".pay-card-item-row");
                     if (self.payCardItems) {
                         self.proxyPayCardClick = $.proxy(self.payCardClick, self);
                         self.payCardItems.on('click', self.proxyPayCardClick);
@@ -108,6 +108,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var cur = $(e.currentTarget);
                     var id = cur.data('id');
                     self.Model.set("payCardId", id);
+                    $('.pay-card-item-row').removeClass('card-delivery-item-row-selected');
+                    $("#pay-card-" + id).addClass('card-delivery-item-row-selected');
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
