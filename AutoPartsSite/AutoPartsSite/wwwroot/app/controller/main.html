@@ -77,6 +77,47 @@
         </div>
     </div>
 
+    <div id="app-request-modal" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="section left">
+                        <h1 class="page-header" data-bind="text:labelRequest"></h1>
+                    </div>
+                </div>
+                <div class="col s12 m12 l12 xl12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+
+            <div id="app-askquestion-view-info" class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="row">
+                        <div class="input-field col s12 m12 l12 xl12">
+                            <input id="askquestion-view-name" type="text" class="validate" data-bind="value:AskQuestion.Name">
+                            <label for="askquestion-view-name" data-bind="text:labelName"></label>
+                        </div>
+
+                        <div class="input-field col s12 m12 l12 xl12">
+                            <input id="askquestion-view-email" type="text" class="validate" data-bind="value:AskQuestion.Email">
+                            <label for="askquestion-view-email" data-bind="text:labelEmail"></label>
+                        </div>
+
+                        <div class="input-field col s12 m12 l12 xl12">
+                            <textarea id="askquestion-view-question" class="materialize-textarea validate" data-bind="value:AskQuestion.Question"></textarea>
+                            <label for="askquestion-view-question" data-bind="text:labelQuestion"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a id="app-askquestion-send-btn" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">email</i><span data-bind="text:labelSend"></span></a>
+            </div>
+        </div>
+    </div>
+
     <footer id="main-view-footer" class="page-footer">
         <div class="container">
             <div class="row">

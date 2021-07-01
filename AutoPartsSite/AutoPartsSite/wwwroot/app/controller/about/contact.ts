@@ -29,7 +29,8 @@ export namespace Controller.About {
 
         public AskButtonClick: { (e: any): void; };
         private askButtonClick(e) {
-            vars._app.OpenController({ urlController: "search/askquestion" });
+            //vars._app.OpenController({ urlController: "search/askquestion" });
+            vars._main.OpenRequest();
             e.preventDefault();
             e.stopPropagation();
             return false;

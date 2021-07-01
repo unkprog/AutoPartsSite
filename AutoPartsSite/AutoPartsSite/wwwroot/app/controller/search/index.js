@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice", "app/core/utils", "app/core/variables"], function (require, exports, vars, base, srh, bsk, utils, variables_1) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/searchservice", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, srh, bsk, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -330,7 +330,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.reqToCard = function (e) {
                     var artikle = $(e.currentTarget).data('artikle');
                     localStorage.setItem("artikle", artikle);
-                    variables_1._app.OpenController({ urlController: "search/askquestion" });
+                    vars._main.OpenRequest();
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

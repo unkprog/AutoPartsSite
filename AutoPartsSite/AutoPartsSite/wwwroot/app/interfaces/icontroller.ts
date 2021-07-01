@@ -78,6 +78,7 @@
     export interface IMainNavigation extends Interfaces.IControllerNavigation {
         LogIn();
         LogOut();
+        OpenRequest();
     }
 
     export interface IDialog extends IController {

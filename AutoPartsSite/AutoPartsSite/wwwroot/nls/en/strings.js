@@ -155,6 +155,7 @@ define({
     "label$send": "Send",
     "label$ask$question$incorrect": "Message not completed",
     "label$ask$partnumber$available": "When  this part number will be available",
+    "message$ask$question$sent": "Your request has been sent",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Корзина                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

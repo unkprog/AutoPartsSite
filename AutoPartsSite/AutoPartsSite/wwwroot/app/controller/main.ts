@@ -3,6 +3,7 @@ import ctrl = require('app/core/basecontroller');
 import utils = require('app/core/utils');
 import { _app, _main } from 'app/core/variables';
 import acc = require('app/services/accountservice');
+import srh = require('app/services/searchservice');
 
 export namespace Controller {
     export class Main extends ctrl.Controller.BaseContent implements Interfaces.IMainNavigation {
@@ -49,7 +50,17 @@ export namespace Controller {
 
                 "labelVersion": "",
 
-                "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
+                "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] },
+                "labelRequest": vars._statres("label$ask$question"),
+                "labelName": vars._statres("label$ask$name"),
+                "labelEmail": vars._statres("label$email"),
+                "labelQuestion": vars._statres("label$howcan$help"),
+                "labelSend": vars._statres("label$send"),
+                "AskQuestion": {
+                    Name: "",
+                    Email: "",
+                    Question: ""
+                },
             });
         }
 
@@ -67,6 +78,7 @@ export namespace Controller {
         private menuRight: JQuery;
 
         private menuSettings: JQuery;
+        private sendAskRequestButton: JQuery;
         private menuCountry: JQuery;
         private menuLang: JQuery;
         private menuCurrency: JQuery;
@@ -207,6 +219,8 @@ export namespace Controller {
             self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
 
             self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
+            let appQuest = self.View.find('#app-askquestion-send-btn');
+            self.SendAskRequestButtonClick = utils.createClickEvent(appQuest, self.sendAskRequestButtonClick, self);
             self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
             self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
             self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
@@ -216,7 +230,8 @@ export namespace Controller {
 
             self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
             self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
-            //this.BasketButtonClick = utils.createClickEvent("app-btn-basket", this.basketButtonClick, this.View);
+
+            self.SendAskRequestButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.sendAskRequestButtonClick);
 
             self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
             self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
@@ -244,6 +259,7 @@ export namespace Controller {
         protected destroyEvents(): void {
             this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
 
+            utils.destroyClickEvent(this.View.find('#app-askquestion-send-btn'), this.SendAskRequestButtonClick);
             utils.destroyClickEvent(this.menuSettings, this.MenuSettingsClick);
             utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
             utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
@@ -312,7 +328,69 @@ export namespace Controller {
             e.preventDefault();
             return false;
         }
+        /*****************************************************/
+        /*  BEGIN REQUEST                                    */
+        /*****************************************************/
+        private appRequestModal: JQuery;
+        public OpenRequest() {
+            if (vars._appData.Identity && vars._appData.Identity.User && vars._appData.Identity.User.Email && !utils.isNullOrEmpty(vars._appData.Identity.User.Email))
+                this.Model.set("AskQuestion.Email", vars._appData.Identity.User.Email);
 
+            let artikle = localStorage.getItem("artikle");
+            localStorage.removeItem("artikle");
+            if (!utils.isNullOrEmpty(artikle)) {
+                this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - <' + artikle + '>?');
+            }
+            else
+                this.Model.set("AskQuestion.Question", "");
+            this.sideNav.sidenav('close');
+
+            if (!this.appRequestModal)
+                this.appRequestModal = $('#app-request-modal').modal();
+            M.updateTextFields();
+            this.appRequestModal.modal('open');
+        }
+
+        public SendAskRequestButtonClick: { (e: any): void; };
+        private sendAskRequestButtonClick(e) {
+            let question: Interfaces.Model.IAskQuestion = this.Model.get("AskQuestion").toJSON();
+            if (this.validateQuestion(question)) {
+                vars._app.ShowLoading(false);
+
+                let searchService = new srh.Services.SearchService();
+                searchService.SendAskQuestion(question, (responseData) => {
+                    if (responseData.Result === 0) {
+                        this.appRequestModal.modal('close');
+                        M.toast({ html: vars._statres("message$ask$question$sent") });
+                    }
+                    else {
+                        vars._app.ShowError(responseData.Error);
+                    }
+                    vars._app.HideLoading();
+                });
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+        private validateQuestion(model: Interfaces.Model.IAskQuestion): boolean {
+            let result: boolean = true;
+
+            if (!utils.validateEmail(model.Email)) {
+                M.toast({ html: vars._statres("msg$error$emailIncorrect") });
+                result = false;
+            }
+
+            if (utils.isNullOrEmpty(model.Question)) {
+                M.toast({ html: vars._statres("label$ask$question$incorrect") });
+                result = false;
+            }
+
+            return result;
+        }
+        /*****************************************************/
+        /*  END REQUEST                                      */
+        /*****************************************************/
         /*****************************************************/
         /*  BEGIN SETTINGS                                   */
         /*****************************************************/

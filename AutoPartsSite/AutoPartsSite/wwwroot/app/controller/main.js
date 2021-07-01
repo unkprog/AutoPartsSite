@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils", "app/core/variables", "app/services/accountservice"], function (require, exports, vars, ctrl, utils, variables_1, acc) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/core/utils", "app/core/variables", "app/services/accountservice", "app/services/searchservice"], function (require, exports, vars, ctrl, utils, variables_1, acc, srh) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -53,7 +53,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelCustomerService": vars._statres("label$customer$service"),
                     "labelInformation": vars._statres("label$information"),
                     "labelVersion": "",
-                    "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] }
+                    "SettingsData": { "Countries": [], "Languages": [], "Currencies": [] },
+                    "labelRequest": vars._statres("label$ask$question"),
+                    "labelName": vars._statres("label$ask$name"),
+                    "labelEmail": vars._statres("label$email"),
+                    "labelQuestion": vars._statres("label$howcan$help"),
+                    "labelSend": vars._statres("label$send"),
+                    "AskQuestion": {
+                        Name: "",
+                        Email: "",
+                        Question: ""
+                    },
                 });
             };
             Main.prototype.ControllersInit = function () {
@@ -155,11 +165,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.AppTitleLogoClick = utils.createClickEvent($("#app-title-logo"), self.appTitleLogoClick, self);
                 self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
                 self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
+                var appQuest = self.View.find('#app-askquestion-send-btn');
+                self.SendAskRequestButtonClick = utils.createClickEvent(appQuest, self.sendAskRequestButtonClick, self);
                 self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
                 self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
                 self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
                 self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
+                self.SendAskRequestButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.sendAskRequestButtonClick);
                 self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
                 self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
                 self.MenuNewsButtonClick = self.createClickEvent("main-view-btn-news", self.menuNewsButtonClick);
@@ -181,6 +194,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
+                utils.destroyClickEvent(this.View.find('#app-askquestion-send-btn'), this.SendAskRequestButtonClick);
                 utils.destroyClickEvent(this.menuSettings, this.MenuSettingsClick);
                 utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
                 utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
@@ -229,6 +243,55 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 location.reload();
                 e.preventDefault();
                 return false;
+            };
+            Main.prototype.OpenRequest = function () {
+                if (vars._appData.Identity && vars._appData.Identity.User && vars._appData.Identity.User.Email && !utils.isNullOrEmpty(vars._appData.Identity.User.Email))
+                    this.Model.set("AskQuestion.Email", vars._appData.Identity.User.Email);
+                var artikle = localStorage.getItem("artikle");
+                localStorage.removeItem("artikle");
+                if (!utils.isNullOrEmpty(artikle)) {
+                    this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - <' + artikle + '>?');
+                }
+                else
+                    this.Model.set("AskQuestion.Question", "");
+                this.sideNav.sidenav('close');
+                if (!this.appRequestModal)
+                    this.appRequestModal = $('#app-request-modal').modal();
+                M.updateTextFields();
+                this.appRequestModal.modal('open');
+            };
+            Main.prototype.sendAskRequestButtonClick = function (e) {
+                var _this = this;
+                var question = this.Model.get("AskQuestion").toJSON();
+                if (this.validateQuestion(question)) {
+                    vars._app.ShowLoading(false);
+                    var searchService = new srh.Services.SearchService();
+                    searchService.SendAskQuestion(question, function (responseData) {
+                        if (responseData.Result === 0) {
+                            _this.appRequestModal.modal('close');
+                            M.toast({ html: vars._statres("message$ask$question$sent") });
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            };
+            Main.prototype.validateQuestion = function (model) {
+                var result = true;
+                if (!utils.validateEmail(model.Email)) {
+                    M.toast({ html: vars._statres("msg$error$emailIncorrect") });
+                    result = false;
+                }
+                if (utils.isNullOrEmpty(model.Question)) {
+                    M.toast({ html: vars._statres("label$ask$question$incorrect") });
+                    result = false;
+                }
+                return result;
             };
             Main.prototype.menuSettingsClick = function (e) {
                 this.openSettings();

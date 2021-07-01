@@ -41,7 +41,7 @@ define(["require", "exports", "app/core/variables", "app/controller/about/aboutv
                     this.destroyTouchClickEvent("contact-view-askq-btn", this.AskButtonClick);
                 };
                 Contact.prototype.askButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "search/askquestion" });
+                    vars._main.OpenRequest();
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

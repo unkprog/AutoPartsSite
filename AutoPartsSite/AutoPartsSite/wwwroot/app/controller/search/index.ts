@@ -394,7 +394,8 @@ export namespace Controller.Search {
             //  vars._app.ShowLoading(false);
             let artikle: string = $(e.currentTarget).data('artikle');
             localStorage.setItem("artikle", artikle);
-            _app.OpenController({ urlController: "search/askquestion" });
+            //_app.OpenController({ urlController: "search/askquestion" });
+            vars._main.OpenRequest();
             e.preventDefault();
             e.stopPropagation();
             return false;
