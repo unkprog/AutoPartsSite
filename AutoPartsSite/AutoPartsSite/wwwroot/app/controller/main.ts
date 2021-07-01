@@ -219,8 +219,11 @@ export namespace Controller {
             self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
 
             self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
-            let appQuest = self.View.find('#app-askquestion-send-btn');
-            self.SendAskRequestButtonClick = utils.createClickEvent(appQuest, self.sendAskRequestButtonClick, self);
+            let el = self.View.find('#app-askquestion-send-btn');
+            self.SendAskRequestButtonClick = utils.createClickEvent(el, self.sendAskRequestButtonClick, self);
+            el = self.View.find('#app-askquestion-send-btn-cancel');
+            self.SendAskRequestCancelButtonClick = utils.createClickEvent(el, self.sendAskRequestCancelButtonClick, self);
+
             self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
             self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
             self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
@@ -260,6 +263,7 @@ export namespace Controller {
             this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
 
             utils.destroyClickEvent(this.View.find('#app-askquestion-send-btn'), this.SendAskRequestButtonClick);
+            utils.destroyClickEvent(this.View.find('#app-askquestion-send-btn-cancel'), this.SendAskRequestCancelButtonClick);
             utils.destroyClickEvent(this.menuSettings, this.MenuSettingsClick);
             utils.destroyClickEvent($("#app-btn-currency"), this.MenuCurrencyClick);
             utils.destroyClickEvent($("#app-btn-lang"), this.MenuLangClick);
@@ -369,6 +373,13 @@ export namespace Controller {
                     vars._app.HideLoading();
                 });
             }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+        public SendAskRequestCancelButtonClick: { (e: any): void; };
+        private sendAskRequestCancelButtonClick(e) {
+            this.appRequestModal.modal('close');
             e.preventDefault();
             e.stopPropagation();
             return false;
