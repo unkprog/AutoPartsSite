@@ -81,9 +81,17 @@ body, html {
     cursor: pointer;
 }
 
+#main-view-btn-askrequest {
+    display: none;
+}
+
 @media only screen and (max-width: 460px) {
-    #app-title {
+    #app-title, #app-btn-askrequest {
         display: none;
+    }
+
+    #main-view-btn-askrequest {
+        display: block;
     }
 }
 

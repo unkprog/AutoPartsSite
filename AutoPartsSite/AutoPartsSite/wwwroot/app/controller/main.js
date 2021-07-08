@@ -88,6 +88,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.menuBasket = $('<li><a id="app-btn-basket" data-position="bottom"><i class="material-icons">shopping_cart</i></a><div class="center app-basket-counter">0</div></li>');
                 this.sideNavBarRight.append(this.menuSettings).append(this.menuBasket);
                 this.menuBasket.find('.app-basket-counter').hide();
+                this.menuAskRequest = $('<li id="app-btn-askrequest"><a><i class="material-icons">contact_support</i></a></li>');
+                this.sideNavBarRight.append(this.menuAskRequest);
                 this.buttonMenu = this.menu.find("#app-btn-menu");
                 this.content = view.find("#main-view-content");
                 this.contentModal = view.find("#main-view-content-modal");
@@ -166,12 +168,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
                 self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
                 var el = self.View.find('#app-askquestion-send-btn');
-                self.SendAskRequestButtonClick = utils.createClickEvent(el, self.sendAskRequestButtonClick, self);
+                self.AskRequestButtonClick = utils.createClickEvent(el, self.askRequestButtonClick, self);
                 el = self.View.find('#app-askquestion-send-btn-cancel');
                 self.SendAskRequestCancelButtonClick = utils.createClickEvent(el, self.sendAskRequestCancelButtonClick, self);
                 self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
                 self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
                 self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
+                self.MenuAskQuestionClick = utils.createClickEvent(self.menuAskRequest, self.fAskQuestionButtonClick, self);
                 self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
                 self.SendAskRequestButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.sendAskRequestButtonClick);
@@ -182,9 +185,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.MenuPaymentButtonClick = self.createClickEvent("main-view-btn-payment", self.menuPaymentButtonClick);
                 self.MenuShippingButtonClick = self.createClickEvent("main-view-btn-shipping", self.menuShippingButtonClick);
                 self.MenuContactButtonClick = self.createClickEvent("main-view-btn-contact", self.menuContactButtonClick);
+                self.MenuAskQuestionClick2 = utils.createClickEvent("main-view-btn-askrequest", self.fAskQuestionButtonClick, self, self.View);
                 self.MenuSettingsButtonClick = self.createClickEvent("main-view-btn-settings", self.menuSettingsButtonClick);
                 self.FContactButtonClick = self.createClickEvent("footer-view-btn-contact", self.fContactButtonClick);
                 self.FFaqButtonClick = self.createClickEvent("footer-view-btn-faq", self.fFaqButtonClick);
+                self.FAskQuestionButtonClick = self.createClickEvent("footer-view-btn-askquestion", self.fAskQuestionButtonClick);
                 self.FAboutButtonClick = self.createClickEvent("footer-view-btn-about", self.fAboutButtonClick);
                 self.FPoliciesAboutButtonClick = self.createClickEvent("footer-view-btn-policies", self.fPoliciesAboutButtonClick);
                 self.FTermsAboutButtonClick = self.createClickEvent("footer-view-btn-terms", self.fTermsAboutButtonClick);
@@ -204,6 +209,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 utils.destroyClickEvent($("#app-btn-country"), this.MenuCountryClick);
                 this.destroyClickEvent("app-settings-modal-btn-save", this.AppSettingsSaveButtonClick);
                 this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
+                this.destroyClickEvent(this.menuAskRequest, this.MenuAskQuestionClick);
+                this.destroyClickEvent("main-view-btn-askrequest", this.MenuAskQuestionClick2);
                 this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
                 this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
                 this.destroyClickEvent("main-view-btn-shipping", this.MenuShippingButtonClick);
@@ -214,6 +221,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("main-view-btn-search", this.MenuSearchButtonClick);
                 this.destroyClickEvent("footer-view-btn-contact", this.FContactButtonClick);
                 this.destroyClickEvent("footer-view-btn-faq", this.FFaqButtonClick);
+                this.destroyClickEvent("footer-view-btn-askquestion", this.FAskQuestionButtonClick);
                 this.destroyClickEvent("footer-view-btn-about", this.FAboutButtonClick);
                 this.destroyClickEvent("footer-view-btn-news", this.FNewsButtonClick);
                 this.destroyClickEvent("footer-view-btn-policies", this.FPoliciesAboutButtonClick);
@@ -262,6 +270,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.appRequestModal = $('#app-request-modal').modal();
                 M.updateTextFields();
                 this.appRequestModal.modal('open');
+            };
+            Main.prototype.askRequestButtonClick = function (e) {
+                this.OpenRequest();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             };
             Main.prototype.sendAskRequestButtonClick = function (e) {
                 var _this = this;
@@ -520,6 +534,13 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.fFaqButtonClick = function (e) {
                 return this.handleMenuItemPage(e, "about/faq", "label$faq");
+            };
+            Main.prototype.fAskQuestionButtonClick = function (e) {
+                this.sideNav.sidenav('close');
+                this.OpenRequest();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             };
             Main.prototype.fAboutButtonClick = function (e) {
                 return this.handleMenuItemPage(e, "about/index", "label$aboutUs");

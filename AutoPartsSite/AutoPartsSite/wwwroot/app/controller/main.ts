@@ -78,10 +78,10 @@ export namespace Controller {
         private menuRight: JQuery;
 
         private menuSettings: JQuery;
-        private sendAskRequestButton: JQuery;
         private menuCountry: JQuery;
         private menuLang: JQuery;
         private menuCurrency: JQuery;
+        private menuAskRequest: JQuery;
 
         private menuBasket: JQuery;
         private sideNav: JQuery;
@@ -116,6 +116,9 @@ export namespace Controller {
             this.sideNavBarRight.append(this.menuSettings)/*.append(this.menuCountry).append(this.menuLang).append(this.menuCurrency)*/.append(this.menuBasket);
             this.menuBasket.find('.app-basket-counter').hide();
 
+            this.menuAskRequest = $('<li id="app-btn-askrequest"><a><i class="material-icons">contact_support</i></a></li>');
+            this.sideNavBarRight.append(this.menuAskRequest);
+
             this.buttonMenu = this.menu.find("#app-btn-menu");
             this.content = view.find("#main-view-content");
             this.contentModal = view.find("#main-view-content-modal");
@@ -124,6 +127,8 @@ export namespace Controller {
 
             this.Model.set('labelUserName', (vars._appData.Identity.Auth === true ? vars._appData.Identity.User.Email : ""));
             this.initLogIn();
+
+           
 
             let startupPage = localStorage.getItem('startupPage');
             localStorage.removeItem('startupPage');
@@ -220,13 +225,15 @@ export namespace Controller {
 
             self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
             let el = self.View.find('#app-askquestion-send-btn');
-            self.SendAskRequestButtonClick = utils.createClickEvent(el, self.sendAskRequestButtonClick, self);
+            self.AskRequestButtonClick = utils.createClickEvent(el, self.askRequestButtonClick, self);
+            
             el = self.View.find('#app-askquestion-send-btn-cancel');
             self.SendAskRequestCancelButtonClick = utils.createClickEvent(el, self.sendAskRequestCancelButtonClick, self);
 
             self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
             self.MenuLangClick = utils.createClickEvent($("#app-btn-lang"), self.menuLangClick, self);
             self.MenuCurrencyClick = utils.createClickEvent($("#app-btn-currency"), self.menuCurrencyClick, self);
+            self.MenuAskQuestionClick = utils.createClickEvent(self.menuAskRequest, self.fAskQuestionButtonClick, self);
 
             //self.LangEnClick = self.createClickEvent("app-lang-en", self.langEnClick);
             //self.LangRuClick = self.createClickEvent("app-lang-ru", self.langRuClick);
@@ -243,10 +250,12 @@ export namespace Controller {
             self.MenuPaymentButtonClick = self.createClickEvent("main-view-btn-payment", self.menuPaymentButtonClick);
             self.MenuShippingButtonClick = self.createClickEvent("main-view-btn-shipping", self.menuShippingButtonClick);
             self.MenuContactButtonClick = self.createClickEvent("main-view-btn-contact", self.menuContactButtonClick);
+            self.MenuAskQuestionClick2 = utils.createClickEvent("main-view-btn-askrequest", self.fAskQuestionButtonClick, self, self.View);
             self.MenuSettingsButtonClick = self.createClickEvent("main-view-btn-settings", self.menuSettingsButtonClick);
 
             self.FContactButtonClick = self.createClickEvent("footer-view-btn-contact", self.fContactButtonClick);
             self.FFaqButtonClick = self.createClickEvent("footer-view-btn-faq", self.fFaqButtonClick);
+            self.FAskQuestionButtonClick = self.createClickEvent("footer-view-btn-askquestion", self.fAskQuestionButtonClick);
             self.FAboutButtonClick = self.createClickEvent("footer-view-btn-about", self.fAboutButtonClick);
             self.FPoliciesAboutButtonClick = self.createClickEvent("footer-view-btn-policies", self.fPoliciesAboutButtonClick);
             self.FTermsAboutButtonClick = self.createClickEvent("footer-view-btn-terms", self.fTermsAboutButtonClick);
@@ -275,6 +284,8 @@ export namespace Controller {
             this.destroyClickEvent("app-settings-modal-btn-save", this.AppSettingsSaveButtonClick);
             //utils.destroyClickEvent("app-btn-basket", this.BasketButtonClick, this.View);
             this.destroyClickEvent(this.menuBasket.find("#app-btn-basket"), this.BasketButtonClick);
+            this.destroyClickEvent(this.menuAskRequest, this.MenuAskQuestionClick);
+            this.destroyClickEvent("main-view-btn-askrequest", this.MenuAskQuestionClick2);
 
             this.destroyClickEvent("main-view-btn-settings", this.MenuSettingsButtonClick);
             this.destroyClickEvent("main-view-btn-contact", this.MenuContactButtonClick);
@@ -287,6 +298,7 @@ export namespace Controller {
 
             this.destroyClickEvent("footer-view-btn-contact", this.FContactButtonClick);
             this.destroyClickEvent("footer-view-btn-faq", this.FFaqButtonClick);
+            this.destroyClickEvent("footer-view-btn-askquestion", this.FAskQuestionButtonClick);
             this.destroyClickEvent("footer-view-btn-about", this.FAboutButtonClick);
             this.destroyClickEvent("footer-view-btn-news", this.FNewsButtonClick);
 
@@ -353,6 +365,15 @@ export namespace Controller {
                 this.appRequestModal = $('#app-request-modal').modal();
             M.updateTextFields();
             this.appRequestModal.modal('open');
+        }
+
+        public AskRequestButtonClick: { (e: any): void; };
+        public AskRequestButtonClick2: { (e: any): void; };
+        private askRequestButtonClick(e) {
+            this.OpenRequest();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
 
         public SendAskRequestButtonClick: { (e: any): void; };
@@ -712,6 +733,17 @@ export namespace Controller {
         public FFaqButtonClick: { (e: any): void; };
         private fFaqButtonClick(e: any): boolean {
             return this.handleMenuItemPage(e, "about/faq", "label$faq");
+        }
+
+        public FAskQuestionButtonClick: { (e: any): void; };
+        public MenuAskQuestionClick: { (e: any): void; };
+        public MenuAskQuestionClick2: { (e: any): void; };
+        private fAskQuestionButtonClick(e: any): boolean {
+            this.sideNav.sidenav('close');
+            this.OpenRequest();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
 
         public FAboutButtonClick: { (e: any): void; };
