@@ -168,7 +168,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.OpenMenuButtonClick = self.createTouchClickEvent(self.buttonMenu, self.openMenuButtonClick);
                 self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
                 var el = self.View.find('#app-askquestion-send-btn');
-                self.AskRequestButtonClick = utils.createClickEvent(el, self.askRequestButtonClick, self);
+                self.SendAskRequestButtonClick = utils.createClickEvent(el, self.sendAskRequestButtonClick, self);
                 el = self.View.find('#app-askquestion-send-btn-cancel');
                 self.SendAskRequestCancelButtonClick = utils.createClickEvent(el, self.sendAskRequestCancelButtonClick, self);
                 self.MenuCountryClick = utils.createClickEvent($("#app-btn-country"), self.menuCountryClick, self);
@@ -177,7 +177,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.MenuAskQuestionClick = utils.createClickEvent(self.menuAskRequest, self.fAskQuestionButtonClick, self);
                 self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
                 self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
-                self.SendAskRequestButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.sendAskRequestButtonClick);
                 self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
                 self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
                 self.MenuNewsButtonClick = self.createClickEvent("main-view-btn-news", self.menuNewsButtonClick);
@@ -261,7 +260,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 var artikle = localStorage.getItem("artikle");
                 localStorage.removeItem("artikle");
                 if (!utils.isNullOrEmpty(artikle)) {
-                    this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - <' + artikle + '>?');
+                    this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - ' + artikle + '?');
                 }
                 else
                     this.Model.set("AskQuestion.Question", "");
@@ -278,14 +277,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 return false;
             };
             Main.prototype.sendAskRequestButtonClick = function (e) {
-                var _this = this;
                 var question = this.Model.get("AskQuestion").toJSON();
                 if (this.validateQuestion(question)) {
                     vars._app.ShowLoading(false);
+                    var self_1 = this;
                     var searchService = new srh.Services.SearchService();
                     searchService.SendAskQuestion(question, function (responseData) {
                         if (responseData.Result === 0) {
-                            _this.appRequestModal.modal('close');
+                            self_1.appRequestModal.modal('close');
                             M.toast({ html: vars._statres("message$ask$question$sent") });
                         }
                         else {

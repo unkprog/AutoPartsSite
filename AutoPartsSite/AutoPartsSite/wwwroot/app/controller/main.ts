@@ -225,7 +225,7 @@ export namespace Controller {
 
             self.MenuSettingsClick = utils.createClickEvent(self.menuSettings, self.menuSettingsClick, self);
             let el = self.View.find('#app-askquestion-send-btn');
-            self.AskRequestButtonClick = utils.createClickEvent(el, self.askRequestButtonClick, self);
+            self.SendAskRequestButtonClick = utils.createClickEvent(el, self.sendAskRequestButtonClick, self);
             
             el = self.View.find('#app-askquestion-send-btn-cancel');
             self.SendAskRequestCancelButtonClick = utils.createClickEvent(el, self.sendAskRequestCancelButtonClick, self);
@@ -240,8 +240,6 @@ export namespace Controller {
 
             self.AppSettingsSaveButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.appSettingsSaveButtonClick);
             self.BasketButtonClick = self.createClickEvent(self.menuBasket.find("#app-btn-basket"), self.basketButtonClick);
-
-            self.SendAskRequestButtonClick = this.createClickEvent("app-settings-modal-btn-save", self.sendAskRequestButtonClick);
 
             self.MenuSearchButtonClick = self.createClickEvent("main-view-btn-search", self.menuSearchButtonClick);
             self.MenuAboutButtonClick = self.createClickEvent("main-view-btn-about", self.menuAboutButtonClick);
@@ -355,7 +353,7 @@ export namespace Controller {
             let artikle = localStorage.getItem("artikle");
             localStorage.removeItem("artikle");
             if (!utils.isNullOrEmpty(artikle)) {
-                this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - <' + artikle + '>?');
+                this.Model.set("AskQuestion.Question", vars._statres("label$ask$partnumber$available") + ' - ' + artikle + '?');
             }
             else
                 this.Model.set("AskQuestion.Question", "");
@@ -382,10 +380,11 @@ export namespace Controller {
             if (this.validateQuestion(question)) {
                 vars._app.ShowLoading(false);
 
+                let self = this;
                 let searchService = new srh.Services.SearchService();
                 searchService.SendAskQuestion(question, (responseData) => {
                     if (responseData.Result === 0) {
-                        this.appRequestModal.modal('close');
+                        self.appRequestModal.modal('close');
                         M.toast({ html: vars._statres("message$ask$question$sent") });
                     }
                     else {
