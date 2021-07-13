@@ -401,7 +401,7 @@ namespace AutoPartsSite.Controllers.Api
                  new SqlParameter() { ParameterName = "@WithSubst", Value = false },
                  new SqlParameter() { ParameterName = "@WithTotal", Value = true },
                  new SqlParameter() { ParameterName = "@WithCompare", Value = true },
-                 new SqlParameter() { ParameterName = "@PromoCode", Value = string.Empty },
+                 new SqlParameter() { ParameterName = "@PromoCode", Value = (data.Header == null || string.IsNullOrEmpty(data.Header.PromoCode) ? string.Empty : data.Header.PromoCode) },
                  new SqlParameter() { ParameterName = "@Comment", Value = string.Empty }
             }
             , onExecute: (reader) =>
