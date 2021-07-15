@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice"], function (require, exports, vars, base, bsk) {
+define(["require", "exports", "app/core/variables", "app/core/basecontroller", "app/services/basketservice", "app/core/utils"], function (require, exports, vars, base, bsk, utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -85,6 +85,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Index.prototype.OnViewInit = function () {
                     vars._app.ShowLoading(true);
                     var self = this;
+                    self.isShowPromocodeApplyMsg = true;
                     self.BasketService.View(function (responseData) { return self.endCommand(responseData); });
                 };
                 Index.prototype.endCommand = function (responseData) {
@@ -197,8 +198,11 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     else
                         vars._app.ShowError(responseData.Error);
                     M.updateTextFields();
-                    if (self.isShowPromocodeApplyMsg == true)
-                        M.toast({ html: vars._statres("mesage$promocode$applied") });
+                    if (self.isShowPromocodeApplyMsg == true) {
+                        if (utils.isNullOrEmpty(responseData.Data.Header.PromoCouponMessage) == false)
+                            M.toast({ html: responseData.Data.Header.PromoCouponMessage });
+                        self.isShowPromocodeApplyMsg = false;
+                    }
                 };
                 Index.prototype.deliveryClick = function (e) {
                     var self = this;
@@ -237,6 +241,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.createEvents = function () {
                     this.ApplyPromocodeButtonClick = this.createClickEvent("basket-promocode-btn", this.applyPromocodeButtonClick);
+                    this.proxyApplyPromo = $.proxy(this.applyPromoEnter, this);
+                    this.View.find("#basket-promocode").on("keydown", this.proxyApplyPromo);
+                    this.ClearPromocodeButtonClick = this.createClickEvent("basket-promocode-clear", this.clearPromocodeButtonClick);
                     this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
                     this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
                 };
@@ -270,15 +277,36 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 Index.prototype.destroyEvents = function () {
                     this.destroyCardsItems();
-                    this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
+                    if (this.proxyApplyPromo)
+                        this.View.find("#basket-promocode").off("keydown", this.proxyApplyPromo);
                     this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+                    this.destroyClickEvent("basket-promocode-clear", this.ClearPromocodeButtonClick);
                     this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
+                    this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
                 };
                 Index.prototype.applyPromocodeButtonClick = function (e) {
                     var self = this;
                     var promoCode = self.View.find('#basket-promocode').val();
                     self.isShowPromocodeApplyMsg = true;
                     self.BasketService.SetPromocode(promoCode, function (responseData) { return self.endCommand(responseData); });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                };
+                Index.prototype.applyPromoEnter = function (e) {
+                    var self = this;
+                    if (e.which == 13) {
+                        self.applyPromocodeButtonClick(e);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                };
+                Index.prototype.clearPromocodeButtonClick = function (e) {
+                    var self = this;
+                    self.View.find('#basket-promocode').val('');
+                    self.isShowPromocodeApplyMsg = true;
+                    self.BasketService.SetPromocode('', function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

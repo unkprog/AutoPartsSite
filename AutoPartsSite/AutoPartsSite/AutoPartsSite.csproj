@@ -401,6 +401,9 @@
     <None Update="Database\GlobalParts\Query\Basket\[get_payments].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Basket\[get_coupon].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Basket\[set_address].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

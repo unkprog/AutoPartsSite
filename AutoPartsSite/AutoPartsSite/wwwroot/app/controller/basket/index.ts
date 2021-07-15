@@ -1,6 +1,7 @@
 ﻿import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import bsk = require('app/services/basketservice');
+import utils = require('app/core/utils');
 
 export namespace Controller.Basket {
     export class Index extends base.Controller.Base {
@@ -71,6 +72,7 @@ export namespace Controller.Basket {
         protected OnViewInit(): void {
             vars._app.ShowLoading(true);
             let self = this;
+            self.isShowPromocodeApplyMsg = true;
             self.BasketService.View((responseData) => self.endCommand(responseData));
         }
 
@@ -103,6 +105,7 @@ export namespace Controller.Basket {
 
         private qtyForm: JQuery;
         private proxyQtyForm;
+        private proxyApplyPromo;
         private deleteBtn: JQuery;
         private proxyDelete;
         private deliveryCards: JQuery;
@@ -225,8 +228,12 @@ export namespace Controller.Basket {
 
             M.updateTextFields();
 
-            if (self.isShowPromocodeApplyMsg == true)
-                M.toast({ html: vars._statres("mesage$promocode$applied") });
+            if (self.isShowPromocodeApplyMsg == true) {
+                //M.toast({ html: vars._statres("mesage$promocode$applied") });
+                if (utils.isNullOrEmpty(responseData.Data.Header.PromoCouponMessage) == false)
+                    M.toast({ html: responseData.Data.Header.PromoCouponMessage });
+                self.isShowPromocodeApplyMsg = false;
+            }
         }
 
         private deliveryId: number = 0;
@@ -272,6 +279,11 @@ export namespace Controller.Basket {
 
         protected createEvents(): void {
             this.ApplyPromocodeButtonClick = this.createClickEvent("basket-promocode-btn", this.applyPromocodeButtonClick);
+
+            this.proxyApplyPromo = $.proxy(this.applyPromoEnter, this);
+            this.View.find("#basket-promocode").on("keydown", this.proxyApplyPromo);
+
+            this.ClearPromocodeButtonClick = this.createClickEvent("basket-promocode-clear", this.clearPromocodeButtonClick);
             this.SearchButtonClick = this.createClickEvent("basket-search-btn", this.searchButtonClick);
             this.DoneButtonClick = this.createClickEvent("basket-done-btn", this.doneButtonClick);
         }
@@ -308,9 +320,14 @@ export namespace Controller.Basket {
         protected destroyEvents(): void {
             this.destroyCardsItems();
 
-            this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
+            if (this.proxyApplyPromo)
+                this.View.find("#basket-promocode").off("keydown", this.proxyApplyPromo);
+
+
             this.destroyClickEvent("basket-done-btn", this.DoneButtonClick);
+            this.destroyClickEvent("basket-promocode-clear", this.ClearPromocodeButtonClick);
             this.destroyClickEvent("basket-promocode-btn", this.ApplyPromocodeButtonClick);
+            this.destroyClickEvent("basket-search-btn", this.SearchButtonClick);
         }
 
         private isShowPromocodeApplyMsg: boolean;
@@ -320,6 +337,27 @@ export namespace Controller.Basket {
             let promoCode: string = self.View.find('#basket-promocode').val() as string;
             self.isShowPromocodeApplyMsg = true;
             self.BasketService.SetPromocode(promoCode, (responseData) => self.endCommand(responseData));
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        private applyPromoEnter(e) {
+            let self = this;
+            if (e.which == 13) {
+                self.applyPromocodeButtonClick(e);
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+        
+        public ClearPromocodeButtonClick: { (e: any): void; };
+        private clearPromocodeButtonClick(e) {
+            let self = this;
+            self.View.find('#basket-promocode').val('');
+            self.isShowPromocodeApplyMsg = true;
+            self.BasketService.SetPromocode('', (responseData) => self.endCommand(responseData));
             e.preventDefault();
             e.stopPropagation();
             return false;

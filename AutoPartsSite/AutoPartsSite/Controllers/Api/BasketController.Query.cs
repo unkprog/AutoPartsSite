@@ -43,13 +43,13 @@ namespace AutoPartsSite.Controllers.Api
                 query.ExecuteNonQuery(@"[del_header]", new SqlParameter[] { new SqlParameter() { ParameterName = "@Uid", Value = pq.uid } });
             });
         }
-            
+
 
         [NonAction]
         private decimal UpdatePartBasket(BasketQuery pq, bool isAdd = false)
         {
             decimal result = pq.qty;
-            
+
             List<BasketGoods> positions = new List<BasketGoods>();
             positions.Add(new BasketGoods() { Goods = new Goods() { Id = pq.id }, Quantity = pq.qty });
             List<GoodsSearch> goods = GetBasketGoods(positions);
@@ -57,7 +57,7 @@ namespace AutoPartsSite.Controllers.Api
             int DeliveryTariffID = GetBasketDelivery(pq, out partsXML);
 
             List<BasketItemsModel> basketItemsModels = GetBasketPrices(pq, DeliveryTariffID, partsXML);
-            if(basketItemsModels.Count > 0)
+            if (basketItemsModels.Count > 0)
                 ExecQuery((query) =>
                 {
                     query.ExecuteNonQuery(isAdd ? @"[add]" : @"[update]", new SqlParameter[]
@@ -202,7 +202,7 @@ namespace AutoPartsSite.Controllers.Api
                 });
             });
 
-            if(result == 0)
+            if (result == 0)
             {
                 AppSettings.Query.GlobalParts.Execute(@"Basket\[get_delivery_tariff]", new SqlParameter[]
                 {
@@ -349,7 +349,7 @@ namespace AutoPartsSite.Controllers.Api
                         MaxPage = (int)values[4]
                     });
                 });
-            
+
             return result;
         }
 
@@ -361,9 +361,10 @@ namespace AutoPartsSite.Controllers.Api
             Dictionary<int, BasketGoods> result = new Dictionary<int, BasketGoods>();
             Dictionary<int, DeliveryInfo> resultDelivery = new Dictionary<int, DeliveryInfo>();
             BasketGoods goods;
+            Dictionary<string, string> resultPromoCouponMessage = new Dictionary<string, string>();
 
             foreach (var item in data.Positions)
-                if(!result.TryGetValue(item.Goods.Id, out goods))
+                if (!result.TryGetValue(item.Goods.Id, out goods))
                     result.Add(item.Goods.Id, item);
 
             foreach (var item in goodsS)
@@ -387,7 +388,7 @@ namespace AutoPartsSite.Controllers.Api
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
             int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1, f_DeliveryDays = -1;
-
+            int f_PromoCouponMessage = -1;
 
 
             AppSettings.Query.GlobalParts.Execute(@"Search\[GetPricesRetail]", new SqlParameter[]
@@ -410,53 +411,53 @@ namespace AutoPartsSite.Controllers.Api
                 for (int i = 0, icount = reader.FieldCount; i < icount; i++)
                 {
                     fname = reader.GetName(i);
-                         if (fname == "RowNumber")           f_PartNn = i;
-                    else if (fname == "GoodsID")             f_Id = i;
+                    if (fname == "RowNumber") f_PartNn = i;
+                    else if (fname == "GoodsID") f_Id = i;
                     //else if (fname == "Artikul")             f_PartNumber = i; //RequestedPartNumber
-                    else if (fname == "Articul")             { f_Articul = i; f_PartNumber = i; }
-                    else if (fname == "Descr")               f_Name = i;
-                    else if (fname == "Brand")               f_BrandCode = i;
-                    else if (fname == "CartPrice")           f_Price = i;
-                    else if (fname == "ShipInDays")          f_ShipInDays = i;
+                    else if (fname == "Articul") { f_Articul = i; f_PartNumber = i; }
+                    else if (fname == "Descr") f_Name = i;
+                    else if (fname == "Brand") f_BrandCode = i;
+                    else if (fname == "CartPrice") f_Price = i;
+                    else if (fname == "ShipInDays") f_ShipInDays = i;
 
-                    else if (fname == "PriceChanged")        f_PriceChanged = i;
-                    else if (fname == "QtyChanged")          f_QtyChanged = i;
-                    else if (fname == "CartPriceRaw")        f_CartPriceRaw = i;
-                    else if (fname == "OldCartPrice")        f_OldCartPrice = i;
-                    else if (fname == "Qty")                 f_Qty = i;
-                    else if (fname == "OldCartQty")          f_OldCartQty = i;
-                    else if (fname == "CartAmount")          f_CartAmount = i;
-                    else if (fname == "CartAmountRaw")       f_CartAmountRaw = i;
+                    else if (fname == "PriceChanged") f_PriceChanged = i;
+                    else if (fname == "QtyChanged") f_QtyChanged = i;
+                    else if (fname == "CartPriceRaw") f_CartPriceRaw = i;
+                    else if (fname == "OldCartPrice") f_OldCartPrice = i;
+                    else if (fname == "Qty") f_Qty = i;
+                    else if (fname == "OldCartQty") f_OldCartQty = i;
+                    else if (fname == "CartAmount") f_CartAmount = i;
+                    else if (fname == "CartAmountRaw") f_CartAmountRaw = i;
                     else if (fname == "CartDiscountsAmount") f_CartDiscountsAmount = i;
 
-                    else if (fname == "CountryID")           f_CountryId = i;
-                    else if (fname == "CountryCode")         f_CountryCode = i;
-                    else if (fname == "CountryDescr")        f_CountryName = i;
+                    else if (fname == "CountryID") f_CountryId = i;
+                    else if (fname == "CountryCode") f_CountryCode = i;
+                    else if (fname == "CountryDescr") f_CountryName = i;
 
-                    else if (fname == "CartCurrencyID")      f_CurrencyId = i;
-                    else if (fname == "CartCurrencyCode")    f_CurrencyCode = i;
-                    else if (fname == "CartCurrencyName")    f_CurrencyName = i;
-                    else if (fname == "CartCurrencySymbol")  f_CurrencySymbol = i;
+                    else if (fname == "CartCurrencyID") f_CurrencyId = i;
+                    else if (fname == "CartCurrencyCode") f_CurrencyCode = i;
+                    else if (fname == "CartCurrencyName") f_CurrencyName = i;
+                    else if (fname == "CartCurrencySymbol") f_CurrencySymbol = i;
                     else if (fname == "CartCurrencySymbolShowLeft") f_CurrencySymbolShowLeft = i;
 
-                    else if (fname == "WeightPhysical")      f_WeightPhysical = i;
-                    else if (fname == "WeightVolumetric")    f_WeightVolumetric = i;
-                    else if (fname == "LengthCm")            f_LengthCm = i;
-                    else if (fname == "WidthCm")             f_WidthCm = i;
-                    else if (fname == "HeightCm")            f_HeightCm = i;
+                    else if (fname == "WeightPhysical") f_WeightPhysical = i;
+                    else if (fname == "WeightVolumetric") f_WeightVolumetric = i;
+                    else if (fname == "LengthCm") f_LengthCm = i;
+                    else if (fname == "WidthCm") f_WidthCm = i;
+                    else if (fname == "HeightCm") f_HeightCm = i;
 
-                    else if (fname == "DeliveryTariffID")    f_DeliveryTariffID = i;
-                    else if (fname == "DeliveryTariffCode")  f_DeliveryTariffCode = i;
+                    else if (fname == "DeliveryTariffID") f_DeliveryTariffID = i;
+                    else if (fname == "DeliveryTariffCode") f_DeliveryTariffCode = i;
                     else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
-                    else if (fname == "CartAmount")          f_Amount = i;
-                    else if (fname == "CartDeliveryAmount")  f_DeliveryAmount = i;
-                    else if (fname == "CartVatAmount")       f_VatAmount = i;
-                    else if (fname == "CartTotalAmount")     f_TotalAmount = i;
-                    else if (fname == "DeliveryDaysMin")     f_DeliveryDaysMin = i;
-                    else if (fname == "DeliveryDaysMax")     f_DeliveryDaysMax = i;
-                    else if (fname == "DeliveryDays")        f_DeliveryDays = i;
-                    
+                    else if (fname == "CartAmount") f_Amount = i;
+                    else if (fname == "CartDeliveryAmount") f_DeliveryAmount = i;
+                    else if (fname == "CartVatAmount") f_VatAmount = i;
+                    else if (fname == "CartTotalAmount") f_TotalAmount = i;
+                    else if (fname == "DeliveryDaysMin") f_DeliveryDaysMin = i;
+                    else if (fname == "DeliveryDaysMax") f_DeliveryDaysMax = i;
+                    else if (fname == "DeliveryDays") f_DeliveryDays = i;
 
+                    else if (fname == "PromoCouponMessage") f_PromoCouponMessage = i;
                 }
             }
             , (values) =>
@@ -474,23 +475,23 @@ namespace AutoPartsSite.Controllers.Api
                         {
                             deliveryInfo = new DeliveryInfo() { Id = deliveryTariffID, Currency = new Currency() };
                             resultDelivery.Add(deliveryTariffID, deliveryInfo);
-                                 if (deliveryTariffID == 5) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
+                            if (deliveryTariffID == 5) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
                             else if (deliveryTariffID == 6) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
 
-                            if (f_DeliveryTariffCode  > -1) deliveryInfo.Code            = values[f_DeliveryTariffCode].ToStr();
-                            if (f_DeliveryTariffDescr > -1) deliveryInfo.Name            = values[f_DeliveryTariffDescr].ToStr();
-                            if (f_Amount              > -1) deliveryInfo.Amount          = values[f_Amount].ToDecimal();
-                            if (f_DeliveryAmount      > -1) deliveryInfo.DeliveryAmount  = values[f_DeliveryAmount].ToDecimal();
-                            if (f_VatAmount           > -1) deliveryInfo.VatAmount       = values[f_VatAmount].ToDecimal();
-                            if (f_TotalAmount         > -1) deliveryInfo.TotalAmount     = values[f_TotalAmount].ToDecimal();
-                            if (f_DeliveryDaysMin     > -1) deliveryInfo.DaysMin         = values[f_DeliveryDaysMin].ToInt();
-                            if (f_DeliveryDaysMax     > -1) deliveryInfo.DaysMax         = values[f_DeliveryDaysMax].ToInt();
-                            if (f_DeliveryDays        > -1) deliveryInfo.DeliveryDays    = values[f_DeliveryDays].ToStr();
-                            
-                            if (f_CurrencyId          > -1) deliveryInfo.Currency.Id     = values[f_CurrencyId].ToInt();
-                            if (f_CurrencyCode        > -1) deliveryInfo.Currency.Code   = values[f_CurrencyCode].ToStr();
-                            if (f_CurrencyName        > -1) deliveryInfo.Currency.Name   = values[f_CurrencyName].ToStr();
-                            if (f_CurrencySymbol      > -1) deliveryInfo.Currency.Symbol = values[f_CurrencySymbol].ToStr();
+                            if (f_DeliveryTariffCode > -1) deliveryInfo.Code = values[f_DeliveryTariffCode].ToStr();
+                            if (f_DeliveryTariffDescr > -1) deliveryInfo.Name = values[f_DeliveryTariffDescr].ToStr();
+                            if (f_Amount > -1) deliveryInfo.Amount = values[f_Amount].ToDecimal();
+                            if (f_DeliveryAmount > -1) deliveryInfo.DeliveryAmount = values[f_DeliveryAmount].ToDecimal();
+                            if (f_VatAmount > -1) deliveryInfo.VatAmount = values[f_VatAmount].ToDecimal();
+                            if (f_TotalAmount > -1) deliveryInfo.TotalAmount = values[f_TotalAmount].ToDecimal();
+                            if (f_DeliveryDaysMin > -1) deliveryInfo.DaysMin = values[f_DeliveryDaysMin].ToInt();
+                            if (f_DeliveryDaysMax > -1) deliveryInfo.DaysMax = values[f_DeliveryDaysMax].ToInt();
+                            if (f_DeliveryDays > -1) deliveryInfo.DeliveryDays = values[f_DeliveryDays].ToStr();
+
+                            if (f_CurrencyId > -1) deliveryInfo.Currency.Id = values[f_CurrencyId].ToInt();
+                            if (f_CurrencyCode > -1) deliveryInfo.Currency.Code = values[f_CurrencyCode].ToStr();
+                            if (f_CurrencyName > -1) deliveryInfo.Currency.Name = values[f_CurrencyName].ToStr();
+                            if (f_CurrencySymbol > -1) deliveryInfo.Currency.Symbol = values[f_CurrencySymbol].ToStr();
                             if (f_CurrencySymbolShowLeft > -1) deliveryInfo.Currency.ShowLeft = values[f_CurrencySymbolShowLeft].ToBool();
                         }
                     }
@@ -509,44 +510,74 @@ namespace AutoPartsSite.Controllers.Api
                         result.Add(id, item);
                     }
                     if (f_PartNumber > -1) item.Goods.PartNumber = values[f_PartNumber].ToStr();
-                    if (f_Name       > -1) item.Goods.Name = values[f_Name].ToStr();
-                    if (f_Articul    > -1) item.Goods.Articul = values[f_Articul].ToStr();
-                    if (f_Price      > -1) item.Price = item.Goods.Price = values[f_Price].ToDecimal();
+                    if (f_Name > -1) item.Goods.Name = values[f_Name].ToStr();
+                    if (f_Articul > -1) item.Goods.Articul = values[f_Articul].ToStr();
+                    if (f_Price > -1) item.Price = item.Goods.Price = values[f_Price].ToDecimal();
                     //item.Price = item.Goods.Price;
                     if (f_ShipInDays > -1) item.Goods.ShipInDays = values[f_ShipInDays].ToInt();
 
-                    if (f_BrandId   > -1) item.Goods.Brand.Id = values[f_BrandId].ToInt();
+                    if (f_BrandId > -1) item.Goods.Brand.Id = values[f_BrandId].ToInt();
                     if (f_BrandCode > -1) item.Goods.Brand.Code = values[f_BrandCode].ToStr();
 
-                    if (f_CountryId   > -1) item.Goods.Country.Id = values[f_CountryId].ToInt();
+                    if (f_CountryId > -1) item.Goods.Country.Id = values[f_CountryId].ToInt();
                     if (f_CountryCode > -1) item.Goods.Country.Code = values[f_CountryCode].ToStr();
                     if (f_CountryName > -1) item.Goods.Country.Name = values[f_CountryName].ToStr();
 
-                    if (f_CurrencyId     > -1) item.Goods.Currency.Id = values[f_CurrencyId].ToInt();
-                    if (f_CurrencyCode   > -1) item.Goods.Currency.Code = values[f_CurrencyCode].ToStr();
-                    if (f_CurrencyName   > -1) item.Goods.Currency.Name = values[f_CurrencyName].ToStr();
+                    if (f_CurrencyId > -1) item.Goods.Currency.Id = values[f_CurrencyId].ToInt();
+                    if (f_CurrencyCode > -1) item.Goods.Currency.Code = values[f_CurrencyCode].ToStr();
+                    if (f_CurrencyName > -1) item.Goods.Currency.Name = values[f_CurrencyName].ToStr();
                     if (f_CurrencySymbol > -1) item.Goods.Currency.Symbol = values[f_CurrencySymbol].ToStr();
                     if (f_CurrencySymbolShowLeft > -1) item.Goods.Currency.ShowLeft = values[f_CurrencySymbolShowLeft].ToBool();
 
-                    if (f_WeightPhysical   > -1) item.Goods.Parameters.WeightPhysical = values[f_WeightPhysical].ToDecimal();
+                    if (f_WeightPhysical > -1) item.Goods.Parameters.WeightPhysical = values[f_WeightPhysical].ToDecimal();
                     if (f_WeightVolumetric > -1) item.Goods.Parameters.WeightVolumetric = values[f_WeightVolumetric].ToDecimal();
-                    if (f_LengthCm         > -1) item.Goods.Parameters.LengthCm = values[f_LengthCm].ToDecimal();
-                    if (f_WidthCm          > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
-                    if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
+                    if (f_LengthCm > -1) item.Goods.Parameters.LengthCm = values[f_LengthCm].ToDecimal();
+                    if (f_WidthCm > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
+                    if (f_HeightCm > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
 
-                    if (f_PriceChanged        > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() != 0;
-                    if (f_QtyChanged          > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() != 0;
-                    if (f_CartPriceRaw        > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
-                    if (f_OldCartPrice        > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
-                    if (f_Qty                 > -1) item.Qty = values[f_Qty].ToInt();
-                    if (f_OldCartQty          > -1) item.OldQty = values[f_OldCartQty].ToInt();
-                    if (f_CartAmount          > -1) item.CartAmount   = values[f_CartAmount].ToDecimal();
-                    if (f_CartAmountRaw       > -1) item.CartAmountRaw = values[f_CartAmountRaw].ToDecimal();
+                    if (f_PriceChanged > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() != 0;
+                    if (f_QtyChanged > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() != 0;
+                    if (f_CartPriceRaw > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
+                    if (f_OldCartPrice > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
+                    if (f_Qty > -1) item.Qty = values[f_Qty].ToInt();
+                    if (f_OldCartQty > -1) item.OldQty = values[f_OldCartQty].ToInt();
+                    if (f_CartAmount > -1) item.CartAmount = values[f_CartAmount].ToDecimal();
+                    if (f_CartAmountRaw > -1) item.CartAmountRaw = values[f_CartAmountRaw].ToDecimal();
                     if (f_CartDiscountsAmount > -1) item.CartDiscountsAmount = values[f_CartDiscountsAmount].ToDecimal();
+
+                    if (f_PromoCouponMessage > -1)
+                    {
+                        string rpcm, pcm = values[f_PromoCouponMessage].ToStr();
+                        if (!string.IsNullOrEmpty(pcm) && !resultPromoCouponMessage.TryGetValue(pcm, out rpcm))
+                            resultPromoCouponMessage.Add(pcm, pcm);
+                    }
                 }
             });
 
             data.Deliveries = resultDelivery.Values.ToList();
+
+            data.Header.PromoCouponMessage = string.Empty;
+            if (resultPromoCouponMessage.Count > 0)
+            {
+                foreach (var pcmItem in resultPromoCouponMessage.Values)
+                    data.Header.PromoCouponMessage = string.Concat(data.Header.PromoCouponMessage, string.IsNullOrEmpty(data.Header.PromoCouponMessage) ? string.Empty : "<br/>", pcmItem);
+            }
+
+        }
+
+        [NonAction]
+        private int GetCouponId(string promocode)
+        {
+            int result = 0;
+            AppSettings.Query.GlobalParts.Execute(@"Basket\[get_coupon]", new SqlParameter[] {
+                    new SqlParameter() { ParameterName = "@PromoCode", Value = promocode },
+                },
+                onExecute: null,
+                (values) =>
+                {
+                    result = values[0].ToInt();
+                });
+            return result;
         }
 
         [NonAction]

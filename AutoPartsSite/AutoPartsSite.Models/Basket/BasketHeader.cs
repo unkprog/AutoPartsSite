@@ -16,5 +16,6 @@
         public decimal InvoiceCurrencyRate { get; set; }
         public int AccountingCurrencyID { get; set; }
         public string PromoCode { get; set; }
+        public string PromoCouponMessage { get; set; }
     }
 }

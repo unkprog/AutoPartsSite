@@ -970,12 +970,24 @@ input[type='number']:hover::-webkit-outer-spin-button {
 
 #basket-promocode {
     background: #f8f8f8;
+    height: 36px;
+}
+
+#basket-promocode-clear {
+    float: right;
+    position: absolute;
+    right: 1rem;
+    color: #9e9e9e;
+    cursor: pointer;
+    height: 36px;
+    line-height: 36px;
 }
 
 @media only screen and (max-width: 600px) {
-     #div-basket-promocode {
+    #div-basket-promocode {
         margin-bottom: 0;
     }
+
     #div-basket-promocode-btn {
         margin-top: 0;
     }
