@@ -65,7 +65,12 @@ namespace AutoPartsSite.Models.Basket
         public decimal OldQty { get; set; }
 
         /// <summary>
-        /// Цена OldCartPrice
+        /// Цена CartAmountw
+        /// </summary>
+        [DataMember]
+        public decimal CartAmount { get; set; }
+        /// <summary>
+        /// Цена CartAmountRaw
         /// </summary>
         [DataMember]
         public decimal CartAmountRaw { get; set; }

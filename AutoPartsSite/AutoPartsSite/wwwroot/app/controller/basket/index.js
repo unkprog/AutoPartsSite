@@ -135,9 +135,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                             isSymbolLeft = items[i].Goods.Currency.ShowLeft;
                             items[i].deleteLabel = vars._statres("button$label$delete");
                             items[i].OldQtyLabel = '' + items[i].OldQty + ' ' + self.Model.get('labelPcs');
-                            items[i].Sum = items[i].Quantity * (items[i].Price && items[i].Price > 0 ? items[i].Price : 0);
-                            items[i].SumOld = items[i].Quantity * (items[i].OldCartPrice && items[i].OldCartPrice > 0 ? items[i].OldCartPrice : 0);
-                            sum += items[i].Sum;
+                            sum += items[i].CartAmount;
                             htmlResult = (htmlResult + template(items[i]));
                             tmlTableResult = (tmlTableResult + templateTable(items[i]));
                         }

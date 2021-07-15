@@ -132,7 +132,7 @@
         #if(Goods.Currency.ShowLeft===true) {#
                                     #=Goods.Currency.Symbol#
         #}#
-                                    #=numberToString(Price,2)#
+                                    #=numberToString(CartPriceRaw,2)#
         #if(Goods.Currency.ShowLeft !== true) {#
                                     #=Goods.Currency.Symbol#
         #}#
@@ -150,7 +150,7 @@
         #} else {#
                                                                 <form id="basket-qty-form-#=Goods.Id#" class="basket-qty-form" style="padding:0">
                                                                     <span data-bind="text:labelQty"></span>
-                                                                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" style="font-size:1.5rem;width:3rem !important;background:\#f8f8f8;" value="#=Quantity#">
+                                                                    <input id="basket-qty-#=Goods.Id#" type="number" class="validate input-number basket-input" style="font-size:1.5rem;width:3rem !important;background:\#f8f8f8;" value="#=Qty#">
                                                                     <span class="margin-right-050rem basket-label" data-bind="text:labelPcs" style="font-weight:normal;"></span>
             #if(QtyChanged == true) {#
                                                                     <span class="margin-right-050rem basket-label" style="font-weight:normal;" data-bind="text:labelWas"></span><span class="basket-label through" style="font-weight:normal;">#=OldQtyLabel#</span>
@@ -169,7 +169,7 @@
             #if(Goods.Currency.ShowLeft===true) {#
                                                                     #=Goods.Currency.Symbol#
             #}#
-                                                                    #=numberToString(Sum,2)#
+                                                                    #=numberToString(CartAmountRaw,2)#
             #if(Goods.Currency.ShowLeft !== true) {#
                                                                     #=Goods.Currency.Symbol#
             #}#
@@ -179,7 +179,7 @@
         #if(Goods.Currency.ShowLeft===true) {#
                                                                     #=Goods.Currency.Symbol#
         #}#
-                                                                    #=numberToString(Sum,2)#
+                                                                    #=numberToString(CartAmount,2)#
         #if(Goods.Currency.ShowLeft !== true) {#
                                                                     #=Goods.Currency.Symbol#
         #}#
@@ -249,7 +249,7 @@
                 <span class="basket-label" data-bind="text:labelNoLongerAvailabile"></span>
         #} else {#
                 <form id="basket-qty-form-table-#=Goods.Id#" class="basket-qty-form" style="padding:0">
-                    <input id="basket-qty-table-#=Goods.Id#" type="number" class="validate input-number basket-input" style="background:\#f8f8f8;" value="#=Quantity#">
+                    <input id="basket-qty-table-#=Goods.Id#" type="number" class="validate input-number basket-input" style="background:\#f8f8f8;" value="#=Qty#">
                 </form>
             #if(QtyChanged == true) {#
                <span class="margin-right-1rem basket-label" data-bind="text:labelWas" style="font-size:0.7rem;"></span><span class="basket-label through" style="margin-right:0.6rem;font-size:0.9rem;">#=OldQty#</span>
@@ -262,7 +262,7 @@
                                         #if(Goods.Currency.ShowLeft===true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#
-                                        #=numberToString(SumOld,2)#
+                                        #=numberToString(CartAmountRaw,2)#
                                         #if(Goods.Currency.ShowLeft !== true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#
@@ -273,7 +273,7 @@
                                         #if(Goods.Currency.ShowLeft===true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#
-                                        #=numberToString(Sum,2)#
+                                        #=numberToString(CartAmount,2)#
                                         #if(Goods.Currency.ShowLeft !== true) {#
                                             #=Goods.Currency.Symbol#
                                         #}#

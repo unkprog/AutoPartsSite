@@ -382,7 +382,7 @@ namespace AutoPartsSite.Controllers.Api
 
             int f_PriceChanged = -1, f_QtyChanged = -1;
             int f_CartPriceRaw = -1, f_OldCartPrice = -1, f_Qty = -1, f_OldCartQty = -1;
-            int f_CartAmountRaw = -1, f_CartDiscountsAmount = -1;
+            int f_CartAmount = -1, f_CartAmountRaw = -1, f_CartDiscountsAmount = -1;
 
             int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
@@ -425,6 +425,7 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "OldCartPrice")        f_OldCartPrice = i;
                     else if (fname == "Qty")                 f_Qty = i;
                     else if (fname == "OldCartQty")          f_OldCartQty = i;
+                    else if (fname == "CartAmount")          f_CartAmount = i;
                     else if (fname == "CartAmountRaw")       f_CartAmountRaw = i;
                     else if (fname == "CartDiscountsAmount") f_CartDiscountsAmount = i;
 
@@ -510,7 +511,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_PartNumber > -1) item.Goods.PartNumber = values[f_PartNumber].ToStr();
                     if (f_Name       > -1) item.Goods.Name = values[f_Name].ToStr();
                     if (f_Articul    > -1) item.Goods.Articul = values[f_Articul].ToStr();
-                    if (f_Price      > -1) item.Goods.Price = values[f_Price].ToDecimal();
+                    if (f_Price      > -1) item.Price = item.Goods.Price = values[f_Price].ToDecimal();
                     //item.Price = item.Goods.Price;
                     if (f_ShipInDays > -1) item.Goods.ShipInDays = values[f_ShipInDays].ToInt();
 
@@ -533,13 +534,14 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_WidthCm          > -1) item.Goods.Parameters.WidthCm = values[f_WidthCm].ToDecimal();
                     if (f_HeightCm         > -1) item.Goods.Parameters.HeightCm = values[f_HeightCm].ToDecimal();
 
-                    if (f_PriceChanged        > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() == 1;
-                    if (f_QtyChanged          > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() == 1;
+                    if (f_PriceChanged        > -1) item.PriceChanged = values[f_PriceChanged].ToDecimal() != 0;
+                    if (f_QtyChanged          > -1) item.QtyChanged = values[f_PriceChanged].ToDecimal() != 0;
                     if (f_CartPriceRaw        > -1) item.CartPriceRaw = values[f_CartPriceRaw].ToDecimal();
                     if (f_OldCartPrice        > -1) item.OldCartPrice = values[f_OldCartPrice].ToDecimal();
                     if (f_Qty                 > -1) item.Qty = values[f_Qty].ToInt();
                     if (f_OldCartQty          > -1) item.OldQty = values[f_OldCartQty].ToInt();
-                    if (f_CartAmountRaw       > -1) item.CartAmountRaw = values[f_CartDiscountsAmount].ToDecimal();
+                    if (f_CartAmount          > -1) item.CartAmount   = values[f_CartAmount].ToDecimal();
+                    if (f_CartAmountRaw       > -1) item.CartAmountRaw = values[f_CartAmountRaw].ToDecimal();
                     if (f_CartDiscountsAmount > -1) item.CartDiscountsAmount = values[f_CartDiscountsAmount].ToDecimal();
                 }
             });
