@@ -269,6 +269,12 @@
     <None Include="wwwroot\img\payments\single\visa.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="wwwroot\app\controller\account\messages - Копировать.js">
+      <DependentUpon>messages.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\app\controller\account\messages - Копировать.js.map">
+      <DependentUpon>messages.js.map</DependentUpon>
+    </Content>
 	<Content Update="wwwroot\img\autobrands\acdelco.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

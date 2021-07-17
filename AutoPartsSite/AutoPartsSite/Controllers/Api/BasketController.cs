@@ -167,8 +167,9 @@ namespace AutoPartsSite.Controllers.Api
               return await Task.Run(() =>
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
 
-                  int deliveryId = SetDeliveryAddress(3, delivery, principal.User.Email);
+                  int deliveryId = SetDeliveryAddress(userId, 3, delivery, principal.User.Email);
                   delivery.DeliveryAddress.Id = deliveryId;
                   SetBasketDelivery(delivery.qs.uid, deliveryId);
                   return CreateResponseOk(deliveryId);
@@ -219,8 +220,9 @@ namespace AutoPartsSite.Controllers.Api
               return await Task.Run(() =>
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
 
-                  int billingId = SetBillingAddress(4, billing, principal.User.Email);
+                  int billingId = SetBillingAddress(userId, 4, billing, principal.User.Email);
                   billing.BillingAddress.Id = billingId;
                   SetBasketBilling(billing.qs.uid, billingId);
                   return CreateResponseOk(billingId);

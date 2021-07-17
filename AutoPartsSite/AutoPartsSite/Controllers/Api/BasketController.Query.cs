@@ -706,7 +706,7 @@ namespace AutoPartsSite.Controllers.Api
                 , new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = qs.countryId }
                 }
@@ -774,12 +774,12 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private int SetDeliveryAddress(int typeAddress, BasketDeilveryAddress model, string email)
+        private int SetDeliveryAddress(int userId, int typeAddress, BasketDeilveryAddress model, string email)
         {
             int result = 0;
             AppSettings.Query.GlobalParts.Execute(@"Basket\[set_address]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.qs.languageId },
                     new SqlParameter() { ParameterName = "@AddressID", Value = model.DeliveryAddress.Id },
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
@@ -806,12 +806,12 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private int SetBillingAddress(int typeAddress, BasketBillingAddress model, string email)
+        private int SetBillingAddress(int userId, int typeAddress, BasketBillingAddress model, string email)
         {
             int result = 0;
             AppSettings.Query.GlobalParts.Execute(@"Basket\[set_address]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.qs.languageId },
                     new SqlParameter() { ParameterName = "@AddressID", Value = model.BillingAddress.Id },
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
