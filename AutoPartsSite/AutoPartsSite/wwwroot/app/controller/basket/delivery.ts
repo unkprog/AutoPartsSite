@@ -69,10 +69,10 @@ export namespace Controller.Basket {
 
             let html: string = '';
             for (let i = 0, icount = countries.length; i < icount; i++) {
-                if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                if (settings.Country.Id == countries[i].Id)
                     this.Model.set("DeliveryAddress.CountryId", countries[i].Id);
-                html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+                html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Id == countries[i].Id ? 'selected' : '') + '>';
+                html = html + /*countries[i].Code + ' - ' +*/ countries[i].Name + '</option>';
             }
             $('#delivery-view-country').html(html);
             this.View.find('select').formSelect();

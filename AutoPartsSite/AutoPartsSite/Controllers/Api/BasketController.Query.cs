@@ -690,7 +690,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<AddressInfo> GetAddress(QueryWithSettings qs, int typeAddress)
+        private List<AddressInfo> GetAddress(int userId, QueryWithSettings qs, int typeAddress)
         {
             List<AddressInfo> result = new List<AddressInfo>();
             BasketDataHeader header = GetBasketDataHeader(qs.uid);
@@ -706,7 +706,7 @@ namespace AutoPartsSite.Controllers.Api
                 , new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = qs.countryId }
                 }

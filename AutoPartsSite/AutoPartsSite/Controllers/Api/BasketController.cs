@@ -146,7 +146,9 @@ namespace AutoPartsSite.Controllers.Api
                    result.Countries = AccountController.GetCountries(qs.languageId);
 
                    int deliveryId = GetBasketDelivery(qs.uid);
-                   List<AddressInfo> addresses = GetAddress(qs, 3);
+                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                   List<AddressInfo> addresses = GetAddress(userId, qs, 3);
 
                    result.DeliveryAddress = (deliveryId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == deliveryId));
 
@@ -187,14 +189,17 @@ namespace AutoPartsSite.Controllers.Api
 
 
                   int billingId = GetBasketBilling(qs.uid);
-                  List<AddressInfo> addresses = GetAddress(qs, 3);
+
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  List<AddressInfo> addresses = GetAddress(userId, qs, 3);
 
                   result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
 
                   if (result.BillingAddress == null)
                   {
                       billingId = GetBasketDelivery(qs.uid);
-                      addresses = GetAddress(qs, 3);
+                      addresses = GetAddress(userId, qs, 3);
                       result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
                       if (result.BillingAddress == null)
                           result.BillingAddress = new AddressInfo();

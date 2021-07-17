@@ -45,6 +45,7 @@ define({
     "button$label$register": "Register",
     "button$label$forgot": "Forgot password?",
     "button$label$enter": "Enter",
+    "button$label$exit": "Exit",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Надписи                                                                    //
@@ -72,6 +73,8 @@ define({
     "label$recover": "Recovery",
     "label$confirmPassword": "Confirm password",
     "label$passwordRecovery": "Recovery password",
+
+    "label$profile": "Profile",
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Приложение                                                                //

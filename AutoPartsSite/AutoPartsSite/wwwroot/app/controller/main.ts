@@ -44,6 +44,7 @@ export namespace Controller {
                 "labelGarage": vars._statres("label$garage"),
                 "labelMessages": vars._statres("label$messages"),
                 "labelSettings": vars._statres("label$settings"),
+                "labelExit": vars._statres("button$label$exit"),
 
                 "labelCustomerService": vars._statres("label$customer$service"),
                 "labelInformation": vars._statres("label$information"),
@@ -173,6 +174,7 @@ export namespace Controller {
             let accountService = new acc.Services.AccountService();
             accountService.Logout((responseData) => {
                 vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
+                utils.destroyClickEvent("app-user-logout", this.LogoutClick);
                 if (this.menuCms) {
                     this.destroyClickEvent("main-view-btn-cms", this.MenuContactButtonClick);
                     this.menuCms.remove();
@@ -260,10 +262,10 @@ export namespace Controller {
             self.FNewsButtonClick = self.createClickEvent("footer-view-btn-news", self.fNewsButtonClick);
 
 
+            self.UserProfileButtonClick = self.createClickEvent("app-user-profile", self.userProfileButtonClick);
             self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
             self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
             self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
-            self.UserSettingsButtonClick = self.createClickEvent("app-user-settings", self.userSettingsButtonClick);
         }
 
         protected destroyEvents(): void {
@@ -303,7 +305,7 @@ export namespace Controller {
             this.destroyClickEvent("footer-view-btn-policies", this.FPoliciesAboutButtonClick);
             this.destroyClickEvent("footer-view-btn-terms", this.FTermsAboutButtonClick);
 
-            this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
+            this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
             this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
             this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
             this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
@@ -766,9 +768,9 @@ export namespace Controller {
         }
 
 
-        public UserSettingsButtonClick: { (e: any): void; };
-        private userSettingsButtonClick(e: any): boolean {
-            return this.handleMenuItem(e, "account/settings");
+        public UserProfileButtonClick: { (e: any): void; };
+        private userProfileButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/profile");
         }
 
         public UserMessagesButtonClick: { (e: any): void; };

@@ -50,6 +50,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelGarage": vars._statres("label$garage"),
                     "labelMessages": vars._statres("label$messages"),
                     "labelSettings": vars._statres("label$settings"),
+                    "labelExit": vars._statres("button$label$exit"),
                     "labelCustomerService": vars._statres("label$customer$service"),
                     "labelInformation": vars._statres("label$information"),
                     "labelVersion": "",
@@ -133,6 +134,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 var accountService = new acc.Services.AccountService();
                 accountService.Logout(function (responseData) {
                     vars._appData.Identity = { Auth: false, Cms: false, Token: '', User: null, SiteUserId: 0 };
+                    utils.destroyClickEvent("app-user-logout", _this.LogoutClick);
                     if (_this.menuCms) {
                         _this.destroyClickEvent("main-view-btn-cms", _this.MenuContactButtonClick);
                         _this.menuCms.remove();
@@ -193,10 +195,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.FPoliciesAboutButtonClick = self.createClickEvent("footer-view-btn-policies", self.fPoliciesAboutButtonClick);
                 self.FTermsAboutButtonClick = self.createClickEvent("footer-view-btn-terms", self.fTermsAboutButtonClick);
                 self.FNewsButtonClick = self.createClickEvent("footer-view-btn-news", self.fNewsButtonClick);
+                self.UserProfileButtonClick = self.createClickEvent("app-user-profile", self.userProfileButtonClick);
                 self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
                 self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
                 self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
-                self.UserSettingsButtonClick = self.createClickEvent("app-user-settings", self.userSettingsButtonClick);
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
@@ -225,7 +227,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("footer-view-btn-news", this.FNewsButtonClick);
                 this.destroyClickEvent("footer-view-btn-policies", this.FPoliciesAboutButtonClick);
                 this.destroyClickEvent("footer-view-btn-terms", this.FTermsAboutButtonClick);
-                this.destroyClickEvent("app-user-settings", this.UserSettingsButtonClick);
+                this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
                 this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
                 this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
@@ -553,8 +555,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             Main.prototype.fNewsButtonClick = function (e) {
                 return this.handleMenuItem(e, "news/index");
             };
-            Main.prototype.userSettingsButtonClick = function (e) {
-                return this.handleMenuItem(e, "account/settings");
+            Main.prototype.userProfileButtonClick = function (e) {
+                return this.handleMenuItem(e, "account/profile");
             };
             Main.prototype.userMessagesButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/messages");

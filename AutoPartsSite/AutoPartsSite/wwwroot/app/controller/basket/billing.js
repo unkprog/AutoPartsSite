@@ -75,10 +75,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     this.Model.set("BillingAddress", responseData.Data.BillingAddress);
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
-                        if (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase())
+                        if (settings.Country.Id == countries[i].Id)
                             this.Model.set("BillingAddress.CountryId", countries[i].Id);
-                        html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Code.toLowerCase() == countries[i].Code.toLowerCase() ? 'selected' : '') + '>';
-                        html = html + countries[i].Code + ' - ' + countries[i].Name + '</option>';
+                        html = html + '<option value="' + countries[i].Id + '" ' + (settings.Country.Id == countries[i].Id ? 'selected' : '') + '>';
+                        html = html + countries[i].Name + '</option>';
                     }
                     $('#billing-view-country').html(html);
                     this.View.find('select').formSelect();
