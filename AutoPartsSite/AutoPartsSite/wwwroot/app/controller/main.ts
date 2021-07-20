@@ -640,6 +640,7 @@ export namespace Controller {
                         this.Model.set("SettingsData", vsettingsData);
                         setReload(true, vsettingsData, vsettings);
                         vars._appData.Settings = vsettings;
+                       
                     }
                     else {
                         vars._app.ShowError(responseData.Error);
@@ -650,6 +651,7 @@ export namespace Controller {
             else {
                 vars._appData.Settings = vsettings;
                 vars._app.HideLoading();
+                location.reload();
             }
         }
 

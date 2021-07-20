@@ -495,6 +495,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 else {
                     vars._appData.Settings = vsettings;
                     vars._app.HideLoading();
+                    location.reload();
                 }
             };
             Main.prototype.basketButtonClick = function (e) {
