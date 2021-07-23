@@ -269,12 +269,6 @@
     <None Include="wwwroot\img\payments\single\visa.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Update="wwwroot\app\controller\account\messages - Копировать.js">
-      <DependentUpon>messages.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\app\controller\account\messages - Копировать.js.map">
-      <DependentUpon>messages.js.map</DependentUpon>
-    </Content>
 	<Content Update="wwwroot\img\autobrands\acdelco.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -303,14 +297,15 @@
     <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
-	  <TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\basket\billing.ts" DependentUpon="billing.html" />
-	  <TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
-
-	  <TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\basket\payment.ts" DependentUpon="payment.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\basket\orderresult.ts" DependentUpon="orderresult.html" />
+	  
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\index.ts" DependentUpon="index.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\cms\card\card.ts" DependentUpon="card.html" />
-	  <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\editor.ts" DependentUpon="editor.html" />
-	  <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\page.ts" DependentUpon="page.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor\editor.ts" DependentUpon="editor.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\cms\editor\page.ts" DependentUpon="page.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\cms\editor\new.ts" DependentUpon="new.html" />
 
     
@@ -321,6 +316,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Basket\[del_header].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\AutoPartsSite\Basket\[clear].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Basket\[set_delivery_tariff].sql">
@@ -402,6 +400,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Basket\[ordercreate].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Database\GlobalParts\Query\Basket\[get_payments].sql">

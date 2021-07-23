@@ -89,6 +89,7 @@ define({
     "label$language": "Language",
 
     "label$orders": "Orders",
+    "label$order": "Order",
     "label$garage": "Garage",
     "label$messages": "Messages",
     "label$settings": "Settings",
@@ -201,6 +202,8 @@ define({
 
     "label$terms": "I accept the terms and conditions",
     "label$select$paymethod": "Select a payment method",
+
+    "label$order$success": "Order successfully completed",
     /////////////////////////////////////////////////////////////////////////////////////////////
     //              Новости                                                                    //
     /////////////////////////////////////////////////////////////////////////////////////////////

@@ -164,6 +164,17 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 };
                 this.PostApi({ Action: "/paymentlist", RequestData: JSON.stringify(qs), Callback: Callback });
             };
+            BasketService.prototype.CreateOrder = function (Callback) {
+                var qs = {
+                    uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id
+                };
+                this.PostApi({ Action: "/ordercreate", RequestData: JSON.stringify(qs), Callback: Callback });
+            };
             return BasketService;
         }(base.Services.BaseService));
         Services.BasketService = BasketService;

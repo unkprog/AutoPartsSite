@@ -50,6 +50,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelStreet": vars._statres("label$address"),
                         "labelPhoneCode": vars._statres("label$phonecode"),
                         "labelPhone": vars._statres("label$phone"),
+                        "labelEmail": vars._statres("label$email"),
                         "BillingAddress": {}
                     });
                 };
@@ -72,6 +73,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 Billing.prototype.setupBillingData = function (responseData) {
                     var settings = vars._appData.Settings;
                     var countries = responseData.Data.Countries;
+                    if (utils.isNullOrEmpty(responseData.Data.BillingAddress.Email))
+                        responseData.Data.BillingAddress.Email = vars._appData.Identity.User.Email;
                     this.Model.set("BillingAddress", responseData.Data.BillingAddress);
                     var html = '';
                     for (var i = 0, icount = countries.length; i < icount; i++) {
@@ -147,6 +150,10 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     }
                     if (utils.isNullOrEmpty(model.Phone)) {
                         M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                        result = false;
+                    }
+                    if (!utils.validateEmail(model.Email)) {
+                        M.toast({ html: vars._statres('msg$error$emailIncorrect') });
                         result = false;
                     }
                     return result;

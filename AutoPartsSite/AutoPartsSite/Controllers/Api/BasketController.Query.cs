@@ -699,7 +699,7 @@ namespace AutoPartsSite.Controllers.Api
             int f_CompanyId = -1, f_CompanyCode = -1, f_CompanyName = -1;
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_ZipCode = -1, f_Region = -1, f_City = -1, f_Address = -1;
-            int f_PhoneCode = -1, f_PhoneMain = -1, f_PhoneExt = -1;
+            int f_PhoneCode = -1, f_PhoneMain = -1, f_PhoneExt = -1, f_Email = -1;
             int f_Default = -1;
 
             AppSettings.Query.GlobalParts.Execute(@"Basket\[get_address]"
@@ -735,7 +735,9 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "PhoneCode")    f_PhoneCode = i;
                         else if (fname == "PhoneMain")    f_PhoneMain = i;
                         else if (fname == "PhoneExt")     f_PhoneExt  = i;
+                        else if (fname == "Email")        f_Email     = i;
 
+                        
                         else if (fname == "Default")      f_Default   = i;
                     }
                 }
@@ -744,13 +746,11 @@ namespace AutoPartsSite.Controllers.Api
                     AddressInfo item = new AddressInfo() { Company = new Company(), Country = new Country() } ;
 
                     if (f_Id          > -1) item.Id           = values[f_Id].ToInt();
-
                     if (f_FullName    > -1) item.FullName     = values[f_FullName].ToStr();
 
                     if (f_CompanyId   > -1) item.CompanyId    = item.Company.Id = values[f_CompanyId].ToInt();
                     if (f_CompanyCode > -1) item.Company.Code = values[f_CompanyCode].ToStr();
                     if (f_CompanyName > -1) item.Company.Name = values[f_CompanyName].ToStr();
-
 
                     if (f_CountryId   > -1) item.CountryId    = item.Country.Id = values[f_CountryId].ToInt();
                     if (f_CountryCode > -1) item.Country.Code = values[f_CountryCode].ToStr();
@@ -764,6 +764,7 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_PhoneCode   > -1) item.PhoneCode    = values[f_PhoneCode].ToStr();
                     if (f_PhoneMain   > -1) item.Phone        = values[f_PhoneMain].ToStr();
                     if (f_PhoneExt    > -1) item.PhoneExt     = values[f_PhoneExt].ToStr();
+                    if (f_Email       > -1) item.Email        = values[f_Email].ToStr();
 
                     if (f_Default     > -1) item.Default      = values[f_Default].ToBool();
 
@@ -779,7 +780,7 @@ namespace AutoPartsSite.Controllers.Api
             int result = 0;
             AppSettings.Query.GlobalParts.Execute(@"Basket\[set_address]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.qs.siteUserId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.qs.languageId },
                     new SqlParameter() { ParameterName = "@AddressID", Value = model.DeliveryAddress.Id },
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
@@ -792,7 +793,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@PhoneCode", Value = model.DeliveryAddress.PhoneCode },
                     new SqlParameter() { ParameterName = "@PhoneMain", Value = model.DeliveryAddress.Phone },
                     new SqlParameter() { ParameterName = "@PhoneExt", Value = string.Empty },
-                    new SqlParameter() { ParameterName = "@Email", Value = email },
+                    new SqlParameter() { ParameterName = "@Email", Value = model.DeliveryAddress.Email },
                     new SqlParameter() { ParameterName = "@DeliveryInstructions", Value = string.Empty },
                     new SqlParameter() { ParameterName = "@IsDefault", Value = true }
                 }
@@ -824,7 +825,7 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter() { ParameterName = "@PhoneCode", Value = model.BillingAddress.PhoneCode },
                     new SqlParameter() { ParameterName = "@PhoneMain", Value = model.BillingAddress.Phone },
                     new SqlParameter() { ParameterName = "@PhoneExt", Value = string.Empty },
-                    new SqlParameter() { ParameterName = "@Email", Value = email },
+                    new SqlParameter() { ParameterName = "@Email", Value = model.BillingAddress.Email },
                     new SqlParameter() { ParameterName = "@DeliveryInstructions", Value = string.Empty },
                     new SqlParameter() { ParameterName = "@IsDefault", Value = true }
                 }
@@ -868,6 +869,32 @@ namespace AutoPartsSite.Controllers.Api
                 });
 
             return result;
+        }
+
+
+        [NonAction]
+        private void OrderCreateSql(int userId, QueryWithSettings qs)
+        {
+            List<Payment> result = new List<Payment>();
+            AppSettings.Query.GlobalParts.ExecuteNonQuery(@"Basket\[ordercreate]", new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId }
+                });
+        }
+
+        [NonAction]
+        private void ClearBasket(QueryWithSettings qs)
+        {
+            List<Payment> result = new List<Payment>();
+            ExecQuery((query) =>
+            {
+                query.ExecuteNonQuery("[clear]", new SqlParameter[]
+                    {
+                    new SqlParameter() { ParameterName = "@Uid", Value = qs.uid }
+                    });
+            });
+
         }
     }
 }

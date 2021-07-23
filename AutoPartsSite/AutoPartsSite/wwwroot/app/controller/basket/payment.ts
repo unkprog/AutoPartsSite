@@ -121,8 +121,20 @@ export namespace Controller.Basket {
 
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            if (this.validate() == true) {
-
+            let self = this;
+            if (self.validate() == true) {
+                self.BasketService.CreateOrder((responseData) => {
+                    if (responseData.Result === 0) {
+                        if (responseData.Data == "Ok") {
+                            $('.app-basket-counter').hide();
+                            vars._app.OpenController({ urlController: "basket/orderresult" });
+                        }
+                        else
+                            M.toast({ html: responseData.Data });
+                    }
+                    else
+                        vars._app.ShowError(responseData.Error);
+                });
             }
             e.preventDefault();
             e.stopPropagation();
@@ -138,7 +150,7 @@ export namespace Controller.Basket {
         }
 
         private validate(): boolean {
-            let result: boolean = false;
+            let result: boolean = true;
             if (this.Model.get("payCardId") < 1) {
                 M.toast({ html: vars._statres('label$select$paymethod') });
                 result = false;

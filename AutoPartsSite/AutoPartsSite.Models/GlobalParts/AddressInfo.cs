@@ -64,6 +64,11 @@ namespace AutoPartsSite.Models.GlobalParts
 
         [DataMember]
         public bool Default { get; set; }
+        /// <summary>
+        /// Email
+        /// </summary>
+        [DataMember]
+        public string Email { get; set; }
     }
 
    

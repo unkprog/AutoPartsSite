@@ -118,6 +118,7 @@
         PhoneCode: string;
         Phone: string;
         PhoneExt: string;
+        Email: string;
     }
 
     export interface IDeliveryAddressInfo extends IAddressInfo {

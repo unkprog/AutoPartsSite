@@ -121,7 +121,20 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Payment.prototype.checkoutButtonClick = function (e) {
-                    if (this.validate() == true) {
+                    var self = this;
+                    if (self.validate() == true) {
+                        self.BasketService.CreateOrder(function (responseData) {
+                            if (responseData.Result === 0) {
+                                if (responseData.Data == "Ok") {
+                                    $('.app-basket-counter').hide();
+                                    vars._app.OpenController({ urlController: "basket/orderresult" });
+                                }
+                                else
+                                    M.toast({ html: responseData.Data });
+                            }
+                            else
+                                vars._app.ShowError(responseData.Error);
+                        });
                     }
                     e.preventDefault();
                     e.stopPropagation();
@@ -134,7 +147,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Payment.prototype.validate = function () {
-                    var result = false;
+                    var result = true;
                     if (this.Model.get("payCardId") < 1) {
                         M.toast({ html: vars._statres('label$select$paymethod') });
                         result = false;

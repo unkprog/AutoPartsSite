@@ -35,6 +35,7 @@ export namespace Controller.Basket {
                 "labelStreet": vars._statres("label$address"),
                 "labelPhoneCode": vars._statres("label$phonecode"),
                 "labelPhone": vars._statres("label$phone"),
+                "labelEmail": vars._statres("label$email"),
 
                 "DeliveryAddress": {}
             });
@@ -46,11 +47,8 @@ export namespace Controller.Basket {
         }
 
         protected OnViewInit(): void {
-            //vars._app.ShowLoading(true);
             let self = this;
-
             this.BasketService.DeliveryAddressData((responseData) => {
-
                 if (responseData.Result === 0) {
                     self.setupDeliveryData(responseData);
                 }
@@ -64,6 +62,9 @@ export namespace Controller.Basket {
         private setupDeliveryData(responseData) {
             let settings: Interfaces.Model.ISettings = vars._appData.Settings;
             let countries: Interfaces.Model.IReferenceNamedDbModel[] = responseData.Data.Countries;
+
+            if (utils.isNullOrEmpty(responseData.Data.DeliveryAddress.Email))
+                responseData.Data.DeliveryAddress.Email = vars._appData.Identity.User.Email;
 
             this.Model.set("DeliveryAddress", responseData.Data.DeliveryAddress);
 
@@ -159,6 +160,11 @@ export namespace Controller.Basket {
 
             if (utils.isNullOrEmpty(model.Phone)) {
                 M.toast({ html: vars._statres('msg$error$notspecified$phone') });
+                result = false;
+            }
+
+            if (!utils.validateEmail(model.Email)) {
+                M.toast({ html: vars._statres('msg$error$emailIncorrect') });
                 result = false;
             }
 

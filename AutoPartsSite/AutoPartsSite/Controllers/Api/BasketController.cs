@@ -141,8 +141,6 @@ namespace AutoPartsSite.Controllers.Api
                return await Task.Run(() =>
                {
                    BasketDeilveryAddressData result = new BasketDeilveryAddressData() { Countries = new List<Country>() };
-
-                   //Lang lang = AccountController.GetLanguages(qs.languageId).FirstOrDefault();
                    result.Countries = AccountController.GetCountries(qs.languageId);
 
                    int deliveryId = GetBasketDelivery(qs.uid);
@@ -237,13 +235,31 @@ namespace AutoPartsSite.Controllers.Api
               return await Task.Run(() =>
               {
                   List<Payment> result = GetPaymentList(qs);
-                  foreach(Payment p in result)
+                  foreach (Payment p in result)
                   {
-                           if (p.Code.ToUpper() == "CARD"  ) p.Logo = "/img/payments/flat/default.svg";
+                      if (p.Code.ToUpper() == "CARD") p.Logo = "/img/payments/flat/default.svg";
                       else if (p.Code.ToUpper() == "PAYPAL") p.Logo = "/img/payments/flat/paypal.svg";
                   }
                   return CreateResponseOk(result);
               });
           });
+
+        [HttpPost]
+        [Route("ordercreate")]
+        public async Task<HttpMessage<string>> OrderCreate(QueryWithSettings qs)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  string result = "Ok";
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  OrderCreateSql(userId, qs);
+                  ClearBasket(qs);
+                  return CreateResponseOk(result);
+              });
+          });
+
+       
     }
 }
