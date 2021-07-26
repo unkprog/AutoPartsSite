@@ -1,66 +1,37 @@
 ﻿<div id="register-view" class="view">
     <div class="row">
-        <div class="col s12 m12 l12 xl12">
-            <div class="section left">
-                <h1 class="page-header" data-bind="text:Header"></h1>
-            </div>
-        </div>
-        <div class="col s12 m12 l12 xl12">
-            <div class="divider"></div>
-        </div>
     </div>
 
     <div class="row">
-        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
-            <div class="row  row-margin-bottom-0">
-                <div class="input-field col s12 m12 l12 xl12">
-                    <i class="material-icons prefix">alternate_email</i>
-                    <input id="register-email" type="tel" class="validate">
-                    <label for="register-email" data-bind="text:labelEmail">Телефон</label>
-                </div>
-            </div>
-            <!--<div class="row">
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input id="register-view-first_name" type="text" class="validate">
-                    <label for="register-view-first_name">First Name</label>
-                </div>
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input id="register-view-last_name" type="text" class="validate">
-                    <label for="register-view-last_name">Last Name</label>
+    </div>
+
+    <div class="row">
+        <div class="app-login-row center">
+            <div class="card">
+                <div class="card-content padding-bottom-0 app-login-card-content">
+                    <span class="card-title app-login-card-title" data-bind="text:Header">Регистрация</span>
+                    <div class="input-field app-login-input">
+                        <i class="material-icons prefix">alternate_email</i>
+                        <input id="register-email" type="tel" class="validate">
+                        <label for="register-email" data-bind="text:labelEmail">Email</label>
+                    </div>
                 </div>
 
-                <div class="input-field col s12 m12 l12 xl12">
-                    <select id="register-view-country">
-                        <option>Country 1</option>
-                        <option>Country 2</option>
-                    </select>
-                    <label for="register-view-country">Country</label>
-                </div>
+                <div class="card-action padding-bottom-0 app-login-card-content">
+                    <div class="row app-login-buttons">
+                        <div class="col s12">
+                            <a id="btn-register" class="btn waves-effect waves-light width100p margin16px" data-bind="text:Header"></a>
+                        </div>
 
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input id="register-view-city" type="text" class="validate">
-                    <label for="register-view-city">City</label>
-                </div>
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input id="register-view-zipcode" type="text" class="validate">
-                    <label for="register-view-zipcode">Zipcode</label>
-                </div>
-
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input id="register-view-street" type="text" class="validate">
-                    <label for="register-view-street">Street</label>
-                </div>
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input id="register-view-phone" type="tel" class="validate">
-                    <label for="register-view-phone">Phone</label>
-                </div>
-            </div>-->
-            <div class="row">
-                <div class="col s12">
-                    <a id="btn-register" class="btn waves-effect waves-light width100p margin16px" data-bind="text:Header"></a>
+                        <div class="col s12 m6 l6">
+                            <a id="btn-login" class="btn width100p margin16px" data-bind="text:labelLogin" href="account/login"></a>
+                        </div>
+                        <div class="col s12 m6 l6 margin16px">
+                            <a id="btn-recovery" class="btn width100p" data-bind="text:labelRecover" href="account/recovery"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

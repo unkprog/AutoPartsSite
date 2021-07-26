@@ -35,6 +35,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         "labelPassword": vars._statres("label$password"),
                         "labelConfirmPassword": vars._statres("label$confirmPassword"),
                         "labelRegister": vars._statres("button$label$register"),
+                        "labelRecover": vars._statres("label$recover"),
+                        "labelLogin": vars._statres("button$label$enter")
                     });
                 };
                 Register.prototype.ViewShow = function (e) {
@@ -44,8 +46,12 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                 };
                 Register.prototype.createEvents = function () {
                     this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
+                    this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
+                    this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
                 };
                 Register.prototype.destroyEvents = function () {
+                    this.destroyTouchClickEvent("btn-recovery", this.RecoveryButtonClick);
+                    this.destroyTouchClickEvent("btn-login", this.LoginButtonClick);
                     this.destroyTouchClickEvent("btn-register", this.RegisterButtonClick);
                 };
                 Register.prototype.registerButtonClick = function (e) {
@@ -65,6 +71,16 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                                 vars._app.ShowError(responseData.Error);
                         });
                     }
+                };
+                Register.prototype.recoveryButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "account/recovery" });
+                    e.preventDefault();
+                    return false;
+                };
+                Register.prototype.loginButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "account/login" });
+                    e.preventDefault();
+                    return false;
                 };
                 Register.prototype.validate = function (model) {
                     var result = true;

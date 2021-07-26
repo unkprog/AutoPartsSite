@@ -34,13 +34,19 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         "labelTitle": vars._statres("label$passwordRecovery"),
                         "labelEmail": vars._statres("label$email"),
                         "labelRecover": vars._statres("label$recover"),
+                        "labelLogin": vars._statres("button$label$enter"),
+                        "labelRegister": vars._statres("button$label$register")
                     });
                 };
                 Recovery.prototype.createEvents = function () {
                     this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
+                    this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
+                    this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
                 };
                 Recovery.prototype.destroyEvents = function () {
                     this.destroyTouchClickEvent("btn-recovery", this.RecoveryButtonClick);
+                    this.destroyTouchClickEvent("btn-register", this.RegisterButtonClick);
+                    this.destroyTouchClickEvent("btn-login", this.LoginButtonClick);
                 };
                 Recovery.prototype.recoveryButtonClick = function (e) {
                     var controller = this;
@@ -55,6 +61,16 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                                 vars._app.ShowError(responseData.Error);
                         });
                     }
+                };
+                Recovery.prototype.registerButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "account/register" });
+                    e.preventDefault();
+                    return false;
+                };
+                Recovery.prototype.loginButtonClick = function (e) {
+                    vars._app.OpenController({ urlController: "account/login" });
+                    e.preventDefault();
+                    return false;
                 };
                 Recovery.prototype.validate = function (model) {
                     var result = true;

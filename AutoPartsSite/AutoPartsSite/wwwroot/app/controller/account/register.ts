@@ -21,6 +21,8 @@ export namespace Controller.Account {
                 "labelPassword": vars._statres("label$password"),
                 "labelConfirmPassword": vars._statres("label$confirmPassword"),
                 "labelRegister": vars._statres("button$label$register"),
+                "labelRecover": vars._statres("label$recover"),
+                "labelLogin": vars._statres("button$label$enter")
             });
         }
 
@@ -32,9 +34,13 @@ export namespace Controller.Account {
 
         protected createEvents(): void {
             this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
+            this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
+            this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
         }
 
         protected destroyEvents(): void {
+            this.destroyTouchClickEvent("btn-recovery", this.RecoveryButtonClick);
+            this.destroyTouchClickEvent("btn-login", this.LoginButtonClick);
             this.destroyTouchClickEvent("btn-register", this.RegisterButtonClick);
         }
 
@@ -58,6 +64,20 @@ export namespace Controller.Account {
                 });
             }
            
+        }
+
+        public RecoveryButtonClick: { (e: any): void; };
+        private recoveryButtonClick(e) {
+            vars._app.OpenController({ urlController: "account/recovery"});
+            e.preventDefault();
+            return false;
+        }
+
+        public LoginButtonClick: { (e: any): void; };
+        private loginButtonClick(e) {
+            vars._app.OpenController({ urlController: "account/login" });
+            e.preventDefault();
+            return false;
         }
 
         private validate(model: Interfaces.Model.IRegisterModel): boolean {

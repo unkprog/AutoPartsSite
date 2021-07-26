@@ -20,15 +20,21 @@ export namespace Controller.Account {
                 "labelTitle": vars._statres("label$passwordRecovery"),
                 "labelEmail": vars._statres("label$email"),
                 "labelRecover": vars._statres("label$recover"),
+                "labelLogin": vars._statres("button$label$enter"),
+                "labelRegister": vars._statres("button$label$register")
             });
         }
 
         protected createEvents(): void {
             this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
+            this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
+            this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
         }
 
         protected destroyEvents(): void {
             this.destroyTouchClickEvent("btn-recovery", this.RecoveryButtonClick);
+            this.destroyTouchClickEvent("btn-register", this.RegisterButtonClick);
+            this.destroyTouchClickEvent("btn-login", this.LoginButtonClick);
         }
 
         public RecoveryButtonClick: { (e: any): void; };
@@ -46,6 +52,20 @@ export namespace Controller.Account {
                         vars._app.ShowError(responseData.Error);
                 });
             }
+        }
+
+        public RegisterButtonClick: { (e: any): void; };
+        private registerButtonClick(e) {
+            vars._app.OpenController({ urlController: "account/register" });
+            e.preventDefault();
+            return false;
+        }
+
+        public LoginButtonClick: { (e: any): void; };
+        private loginButtonClick(e) {
+            vars._app.OpenController({ urlController: "account/login" });
+            e.preventDefault();
+            return false;
         }
 
         private validate(model: Interfaces.Model.IRegisterModel): boolean {
