@@ -28,9 +28,23 @@ export namespace Controller.Account {
         }
 
         protected createEvents(): void {
-            this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
-            this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
-            this.ForgotButtonClick = this.createTouchClickEvent("btn-forgot", this.forgotButtonClick);
+            let self = this;
+            self.LoginButtonClick = self.createTouchClickEvent("btn-login", self.loginButtonClick);
+            self.RegisterButtonClick = self.createTouchClickEvent("btn-register", self.registerButtonClick);
+            self.ForgotButtonClick = self.createTouchClickEvent("btn-forgot", self.forgotButtonClick);
+
+
+            self.View.find("#login-email").keypress(function (event) {
+                if (event.keyCode === 13) {
+                    self.LoginButtonClick(undefined);
+                }
+            });
+
+            self.View.find("#login-pass").keypress(function (event) {
+                if (event.keyCode === 13) {
+                    self.LoginButtonClick(undefined);
+                }
+            });
         }
 
         protected destroyEvents(): void {
@@ -86,14 +100,14 @@ export namespace Controller.Account {
 
         public RegisterButtonClick: { (e: any): void; };
         private registerButtonClick(e) {
-            vars._app.OpenController({ urlController: "account/register", backController: this });
+            vars._app.OpenController({ urlController: "account/register" });
             e.preventDefault();
             return false;
         }
 
         public ForgotButtonClick: { (e: any): void; };
         private forgotButtonClick(e) {
-            vars._app.OpenController({ urlController: "account/recovery", backController: this });
+            vars._app.OpenController({ urlController: "account/recovery" });
             e.preventDefault();
             return false;
         }

@@ -40,9 +40,20 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     });
                 };
                 Login.prototype.createEvents = function () {
-                    this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
-                    this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
-                    this.ForgotButtonClick = this.createTouchClickEvent("btn-forgot", this.forgotButtonClick);
+                    var self = this;
+                    self.LoginButtonClick = self.createTouchClickEvent("btn-login", self.loginButtonClick);
+                    self.RegisterButtonClick = self.createTouchClickEvent("btn-register", self.registerButtonClick);
+                    self.ForgotButtonClick = self.createTouchClickEvent("btn-forgot", self.forgotButtonClick);
+                    self.View.find("#login-email").keypress(function (event) {
+                        if (event.keyCode === 13) {
+                            self.LoginButtonClick(undefined);
+                        }
+                    });
+                    self.View.find("#login-pass").keypress(function (event) {
+                        if (event.keyCode === 13) {
+                            self.LoginButtonClick(undefined);
+                        }
+                    });
                 };
                 Login.prototype.destroyEvents = function () {
                     this.destroyTouchClickEvent("btn-login", this.LoginButtonClick);
@@ -87,12 +98,12 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     return result;
                 };
                 Login.prototype.registerButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "account/register", backController: this });
+                    vars._app.OpenController({ urlController: "account/register" });
                     e.preventDefault();
                     return false;
                 };
                 Login.prototype.forgotButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "account/recovery", backController: this });
+                    vars._app.OpenController({ urlController: "account/recovery" });
                     e.preventDefault();
                     return false;
                 };

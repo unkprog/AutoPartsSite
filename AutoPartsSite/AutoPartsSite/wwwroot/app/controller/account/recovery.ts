@@ -26,9 +26,17 @@ export namespace Controller.Account {
         }
 
         protected createEvents(): void {
-            this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
-            this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
-            this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
+            let self = this;
+
+            self.RecoveryButtonClick = self.createTouchClickEvent("btn-recovery", self.recoveryButtonClick);
+            self.LoginButtonClick = self.createTouchClickEvent("btn-login", self.loginButtonClick);
+            self.RegisterButtonClick = self.createTouchClickEvent("btn-register", self.registerButtonClick);
+
+            self.View.find("#recovery-email").keypress(function (event) {
+                if (event.keyCode === 13) {
+                    self.RecoveryButtonClick(undefined);
+                }
+            });
         }
 
         protected destroyEvents(): void {

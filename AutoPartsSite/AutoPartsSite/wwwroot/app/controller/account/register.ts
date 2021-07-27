@@ -33,9 +33,17 @@ export namespace Controller.Account {
         }
 
         protected createEvents(): void {
-            this.RegisterButtonClick = this.createTouchClickEvent("btn-register", this.registerButtonClick);
-            this.RecoveryButtonClick = this.createTouchClickEvent("btn-recovery", this.recoveryButtonClick);
-            this.LoginButtonClick = this.createTouchClickEvent("btn-login", this.loginButtonClick);
+            let self = this;
+
+            self.RegisterButtonClick = self.createTouchClickEvent("btn-register", self.registerButtonClick);
+            self.RecoveryButtonClick = self.createTouchClickEvent("btn-recovery", self.recoveryButtonClick);
+            self.LoginButtonClick = self.createTouchClickEvent("btn-login", self.loginButtonClick);
+
+            self.View.find("#register-email").keypress(function (event) {
+                if (event.keyCode === 13) {
+                    self.RegisterButtonClick(undefined);
+                }
+            });
         }
 
         protected destroyEvents(): void {
