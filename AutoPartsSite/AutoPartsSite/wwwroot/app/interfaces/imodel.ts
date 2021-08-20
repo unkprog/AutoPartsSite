@@ -19,6 +19,10 @@
         Uid: string;
     }
 
+    export interface IProfileUserModel extends ILoginModel {
+        ChangePass: string;
+    }
+
     export interface IUserModel extends IRegisterModel  {
 
     }

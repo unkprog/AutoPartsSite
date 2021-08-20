@@ -77,5 +77,18 @@ namespace AutoPartsSite.Controllers.Api
                     });
                 return result;
             });
+
+        [HttpPost]
+        [Route("changepass")]
+        public async Task<HttpMessage<string>> ChangePass(ProfileUser profile_user)
+            => await TryCatchResponseAsync(async () =>
+            {
+                HttpMessage<string> result = await Json.PostAsync<HttpMessage<string>, ProfileUser>(AppSettings.AccountService.Server, AppSettings.AccountService.ApiAccount + "/changepass", profile_user,
+                    onError: (e) =>
+                    {
+                        result = CreateResponseError<string>(e);
+                    });
+                return result;
+            });
     }
 }

@@ -137,9 +137,9 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         }
 
         [NonAction]
-        private User_Sec SetPassword(User user, string email, string subject)
+        private User_Sec SetPassword(User user, string email, string pass = null, string subject = null)
         {
-            User_Sec user_sec = new User_Sec() { Id = user.Id, Pass = GeneratePassword(8) };
+            User_Sec user_sec = new User_Sec() { Id = user.Id, Pass = string.IsNullOrEmpty(pass) ? GeneratePassword(8) : pass };
 
             ExecQuery((query) =>
             {
@@ -152,7 +152,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
             //    var resultSMS = SMS.SendSMS("https://sms.ru/sms/send?api_id=112D81F5-A8AD-6687-4914-0DD89D0528A0&to=7", user.phone, body);
             //}
 
-            if (!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(email) && ! string.IsNullOrEmpty(subject))
             {
                 string body = string.Concat("Ваш пароль для входа: ", user_sec.Pass);
                 Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, email, subject, body);

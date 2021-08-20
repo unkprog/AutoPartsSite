@@ -9,4 +9,37 @@
             <div class="divider"></div>
         </div>
     </div>
+
+    <div class="row row-margin-bottom-0">
+        <div class="input-field col s12 m7 l4 xl3">
+            <i class="material-icons prefix">alternate_email</i>
+            <input disabled id="profile-view-login-email" type="email" data-bind="value:Email" />
+            <label for="profile-view-login-email" data-bind="text:labelEmail"></label>
+        </div>
+    </div>
+    <div class="row row-margin-bottom-0">
+        <div class="input-field col s12 m7 l4 xl3">
+            <i class="material-icons prefix">lock_open</i>
+            <input id="profile-view-new-pass" type="password" value="">
+            <label for="profile-view-new-pass" data-bind="text:labelNewPassword"></label>
+        </div>
+        <div class="col s12 m5 l3 xl2 editor-button-bottom">
+            <a id="profile-view-btn-change" class="btn width100p" data-bind="text:labelChange"></a>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="profile-view-pass-modal" class="modal">
+        <div class="modal-content">
+            <h4 data-bind="text:labelPassword">Modal Header</h4>
+            <div class="input-field col s12 m7 l4 xl3">
+                <i class="material-icons prefix">lock_open</i>
+                <input id="profile-view-pass" type="password" value="">
+                <label for="profile-view-pass" data-bind="text:labelPassword"></label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="profile-view-btn-change-modal" class="waves-effect waves-green btn-flat" data-bind="text:labelChange"></a>
+        </div>
+    </div>
 </div>

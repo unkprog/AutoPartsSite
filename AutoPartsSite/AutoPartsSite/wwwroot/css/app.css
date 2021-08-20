@@ -157,6 +157,10 @@ div.example-numbers a, div.example-vin a {
 .editor-header-button-cancel {
   color: red; }
 
+.editor-button-bottom {
+  position: relative;
+  bottom: -20px; }
+
 .row-inputs {
   margin: 0 !important;
   padding: 0 !important; }

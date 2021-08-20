@@ -35,6 +35,9 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             AccountService.prototype.Recovery = function (model, Callback) {
                 this.PostApi({ Action: "/recovery", RequestData: JSON.stringify(model), Callback: Callback });
             };
+            AccountService.prototype.ChangePass = function (model, Callback) {
+                this.PostApi({ Action: "/changepass", RequestData: JSON.stringify(model), Callback: Callback });
+            };
             AccountService.prototype.Login = function (model, Callback) {
                 this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
             };

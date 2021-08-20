@@ -20,6 +20,10 @@ export namespace Services {
             this.PostApi({ Action: "/recovery", RequestData: JSON.stringify(model), Callback: Callback });
         }
 
+        public ChangePass(model: Interfaces.Model.IProfileUserModel, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/changepass", RequestData: JSON.stringify(model), Callback: Callback });
+        }
+
         public Login(model: Interfaces.Model.ILoginModel, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/login", RequestData: JSON.stringify(model), Callback: Callback });
         }

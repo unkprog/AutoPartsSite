@@ -17,6 +17,12 @@ namespace AutoPartsSite.Models.Account
     }
 
     [DataContract]
+    public class ProfileUser : LoginUser
+    {
+       public string ChangePass { get; set; }
+    }
+
+    [DataContract]
     /// <summary>
     /// Пользователь
     /// </summary>

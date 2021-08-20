@@ -70,6 +70,8 @@ define({
     "label$phone": "Телефон",
     "label$email": "E-mail",
     "label$password": "Пароль",
+    "label$password$new": "Новый пароль",
+    "label$password$change": "Изменить",
     "label$recover": "Восстановить",
     "label$confirmPassword": "Подтверждение пароля",
     "label$passwordRecovery": "Восстановление пароля",
