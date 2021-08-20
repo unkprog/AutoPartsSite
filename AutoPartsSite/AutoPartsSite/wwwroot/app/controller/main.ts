@@ -264,7 +264,7 @@ export namespace Controller {
 
             self.UserProfileButtonClick = self.createClickEvent("app-user-profile", self.userProfileButtonClick);
             self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
-            self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
+            //self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
             self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
         }
 
@@ -307,7 +307,7 @@ export namespace Controller {
 
             this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
             this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
-            this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
+            //this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
             this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
         }
 
@@ -780,10 +780,10 @@ export namespace Controller {
             return this.handleMenuItem(e, "account/messages");
         }
 
-        public UserGarageButtonClick: { (e: any): void; };
-        private userGarageButtonClick(e: any): boolean {
-            return this.handleMenuItem(e, "account/garage");
-        }
+        //public UserGarageButtonClick: { (e: any): void; };
+        //private userGarageButtonClick(e: any): boolean {
+        //    return this.handleMenuItem(e, "account/garage");
+        //}
 
         public UserOrdersButtonClick: { (e: any): void; };
         private userOrdersButtonClick(e: any): boolean {

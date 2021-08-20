@@ -197,7 +197,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.FNewsButtonClick = self.createClickEvent("footer-view-btn-news", self.fNewsButtonClick);
                 self.UserProfileButtonClick = self.createClickEvent("app-user-profile", self.userProfileButtonClick);
                 self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
-                self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
                 self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
             };
             Main.prototype.destroyEvents = function () {
@@ -229,7 +228,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("footer-view-btn-terms", this.FTermsAboutButtonClick);
                 this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
-                this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
                 this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
             };
             Main.prototype.openMenuButtonClick = function (e) {
@@ -561,9 +559,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.userMessagesButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/messages");
-            };
-            Main.prototype.userGarageButtonClick = function (e) {
-                return this.handleMenuItem(e, "account/garage");
             };
             Main.prototype.userOrdersButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/orders");
