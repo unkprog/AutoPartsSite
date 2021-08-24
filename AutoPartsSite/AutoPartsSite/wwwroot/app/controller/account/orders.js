@@ -33,9 +33,57 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "Header": vars._statres("label$orders")
                     });
                 };
+                Orders.prototype.OnViewInit = function () {
+                    _super.prototype.OnViewInit.call(this);
+                    this.search(undefined);
+                };
                 Orders.prototype.createEvents = function () {
+                    _super.prototype.createEvents.call(this);
+                    this.proxyOpenOrder = $.proxy(this.openOrder, this);
                 };
                 Orders.prototype.destroyEvents = function () {
+                    this.View.find('#order-view-items').find('a').off('click', this.proxyOpenOrder);
+                    _super.prototype.destroyEvents.call(this);
+                };
+                Orders.prototype.search = function (e) {
+                    var _this = this;
+                    var self = this;
+                    var newSrch = '';
+                    vars._app.ShowLoading(false);
+                    self.View.find('#order-view-items').find('a').off('click', self.proxyOpenOrder);
+                    self.AccountService.Orders(function (responseData) {
+                        if (responseData.Result === 0) {
+                            var templateContent = _this.View.find('#new-view-item-template').html();
+                            var template = vars.getTemplate(templateContent);
+                            var htmlResult = '';
+                            var items = responseData.Data;
+                            for (var i = 0, icount = items.length; i < icount; i++) {
+                                htmlResult = (htmlResult + template(items[i]));
+                            }
+                            self.View.find('#order-view-items').html(htmlResult);
+                            if (htmlResult !== '') {
+                                self.rebindModel();
+                            }
+                            self.View.find('#order-view-items').find('a').on('click', self.proxyOpenOrder);
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
+                };
+                Orders.prototype.openOrder = function (e) {
+                    var id = $(e.currentTarget).data('id');
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
                 };
                 return Orders;
             }(acc.Controller.Account.Account));

@@ -403,6 +403,9 @@
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Account\[r_OrderGet].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Basket\[ordercreate].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

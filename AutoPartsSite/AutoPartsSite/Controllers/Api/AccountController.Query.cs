@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using AutoPartsSite.Models.Account;
 using AutoPartsSite.Core.Extensions;
+using AutoPartsSite.Models;
 
 namespace AutoPartsSite.Controllers.Api
 {
@@ -122,5 +123,45 @@ namespace AutoPartsSite.Controllers.Api
                 });
             return result;
         }
+
+        #region ORDERS
+
+        [NonAction]
+        internal static List<Order> GetOrders(QueryWithSettings qs)
+        {
+            List<Order> result = new List<Order>();
+
+            int f_OrderHeaderID = -1, f_OrderNumberFull = -1, f_OrderDate = -1, f_Comment = -1;
+
+            AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderGet]"
+                , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@LanguageId", qs.languageId),
+                    new SqlParameter("@SiteUserID", qs.siteUserId)
+                }
+                , onExecute: (reader) =>
+                {
+                    string fname;
+                    for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                    {
+                        fname = reader.GetName(i);
+                             if (fname == "OrderHeaderID")   f_OrderHeaderID = i;
+                        else if (fname == "OrderNumberFull") f_OrderNumberFull = i; 
+                        else if (fname == "OrderDate")       f_OrderDate = i; 
+                        else if (fname == "Comment")         f_Comment = i; 
+                    }
+                }
+                , action: (values) =>
+                {
+                    Order order = new Order();
+                    if (f_OrderHeaderID   > -1) order.OrderHeaderID   = values[f_OrderHeaderID].ToInt();
+                    if (f_OrderNumberFull > -1) order.OrderNumberFull = values[f_OrderNumberFull].ToStr();
+                    if (f_OrderDate       > -1) order.OrderDate       = values[f_OrderDate].ToDateTime();
+                    if (f_Comment         > -1) order.Comment         = values[f_Comment].ToStr();
+                    result.Add(order);
+                });
+            return result;
+        }
+        #endregion
     }
 }
