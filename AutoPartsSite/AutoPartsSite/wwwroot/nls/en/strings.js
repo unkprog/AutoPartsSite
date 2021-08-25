@@ -217,6 +217,14 @@ define({
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$shipping$destination": "Shipping destination",
     "label$language": "Language",
-    "label$currency": "Currency"
+    "label$currency": "Currency",
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Заказы                                                                     //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$order$empty": "The order list is empty",
+    "label$order$no": "Order no.",
+    "label$order$date": "Order date",
+    "label$order$comment": "Comment",
+    "label$order$open": "Open order",
 });

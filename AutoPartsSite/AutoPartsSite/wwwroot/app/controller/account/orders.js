@@ -30,7 +30,12 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Orders.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$orders")
+                        "Header": vars._statres("label$orders"),
+                        "labelEmptyOrders": vars._statres("label$order$empty"),
+                        "labelOrderNumber": vars._statres("label$order$no"),
+                        "labelOrderDate": vars._statres("label$order$date"),
+                        "labelComment": vars._statres("label$order$comment"),
+                        "labelOpenOrder": vars._statres("label$order$open"),
                     });
                 };
                 Orders.prototype.OnViewInit = function () {
@@ -42,29 +47,36 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     this.proxyOpenOrder = $.proxy(this.openOrder, this);
                 };
                 Orders.prototype.destroyEvents = function () {
-                    this.View.find('#order-view-items').find('a').off('click', this.proxyOpenOrder);
+                    this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenOrder);
                     _super.prototype.destroyEvents.call(this);
                 };
                 Orders.prototype.search = function (e) {
                     var _this = this;
                     var self = this;
-                    var newSrch = '';
                     vars._app.ShowLoading(false);
-                    self.View.find('#order-view-items').find('a').off('click', self.proxyOpenOrder);
+                    self.View.find('#orders-view-parts-empty').hide();
+                    self.View.find('#orders-view-parts-table').hide();
+                    self.View.find('#orders-view-parts-table-rows').find('a').off('click', self.proxyOpenOrder);
                     self.AccountService.Orders(function (responseData) {
                         if (responseData.Result === 0) {
-                            var templateContent = _this.View.find('#new-view-item-template').html();
+                            var templateContent = _this.View.find('#orders-view-parts-table-template').html();
                             var template = vars.getTemplate(templateContent);
-                            var htmlResult = '';
                             var items = responseData.Data;
-                            for (var i = 0, icount = items.length; i < icount; i++) {
-                                htmlResult = (htmlResult + template(items[i]));
+                            var htmlResult = '', icount = items.length;
+                            if (icount < 1) {
+                                self.View.find('#orders-view-parts-empty').show();
                             }
-                            self.View.find('#order-view-items').html(htmlResult);
+                            else {
+                                for (var i = 0; i < icount; i++) {
+                                    htmlResult = (htmlResult + template(items[i]));
+                                }
+                                self.View.find('#orders-view-parts-table').show();
+                            }
+                            self.View.find('#orders-view-parts-table-rows').html(htmlResult);
                             if (htmlResult !== '') {
                                 self.rebindModel();
                             }
-                            self.View.find('#order-view-items').find('a').on('click', self.proxyOpenOrder);
+                            self.View.find('#orders-view-parts-table-rows').find('a').on('click', self.proxyOpenOrder);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);

@@ -16,7 +16,13 @@ export namespace Controller.Account {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$orders")
+                "Header": vars._statres("label$orders"),
+                "labelEmptyOrders": vars._statres("label$order$empty"),
+                "labelOrderNumber": vars._statres("label$order$no"),
+                "labelOrderDate": vars._statres("label$order$date"),
+                "labelComment": vars._statres("label$order$comment"),
+                "labelOpenOrder": vars._statres("label$order$open"),
+
             });
         }
 
@@ -32,36 +38,44 @@ export namespace Controller.Account {
         }
 
         protected destroyEvents(): void {
-            this.View.find('#order-view-items').find('a').off('click', this.proxyOpenOrder);
+            this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenOrder);
             super.destroyEvents();
         }
 
         private proxyOpenOrder;
         private search(e: any): boolean {
             let self = this;
-            let newSrch: string = '';
-
+           
             vars._app.ShowLoading(false);
 
-
-            self.View.find('#order-view-items').find('a').off('click', self.proxyOpenOrder);
+            self.View.find('#orders-view-parts-empty').hide();
+            self.View.find('#orders-view-parts-table').hide();
+            self.View.find('#orders-view-parts-table-rows').find('a').off('click', self.proxyOpenOrder);
 
             self.AccountService.Orders((responseData) => {
                 if (responseData.Result === 0) {
-                    let templateContent = this.View.find('#new-view-item-template').html();
+                    let templateContent = this.View.find('#orders-view-parts-table-template').html();
                     let template = vars.getTemplate(templateContent);
-                    let htmlResult = '';
+                    
                     let items: any[] = responseData.Data;
-                    for (let i = 0, icount = items.length; i < icount; i++) {
-                        htmlResult = (htmlResult + template(items[i]));
+                    let htmlResult = '', icount = items.length;
+                    if (icount < 1) {
+                        self.View.find('#orders-view-parts-empty').show();
                     }
+                    else {
+                        
+                        for (let i = 0; i < icount; i++) {
+                            htmlResult = (htmlResult + template(items[i]));
+                        }
+                        self.View.find('#orders-view-parts-table').show();
 
-                    self.View.find('#order-view-items').html(htmlResult);
-
+                    }
+                    self.View.find('#orders-view-parts-table-rows').html(htmlResult);
+                    
                     if (htmlResult !== '') {
                         self.rebindModel();
                     }
-                    self.View.find('#order-view-items').find('a').on('click', self.proxyOpenOrder);
+                    self.View.find('#orders-view-parts-table-rows').find('a').on('click', self.proxyOpenOrder);
                 }
                 else {
                     vars._app.ShowError(responseData.Error);
