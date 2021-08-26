@@ -101,6 +101,8 @@ namespace AutoPartsSite.Controllers.Api
               {
                   string result = "Ok";
 
+                  SetAskQuestion(q);
+
                   string body = string.Empty;
                   if (!string.IsNullOrEmpty(q.Name))
                       body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Name: ", q.Name);

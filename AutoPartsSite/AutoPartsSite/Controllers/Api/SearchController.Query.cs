@@ -34,11 +34,11 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     result.Add(new GoodsSearch()
                     {
-                        Id = (int)values[0],
-                        PartNumber = (string)values[1],
-                        Brand = (string)values[2],
-                        Page = (long)values[3],
-                        MaxPage = (long)values[4]
+                        Id = values[0].ToInt(),
+                        PartNumber = values[1].ToStr(),
+                        Brand = values[2].ToStr(),
+                        Page = values[3].ToLong(),
+                        MaxPage = values[4].ToLong()
                     });
                 });
             });

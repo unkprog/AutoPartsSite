@@ -19,6 +19,11 @@ namespace AutoPartsSite.Core.Extensions
             return obj.IsNull() ? 0 : (int)obj;
         }
 
+        public static long ToLong(this object obj)
+        {
+            return obj.IsNull() ? 0 : (long)obj;
+        }
+
         public static decimal ToDecimal(this object obj)
         {
             return obj.IsNull() ? 0 : (decimal)obj;
