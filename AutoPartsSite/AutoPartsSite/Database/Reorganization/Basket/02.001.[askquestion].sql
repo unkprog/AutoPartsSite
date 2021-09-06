@@ -10,6 +10,8 @@ begin
 	[Name]        [nvarchar](100) not null default (N''),
 	[Email]       [nvarchar](100) not null default (N''),
 	[Question]    [nvarchar](3700) not null default (N''),
+	[ParentId]    [int]            not null default (0),
+	[UserId]    [int]              not null default (0),
 	primary key clustered ([Id])
   )
 end

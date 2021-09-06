@@ -33,9 +33,42 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "Header": vars._statres("label$messages")
                     });
                 };
+                Messages.prototype.OnViewInit = function () {
+                    _super.prototype.OnViewInit.call(this);
+                    this.search(undefined);
+                };
                 Messages.prototype.createEvents = function () {
+                    _super.prototype.createEvents.call(this);
+                    this.proxyOpenMessage = $.proxy(this.openMessage, this);
                 };
                 Messages.prototype.destroyEvents = function () {
+                    this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenMessage);
+                    _super.prototype.destroyEvents.call(this);
+                };
+                Messages.prototype.search = function (e) {
+                    var self = this;
+                    vars._app.ShowLoading(false);
+                    self.AccountService.Orders(function (responseData) {
+                        if (responseData.Result === 0) {
+                        }
+                        else {
+                            vars._app.ShowError(responseData.Error);
+                        }
+                        vars._app.HideLoading();
+                    });
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
+                };
+                Messages.prototype.openMessage = function (e) {
+                    var id = $(e.currentTarget).data('id');
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
                 };
                 return Messages;
             }(acc.Controller.Account.Account));

@@ -55,5 +55,9 @@ export namespace Services {
             };
             this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
         }
+
+        public GetAskQuestions(Callback: (responseData: any) => void) {
+            this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
+        }
     }
 }

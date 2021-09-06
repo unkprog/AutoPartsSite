@@ -64,6 +64,9 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 };
                 this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
             };
+            AccountService.prototype.GetAskQuestions = function (Callback) {
+                this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
+            };
             return AccountService;
         }(base.Services.BaseService));
         Services.AccountService = AccountService;

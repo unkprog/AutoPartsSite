@@ -1,2 +1,2 @@
-﻿insert into [AskQuestion] ([Date], [Name], [Email], [Question])
-select getdate(), @Name, @Email, @Question
+﻿insert into [AskQuestion] ([Date], [Name], [Email], [Question], [ParentId], [UserId])
+select getdate(), @Name, @Email, @Question, @ParentId, @UserId

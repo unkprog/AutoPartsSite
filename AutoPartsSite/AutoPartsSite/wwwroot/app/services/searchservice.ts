@@ -33,5 +33,6 @@ export namespace Services {
         public SendAskQuestion(question: Interfaces.Model.IAskQuestion, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
         }
+
     }
 }

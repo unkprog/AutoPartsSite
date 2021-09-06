@@ -101,6 +101,8 @@ namespace AutoPartsSite.Controllers.Api
               {
                   string result = "Ok";
 
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  q.UserId = principal == null || principal.User == null ? 0 : principal.User.Id;
                   SetAskQuestion(q);
 
                   string body = string.Empty;
@@ -110,6 +112,20 @@ namespace AutoPartsSite.Controllers.Api
                   body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Question: ", q.Question);
                   Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, "Ask question", body);
 
+                  return CreateResponseOk(result);
+              });
+          });
+
+        [HttpGet]
+        [Route("askquestions")]
+        public async Task<HttpMessage<List<AskQuestion>>> AskQuestions(AskQuestion q)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  List<AskQuestion>  result = GetAskQuestions(userId);
                   return CreateResponseOk(result);
               });
           });

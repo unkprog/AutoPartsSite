@@ -313,6 +313,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Database\AutoPartsSite\Basket\AskQuestion\[get].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\AutoPartsSite\Basket\[add_delivery].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
