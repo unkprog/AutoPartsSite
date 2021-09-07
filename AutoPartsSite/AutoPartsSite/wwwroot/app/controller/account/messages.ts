@@ -45,7 +45,7 @@ export namespace Controller.Account {
             //self.View.find('#orders-view-parts-table').hide();
             //self.View.find('#orders-view-parts-table-rows').find('a').off('click', self.proxyOpenMessage);
 
-            self.AccountService.Orders((responseData) => {
+            self.AccountService.GetAskQuestions((responseData) => {
                 if (responseData.Result === 0) {
                     //let templateContent = this.View.find('#orders-view-parts-table-template').html();
                     //let template = vars.getTemplate(templateContent);

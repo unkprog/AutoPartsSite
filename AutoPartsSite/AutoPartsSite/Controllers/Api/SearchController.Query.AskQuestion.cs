@@ -24,21 +24,6 @@ namespace AutoPartsSite.Controllers.Api
         }
 
 
-        [NonAction]
-        private List<AskQuestion> GetAskQuestions(int userId)
-        {
-            List<AskQuestion> result = new List<AskQuestion>();
-            AppSettings.Query.Basket.Execute(@"AskQuestion\[get]"
-            , new SqlParameter[]
-            {
-                new SqlParameter("@UserId", userId)
-            }
-            , null
-            , (values)=>
-            {
-            });
 
-            return result;
-        }
     }
 }

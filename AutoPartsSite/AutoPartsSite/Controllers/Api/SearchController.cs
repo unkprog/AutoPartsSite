@@ -116,18 +116,6 @@ namespace AutoPartsSite.Controllers.Api
               });
           });
 
-        [HttpGet]
-        [Route("askquestions")]
-        public async Task<HttpMessage<List<AskQuestion>>> AskQuestions(AskQuestion q)
-          => await TryCatchResponseAsync(async () =>
-          {
-              return await Task.Run(() =>
-              {
-                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  List<AskQuestion>  result = GetAskQuestions(userId);
-                  return CreateResponseOk(result);
-              });
-          });
+
     }
 }

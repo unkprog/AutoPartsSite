@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Models.GlobalParts
 {
@@ -7,6 +8,7 @@ namespace AutoPartsSite.Models.GlobalParts
     public class AskQuestion 
     {
         public int Id { get; set; } = 0;
+        public DateTime Date { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Question { get; set; } = string.Empty;

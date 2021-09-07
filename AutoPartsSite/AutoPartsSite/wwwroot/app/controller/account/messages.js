@@ -48,7 +48,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 Messages.prototype.search = function (e) {
                     var self = this;
                     vars._app.ShowLoading(false);
-                    self.AccountService.Orders(function (responseData) {
+                    self.AccountService.GetAskQuestions(function (responseData) {
                         if (responseData.Result === 0) {
                         }
                         else {
