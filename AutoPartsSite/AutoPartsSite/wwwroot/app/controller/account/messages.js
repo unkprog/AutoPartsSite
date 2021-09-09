@@ -30,7 +30,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Messages.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
-                        "Header": vars._statres("label$messages")
+                        "Header": vars._statres("label$messages"),
+                        "labelEmptyMessages": vars._statres("label$messages$empty")
                     });
                 };
                 Messages.prototype.OnViewInit = function () {
@@ -46,10 +47,32 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     _super.prototype.destroyEvents.call(this);
                 };
                 Messages.prototype.search = function (e) {
+                    var _this = this;
                     var self = this;
                     vars._app.ShowLoading(false);
+                    self.View.find('#messages-view-parts-empty').hide();
+                    self.View.find('#messages-view-parts-rows').hide();
+                    self.View.find('#messages-view-parts-rows').find('a').off('click', self.proxyOpenMessage);
                     self.AccountService.GetAskQuestions(function (responseData) {
                         if (responseData.Result === 0) {
+                            var templateContent = _this.View.find('#messages-view-parts-table-template').html();
+                            var template = vars.getTemplate(templateContent);
+                            var items = responseData.Data;
+                            var htmlResult = '', icount = items.length;
+                            if (icount < 1) {
+                                self.View.find('#messages-view-parts-empty').show();
+                            }
+                            else {
+                                for (var i = 0; i < icount; i++) {
+                                    htmlResult = (htmlResult + template(items[i]));
+                                }
+                                self.View.find('#messages-view-parts-rows').show();
+                            }
+                            self.View.find('#messages-view-parts-rows').html(htmlResult);
+                            if (htmlResult !== '') {
+                                self.rebindModel();
+                            }
+                            self.View.find('#messages-view-parts-rows').find('a').on('click', self.proxyOpenMessage);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);

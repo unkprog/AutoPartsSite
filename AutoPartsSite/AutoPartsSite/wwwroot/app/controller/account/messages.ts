@@ -16,7 +16,8 @@ export namespace Controller.Account {
 
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
-                "Header": vars._statres("label$messages")
+                "Header": vars._statres("label$messages"),
+                "labelEmptyMessages": vars._statres("label$messages$empty")
             });
         }
 
@@ -41,34 +42,34 @@ export namespace Controller.Account {
 
             vars._app.ShowLoading(false);
 
-            //self.View.find('#orders-view-parts-empty').hide();
-            //self.View.find('#orders-view-parts-table').hide();
-            //self.View.find('#orders-view-parts-table-rows').find('a').off('click', self.proxyOpenMessage);
+            self.View.find('#messages-view-parts-empty').hide();
+            self.View.find('#messages-view-parts-rows').hide();
+            self.View.find('#messages-view-parts-rows').find('a').off('click', self.proxyOpenMessage);
 
             self.AccountService.GetAskQuestions((responseData) => {
                 if (responseData.Result === 0) {
-                    //let templateContent = this.View.find('#orders-view-parts-table-template').html();
-                    //let template = vars.getTemplate(templateContent);
+                    let templateContent = this.View.find('#messages-view-parts-table-template').html();
+                    let template = vars.getTemplate(templateContent);
 
-                    //let items: any[] = responseData.Data;
-                    //let htmlResult = '', icount = items.length;
-                    //if (icount < 1) {
-                    //    self.View.find('#orders-view-parts-empty').show();
-                    //}
-                    //else {
+                    let items: any[] = responseData.Data;
+                    let htmlResult = '', icount = items.length;
+                    if (icount < 1) {
+                        self.View.find('#messages-view-parts-empty').show();
+                    }
+                    else {
 
-                    //    for (let i = 0; i < icount; i++) {
-                    //        htmlResult = (htmlResult + template(items[i]));
-                    //    }
-                    //    self.View.find('#orders-view-parts-table').show();
+                        for (let i = 0; i < icount; i++) {
+                            htmlResult = (htmlResult + template(items[i]));
+                        }
+                        self.View.find('#messages-view-parts-rows').show();
 
-                    //}
-                    //self.View.find('#orders-view-parts-table-rows').html(htmlResult);
+                    }
+                    self.View.find('#messages-view-parts-rows').html(htmlResult);
 
-                    //if (htmlResult !== '') {
-                    //    self.rebindModel();
-                    //}
-                    //self.View.find('#orders-view-parts-table-rows').find('a').on('click', self.proxyOpenMessage);
+                    if (htmlResult !== '') {
+                        self.rebindModel();
+                    }
+                    self.View.find('#messages-view-parts-rows').find('a').on('click', self.proxyOpenMessage);
                 }
                 else {
                     vars._app.ShowError(responseData.Error);

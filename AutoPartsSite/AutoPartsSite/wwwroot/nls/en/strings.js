@@ -227,4 +227,9 @@ define({
     "label$order$date": "Order date",
     "label$order$comment": "Comment",
     "label$order$open": "Open order",
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Сообщения                                                                  //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$messages$empty": "Message list is empty",
 });

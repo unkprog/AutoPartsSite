@@ -9,4 +9,21 @@
             <div class="divider"></div>
         </div>
     </div>
+
+    <div id="messages-view-parts" class="row margin-bottom-0">
+        <div id="messages-view-parts-empty" class="col s12 m12 l12 xl12 center" style="font-size: 1.7rem;" data-bind="text:labelEmptyMessages"></div>
+        <div id="messages-view-parts-table" class="col s12 m12 l12 xl12">
+            <div id="messages-view-parts-rows" class="row margin-bottom-0">
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/x-kendo-template" id="messages-view-parts-table-template">
+        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+            <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected" id="messages-view-item-#=Id#" data-id="#=Id#">
+                <span>#=Question#</span>
+            </div>
+        </div>
+    </script>
 </div>
