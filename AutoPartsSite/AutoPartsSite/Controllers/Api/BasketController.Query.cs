@@ -94,10 +94,20 @@ namespace AutoPartsSite.Controllers.Api
                         new SqlParameter() { ParameterName = "@CartVatAmount", Value = basketItemsModels[0].CartVatAmount },
                         new SqlParameter() { ParameterName = "@CartVatTotalAmount", Value = basketItemsModels[0].CartVatTotalAmount },
                         new SqlParameter() { ParameterName = "@Comment", Value = basketItemsModels[0].Comment },
+                        new SqlParameter() { ParameterName = "@DeliveryRouteID", Value = basketItemsModels[0].DeliveryRouteID },
+                        new SqlParameter() { ParameterName = "@DeliveryTariffID", Value = basketItemsModels[0].DeliveryTariffID },
+                        new SqlParameter() { ParameterName = "@OrderCurrencyID", Value = basketItemsModels[0].OrderCurrencyID },
+                        new SqlParameter() { ParameterName = "@OrderCurrencyRate", Value = basketItemsModels[0].OrderCurrencyRate },
+                        new SqlParameter() { ParameterName = "@CartCurrencyID", Value = basketItemsModels[0].CartCurrencyID },
+                        new SqlParameter() { ParameterName = "@CartCurrencyRate", Value = basketItemsModels[0].CartCurrencyRate },
+                        new SqlParameter() { ParameterName = "@InvoiceCurrencyID", Value = basketItemsModels[0].InvoiceCurrencyID },
+                        new SqlParameter() { ParameterName = "@InvoiceCurrencyRate", Value = basketItemsModels[0].InvoiceCurrencyRate },
+                        new SqlParameter() { ParameterName = "@AccountingCurrencyID", Value = basketItemsModels[0].AccountingCurrencyID },
                         new SqlParameter() { ParameterName = "@TakeInvoicePrice", Value = (decimal)0 },
-                        new SqlParameter() { ParameterName = "@InvoicePrice", Value = (decimal)0 }
+                       new SqlParameter() { ParameterName = "@InvoicePrice", Value = (decimal)0 },
                     });
                 });
+
             return result;
         }
 
@@ -159,8 +169,15 @@ namespace AutoPartsSite.Controllers.Api
                     CartVatAmount = values[++i].ToDecimal(),
                     CartVatTotalAmount = values[++i].ToDecimal(),
                     Comment = values[++i].ToStr(),
-                    //TakeInvoicePrice = values[++i].ToDecimal(),
-                    //InvoicePrice = values[++i].ToDecimal()
+                    DeliveryRouteID = values[++i].ToInt(),
+                    DeliveryTariffID = values[++i].ToInt(),
+                    OrderCurrencyID = values[++i].ToInt(),
+                    OrderCurrencyRate = values[++i].ToDecimal(),
+                    CartCurrencyID = values[++i].ToInt(),
+                    CartCurrencyRate = values[++i].ToDecimal(),
+                    InvoiceCurrencyID = values[++i].ToInt(),
+                    InvoiceCurrencyRate = values[++i].ToDecimal(),
+                    AccountingCurrencyID = values[++i].ToInt(),
                 });
             });
 

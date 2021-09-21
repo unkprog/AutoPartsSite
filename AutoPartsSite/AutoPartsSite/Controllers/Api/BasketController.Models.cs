@@ -40,8 +40,16 @@ namespace AutoPartsSite.Controllers.Api
             public decimal CartVatAmount { get; set; }
             public decimal CartVatTotalAmount { get; set; }
             public string Comment { get; set; }
-            public decimal TakeInvoicePrice { get; set; }
-            public decimal InvoicePrice { get; set; }
+
+            public int DeliveryRouteID { get; set; }
+            public int DeliveryTariffID { get; set; }
+            public int OrderCurrencyID { get; set; }
+            public decimal OrderCurrencyRate { get; set; }
+            public int CartCurrencyID { get; set; }
+            public decimal CartCurrencyRate { get; set; }
+            public int InvoiceCurrencyID { get; set; }
+            public decimal InvoiceCurrencyRate { get; set; }
+            public int AccountingCurrencyID { get; set; }
         }
     }
 }

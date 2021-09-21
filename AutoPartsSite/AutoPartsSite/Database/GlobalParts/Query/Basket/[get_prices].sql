@@ -8,6 +8,17 @@ select [p].[GoodsID], [p].[Qty], [p].[Brand], [p].[Articul], [p].[Descr]
      , [p].[CartPriceRaw], [p].[CartAmountRaw], [p].[CartDiscounts], [p].[CartDiscountsAmount], [p].[CartPrice], [p].[CartAmount]
      , [p].[CartDeliveryAmount], [p].[CartTotalAmount], [p].[CartVatAmount], [p].[CartVatTotalAmount], [Comment] = @Comment
 --     , [p].[TakeInvoicePrice], [p].[InvoicePrice] 
+
+	 , [p].[DeliveryRouteID] -- сейчас не проставляетя
+     , [p].[DeliveryTariffID] -- проставляется =  DeliveryRouteID
+     , [p].[OrderCurrencyID]
+     , [p].[OrderCurrencyRate]
+     , [p].[CartCurrencyID]
+     , [p].[CartCurrencyRate]
+     , [InvoiceCurrencyID] = [p].[OrderCurrencyID]
+     , [InvoiceCurrencyRate] = [p].[OrderCurrencyRate]
+     , [p].[AccountingCurrencyID]
+
 from [dbo].[r_PriceGet] ( @SiteID
                         , @SiteUserID
                         --, @SiteUserUID
