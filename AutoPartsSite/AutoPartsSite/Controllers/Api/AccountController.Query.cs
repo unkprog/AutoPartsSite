@@ -127,7 +127,7 @@ namespace AutoPartsSite.Controllers.Api
         #region ORDERS
 
         [NonAction]
-        internal static List<Order> GetOrders(QueryWithSettings qs)
+        internal static List<Order> GetOrders(int userId, QueryWithSettings qs)
         {
             List<Order> result = new List<Order>();
 
@@ -136,8 +136,8 @@ namespace AutoPartsSite.Controllers.Api
             AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderGet]"
                 , sqlParameters: new SqlParameter[]
                 {
-                    new SqlParameter("@LanguageId", qs.languageId),
-                    new SqlParameter("@SiteUserID", qs.siteUserId)
+                    new SqlParameter("@LocaleLanguageID", qs.languageId),
+                    new SqlParameter("@SiteUserID", userId)
                 }
                 , onExecute: (reader) =>
                 {

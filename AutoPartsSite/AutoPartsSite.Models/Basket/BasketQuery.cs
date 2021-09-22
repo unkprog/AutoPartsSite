@@ -13,5 +13,7 @@ namespace AutoPartsSite.Models.Basket
         public string promoCode { get; set; }
         [DataMember]
         public int deliveryTariffID { get; set; }
+        [DataMember]
+        public int deliveryRouteID { get; set; }
     }
 }

@@ -402,7 +402,7 @@ namespace AutoPartsSite.Controllers.Api
             int f_CartPriceRaw = -1, f_OldCartPrice = -1, f_Qty = -1, f_OldCartQty = -1;
             int f_CartAmount = -1, f_CartAmountRaw = -1, f_CartDiscountsAmount = -1;
 
-            int f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
+            int f_DeliveryRouteID = -1, f_DeliveryTariffID = -1, f_DeliveryTariffCode = -1, f_DeliveryTariffDescr = -1;
             int f_Amount = -1, f_DeliveryAmount = -1, f_VatAmount = -1, f_TotalAmount = -1;
             int f_DeliveryDaysMin = -1, f_DeliveryDaysMax = -1, f_DeliveryDays = -1;
             int f_PromoCouponMessage = -1;
@@ -463,6 +463,7 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "WidthCm") f_WidthCm = i;
                     else if (fname == "HeightCm") f_HeightCm = i;
 
+                    else if (fname == "DeliveryRouteID") f_DeliveryRouteID = i;
                     else if (fname == "DeliveryTariffID") f_DeliveryTariffID = i;
                     else if (fname == "DeliveryTariffCode") f_DeliveryTariffCode = i;
                     else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
@@ -495,6 +496,7 @@ namespace AutoPartsSite.Controllers.Api
                             if (deliveryTariffID == 5) deliveryInfo.Logo = "/img/deliverybrands/dhl.png";
                             else if (deliveryTariffID == 6) deliveryInfo.Logo = "/img/deliverybrands/ups.png";
 
+                            if (f_DeliveryRouteID > -1) deliveryInfo.DeliveryRouteID = values[f_DeliveryRouteID].ToInt();
                             if (f_DeliveryTariffCode > -1) deliveryInfo.Code = values[f_DeliveryTariffCode].ToStr();
                             if (f_DeliveryTariffDescr > -1) deliveryInfo.Name = values[f_DeliveryTariffDescr].ToStr();
                             if (f_Amount > -1) deliveryInfo.Amount = values[f_Amount].ToDecimal();
@@ -694,7 +696,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private void SetBaskeDeliveryTariffID(string uid, int deliveryTariffID)
+        private void SetBaskeDeliveryTariffID(string uid, int deliveryTariffID, int deliveryRouteID)
         {
             ExecQuery((query) =>
             {
@@ -702,6 +704,7 @@ namespace AutoPartsSite.Controllers.Api
                 {
                     new SqlParameter() { ParameterName = "@Uid", Value = uid },
                     new SqlParameter() { ParameterName = "@DeliveryTariffID", Value = deliveryTariffID },
+                    new SqlParameter() { ParameterName = "@DeliveryRouteID", Value = deliveryRouteID },
                 }, null, (values) => { });
             });
         }
@@ -722,7 +725,7 @@ namespace AutoPartsSite.Controllers.Api
             AppSettings.Query.GlobalParts.Execute(@"Basket\[get_address]"
                 , new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
+                    new SqlParameter() { ParameterName = "@AddressTypeID", Value = typeAddress },
                     new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = qs.countryId }
@@ -755,7 +758,7 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "Email")        f_Email     = i;
 
                         
-                        else if (fname == "Default")      f_Default   = i;
+                        else if (fname == "IsDefault")      f_Default   = i;
                     }
                 }
                 , (values) =>

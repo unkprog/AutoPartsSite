@@ -208,11 +208,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     var self = this;
                     var cur = $(e.currentTarget);
                     var id = cur.data('id');
+                    var routeid = cur.data('routeid');
                     vars._app.ShowLoading(false);
                     if (this.deliveryId == id)
-                        self.BasketService.SetDeliveryTariffID(0, function (responseData) { return self.endCommand(responseData); });
+                        self.BasketService.SetDeliveryTariffID(0, 0, function (responseData) { return self.endCommand(responseData); });
                     else
-                        self.BasketService.SetDeliveryTariffID(id, function (responseData) { return self.endCommand(responseData); });
+                        self.BasketService.SetDeliveryTariffID(id, routeid, function (responseData) { return self.endCommand(responseData); });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

@@ -94,7 +94,7 @@ namespace AutoPartsSite.Controllers.Api
                    else if (result.Header.DeliveryTariffID == 0 && result.Deliveries.Count > 0)
                    {
                        result.Header.DeliveryTariffID = result.Deliveries[0].Id;
-                       SetBaskeDeliveryTariffID(pq.uid, result.Header.DeliveryTariffID);
+                       SetBaskeDeliveryTariffID(pq.uid, result.Header.DeliveryTariffID, result.Header.DeliveryRouteID);
                    }
 
 
@@ -128,7 +128,7 @@ namespace AutoPartsSite.Controllers.Api
          {
              return await Task.Run(() =>
              {
-                 SetBaskeDeliveryTariffID(pq.uid, pq.deliveryTariffID);
+                 SetBaskeDeliveryTariffID(pq.uid, pq.deliveryTariffID, pq.deliveryRouteID);
                  return View(pq);
              });
          });
@@ -191,7 +191,7 @@ namespace AutoPartsSite.Controllers.Api
 
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  List<AddressInfo> addresses = GetAddress(userId, qs, 3);
+                  List<AddressInfo> addresses = GetAddress(userId, qs, 4);
 
                   result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
 

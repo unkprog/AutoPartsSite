@@ -58,6 +58,12 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public Currency Currency { get; set; }
-        
+
+        /// <summary>
+        /// RouteID
+        /// </summary>
+        [DataMember]
+        public int DeliveryRouteID { get; set; }
+
     }
 }

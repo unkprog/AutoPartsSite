@@ -1,4 +1,5 @@
 ﻿using AutoPartsSite.Core.Http;
+using AutoPartsSite.Core.Models.Security;
 using AutoPartsSite.Models;
 using AutoPartsSite.Models.GlobalParts;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,9 @@ namespace AutoPartsSite.Controllers.Api
           {
               return await Task.Run(() =>
               {
-                  return CreateResponseOk(GetOrders(qs));
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  return CreateResponseOk(GetOrders(userId, qs));
               });
           });
 

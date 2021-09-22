@@ -241,11 +241,12 @@ export namespace Controller.Basket {
             let self = this;
             let cur: JQuery = $(e.currentTarget);
             let id: number = cur.data('id');
+            let routeid: number = cur.data('routeid');
             vars._app.ShowLoading(false);
             if (this.deliveryId == id)
-                self.BasketService.SetDeliveryTariffID(0, (responseData) => self.endCommand(responseData));
+                self.BasketService.SetDeliveryTariffID(0, 0, (responseData) => self.endCommand(responseData));
             else
-                self.BasketService.SetDeliveryTariffID(id, (responseData) => self.endCommand(responseData));
+                self.BasketService.SetDeliveryTariffID(id, routeid, (responseData) => self.endCommand(responseData));
             e.preventDefault();
             e.stopPropagation();
             return false;

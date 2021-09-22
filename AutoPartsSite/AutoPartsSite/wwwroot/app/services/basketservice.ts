@@ -80,7 +80,7 @@ export namespace Services {
             this.PostApi({ Action: "/setpromocode", RequestData: JSON.stringify(bq), Callback: Callback });
         }
 
-        public SetDeliveryTariffID(deliveryTariffID: number, Callback: (responseData: any) => void) {
+        public SetDeliveryTariffID(deliveryTariffID: number, deliveryRouteID: number, Callback: (responseData: any) => void) {
             let bq = {
                 uid: vars._appData.Uid,
                 Auth: vars._appData.Identity.Auth,
@@ -88,7 +88,8 @@ export namespace Services {
                 countryId: vars._appData.Settings.Country.Id,
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id,
-                deliveryTariffID: deliveryTariffID
+                deliveryTariffID: deliveryTariffID,
+                deliveryRouteID: deliveryRouteID
             };
             this.PostApi({ Action: "/setdeliverytariff", RequestData: JSON.stringify(bq), Callback: Callback });
         }

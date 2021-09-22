@@ -91,7 +91,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 };
                 this.PostApi({ Action: "/setpromocode", RequestData: JSON.stringify(bq), Callback: Callback });
             };
-            BasketService.prototype.SetDeliveryTariffID = function (deliveryTariffID, Callback) {
+            BasketService.prototype.SetDeliveryTariffID = function (deliveryTariffID, deliveryRouteID, Callback) {
                 var bq = {
                     uid: vars._appData.Uid,
                     Auth: vars._appData.Identity.Auth,
@@ -99,7 +99,8 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                     countryId: vars._appData.Settings.Country.Id,
                     languageId: vars._appData.Settings.Language.Id,
                     currencyId: vars._appData.Settings.Currency.Id,
-                    deliveryTariffID: deliveryTariffID
+                    deliveryTariffID: deliveryTariffID,
+                    deliveryRouteID: deliveryRouteID
                 };
                 this.PostApi({ Action: "/setdeliverytariff", RequestData: JSON.stringify(bq), Callback: Callback });
             };
