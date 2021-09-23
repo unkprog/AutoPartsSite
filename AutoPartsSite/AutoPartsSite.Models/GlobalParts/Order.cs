@@ -22,11 +22,25 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public DateTime OrderDate { get; set; }
+        [DataMember]
+        public string OrderDateStr => OrderDate.ToString("dd.MM.yyyy");
 
         /// <summary>
         /// Комментарий
         /// </summary>
         [DataMember]
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Валюта
+        /// </summary>
+        [DataMember]
+        public Currency Currency { get; set; }
+
+        /// <summary>
+        /// Доставка
+        /// </summary>
+        [DataMember]
+        public DeliveryInfo Delivery { get; set; }
     }
 }

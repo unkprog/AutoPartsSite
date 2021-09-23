@@ -25,5 +25,18 @@ namespace AutoPartsSite.Controllers.Api
               });
           });
 
+        [HttpPost]
+        [Route("orderinfo")]
+        public async Task<HttpMessage<OrderInfo>> OrderInfo(QueryWithSettings qs)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  return CreateResponseOk(new OrderInfo());// GetOrders(userId, qs));
+              });
+          });
+
     }
 }

@@ -64,6 +64,18 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 };
                 this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
             };
+            AccountService.prototype.OrderInfo = function (orderId, Callback) {
+                var qs = {
+                    uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id,
+                    orderId: orderId
+                };
+                this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
+            };
             AccountService.prototype.GetAskQuestions = function (Callback) {
                 this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
             };

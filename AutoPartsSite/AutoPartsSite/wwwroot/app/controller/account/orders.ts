@@ -20,8 +20,11 @@ export namespace Controller.Account {
                 "labelEmptyOrders": vars._statres("label$order$empty"),
                 "labelOrderNumber": vars._statres("label$order$no"),
                 "labelOrderDate": vars._statres("label$order$date"),
+                "labelCurrency": vars._statres("label$currency"),
+                "labelDelivery": vars._statres("label$shipping"),
                 "labelComment": vars._statres("label$order$comment"),
                 "labelOpenOrder": vars._statres("label$order$open"),
+
 
             });
         }
@@ -60,11 +63,12 @@ export namespace Controller.Account {
                     let items: any[] = responseData.Data;
                     let htmlResult = '', icount = items.length;
                     if (icount < 1) {
-                        self.View.find('#orders-view-parts-empty').show();
+                        self.View.find('#orders-view-parts-empty').hide();
                     }
                     else {
                         
                         for (let i = 0; i < icount; i++) {
+                            items[i].labelOpenOrder = self.Model.get("labelOpenOrder");
                             htmlResult = (htmlResult + template(items[i]));
                         }
                         self.View.find('#orders-view-parts-table').show();
@@ -91,8 +95,8 @@ export namespace Controller.Account {
 
         private openOrder(e: any): boolean {
             let id: number = $(e.currentTarget).data('id');
-            //vars._appData.NewViewItemId = id;
-            //vars._app.OpenController({ urlController: 'news/new', backController: this });
+            vars._appData.OrderId = id;
+            vars._app.OpenController({ urlController: 'account/orderinfo', backController: this });
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();

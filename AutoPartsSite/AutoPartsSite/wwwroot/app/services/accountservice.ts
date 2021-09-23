@@ -56,6 +56,19 @@ export namespace Services {
             this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
         }
 
+        public OrderInfo(orderId:number, Callback: (responseData: any) => void) {
+            let qs = {
+                uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id,
+                orderId: orderId
+            };
+            this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
+        }
+
         public GetAskQuestions(Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
         }

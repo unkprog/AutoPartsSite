@@ -132,6 +132,8 @@ namespace AutoPartsSite.Controllers.Api
             List<Order> result = new List<Order>();
 
             int f_OrderHeaderID = -1, f_OrderNumberFull = -1, f_OrderDate = -1, f_Comment = -1;
+            int f_OrderCurrencyID = -1, f_OrderCurrencyCode = -1;
+            int f_DeliveryTariffID = -1, f_DeliveryTariffDescr = -1;
 
             AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderGet]"
                 , sqlParameters: new SqlParameter[]
@@ -148,16 +150,26 @@ namespace AutoPartsSite.Controllers.Api
                              if (fname == "OrderHeaderID")   f_OrderHeaderID = i;
                         else if (fname == "OrderNumberFull") f_OrderNumberFull = i; 
                         else if (fname == "OrderDate")       f_OrderDate = i; 
-                        else if (fname == "Comment")         f_Comment = i; 
+                        else if (fname == "Comment")         f_Comment = i;
+
+                        else if (fname == "OrderCurrencyID") f_OrderCurrencyID = i;
+                        else if (fname == "OrderCurrencyCode") f_OrderCurrencyCode = i;
+
+                        else if (fname == "DeliveryTariffID")    f_DeliveryTariffID = i;
+                        else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
                     }
                 }
                 , action: (values) =>
                 {
-                    Order order = new Order();
+                    Order order = new Order() { Currency = new Currency(), Delivery = new DeliveryInfo() };
                     if (f_OrderHeaderID   > -1) order.OrderHeaderID   = values[f_OrderHeaderID].ToInt();
                     if (f_OrderNumberFull > -1) order.OrderNumberFull = values[f_OrderNumberFull].ToStr();
                     if (f_OrderDate       > -1) order.OrderDate       = values[f_OrderDate].ToDateTime();
                     if (f_Comment         > -1) order.Comment         = values[f_Comment].ToStr();
+                    if (f_OrderCurrencyID   > -1) order.Currency.Id   = values[f_OrderCurrencyID].ToInt();
+                    if (f_OrderCurrencyCode > -1) order.Currency.Code = values[f_OrderCurrencyCode].ToStr();
+                    if (f_DeliveryTariffID    > -1) order.Delivery.Id   = values[f_DeliveryTariffID].ToInt();
+                    if (f_DeliveryTariffDescr > -1) order.Delivery.Name = values[f_DeliveryTariffDescr].ToStr();
                     result.Add(order);
                 });
             return result;

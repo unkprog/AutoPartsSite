@@ -162,6 +162,16 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
+            Object.defineProperty(Data.prototype, "OrderId", {
+                get: function () {
+                    return parseInt(localStorage.getItem('order-id'), 0);
+                },
+                set: function (id) {
+                    localStorage.setItem('order-id', '' + id);
+                },
+                enumerable: false,
+                configurable: true
+            });
             Object.defineProperty(Data.prototype, "IsBasketCheckOut", {
                 get: function () {
                     var basketCheckOut = localStorage.getItem('basketCheckOut');

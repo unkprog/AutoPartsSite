@@ -92,7 +92,7 @@ export function dateToday(): Date {
 
 export function date_parse(date: string): Date {
     let result: Date; // = new Date();
-    let split1: Array<string> = date.split(' ');
+    let split1: Array<string> = date.split(date.indexOf(' ') > -1 ? ' ': 'T');
     let splitDate: Array<string> = (split1.length > 0 ? split1[0].split('.') : []);
     let splitTime: Array<string> = (split1.length > 1 ? split1[1].split(':') : []);
 

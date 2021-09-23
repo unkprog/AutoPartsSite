@@ -269,6 +269,12 @@
     <None Include="wwwroot\img\payments\single\visa.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="wwwroot\app\controller\account\orders - Копировать.js">
+      <DependentUpon>orders.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\app\controller\account\orders - Копировать.js.map">
+      <DependentUpon>orders.js.map</DependentUpon>
+    </Content>
 	<Content Update="wwwroot\img\autobrands\acdelco.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -293,6 +299,7 @@
     <TypeScriptCompile Include="wwwroot\app\controller\account\recovery.ts" DependentUpon="recovery.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\register.ts" DependentUpon="register.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\orders.ts" DependentUpon="orders.html" />
+    <TypeScriptCompile Include="wwwroot\app\controller\account\orderinfo.ts" DependentUpon="orderinfo.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\garage.ts" DependentUpon="garage.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\messages.ts" DependentUpon="messages.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />

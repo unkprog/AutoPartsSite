@@ -102,7 +102,7 @@ define(["require", "exports"], function (require, exports) {
     exports.dateToday = dateToday;
     function date_parse(date) {
         var result;
-        var split1 = date.split(' ');
+        var split1 = date.split(date.indexOf(' ') > -1 ? ' ' : 'T');
         var splitDate = (split1.length > 0 ? split1[0].split('.') : []);
         var splitTime = (split1.length > 1 ? split1[1].split(':') : []);
         result = new Date(parseInt(splitDate[2], 10), parseInt(splitDate[1], 10) - 1, parseInt(splitDate[0], 10), splitTime.length > 0 ? parseInt(splitTime[0], 10) : 0, splitTime.length > 1 ? parseInt(splitTime[1], 10) : 0, splitTime.length > 2 ? parseInt(splitTime[2], 10) : 0);

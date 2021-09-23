@@ -34,6 +34,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelEmptyOrders": vars._statres("label$order$empty"),
                         "labelOrderNumber": vars._statres("label$order$no"),
                         "labelOrderDate": vars._statres("label$order$date"),
+                        "labelCurrency": vars._statres("label$currency"),
+                        "labelDelivery": vars._statres("label$shipping"),
                         "labelComment": vars._statres("label$order$comment"),
                         "labelOpenOrder": vars._statres("label$order$open"),
                     });
@@ -64,10 +66,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                             var items = responseData.Data;
                             var htmlResult = '', icount = items.length;
                             if (icount < 1) {
-                                self.View.find('#orders-view-parts-empty').show();
+                                self.View.find('#orders-view-parts-empty').hide();
                             }
                             else {
                                 for (var i = 0; i < icount; i++) {
+                                    items[i].labelOpenOrder = self.Model.get("labelOpenOrder");
                                     htmlResult = (htmlResult + template(items[i]));
                                 }
                                 self.View.find('#orders-view-parts-table').show();
@@ -91,6 +94,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Orders.prototype.openOrder = function (e) {
                     var id = $(e.currentTarget).data('id');
+                    vars._appData.OrderId = id;
+                    vars._app.OpenController({ urlController: 'account/orderinfo', backController: this });
                     if (e) {
                         e.preventDefault();
                         e.stopPropagation();

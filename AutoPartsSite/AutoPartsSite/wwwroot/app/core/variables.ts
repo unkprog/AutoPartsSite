@@ -179,6 +179,14 @@ export namespace App {
             localStorage.setItem('new-view-item-id', '' + id);
         }
 
+        public get OrderId(): number {
+            return parseInt(localStorage.getItem('order-id'), 0);
+        }
+
+        public set OrderId(id: number) {
+            localStorage.setItem('order-id', '' + id);
+        }
+
         public get IsBasketCheckOut(): boolean {
             var basketCheckOut = localStorage.getItem('basketCheckOut');
             return (basketCheckOut && basketCheckOut == "true");
