@@ -189,4 +189,67 @@ namespace AutoPartsSite.Models.GlobalParts
         [DataMember]
         public long MaxPage { get; set; }
     }
+
+
+    /// <summary>
+    /// Информация по позиции заказа
+    /// </summary>
+    [DataContract]
+    public class GoodsOrderItemInfo : BaseDbModel
+    {
+        /// <summary>
+        /// Артикул
+        /// </summary>
+        [DataMember]
+        public string Articul { get; set; }
+        /// <summary>
+        /// Номер детали
+        /// </summary>
+        [DataMember]
+        public string PartNumber { get; set; }
+        /// <summary>
+        /// Наименование детали
+        /// </summary>
+        [DataMember]
+        public string Name { get; set; }
+        /// <summary>
+        /// Фото детали
+        /// </summary>
+        [DataMember]
+        public Brand Brand { get; set; }
+        /// <summary>
+        /// Количество
+        /// </summary>
+        [DataMember]
+        public decimal Qty { get; set; }
+        /// <summary>
+        /// Цена
+        /// </summary>
+        [DataMember]
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Сумма
+        /// </summary>
+        [DataMember]
+        public decimal Amount { get; set; }
+
+        /// <summary>
+        /// Сумма доставки
+        /// </summary>
+        [DataMember]
+        public decimal DeliveryAmount { get; set; }
+
+        /// <summary>
+        /// Сумма доставки
+        /// </summary>
+        [DataMember]
+        public decimal VatAmount { get; set; }
+
+        /// <summary>
+        /// Сумма итого
+        /// </summary>
+        [DataMember]
+        public decimal TotalAmount { get; set; }
+    }
 }

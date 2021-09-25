@@ -31,21 +31,37 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$order"),
-                        "labelEmptyOrders": vars._statres("label$order$empty"),
-                        "labelOrderNumber": vars._statres("label$order$no"),
                         "labelOrderDate": vars._statres("label$order$date"),
                         "labelCurrency": vars._statres("label$currency"),
-                        "labelDelivery": vars._statres("label$shipping"),
-                        "labelComment": vars._statres("label$order$comment"),
-                        "labelOpenOrder": vars._statres("label$order$open"),
+                        "labelBrand": vars._statres("label$brand"),
+                        "labelPartNumber": vars._statres("label$partnumber"),
+                        "labelName": vars._statres("label$description"),
+                        "labelPrice": vars._statres("label$price"),
+                        "labelQty": vars._statres("label$qty"),
+                        "labelSum": vars._statres("label$amount"),
+                        "labelDeliveryItem": vars._statres("label$delivery"),
+                        "labelVat": vars._statres("label$vat"),
+                        "labelTotalSum": vars._statres("label$total"),
+                        "labelBilling": vars._statres("label$address$billing"),
+                        "labelDelivery": vars._statres("label$address$delivery"),
+                        "labelFullName": vars._statres("label$fullname"),
+                        "labelCountry": vars._statres("label$country"),
+                        "labelRegion": vars._statres("label$region"),
+                        "labelCity": vars._statres("label$city"),
+                        "labelZipCode": vars._statres("label$zipcode"),
+                        "labelStreet": vars._statres("label$address"),
+                        "labelPhoneCode": vars._statres("label$phonecode"),
+                        "labelPhone": vars._statres("label$phone"),
+                        "labelEmail": vars._statres("label$email"),
+                        "Order": {}
                     });
                 };
                 OrderInfo.prototype.OnViewInit = function () {
                     _super.prototype.OnViewInit.call(this);
                     var self = this;
-                    self.AccountService.Orders(function (responseData) {
+                    self.AccountService.OrderInfo(vars._appData.OrderId, function (responseData) {
                         if (responseData.Result === 0) {
-                            self.showOrder(responseData.Data);
+                            self.showOrderInfo(responseData.Data);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);
@@ -59,7 +75,26 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.destroyEvents = function () {
                     _super.prototype.destroyEvents.call(this);
                 };
-                OrderInfo.prototype.showOrder = function (e) {
+                OrderInfo.prototype.showOrderInfo = function (data) {
+                    var self = this;
+                    self.Model.set("Order", data);
+                    var templateContent = this.View.find('#orderinfo-view-parts-table-template').html();
+                    var template = vars.getTemplate(templateContent);
+                    var items = data.Items;
+                    var htmlResult = '', icount = items.length;
+                    var totalSum = 0.0;
+                    for (var i = 0; i < icount; i++) {
+                        totalSum = totalSum + items[i].TotalAmount;
+                        htmlResult = (htmlResult + template(items[i]));
+                    }
+                    htmlResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
+                    htmlResult += '<td colspan="8" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
+                    htmlResult += '<td style="width:9%;">' + window.numberToString(totalSum, 2) + '</td></tr>';
+                    self.View.find('#orderinfo-view-items-table-rows').html(htmlResult);
+                    if (htmlResult !== '') {
+                        self.rebindModel();
+                    }
+                    M.updateTextFields();
                 };
                 return OrderInfo;
             }(acc.Controller.Account.Account));

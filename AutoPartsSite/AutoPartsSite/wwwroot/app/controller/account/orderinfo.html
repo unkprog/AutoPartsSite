@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col s12 m12 l12 xl12">
             <div class="section left">
-                <h1 class="page-header" data-bind="text:Header"></h1>
+                <h1 class="page-header"><span data-bind="text:Header"></span><span data-bind="text:Order.Order.OrderNumberFull"></span></h1>
             </div>
         </div>
         <div class="col s12 m12 l12 xl12">
@@ -11,12 +11,170 @@
     </div>
 
     <div id="orderinfo-view-header" class="row margin-bottom-0">
+        <div class="input-field col s12 m6 l6 xl6">
+            <input disabled id="orderinfo-view-header-date" type="text" class="validate black-text" data-bind="value:Order.Order.OrderDateStr">
+            <label for="orderinfo-view-header-date" data-bind="text:labelOrderDate"></label>
+        </div>
+        <div class="input-field col s12 m6 l6 xl6">
+            <input disabled id="orderinfo-view-header-currency" type="text" class="validate black-text" data-bind="value:Order.Order.Currency.Code">
+            <label for="orderinfo-view-header-currency" data-bind="text:labelCurrency"></label>
+        </div>
+    </div>
+
+
+    <div id="orderinfo-view-items" class="row margin-bottom-0">
+        <div id="orderinfo-view-items-table" class="col s12 m12 l12 xl12">
+            <div id="orderinfo-view-items-rows" class="row margin-bottom-0 hide-on-large-only">
+            </div>
+            <table class="hide-on-med-and-down">
+                <thead style="font-size:0.81rem;">
+                    <tr>
+                        <th style="width:11%;"><span data-bind="text:labelBrand"></span></th>
+                        <th style="width:11%;"><span data-bind="text:labelPartNumber"></span></th>
+                        <th style="width:24%;"><span data-bind="text:labelName"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelPrice"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelQty"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelSum"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelDeliveryItem"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelVat"></span></th>
+                        <th style="width:9%;"><span data-bind="text:labelTotalSum"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="orderinfo-view-items-table-rows">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script type="text/x-kendo-template" id="orderinfo-view-parts-table-template">
-        <tr id="order-view-item-#=OrderItemID#" data-id="#=OrderItemID#">
+        <tr id="basket-view-item-#=OrderItemID#">
+            <td style="width:11%;">#=Brand.Code#</td>
+            <td style="width:11%;">#=PartNumber#</td>
+            <td style="width:24%;">#=Name#</td>
 
+            <td style="width:9%;">#=numberToString(Price,2)#</td>
+            <td style="width:9%;">#=numberToString(Qty,2)#</td>
+            <td style="width:9%;">#=numberToString(Amount,2)#</td>
+            <td style="width:9%;">#=numberToString(DeliveryAmount,2)#</td>
+            <td style="width:9%;">#=numberToString(VatAmount,2)#</td>
+            <td style="width:9%;">#=numberToString(TotalAmount,2)#</td>
         </tr>
     </script>
+
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="section left">
+                <h4 style="font-size:1.5rem" data-bind="text:labelBilling"></h4>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="orderinfo-view-billing" class="row">
+        <div class="col s12 m8 offset-m2 l8 offset-l2 xl6 offset-xl3">
+            <div class="row">
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input disabled id="orderinfo-view-billing-full_name" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.FullName">
+                    <label for="orderinfo-view-billing-full_name" data-bind="text:labelFullName"></label>
+                </div>
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-billing-country" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Country.Name">
+                    <label for="orderinfo-view-billing-country" data-bind="text:labelCountry"></label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-billing-region" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Region">
+                    <label for="orderinfo-view-billing-region" data-bind="text:labelRegion"></label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-billing-city" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.City">
+                    <label for="orderinfo-view-billing-city" data-bind="text:labelCity"></label>
+                </div>
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-billing-zipcode" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.ZipCode">
+                    <label for="orderinfo-view-billing-zipcode" data-bind="text:labelZipCode"></label>
+                </div>
+
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input disabled id="orderinfo-view-billing-street" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Street">
+                    <label for="orderinfo-view-billing-street" data-bind="text:labelStreet"></label>
+                </div>
+
+                <div class="input-field col s2 m2 l2 xl2">
+                    <input disabled id="orderinfo-view-billing-phonecode" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.PhoneCode">
+                    <label for="orderinfo-view-billing-phonecode" data-bind="text:labelPhoneCode"></label>
+                </div>
+                <div class="input-field col s10 m10 l5 xl5">
+                    <input disabled id="orderinfo-view-billing-phone" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.Phone">
+                    <label for="orderinfo-view-billing-phone" data-bind="text:labelPhone"></label>
+                </div>
+                <div class="input-field col s12 m12 l5 xl5">
+                    <input disabled id="orderinfo-view-billing-email" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.Email">
+                    <label for="orderinfo-view-billing-email" data-bind="text:labelEmail"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="section left">
+                <h4 style="font-size:1.5rem" data-bind="text:labelDelivery"></h4>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div id="orderinfo-view-delivery-info" class="row">
+        <div class="col s12 m8 offset-m2 l8 offset-l2 xl6 offset-xl3">
+            <div class="row">
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input disabled id="orderinfo-view-delivery-full_name" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.FullName">
+                    <label for="orderinfo-view-delivery-full_name" data-bind="text:labelFullName"></label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-delivery-country" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Country.Name">
+                    <label for="orderinfo-view-delivery-country" data-bind="text:labelCountry"></label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-delivery-region" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Region">
+                    <label for="orderinfo-view-delivery-region" data-bind="text:labelRegion"></label>
+                </div>
+
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-delivery-city" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.City">
+                    <label for="orderinfo-view-delivery-city" data-bind="text:labelCity"></label>
+                </div>
+                <div class="input-field col s12 m6 l6 xl6">
+                    <input disabled id="orderinfo-view-delivery-zipcode" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.ZipCode">
+                    <label for="orderinfo-view-delivery-zipcode" data-bind="text:labelZipCode"></label>
+                </div>
+
+                <div class="input-field col s12 m12 l12 xl12">
+                    <input disabled id="orderinfo-view-delivery-street" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Street">
+                    <label for="orderinfo-view-delivery-street" data-bind="text:labelStreet"></label>
+                </div>
+
+                <div class="input-field col s2 m2 l2 xl2">
+                    <input disabled id="orderinfo-view-delivery-phonecode" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.PhoneCode">
+                    <label for="orderinfo-view-delivery-phonecode" data-bind="text:labelPhoneCode"></label>
+                </div>
+                <div class="input-field col s10 m10 l5 xl5">
+                    <input disabled id="orderinfo-view-delivery-phone" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.Phone">
+                    <label for="orderinfo-view-delivery-phone" data-bind="text:labelPhone"></label>
+                </div>
+                <div class="input-field col s12 m12 l5 xl5">
+                    <input disabled id="orderinfo-view-delivery-email" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.Email">
+                    <label for="orderinfo-view-delivery-email" data-bind="text:labelEmail"></label>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

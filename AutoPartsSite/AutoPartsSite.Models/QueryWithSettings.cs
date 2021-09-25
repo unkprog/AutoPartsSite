@@ -18,6 +18,7 @@ namespace AutoPartsSite.Models
         public int languageId { get; set; }
         [DataMember]
         public int currencyId { get; set; }
-
+        [DataMember]
+        public int orderId { get; set; }
     }
 }

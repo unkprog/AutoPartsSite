@@ -21,7 +21,7 @@ namespace AutoPartsSite.Controllers.Api
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  return CreateResponseOk(GetOrders(userId, qs));
+                  return CreateResponseOk(GetOrders(userId, 0, qs));
               });
           });
 
@@ -34,7 +34,20 @@ namespace AutoPartsSite.Controllers.Api
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  return CreateResponseOk(new OrderInfo());// GetOrders(userId, qs));
+                  List<Order> orders = GetOrders(userId, qs.orderId, qs);
+
+                  OrderInfo result = new OrderInfo();
+                  result.Order = orders != null && orders.Count > 0 ? orders[0]: new Order();
+
+
+                  result.Items = OrderItems(qs.orderId, qs);
+
+                  List<AddressInfo> addr = GetAddress(qs.orderId, qs, 3);
+                  result.BillingAddress = addr != null && addr.Count > 0 ? addr[0] : new AddressInfo();
+                  addr = GetAddress(qs.orderId, qs, 4);
+                  result.DeliveryAddress = addr != null && addr.Count > 0 ? addr[0] : new AddressInfo();
+
+                  return CreateResponseOk(result);
               });
           });
 

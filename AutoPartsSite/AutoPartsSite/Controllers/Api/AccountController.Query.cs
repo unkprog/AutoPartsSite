@@ -127,7 +127,7 @@ namespace AutoPartsSite.Controllers.Api
         #region ORDERS
 
         [NonAction]
-        internal static List<Order> GetOrders(int userId, QueryWithSettings qs)
+        internal static List<Order> GetOrders(int userId, int orderId, QueryWithSettings qs)
         {
             List<Order> result = new List<Order>();
 
@@ -139,7 +139,8 @@ namespace AutoPartsSite.Controllers.Api
                 , sqlParameters: new SqlParameter[]
                 {
                     new SqlParameter("@LocaleLanguageID", qs.languageId),
-                    new SqlParameter("@SiteUserID", userId)
+                    new SqlParameter("@SiteUserID", userId),
+                    new SqlParameter("@OrderHeaderID", orderId)
                 }
                 , onExecute: (reader) =>
                 {
@@ -172,6 +173,153 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_DeliveryTariffDescr > -1) order.Delivery.Name = values[f_DeliveryTariffDescr].ToStr();
                     result.Add(order);
                 });
+            return result;
+        }
+
+        private List<OrderInfoItem> OrderItems(int orderId, QueryWithSettings qs)
+        {
+            List<OrderInfoItem> result = new List<OrderInfoItem>();
+            int f_OrderItemID = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_BrandCode = -1;
+            int f_Qty = -1, f_CartPrice = -1, f_CartAmount = -1, f_CartDeliveryAmount = -1, f_CartVatAmount = -1, f_CartVatTotalAmount = -1;
+
+            AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderItemGet]", new SqlParameter[]
+            {
+                 new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
+                 new SqlParameter() { ParameterName = "@OrderHeaderID", Value = orderId },
+            }
+            , onExecute: (reader) =>
+            {
+                string fname;
+                for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                {
+                    fname = reader.GetName(i);
+                         if (fname == "OrderItemID") f_OrderItemID = i;
+                    else if(fname == "GoodsID") f_Id = i;
+                    else if (fname == "Articul") { f_Articul = i; f_PartNumber = i; }
+                    else if (fname == "Descr") f_Name = i;
+                    else if (fname == "Brand") f_BrandCode = i;
+                    else if (fname == "Qty") f_Qty = i;
+
+                    else if (fname == "CartPrice") f_CartPrice = i;
+                    else if (fname == "CartAmount") f_CartAmount = i;
+                    else if (fname == "CartDeliveryAmount") f_CartDeliveryAmount = i;
+                    else if (fname == "CartVatAmount") f_CartVatAmount = i;
+                    else if (fname == "CartVatTotalAmount") f_CartVatTotalAmount = i;
+                }
+            }
+            , (values) =>
+            {
+                int id = 0;
+                if (f_OrderItemID > -1)
+                    id = values[f_OrderItemID].ToInt();
+                else
+                    return;
+
+
+                OrderInfoItem item = new OrderInfoItem() { OrderItemID = id, Brand = new Brand() };
+                result.Add(item);
+
+                if (f_Id > -1) item.Id = values[f_Id].ToInt();
+                if (f_PartNumber > -1) item.PartNumber = values[f_PartNumber].ToStr();
+                if (f_Name > -1) item.Name = values[f_Name].ToStr();
+                if (f_Articul > -1) item.Articul = values[f_Articul].ToStr();
+                if (f_BrandCode > -1) item.Brand.Code = values[f_BrandCode].ToStr();
+
+                if (f_Qty > -1) item.Qty = values[f_Qty].ToDecimal();
+                if (f_CartPrice > -1) item.Price = values[f_CartPrice].ToDecimal();
+
+                if (f_CartAmount > -1) item.Amount = values[f_CartAmount].ToDecimal();
+                if (f_CartDeliveryAmount > -1) item.DeliveryAmount = values[f_CartDeliveryAmount].ToDecimal();
+                if (f_CartVatAmount > -1) item.VatAmount = values[f_CartVatAmount].ToDecimal();
+                if (f_CartVatTotalAmount > -1) item.TotalAmount = values[f_CartVatTotalAmount].ToDecimal();
+
+            });
+
+            return result;
+
+        }
+
+        [NonAction]
+        private List<AddressInfo> GetAddress(int orderId, QueryWithSettings qs, int typeAddress)
+        {
+            List<AddressInfo> result = new List<AddressInfo>();
+           
+
+            int f_Id = -1, f_FullName = -1;
+            int f_CompanyId = -1, f_CompanyCode = -1, f_CompanyName = -1;
+            int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
+            int f_ZipCode = -1, f_Region = -1, f_City = -1, f_Address = -1;
+            int f_PhoneCode = -1, f_PhoneMain = -1, f_PhoneExt = -1, f_Email = -1;
+            int f_Default = -1;
+
+            AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderAddressGet]"
+                , new SqlParameter[]
+                {
+                    new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
+                    new SqlParameter() { ParameterName = "@OrderHeaderID",  Value = orderId },
+                    new SqlParameter() { ParameterName = "@AddressTypeID",  Value = typeAddress }
+                }
+                , onExecute: (reader) =>
+                {
+                    string fname;
+                    for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                    {
+                        fname = reader.GetName(i);
+                             if (fname == "OrderAddressID")    f_Id       = i;
+                        else if (fname == "FullName")     f_FullName = i;
+
+                        else if (fname == "CompanyID")    f_CompanyId   = i;
+                        else if (fname == "ComapnyCode")  f_CompanyCode = i;
+                        else if (fname == "ComapnyDescr") f_CompanyName = i;
+
+                        else if (fname == "CountryID")    f_CountryId   = i;
+                        else if (fname == "CountryCode")  f_CountryCode = i;
+                        else if (fname == "CountryDescr") f_CountryName = i;
+
+                        else if (fname == "ZipCode")      f_ZipCode = i;
+                        else if (fname == "Region")       f_Region  = i;
+                        else if (fname == "City")         f_City    = i;
+                        else if (fname == "Address")      f_Address = i;
+
+                        else if (fname == "PhoneCode")    f_PhoneCode = i;
+                        else if (fname == "PhoneMain")    f_PhoneMain = i;
+                        else if (fname == "PhoneExt")     f_PhoneExt  = i;
+                        else if (fname == "Email")        f_Email     = i;
+
+                        
+                        else if (fname == "IsDefault")      f_Default   = i;
+                    }
+                }
+                , (values) =>
+                {
+                    AddressInfo item = new AddressInfo() { Company = new Company(), Country = new Country() } ;
+
+                    if (f_Id          > -1) item.Id           = values[f_Id].ToInt();
+                    if (f_FullName    > -1) item.FullName     = values[f_FullName].ToStr();
+
+                    if (f_CompanyId   > -1) item.CompanyId    = item.Company.Id = values[f_CompanyId].ToInt();
+                    if (f_CompanyCode > -1) item.Company.Code = values[f_CompanyCode].ToStr();
+                    if (f_CompanyName > -1) item.Company.Name = values[f_CompanyName].ToStr();
+
+                    if (f_CountryId   > -1) item.CountryId    = item.Country.Id = values[f_CountryId].ToInt();
+                    if (f_CountryCode > -1) item.Country.Code = values[f_CountryCode].ToStr();
+                    if (f_CountryName > -1) item.Country.Name = values[f_CountryName].ToStr();
+
+                    if (f_ZipCode     > -1) item.ZipCode      = values[f_ZipCode].ToStr();
+                    if (f_Region      > -1) item.Region       = values[f_Region].ToStr();
+                    if (f_City        > -1) item.City         = values[f_City].ToStr();
+                    if (f_Address     > -1) item.Street       = values[f_Address].ToStr();
+
+                    if (f_PhoneCode   > -1) item.PhoneCode    = values[f_PhoneCode].ToStr();
+                    if (f_PhoneMain   > -1) item.Phone        = values[f_PhoneMain].ToStr();
+                    if (f_PhoneExt    > -1) item.PhoneExt     = values[f_PhoneExt].ToStr();
+                    if (f_Email       > -1) item.Email        = values[f_Email].ToStr();
+
+                    if (f_Default     > -1) item.Default      = values[f_Default].ToBool();
+
+                    result.Add(item);
+                });
+
             return result;
         }
         #endregion

@@ -23,5 +23,5 @@ select * from [dbo].[r_OrderGet]
 	0, --@CartCurrencyID int,
 	0, --@InvoiceCurrencyID int,
 	'', --@Comment nvarchar(150),
-	0 --@OrderHeaderID
+	@OrderHeaderID
 )
