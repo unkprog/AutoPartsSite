@@ -68,7 +68,9 @@
     <Content Remove="wwwroot\app\init.js" />
     <None Remove="appsettings.jsn" />
     <Content Include="appsettings.jsn" />
-    <Content Include="wwwroot\app\init.js" DependentUpon="index.html" />
+    <Content Include="wwwroot\app\init.js" DependentUpon="index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="..\.editorconfig" Link=".editorconfig" />
 	
     <None Include="wwwroot\img\payments\flat\alipay.svg">
@@ -274,6 +276,9 @@
     </Content>
     <Content Update="wwwroot\app\controller\account\orders - Копировать.js.map">
       <DependentUpon>orders.js.map</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\css\app.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 	<Content Update="wwwroot\img\autobrands\acdelco.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -484,6 +489,9 @@
     <Content Update="wwwroot\img\autobrands\acdelco.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\lib\materialize\dist\css\materialize.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\lib\materialize\dist\js\materialize.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -491,6 +499,12 @@
     <Content Update="wwwroot\lib\materialize\dist\js\materialize.min.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\require\domReady.es5.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\require\require.es5.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
  

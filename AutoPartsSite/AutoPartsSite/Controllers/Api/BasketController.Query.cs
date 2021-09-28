@@ -726,7 +726,7 @@ namespace AutoPartsSite.Controllers.Api
                 , new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@AddressTypeID", Value = typeAddress },
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId }, //qs.siteUserId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId },
                     new SqlParameter() { ParameterName = "@CountryID", Value = qs.countryId }
                 }
@@ -800,7 +800,7 @@ namespace AutoPartsSite.Controllers.Api
             int result = 0;
             AppSettings.Query.GlobalParts.Execute(@"Basket\[set_address]", new SqlParameter[]
                 {
-                    new SqlParameter() { ParameterName = "@SiteUserID", Value = model.qs.siteUserId },
+                    new SqlParameter() { ParameterName = "@SiteUserID", Value = userId }, //qs.siteUserId },model.qs.siteUserId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = model.qs.languageId },
                     new SqlParameter() { ParameterName = "@AddressID", Value = model.DeliveryAddress.Id },
                     new SqlParameter() { ParameterName = "@AddressType", Value = typeAddress },
