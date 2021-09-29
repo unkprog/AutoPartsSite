@@ -42,7 +42,9 @@ export namespace Controller.Account {
                 "labelPhoneCode": vars._statres("label$phonecode"),
                 "labelPhone": vars._statres("label$phone"),
                 "labelEmail": vars._statres("label$email"),
-                "Order": {}
+                "Order": {},
+                "labelTotalAmount": vars._statres("label$total") + ":",
+                "TotalSumValue" : 0
 
             });
         }
@@ -78,22 +80,29 @@ export namespace Controller.Account {
             let self = this;
             self.Model.set("Order", data);
 
-            let templateContent = this.View.find('#orderinfo-view-parts-table-template').html();
+            let templateContent = self.View.find('#orderinfo-view-parts-template').html();
+            let templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();
+            
             let template = vars.getTemplate(templateContent);
+            let templateTable = vars.getTemplate(templateContentTable);
 
             let items: any[] = data.Items;
-            let htmlResult = '', icount = items.length;
+            let htmlResult = '', htmlTableResult = '', icount = items.length;
             let totalSum = 0.0;
             for (let i = 0; i < icount; i++) {
                 totalSum = totalSum + items[i].TotalAmount;
+                
                 htmlResult = (htmlResult + template(items[i]));
+                htmlTableResult = (htmlTableResult + templateTable(items[i]))
             }
            
-            htmlResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
-            htmlResult += '<td colspan="8" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
-            htmlResult += '<td style="width:9%;">' + window.numberToString(totalSum, 2) + '</td></tr>';
+            htmlTableResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
+            htmlTableResult += '<td colspan="8" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
+            htmlTableResult += '<td style="width:9%;">' + window.numberToString(totalSum, 2) + '</td></tr>';
 
-            self.View.find('#orderinfo-view-items-table-rows').html(htmlResult);
+            self.View.find('#orderinfo-view-items-rows').html(htmlResult);
+            self.View.find('#orderinfo-view-items-table-rows').html(htmlTableResult);
+            self.Model.set('TotalSumValue', window.numberToString(totalSum, 2));
 
             if (htmlResult !== '') {
                 self.rebindModel();

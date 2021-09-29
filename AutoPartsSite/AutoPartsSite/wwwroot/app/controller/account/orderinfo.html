@@ -46,6 +46,11 @@
         </div>
     </div>
 
+    <div class="row margin-bottom-0 hide-on-large-only" style="margin-top: 1rem;">
+        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+            <div class="basket-total-sum center"><span class="basket-label" data-bind="text:labelTotalAmount"></span><span id="orderinfo-view-sum" data-bind="text:TotalSumValue"></span></div>
+        </div>
+    </div>
     <script type="text/x-kendo-template" id="orderinfo-view-parts-table-template">
         <tr id="basket-view-item-#=OrderItemID#">
             <td style="width:11%;">#=Brand.Code#</td>
@@ -59,6 +64,62 @@
             <td style="width:9%;">#=numberToString(VatAmount,2)#</td>
             <td style="width:9%;">#=numberToString(TotalAmount,2)#</td>
         </tr>
+    </script>
+
+    <script type="text/x-kendo-template" id="orderinfo-view-parts-template">
+        <div id="basket-view-item-#=OrderItemID#" class="col s12 m12 l12 xl12">
+            <div class="card white margin-0 z-depth-2 hoverable">
+                <div class="card-search-info row padding-0_75rem" style="margin-bottom:0.5rem;">
+                    <div class="col s12 m12 l12 xl12">
+                        <div class="card-search-part-caption">#=Name#</div>
+                    </div>
+                    <div class="col s12 m6 l6 xl6">
+                        <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelPartNumber"></td>
+                                    <td class="card-basket-table-props-td">#=PartNumber#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelBrand"></td>
+                                    <td class="card-basket-table-props-td">#=Brand.Code#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelPrice"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(Price,2)#</td>
+                                </tr>
+                               <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelQty"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(Qty,2)#</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col s12 m6 l6 xl6">
+                        <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelSum"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(Amount,2)#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelDeliveryItem"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(DeliveryAmount,2)#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelVat"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(VatAmount,2)#</td>
+                                </tr>
+                                <tr class="card-search-table-props-row">
+                                    <td class="card-basket-table-props-td" data-bind="text:labelTotalSum"></td>
+                                    <td class="card-basket-table-props-td">#=numberToString(TotalAmount,2)#</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </script>
 
     <div class="row">

@@ -53,7 +53,9 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelPhoneCode": vars._statres("label$phonecode"),
                         "labelPhone": vars._statres("label$phone"),
                         "labelEmail": vars._statres("label$email"),
-                        "Order": {}
+                        "Order": {},
+                        "labelTotalAmount": vars._statres("label$total") + ":",
+                        "TotalSumValue": 0
                     });
                 };
                 OrderInfo.prototype.OnViewInit = function () {
@@ -78,19 +80,24 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.showOrderInfo = function (data) {
                     var self = this;
                     self.Model.set("Order", data);
-                    var templateContent = this.View.find('#orderinfo-view-parts-table-template').html();
+                    var templateContent = self.View.find('#orderinfo-view-parts-template').html();
+                    var templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();
                     var template = vars.getTemplate(templateContent);
+                    var templateTable = vars.getTemplate(templateContentTable);
                     var items = data.Items;
-                    var htmlResult = '', icount = items.length;
+                    var htmlResult = '', htmlTableResult = '', icount = items.length;
                     var totalSum = 0.0;
                     for (var i = 0; i < icount; i++) {
                         totalSum = totalSum + items[i].TotalAmount;
                         htmlResult = (htmlResult + template(items[i]));
+                        htmlTableResult = (htmlTableResult + templateTable(items[i]));
                     }
-                    htmlResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
-                    htmlResult += '<td colspan="8" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
-                    htmlResult += '<td style="width:9%;">' + window.numberToString(totalSum, 2) + '</td></tr>';
-                    self.View.find('#orderinfo-view-items-table-rows').html(htmlResult);
+                    htmlTableResult += '<tr style="font-weight:bold;font-size:1.1rem;">';
+                    htmlTableResult += '<td colspan="8" class="bold" style="color:rgba(0,0,0,.5);font-size:1.1rem;width:79%;">' + vars._statres("label$items$subtotal") + '</td>';
+                    htmlTableResult += '<td style="width:9%;">' + window.numberToString(totalSum, 2) + '</td></tr>';
+                    self.View.find('#orderinfo-view-items-rows').html(htmlResult);
+                    self.View.find('#orderinfo-view-items-table-rows').html(htmlTableResult);
+                    self.Model.set('TotalSumValue', window.numberToString(totalSum, 2));
                     if (htmlResult !== '') {
                         self.rebindModel();
                     }
