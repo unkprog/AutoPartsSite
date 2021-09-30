@@ -122,120 +122,99 @@
         </div>
     </script>
 
-    <div class="row">
-        <div class="col s12 m12 l12 xl12">
-            <div class="section left">
-                <h4 style="font-size:1.5rem" data-bind="text:labelBilling"></h4>
-            </div>
-        </div>
-        <div class="col s12 m12 l12 xl12">
-            <div class="divider"></div>
-        </div>
-    </div>
-
     <div id="orderinfo-view-billing" class="row">
-        <div class="col s12 m8 offset-m2 l8 offset-l2 xl6 offset-xl3">
-            <div class="row">
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input disabled id="orderinfo-view-billing-full_name" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.FullName">
-                    <label for="orderinfo-view-billing-full_name" data-bind="text:labelFullName"></label>
-                </div>
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-billing-country" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Country.Name">
-                    <label for="orderinfo-view-billing-country" data-bind="text:labelCountry"></label>
-                </div>
-
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-billing-region" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Region">
-                    <label for="orderinfo-view-billing-region" data-bind="text:labelRegion"></label>
-                </div>
-
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-billing-city" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.City">
-                    <label for="orderinfo-view-billing-city" data-bind="text:labelCity"></label>
-                </div>
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-billing-zipcode" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.ZipCode">
-                    <label for="orderinfo-view-billing-zipcode" data-bind="text:labelZipCode"></label>
-                </div>
-
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input disabled id="orderinfo-view-billing-street" type="text" class="validate black-text" data-bind="value:Order.BillingAddress.Street">
-                    <label for="orderinfo-view-billing-street" data-bind="text:labelStreet"></label>
-                </div>
-
-                <div class="input-field col s2 m2 l2 xl2">
-                    <input disabled id="orderinfo-view-billing-phonecode" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.PhoneCode">
-                    <label for="orderinfo-view-billing-phonecode" data-bind="text:labelPhoneCode"></label>
-                </div>
-                <div class="input-field col s10 m10 l5 xl5">
-                    <input disabled id="orderinfo-view-billing-phone" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.Phone">
-                    <label for="orderinfo-view-billing-phone" data-bind="text:labelPhone"></label>
-                </div>
-                <div class="input-field col s12 m12 l5 xl5">
-                    <input disabled id="orderinfo-view-billing-email" type="tel" class="validate black-text" data-bind="value:Order.BillingAddress.Email">
-                    <label for="orderinfo-view-billing-email" data-bind="text:labelEmail"></label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12 m12 l12 xl12">
+        <div class="col s12 m6 l6 xl6">
             <div class="section left">
-                <h4 style="font-size:1.5rem" data-bind="text:labelDelivery"></h4>
+                <h4 style="font-size:1.5rem" class="margin-bottom-0" data-bind="text:labelBilling"></h4>
             </div>
+            <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelFullName"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.FullName"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCountry"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.Country.Name"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelRegion"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.Region"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCity"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.City"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelZipCode"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.ZipCode"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelStreet"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.Street"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhoneCode"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.PhoneCode"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhone"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.Phone"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelEmail"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.BillingAddress.Email"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="col s12 m12 l12 xl12">
-            <div class="divider"></div>
+
+        <div class="col s12 m6 l6 xl6">
+            <div class="section left">
+                <h4 style="font-size:1.5rem" class="margin-bottom-0" data-bind="text:labelDelivery"></h4>
+            </div>
+            <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelFullName"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.FullName"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCountry"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Country.Name"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelRegion"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Region"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCity"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.City"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelZipCode"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.ZipCode"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelStreet"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Street"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhoneCode"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.PhoneCode"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhone"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Phone"></td>
+                    </tr>
+                    <tr class="card-search-table-props-row">
+                        <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelEmail"></td>
+                        <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Email"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div id="orderinfo-view-delivery-info" class="row">
-        <div class="col s12 m8 offset-m2 l8 offset-l2 xl6 offset-xl3">
-            <div class="row">
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input disabled id="orderinfo-view-delivery-full_name" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.FullName">
-                    <label for="orderinfo-view-delivery-full_name" data-bind="text:labelFullName"></label>
-                </div>
 
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-delivery-country" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Country.Name">
-                    <label for="orderinfo-view-delivery-country" data-bind="text:labelCountry"></label>
-                </div>
-
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-delivery-region" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Region">
-                    <label for="orderinfo-view-delivery-region" data-bind="text:labelRegion"></label>
-                </div>
-
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-delivery-city" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.City">
-                    <label for="orderinfo-view-delivery-city" data-bind="text:labelCity"></label>
-                </div>
-                <div class="input-field col s12 m6 l6 xl6">
-                    <input disabled id="orderinfo-view-delivery-zipcode" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.ZipCode">
-                    <label for="orderinfo-view-delivery-zipcode" data-bind="text:labelZipCode"></label>
-                </div>
-
-                <div class="input-field col s12 m12 l12 xl12">
-                    <input disabled id="orderinfo-view-delivery-street" type="text" class="validate black-text" data-bind="value:Order.DeliveryAddress.Street">
-                    <label for="orderinfo-view-delivery-street" data-bind="text:labelStreet"></label>
-                </div>
-
-                <div class="input-field col s2 m2 l2 xl2">
-                    <input disabled id="orderinfo-view-delivery-phonecode" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.PhoneCode">
-                    <label for="orderinfo-view-delivery-phonecode" data-bind="text:labelPhoneCode"></label>
-                </div>
-                <div class="input-field col s10 m10 l5 xl5">
-                    <input disabled id="orderinfo-view-delivery-phone" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.Phone">
-                    <label for="orderinfo-view-delivery-phone" data-bind="text:labelPhone"></label>
-                </div>
-                <div class="input-field col s12 m12 l5 xl5">
-                    <input disabled id="orderinfo-view-delivery-email" type="tel" class="validate black-text" data-bind="value:Order.DeliveryAddress.Email">
-                    <label for="orderinfo-view-delivery-email" data-bind="text:labelEmail"></label>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>

@@ -1083,3 +1083,34 @@ input[type='number']:hover::-webkit-outer-spin-button {
         display: none !important;
     }
 }
+
+
+@media only screen and (max-height: 1024px) {
+    .orders-view-parts-table-row-item > td {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-height: 812px) {
+    .orders-view-parts-table-row-item > td {
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-height: 667px) {
+    .orders-view-parts-table-row-item > td {
+        font-size: 0.8em;
+    }
+}
+
+@media only screen and (max-height: 568px) {
+    .orders-view-parts-table-row-item > td {
+        font-size: 0.75em;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    .orders-view-parts-table-row-item > td {
+        font-size: 0.7em;
+    }
+}
