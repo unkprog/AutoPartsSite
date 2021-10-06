@@ -6,10 +6,10 @@ select [p].* from [dbo].[r_AddressGet]
 		@LocaleLanguageID,
 		@SiteID,
 		@SiteUserID,
-		0, --@CompanyID int,
-		0, --@CountryID,
+		-1, --@CompanyID int,
+		-1, --@CountryID,
 		@AddressTypeID,
-		0, --@AddressID,
-		0, --@IsDefault
-		0 --@UserAddresses
+		-1, --@AddressID,
+		-1, --@IsDefault
+		-1 --@UserAddresses
 	) [p]

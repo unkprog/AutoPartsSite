@@ -146,12 +146,7 @@ namespace AutoPartsSite.Controllers.Api
                    int deliveryId = GetBasketDelivery(qs.uid);
                    Principal principal = Core.Http.HttpContext.Current.User as Principal;
                    int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                   List<AddressInfo> addresses = GetAddress(userId, qs, 3);
-
-                   result.DeliveryAddress = (deliveryId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == deliveryId));
-
-                   if (result.DeliveryAddress == null)
-                       result.DeliveryAddress = new AddressInfo();
+                   result.DeliveryAddress = GetAddressDefault(userId, deliveryId, qs, 3);
 
                    return CreateResponseOk(result);
                });
@@ -191,19 +186,12 @@ namespace AutoPartsSite.Controllers.Api
 
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  List<AddressInfo> addresses = GetAddress(userId, qs, 4);
-
-                  result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
-
+                  
+                  result.BillingAddress = GetAddressDefault(userId, billingId, qs, 4);
                   if (result.BillingAddress == null)
                   {
                       billingId = GetBasketDelivery(qs.uid);
-                      addresses = GetAddress(userId, qs, 3);
-                      result.BillingAddress = (billingId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == billingId));
-                      if (result.BillingAddress == null)
-                          result.BillingAddress = new AddressInfo();
-                      else
-                          result.BillingAddress.Id = 0;
+                      result.BillingAddress = GetAddressDefault(userId, billingId, qs, 3);
                   }
 
                   return CreateResponseOk(result);

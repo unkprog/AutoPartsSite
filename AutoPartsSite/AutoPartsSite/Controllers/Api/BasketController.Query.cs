@@ -795,6 +795,31 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        private AddressInfo GetAddressDefault(int userId, int deliveryId, QueryWithSettings qs, int typeAddress)
+        {
+            AddressInfo result = null;
+
+            List<AddressInfo> addresses = GetAddress(userId, qs, typeAddress);
+
+            result = (deliveryId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == deliveryId));
+            if (result == null)
+            {
+                if (addresses.Count > 0)
+                    result = addresses.FirstOrDefault();
+                else
+                {
+                    addresses = GetAddress(userId, qs, -1);
+                    result = (deliveryId == 0 ? addresses.FirstOrDefault(f => f.Default) : addresses.FirstOrDefault(f => f.Id == deliveryId));
+                }
+            }
+            
+            if (result == null)
+                result = new AddressInfo();
+
+            return result;
+        }
+
+        [NonAction]
         private int SetDeliveryAddress(int userId, int typeAddress, BasketDeilveryAddress model, string email)
         {
             int result = 0;
