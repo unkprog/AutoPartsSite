@@ -43,7 +43,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     this.proxyOpenMessage = $.proxy(this.openMessage, this);
                 };
                 Messages.prototype.destroyEvents = function () {
-                    this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenMessage);
+                    this.View.find('#orders-view-parts-table-rows').find('.message-view-item').off('click', this.proxyOpenMessage);
                     _super.prototype.destroyEvents.call(this);
                 };
                 Messages.prototype.search = function (e) {
@@ -52,7 +52,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     vars._app.ShowLoading(false);
                     self.View.find('#messages-view-parts-empty').hide();
                     self.View.find('#messages-view-parts-rows').hide();
-                    self.View.find('#messages-view-parts-rows').find('a').off('click', self.proxyOpenMessage);
+                    self.View.find('#messages-view-parts-rows').find('.message-view-item').off('click', self.proxyOpenMessage);
                     self.AccountService.GetAskQuestions(function (responseData) {
                         if (responseData.Result === 0) {
                             var templateContent = _this.View.find('#messages-view-parts-table-template').html();
@@ -72,7 +72,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                             if (htmlResult !== '') {
                                 self.rebindModel();
                             }
-                            self.View.find('#messages-view-parts-rows').find('a').on('click', self.proxyOpenMessage);
+                            self.View.find('#messages-view-parts-rows').find('.message-view-item').on('click', self.proxyOpenMessage);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);
@@ -87,6 +87,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Messages.prototype.openMessage = function (e) {
                     var id = $(e.currentTarget).data('id');
+                    vars._appData.MessageId = id;
+                    vars._app.OpenController({ urlController: 'account/messageinfo', backController: this });
                     if (e) {
                         e.preventDefault();
                         e.stopPropagation();

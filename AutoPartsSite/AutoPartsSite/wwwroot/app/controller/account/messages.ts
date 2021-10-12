@@ -32,7 +32,7 @@ export namespace Controller.Account {
         }
 
         protected destroyEvents(): void {
-            this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenMessage);
+            this.View.find('#orders-view-parts-table-rows').find('.message-view-item').off('click', this.proxyOpenMessage);
             super.destroyEvents();
         }
 
@@ -44,7 +44,7 @@ export namespace Controller.Account {
 
             self.View.find('#messages-view-parts-empty').hide();
             self.View.find('#messages-view-parts-rows').hide();
-            self.View.find('#messages-view-parts-rows').find('a').off('click', self.proxyOpenMessage);
+            self.View.find('#messages-view-parts-rows').find('.message-view-item').off('click', self.proxyOpenMessage);
 
             self.AccountService.GetAskQuestions((responseData) => {
                 if (responseData.Result === 0) {
@@ -69,7 +69,7 @@ export namespace Controller.Account {
                     if (htmlResult !== '') {
                         self.rebindModel();
                     }
-                    self.View.find('#messages-view-parts-rows').find('a').on('click', self.proxyOpenMessage);
+                    self.View.find('#messages-view-parts-rows').find('.message-view-item').on('click', self.proxyOpenMessage);
                 }
                 else {
                     vars._app.ShowError(responseData.Error);
@@ -85,8 +85,8 @@ export namespace Controller.Account {
 
         private openMessage(e: any): boolean {
             let id: number = $(e.currentTarget).data('id');
-            //vars._appData.NewViewItemId = id;
-            //vars._app.OpenController({ urlController: 'news/new', backController: this });
+            vars._appData.MessageId = id;
+            vars._app.OpenController({ urlController: 'account/messageinfo', backController: this });
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();

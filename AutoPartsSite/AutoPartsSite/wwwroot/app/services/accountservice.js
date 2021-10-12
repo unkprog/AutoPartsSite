@@ -79,6 +79,18 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             AccountService.prototype.GetAskQuestions = function (Callback) {
                 this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
             };
+            AccountService.prototype.GetAskQuestionInfo = function (messageId, Callback) {
+                var qs = {
+                    uid: vars._appData.Uid,
+                    Auth: vars._appData.Identity.Auth,
+                    siteUserId: vars._appData.Identity.SiteUserId,
+                    countryId: vars._appData.Settings.Country.Id,
+                    languageId: vars._appData.Settings.Language.Id,
+                    currencyId: vars._appData.Settings.Currency.Id,
+                    askQuestionId: messageId
+                };
+                this.PostApi({ Action: "/askquestioninfo", RequestData: JSON.stringify(qs), Callback: Callback });
+            };
             return AccountService;
         }(base.Services.BaseService));
         Services.AccountService = AccountService;

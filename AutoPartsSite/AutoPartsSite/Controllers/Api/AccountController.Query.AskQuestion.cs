@@ -35,5 +35,32 @@ namespace AutoPartsSite.Controllers.Api
 
             return result;
         }
+
+        [NonAction]
+        private List<AskQuestion> GetAskQuestionInfo(int askQuestionId)
+        {
+            List<AskQuestion> result = new List<AskQuestion>();
+            AppSettings.Query.Basket.Execute(@"AskQuestion\[getinfo]"
+            , new SqlParameter[]
+            {
+                new SqlParameter("@AskQuestionId", askQuestionId)
+            }
+            , null
+            , (values) =>
+            {
+                result.Add(new AskQuestion()
+                {
+                    Id = values[0].ToInt(),
+                    Date = values[1].ToDateTime(),
+                    Name = values[2].ToStr(),
+                    Email = values[3].ToStr(),
+                    Question = values[4].ToStr(),
+                    ParentId = values[5].ToInt(),
+                    UserId = values[6].ToInt()
+                });
+            });
+
+            return result;
+        }
     }
 }

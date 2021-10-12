@@ -72,5 +72,18 @@ export namespace Services {
         public GetAskQuestions(Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
         }
+
+        public GetAskQuestionInfo(messageId: number, Callback: (responseData: any) => void) {
+            let qs = {
+                uid: vars._appData.Uid,
+                Auth: vars._appData.Identity.Auth,
+                siteUserId: vars._appData.Identity.SiteUserId,
+                countryId: vars._appData.Settings.Country.Id,
+                languageId: vars._appData.Settings.Language.Id,
+                currencyId: vars._appData.Settings.Currency.Id,
+                askQuestionId: messageId
+            };
+            this.PostApi({ Action: "/askquestioninfo", RequestData: JSON.stringify(qs), Callback: Callback });
+        }
     }
 }
