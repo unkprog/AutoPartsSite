@@ -17,7 +17,8 @@ export namespace Controller.Account {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$messages"),
-                "labelEmptyMessages": vars._statres("label$messages$empty")
+                "labelClose": vars._statres("button$label$close"),
+                "Message": {}
             });
         }
 
@@ -25,9 +26,9 @@ export namespace Controller.Account {
             super.OnViewInit();
             let self = this;
 
-            self.AccountService.GetAskQuestionInfo(vars._appData.MessageId, (responseData) => {
+            self.AccountService.AskQuestionInfo(vars._appData.MessageId, (responseData) => {
                 if (responseData.Result === 0) {
-                    //self.showOrderInfo(responseData.Data);
+                    self.showMessageInfo(responseData.Data);
                 }
                 else {
                     vars._app.ShowError(responseData.Error);
@@ -38,13 +39,48 @@ export namespace Controller.Account {
 
         protected createEvents(): void {
             super.createEvents();
+            let self = this;
+            self.CloseButtonClick = self.createTouchClickEvent("messageinfo-view-btn-close", self.closeButtonClick);
         }
 
         protected destroyEvents(): void {
+            let self = this;
+            self.destroyTouchClickEvent("messageinfo-view-btn-close", self.CloseButtonClick);
             super.destroyEvents();
         }
 
- 
+        public CloseButtonClick: { (e: any): void; };
+        private closeButtonClick(e) {
+            vars._app.ControllerBack(e);
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        private showMessageInfo(data: any): void {
+            let self = this;
+            self.Model.set("Message", data);
+
+            let templateContent = self.View.find('#messageinfo-view-rows-template').html();
+            
+            let template = vars.getTemplate(templateContent);
+            
+            let items: any[] = data;
+            let htmlResult = '', icount = items.length;
+            let totalSum = 0.0;
+            for (let i = 0; i < icount; i++) {
+                htmlResult = (htmlResult + template(items[i]));
+            }
+
+            self.View.find('#messageinfo-view-rows').html(htmlResult);
+            
+            if (htmlResult !== '') {
+                self.rebindModel();
+            }
+
+
+            M.updateTextFields();
+        }
     }
 }
 

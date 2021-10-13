@@ -79,7 +79,7 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             AccountService.prototype.GetAskQuestions = function (Callback) {
                 this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
             };
-            AccountService.prototype.GetAskQuestionInfo = function (messageId, Callback) {
+            AccountService.prototype.AskQuestionInfo = function (messageId, Callback) {
                 var qs = {
                     uid: vars._appData.Uid,
                     Auth: vars._appData.Identity.Auth,

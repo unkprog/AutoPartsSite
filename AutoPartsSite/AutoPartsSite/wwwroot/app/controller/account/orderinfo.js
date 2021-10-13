@@ -31,6 +31,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.createModel = function () {
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$order"),
+                        "labelClose": vars._statres("button$label$close"),
                         "labelOrderDate": vars._statres("label$order$date"),
                         "labelCurrency": vars._statres("label$currency"),
                         "labelBrand": vars._statres("label$brand"),
@@ -73,9 +74,19 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 OrderInfo.prototype.createEvents = function () {
                     _super.prototype.createEvents.call(this);
+                    var self = this;
+                    self.CloseButtonClick = self.createTouchClickEvent("orderinfo-view-btn-close", self.closeButtonClick);
                 };
                 OrderInfo.prototype.destroyEvents = function () {
+                    var self = this;
+                    self.destroyTouchClickEvent("orderinfo-view-btn-close", self.CloseButtonClick);
                     _super.prototype.destroyEvents.call(this);
+                };
+                OrderInfo.prototype.closeButtonClick = function (e) {
+                    vars._app.ControllerBack(e);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 };
                 OrderInfo.prototype.showOrderInfo = function (data) {
                     var self = this;

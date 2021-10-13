@@ -73,7 +73,7 @@ export namespace Services {
             this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
         }
 
-        public GetAskQuestionInfo(messageId: number, Callback: (responseData: any) => void) {
+        public AskQuestionInfo(messageId: number, Callback: (responseData: any) => void) {
             let qs = {
                 uid: vars._appData.Uid,
                 Auth: vars._appData.Identity.Auth,

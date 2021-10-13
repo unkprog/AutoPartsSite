@@ -33,6 +33,7 @@ define({
     "button$label$addValue": "Добавить значение",
     "button$label$edit": "Редактировать",
     "button$label$cancel": "Отмена",
+    "button$label$close": "Закрыть",
     "button$label$delete": "Удалить",
     "button$label$select": "Выбрать",
     "button$label$find": "Поиск",

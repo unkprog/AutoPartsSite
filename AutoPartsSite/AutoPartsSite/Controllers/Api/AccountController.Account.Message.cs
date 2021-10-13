@@ -27,7 +27,7 @@ namespace AutoPartsSite.Controllers.Api
             });
         });
 
-        [HttpGet]
+        [HttpPost]
         [Route("askquestioninfo")]
         public async Task<HttpMessage<List<AskQuestion>>> AskQuestionInfo(QueryWithSettings q)
         => await TryCatchResponseAsync(async () =>

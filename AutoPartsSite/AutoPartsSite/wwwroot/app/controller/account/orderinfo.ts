@@ -17,6 +17,8 @@ export namespace Controller.Account {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$order"),
+                "labelClose": vars._statres("button$label$close"),
+
                 "labelOrderDate": vars._statres("label$order$date"),
                 "labelCurrency": vars._statres("label$currency"),
 
@@ -67,14 +69,23 @@ export namespace Controller.Account {
 
         protected createEvents(): void {
             super.createEvents();
-            
+            let self = this;
+            self.CloseButtonClick = self.createTouchClickEvent("orderinfo-view-btn-close", self.closeButtonClick);
         }
 
         protected destroyEvents(): void {
-            
+            let self = this;
+            self.destroyTouchClickEvent("orderinfo-view-btn-close", self.CloseButtonClick);
             super.destroyEvents();
         }
 
+        public CloseButtonClick: { (e: any): void; };
+        private closeButtonClick(e) {
+            vars._app.ControllerBack(e);
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
 
         private showOrderInfo(data: any): void {
             let self = this;

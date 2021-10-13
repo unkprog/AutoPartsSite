@@ -4,14 +4,33 @@
             <div class="section left">
                 <h1 class="page-header" data-bind="text:Header"></h1>
             </div>
+            <div class="section right">
+                <a id="messageinfo-view-btn-close" class="waves-effect waves-light btn"><i class="material-icons left">close</i><span data-bind="text:labelClose"></span></a>
+            </div>
         </div>
         <div class="col s12 m12 l12 xl12">
             <div class="divider"></div>
         </div>
     </div>
 
-    <div id="messageinfo-view-parts" class="row margin-bottom-0">
-        
+    <div id="messageinfo-view-rows" class="row margin-bottom-0">
+
     </div>
+
+    <script type="text/x-kendo-template" id="messageinfo-view-rows-template">
+        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+            <div class="card white margin-0 z-depth-2 card-delivery-item-row card-delivery-item-row-selected message-view-item" id="messages-view-item-#=Id#" data-id="#=Id#">
+                <div class="left">
+
+                </div>
+                <div class="right">
+                    #=Date#
+                </div>
+                <div>
+                    <span>#=Question#</span>
+                </div>
+            </div>
+        </div>
+    </script>
 
 </div>

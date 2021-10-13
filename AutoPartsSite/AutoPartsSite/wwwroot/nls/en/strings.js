@@ -33,6 +33,7 @@ define({
     "button$label$addValue": "Add value",
     "button$label$edit": "Edit",
     "button$label$cancel": "Cancel",
+    "button$label$close": "Close",
     "button$label$delete": "Delete",
     "button$label$select": "Select",
     "button$label$find": "Find",
