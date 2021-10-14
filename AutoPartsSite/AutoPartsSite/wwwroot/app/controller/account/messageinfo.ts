@@ -18,6 +18,7 @@ export namespace Controller.Account {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$messages"),
                 "labelClose": vars._statres("button$label$close"),
+                "labelReply": vars._statres("button$label$reply"),
                 "Message": {}
             });
         }
@@ -67,7 +68,6 @@ export namespace Controller.Account {
             
             let items: any[] = data;
             let htmlResult = '', icount = items.length;
-            let totalSum = 0.0;
             for (let i = 0; i < icount; i++) {
                 htmlResult = (htmlResult + template(items[i]));
             }

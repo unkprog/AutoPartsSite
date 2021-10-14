@@ -54,6 +54,9 @@ body, html {
 .padding-0_75rem {
   padding: 0.75rem !important; }
 
+.padding-message {
+  padding: 0 0.75rem 0.35rem 0.75rem !important; }
+
 .app-login-row {
   width: 80%;
   margin-left: auto;

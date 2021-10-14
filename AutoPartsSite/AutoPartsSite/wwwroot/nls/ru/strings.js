@@ -38,6 +38,7 @@ define({
     "button$label$select": "Выбрать",
     "button$label$find": "Поиск",
     "button$label$print": "Печать",
+    "button$label$reply": "Ответить",
     "label$back": "Назад",
     "label$forward": "Далее",
     "button$label$сheckout": "Оформить",

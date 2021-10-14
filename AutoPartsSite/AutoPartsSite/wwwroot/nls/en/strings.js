@@ -38,6 +38,7 @@ define({
     "button$label$select": "Select",
     "button$label$find": "Find",
     "button$label$print": "Print",
+    "button$label$reply": "Reply",
     "label$back": "Back",
     "label$forward": "Forward",
     "button$label$сheckout": "Checkout",

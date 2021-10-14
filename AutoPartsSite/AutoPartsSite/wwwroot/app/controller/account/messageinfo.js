@@ -32,6 +32,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     return new kendo.data.ObservableObject({
                         "Header": vars._statres("label$messages"),
                         "labelClose": vars._statres("button$label$close"),
+                        "labelReply": vars._statres("button$label$reply"),
                         "Message": {}
                     });
                 };
@@ -71,7 +72,6 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     var template = vars.getTemplate(templateContent);
                     var items = data;
                     var htmlResult = '', icount = items.length;
-                    var totalSum = 0.0;
                     for (var i = 0; i < icount; i++) {
                         htmlResult = (htmlResult + template(items[i]));
                     }

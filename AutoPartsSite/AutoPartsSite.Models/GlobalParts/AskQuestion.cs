@@ -9,6 +9,7 @@ namespace AutoPartsSite.Models.GlobalParts
     {
         public int Id { get; set; } = 0;
         public DateTime Date { get; set; }
+        public string DateStr => Date.ToString("dd.MM.yyyy HH:mm");
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Question { get; set; } = string.Empty;

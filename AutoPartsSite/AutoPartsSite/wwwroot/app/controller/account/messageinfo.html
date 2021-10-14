@@ -13,21 +13,25 @@
         </div>
     </div>
 
-    <div id="messageinfo-view-rows" class="row margin-bottom-0">
+    <div id="messageinfo-view-rows" class="row margin-bottom-0 pa">
 
     </div>
 
     <script type="text/x-kendo-template" id="messageinfo-view-rows-template">
-        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+        <div class="col s12 m12 l12 xl12 padding-message">
             <div class="card white margin-0 z-depth-2 card-delivery-item-row card-delivery-item-row-selected message-view-item" id="messages-view-item-#=Id#" data-id="#=Id#">
-                <div class="left">
-
-                </div>
-                <div class="right">
-                    #=Date#
-                </div>
-                <div>
-                    <span>#=Question#</span>
+                <div class="row margin-bottom-0">
+                    <div class="col s12 m12 l12 xl12">
+                         <span>#=Question#</span>
+                    </div>
+                    <div class="col s12 m12 l12 xl12 valign-wrapper" style="font-size:0.75rem">
+                        <div>
+                            #=DateStr#
+                        </div>
+        #if (UserId == 0) {#
+                        <a id="messageinfo-view-btn-reply-#=Id#" data-id="#=Id#" class="waves-effect waves-light btn-small basket-del-btn btn-flat" style="margin:0 0 0 auto;"><i class="tiny material-icons left">reply</i><span data-bind="text:labelReply"></span></a>
+        #}#
+                    </div>
                 </div>
             </div>
         </div>
