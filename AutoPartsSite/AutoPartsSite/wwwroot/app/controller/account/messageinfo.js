@@ -33,6 +33,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "Header": vars._statres("label$messages"),
                         "labelClose": vars._statres("button$label$close"),
                         "labelReply": vars._statres("button$label$reply"),
+                        "labelQuestion": vars._statres("button$label$message"),
+                        "labelRequest": "",
+                        "labelSend": "",
+                        "labelCancel": "",
+                        "AskQuestion": { "Question": "" },
                         "Message": {}
                     });
                 };
@@ -52,10 +57,12 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 MessageInfo.prototype.createEvents = function () {
                     _super.prototype.createEvents.call(this);
                     var self = this;
+                    self.proxyNewMessage = $.proxy(self.newMessage, self);
                     self.CloseButtonClick = self.createTouchClickEvent("messageinfo-view-btn-close", self.closeButtonClick);
                 };
                 MessageInfo.prototype.destroyEvents = function () {
                     var self = this;
+                    self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').off('click', self.proxyNewMessage);
                     self.destroyTouchClickEvent("messageinfo-view-btn-close", self.CloseButtonClick);
                     _super.prototype.destroyEvents.call(this);
                 };
@@ -67,6 +74,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 MessageInfo.prototype.showMessageInfo = function (data) {
                     var self = this;
+                    self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').off('click', self.proxyNewMessage);
                     self.Model.set("Message", data);
                     var templateContent = self.View.find('#messageinfo-view-rows-template').html();
                     var template = vars.getTemplate(templateContent);
@@ -79,7 +87,20 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     if (htmlResult !== '') {
                         self.rebindModel();
                     }
+                    self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').on('click', self.proxyNewMessage);
                     M.updateTextFields();
+                };
+                MessageInfo.prototype.newMessage = function (e) {
+                    var self = this;
+                    if (!self.messageInfoViewNewAskInfo)
+                        self.messageInfoViewNewAskInfo = self.View.find('#messageinfo-view-newask-modal').modal();
+                    M.updateTextFields();
+                    this.messageInfoViewNewAskInfo.modal('open');
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
                 };
                 return MessageInfo;
             }(acc.Controller.Account.Account));

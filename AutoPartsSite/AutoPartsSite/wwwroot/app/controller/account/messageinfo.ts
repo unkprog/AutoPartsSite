@@ -19,6 +19,11 @@ export namespace Controller.Account {
                 "Header": vars._statres("label$messages"),
                 "labelClose": vars._statres("button$label$close"),
                 "labelReply": vars._statres("button$label$reply"),
+                "labelQuestion": vars._statres("button$label$message"),
+                "labelRequest": "",
+                "labelSend": "",
+                "labelCancel": "",
+                "AskQuestion": { "Question": "" },
                 "Message": {}
             });
         }
@@ -38,14 +43,17 @@ export namespace Controller.Account {
             });
         }
 
+        private proxyNewMessage;
         protected createEvents(): void {
             super.createEvents();
             let self = this;
+            self.proxyNewMessage = $.proxy(self.newMessage, self);
             self.CloseButtonClick = self.createTouchClickEvent("messageinfo-view-btn-close", self.closeButtonClick);
         }
 
         protected destroyEvents(): void {
             let self = this;
+            self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').off('click', self.proxyNewMessage);
             self.destroyTouchClickEvent("messageinfo-view-btn-close", self.CloseButtonClick);
             super.destroyEvents();
         }
@@ -60,6 +68,9 @@ export namespace Controller.Account {
 
         private showMessageInfo(data: any): void {
             let self = this;
+
+            self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').off('click', self.proxyNewMessage);
+
             self.Model.set("Message", data);
 
             let templateContent = self.View.find('#messageinfo-view-rows-template').html();
@@ -77,9 +88,23 @@ export namespace Controller.Account {
             if (htmlResult !== '') {
                 self.rebindModel();
             }
-
+            self.View.find('#messageinfo-view-rows').find('.messageinfo-view-btn-reply').on('click', self.proxyNewMessage);
 
             M.updateTextFields();
+        }
+
+        private messageInfoViewNewAskInfo;
+        private newMessage(e: any): boolean {
+            let self = this;
+            if (!self.messageInfoViewNewAskInfo)
+                self.messageInfoViewNewAskInfo = self.View.find('#messageinfo-view-newask-modal').modal();
+            M.updateTextFields();
+            this.messageInfoViewNewAskInfo.modal('open')
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            return false;
         }
     }
 }

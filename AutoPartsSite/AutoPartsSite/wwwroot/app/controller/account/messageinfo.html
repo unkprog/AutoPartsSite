@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div id="messageinfo-view-rows" class="row margin-bottom-0 pa">
+    <div id="messageinfo-view-rows" class="row margin-bottom-0">
 
     </div>
 
@@ -29,7 +29,7 @@
                             #=DateStr#
                         </div>
         #if (UserId == 0) {#
-                        <a id="messageinfo-view-btn-reply-#=Id#" data-id="#=Id#" class="waves-effect waves-light btn-small basket-del-btn btn-flat" style="margin:0 0 0 auto;"><i class="tiny material-icons left">reply</i><span data-bind="text:labelReply"></span></a>
+                        <a id="messageinfo-view-btn-reply-#=Id#" data-id="#=Id#" class="waves-effect waves-light btn-small basket-del-btn btn-flat messageinfo-view-btn-reply" style="margin:0 0 0 auto;"><i class="tiny material-icons left">reply</i><span data-bind="text:labelReply"></span></a>
         #}#
                     </div>
                 </div>
@@ -37,4 +37,35 @@
         </div>
     </script>
 
+    <div id="messageinfo-view-newask-modal" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="section left">
+                        <h1 class="page-header" data-bind="text:labelRequest"></h1>
+                    </div>
+                </div>
+                <div class="col s12 m12 l12 xl12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+
+            <div id="messageinfo-view-newask-info" class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="row">
+                        <div class="input-field col s12 m12 l12 xl12">
+                            <textarea id="messageinfo-view-newask-question" class="materialize-textarea validate" data-bind="value:AskQuestion.Question"></textarea>
+                            <label for="messageinfo-view-newask-question" data-bind="text:labelQuestion"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a id="messageinfo-view-newask-btn" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">email</i><span data-bind="text:labelSend"></span></a>
+                <a id="messageinfo-view-newask-cancel" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">close</i><span data-bind="text:labelCancel"></span></a>
+            </div>
+        </div>
+    </div>
 </div>
