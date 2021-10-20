@@ -11,7 +11,7 @@ namespace AutoPartsSite.Controllers.Api
     public partial class SearchController
     {
         [NonAction]
-        private void SetAskQuestion(AskQuestion q)
+        internal static void SetAskQuestion(AskQuestion q)
         {
             AppSettings.Query.Basket.ExecuteNonQuery(@"AskQuestion\[create]", new SqlParameter[]
             {
@@ -19,7 +19,8 @@ namespace AutoPartsSite.Controllers.Api
                 new SqlParameter("@Email", string.IsNullOrEmpty(q.Email) ? string.Empty : (q.Email.Length > 100 ? q.Email.Substring(0, 100) : q.Email)),
                 new SqlParameter("@Question", string.IsNullOrEmpty(q.Question) ? string.Empty : (q.Question.Length > 3700 ? q.Question.Substring(0, 3700) : q.Question)),
                 new SqlParameter("@ParentId", q.ParentId),
-                new SqlParameter("@UserId", q.UserId)
+                new SqlParameter("@UserId", q.UserId),
+                new SqlParameter("@ReplyId", q.ReplyId)
             });
         }
 

@@ -73,19 +73,19 @@ namespace AutoPartsSite.Core.Controllers
         //}
 
         [NonAction]
-        public HttpMessage<T> CreateResponse<T>(int result, T data, string error = "")
+        public static HttpMessage<T> CreateResponse<T>(int result, T data, string error = "")
         {
             return new HttpMessage<T>() { Result = result, Data = data, Error = error };
         }
 
         [NonAction]
-        public HttpMessage<T> CreateResponseOk<T>(T data)
+        public static HttpMessage<T> CreateResponseOk<T>(T data)
         {
             return new HttpMessage<T>() { Result = 0, Data = data };
         }
 
         [NonAction]
-        public HttpMessage<T> CreateResponseError<T>(Exception ex)
+        public static HttpMessage<T> CreateResponseError<T>(Exception ex)
         {
             return new HttpMessage<T>() { Result = -1, Data = default, Error = ex?.Message };
         }

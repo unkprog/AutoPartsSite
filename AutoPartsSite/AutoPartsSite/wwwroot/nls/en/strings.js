@@ -234,5 +234,6 @@ define({
     //              Сообщения                                                                  //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$messages$empty": "Message list is empty",
-    "label$messages$message": "Message text",
+    "label$messages$messagetext": "Message text",
+    "label$messages$message": "Message",
 });

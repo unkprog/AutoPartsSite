@@ -99,23 +99,26 @@ namespace AutoPartsSite.Controllers.Api
           {
               return await Task.Run(() =>
               {
-                  string result = "Ok";
-
-                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
-                  q.UserId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  SetAskQuestion(q);
-
-                  string body = string.Empty;
-                  if (!string.IsNullOrEmpty(q.Name))
-                      body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Name: ", q.Name);
-                  body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Email: ", q.Email);
-                  body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Question: ", q.Question);
-                  Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, "Ask question", body);
-
-                  return CreateResponseOk(result);
+                  return StaticAskQuestion(q);
               });
           });
 
+        [NonAction]
+        internal static HttpMessage<string> StaticAskQuestion(AskQuestion q)
+        {
+            string result = "Ok";
+            Principal principal = Core.Http.HttpContext.Current.User as Principal;
+            q.UserId = principal == null || principal.User == null ? 0 : principal.User.Id;
+            SetAskQuestion(q);
 
+            string body = string.Empty;
+            if (!string.IsNullOrEmpty(q.Name))
+                body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Name: ", q.Name);
+            body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Email: ", q.Email);
+            body = string.Concat(body, string.IsNullOrEmpty(body) ? string.Empty : System.Environment.NewLine, "Question: ", q.Question);
+            Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, AppSettings.MailAskQuestions.Address, "Ask question", body);
+
+            return CreateResponseOk(result);
+        }
     }
 }

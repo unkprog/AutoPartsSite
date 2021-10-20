@@ -132,6 +132,8 @@
     }
 
     export interface IAskQuestion  {
+        Id: number;
+        ReplyId: number;
         Name: string;
         Email: string;
         Question: string;

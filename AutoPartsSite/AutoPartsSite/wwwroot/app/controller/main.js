@@ -61,6 +61,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelQuestion": vars._statres("label$howcan$help"),
                     "labelSend": vars._statres("label$send"),
                     "AskQuestion": {
+                        Id: 0, ReplyId: 0,
                         Name: "",
                         Email: "",
                         Question: ""
@@ -265,6 +266,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 else
                     this.Model.set("AskQuestion.Question", "");
                 this.sideNav.sidenav('close');
+                $('#askquestion-view-question').characterCounter();
                 if (!this.appRequestModal)
                     this.appRequestModal = $('#app-request-modal').modal();
                 M.updateTextFields();

@@ -16,5 +16,7 @@ namespace AutoPartsSite.Models.GlobalParts
 
         public int ParentId { get; set; } = 0;
         public int UserId { get; set; } = 0;
+        public int ReplyId { get; set; } = 0;
+        public bool EnableReply { get; set; } = false;
     }
 }

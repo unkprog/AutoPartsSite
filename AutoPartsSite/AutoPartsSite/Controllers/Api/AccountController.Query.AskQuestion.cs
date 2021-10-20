@@ -37,7 +37,7 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
-        private List<AskQuestion> GetAskQuestionInfo(int askQuestionId)
+        private List<AskQuestion> GetAskQuestionInfo(int askQuestionId, int userId)
         {
             List<AskQuestion> result = new List<AskQuestion>();
             AppSettings.Query.Basket.Execute(@"AskQuestion\[getinfo]"
@@ -56,11 +56,14 @@ namespace AutoPartsSite.Controllers.Api
                     Email = values[3].ToStr(),
                     Question = values[4].ToStr(),
                     ParentId = values[5].ToInt(),
-                    UserId = values[6].ToInt()
+                    UserId = values[6].ToInt(),
+                    ReplyId = values[7].ToInt(),
+                    EnableReply = values[6].ToInt() != userId
                 });
             });
 
             return result;
         }
+
     }
 }

@@ -85,5 +85,10 @@ export namespace Services {
             };
             this.PostApi({ Action: "/askquestioninfo", RequestData: JSON.stringify(qs), Callback: Callback });
         }
+
+
+        public SendAskQuestion(question: Interfaces.Model.IAskQuestion, Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
+        }
     }
 }

@@ -22,7 +22,16 @@
     <script type="text/x-kendo-template" id="messages-view-parts-table-template">
         <div class="col s12 m12 l12 xl12 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected message-view-item" id="messages-view-item-#=Id#" data-id="#=Id#">
-                <span>#=Question#</span>
+                <div class="row margin-bottom-0">
+                    <div class="col s12 m12 l12 xl12 valign-wrapper" style="font-size:0.75rem">
+                        <div>
+                            #=DateStr# #=Email#
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12 xl12">
+                         <span>#=Question#</span>
+                    </div>
+                </div>
             </div>
         </div>
     </script>
