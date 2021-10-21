@@ -8,6 +8,7 @@ using AutoPartsSite.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Core.Controllers;
+using AutoPartsSite.Core.Security;
 
 namespace AutoPartsSite.Accounts.Controllers.Api
 {
@@ -40,7 +41,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
                 if (users == null || users.Count == 0)
                     throw new Exception("Пользователь не найден.");
 
-                User user = GetUserByPass(login.Pass, users);
+                User user = GetUserByPass(Password.ComputeHash(login.Pass), users);
 
                 if (user == null || user.D != 0)
                     throw new Exception("Пользователь не найден.");
@@ -54,7 +55,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
 
         [HttpPost]
         [Route("loginCheck")]
-        public HttpMessage<UserWithRole> LoginChek(UserUid uu)
+        public HttpMessage<UserWithRole> LoginCheck(UserUid uu)
         {
             return TryCatchResponse(() =>
             {

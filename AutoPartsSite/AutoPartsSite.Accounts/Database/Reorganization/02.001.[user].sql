@@ -31,8 +31,8 @@ if not exists (select * from [sys].[objects] where [object_id] = object_id(N'[Us
 begin
   create table [User_Sec]
   (
-	[Id]   [int]          not null,
-	[Pass] [nvarchar](50) not null default (N''),
+	[Id]   [int]           not null,
+	[Pass] [nvarchar](512) not null default (N''),
     primary key clustered ([Id])
   )
 end

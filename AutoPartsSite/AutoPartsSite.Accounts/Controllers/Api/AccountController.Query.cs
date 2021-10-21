@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoPartsSite.Core.Sql;
 using AutoPartsSite.Models.Account;
 using System.Data.SqlClient;
+using AutoPartsSite.Core.Security;
 
 namespace AutoPartsSite.Accounts.Controllers.Api
 {
@@ -139,7 +140,8 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         [NonAction]
         private User_Sec SetPassword(User user, string email, string pass = null, string subject = null)
         {
-            User_Sec user_sec = new User_Sec() { Id = user.Id, Pass = string.IsNullOrEmpty(pass) ? GeneratePassword(8) : pass };
+            string passResult = string.IsNullOrEmpty(pass) ? Password.Generate(8) : pass;
+            User_Sec user_sec = new User_Sec() { Id = user.Id, Pass = Password.ComputeHash(passResult) };
 
             ExecQuery((query) =>
             {
@@ -154,29 +156,10 @@ namespace AutoPartsSite.Accounts.Controllers.Api
 
             if (!string.IsNullOrEmpty(email) && ! string.IsNullOrEmpty(subject))
             {
-                string body = string.Concat("Ваш пароль для входа: ", user_sec.Pass);
+                string body = string.Concat("Ваш пароль для входа: ", passResult);
                 Core.Net.EMail.SendEMail(AppSettings.Smtp.Host, AppSettings.Smtp.Port, AppSettings.Smtp.EnableSsl, AppSettings.Mail.Address, AppSettings.Mail.Password, email, subject, body);
             }
             return user_sec;
-        }
-
-        private static readonly string alphabet = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ01234567899876543210aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
-        private static readonly Random r = new Random();
-        [NonAction]
-        public string GeneratePassword(int length)
-        {
-            if (length < 1 || length > 128)
-                throw new ArgumentException("password_length_incorrect", "length");
-
-            var chArray = new char[length];
-            //var password = string.Empty;
-            for (int i = 0; i < length; i++)
-            {
-                int j = r.Next(alphabet.Length);
-                char nextChar = alphabet[j];
-                chArray[i] = (nextChar);
-            }
-            return new string(chArray);
         }
     }
 }
