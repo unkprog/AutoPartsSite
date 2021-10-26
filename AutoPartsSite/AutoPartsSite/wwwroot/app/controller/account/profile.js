@@ -72,6 +72,8 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                         Uid: vars._appData.Identity.Token,
                         ChangePass: $('#profile-view-new-pass').val(),
                     };
+                    if (controller.enterPassModal)
+                        controller.enterPassModal.modal('close');
                     controller.AccountService.ChangePass(model, function (responseData) {
                         if (responseData.Result == 0)
                             vars._app.ShowMessage(vars._statres("label$password"), vars._statres("msg$success$Recovery"), function () {

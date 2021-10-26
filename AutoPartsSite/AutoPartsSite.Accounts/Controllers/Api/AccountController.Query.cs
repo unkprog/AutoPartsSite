@@ -140,7 +140,7 @@ namespace AutoPartsSite.Accounts.Controllers.Api
         [NonAction]
         private User_Sec SetPassword(User user, string email, string pass = null, string subject = null)
         {
-            string passResult = string.IsNullOrEmpty(pass) ? Password.Generate(8) : pass;
+            string passResult = string.IsNullOrEmpty(pass) ? Password.Generate(Password.minPasswordLength) : pass;
             User_Sec user_sec = new User_Sec() { Id = user.Id, Pass = Password.ComputeHash(passResult) };
 
             ExecQuery((query) =>

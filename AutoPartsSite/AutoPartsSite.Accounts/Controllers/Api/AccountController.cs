@@ -127,13 +127,21 @@ namespace AutoPartsSite.Accounts.Controllers.Api
                 if (users == null || users.Count == 0)
                     throw new Exception("Пользователь не найден.");
 
-                User user = GetUserByPass(profile_user.Pass, users);
+                User user = GetUserByPass(Password.ComputeHash(profile_user.Pass), users);
                 if (user == null)
                     throw new Exception("Неверно указан пароль.");
 
                 if(string.IsNullOrEmpty(profile_user.ChangePass))
                     throw new Exception("Не указан новый пароль.");
 
+                switch (Password.Check(profile_user.ChangePass))
+                {
+                    case 1: throw new Exception("Пароль слишком короткий.");
+                    case 2: throw new Exception("Не указан хотя бы один заглавный символ.");
+                    case 3: throw new Exception("Не указан хотя бы один прописной символ.");
+                    case 4: throw new Exception("Не указана хотя бы одна цифра.");
+                    default: break;
+                }
 
                 SetPassword(users[0], users[0].Email, profile_user.ChangePass, "Изменение пароля в Auto Parts Site");
 
