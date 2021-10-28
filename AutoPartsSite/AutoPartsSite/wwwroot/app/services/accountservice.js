@@ -53,46 +53,41 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
             AccountService.prototype.SettingsData = function (langId, isSetup, Callback) {
                 this.GetApi({ Action: "/settingsdata", RequestData: { langId: langId, isSetup: isSetup }, Callback: Callback });
             };
+            Object.defineProperty(AccountService.prototype, "qs", {
+                get: function () {
+                    return {
+                        uid: vars._appData.Uid,
+                        Auth: vars._appData.Identity.Auth,
+                        siteUserId: vars._appData.Identity.SiteUserId,
+                        countryId: vars._appData.Settings.Country.Id,
+                        languageId: vars._appData.Settings.Language.Id,
+                        currencyId: vars._appData.Settings.Currency.Id
+                    };
+                },
+                enumerable: false,
+                configurable: true
+            });
             AccountService.prototype.Orders = function (Callback) {
-                var qs = {
-                    uid: vars._appData.Uid,
-                    Auth: vars._appData.Identity.Auth,
-                    siteUserId: vars._appData.Identity.SiteUserId,
-                    countryId: vars._appData.Settings.Country.Id,
-                    languageId: vars._appData.Settings.Language.Id,
-                    currencyId: vars._appData.Settings.Currency.Id
-                };
-                this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
+                this.PostApi({ Action: "/orders", RequestData: JSON.stringify(this.qs), Callback: Callback });
             };
             AccountService.prototype.OrderInfo = function (orderId, Callback) {
-                var qs = {
-                    uid: vars._appData.Uid,
-                    Auth: vars._appData.Identity.Auth,
-                    siteUserId: vars._appData.Identity.SiteUserId,
-                    countryId: vars._appData.Settings.Country.Id,
-                    languageId: vars._appData.Settings.Language.Id,
-                    currencyId: vars._appData.Settings.Currency.Id,
-                    orderId: orderId
-                };
+                var qs = this.qs;
+                qs.orderId = orderId;
                 this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
             };
             AccountService.prototype.GetAskQuestions = function (Callback) {
                 this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
             };
             AccountService.prototype.AskQuestionInfo = function (messageId, Callback) {
-                var qs = {
-                    uid: vars._appData.Uid,
-                    Auth: vars._appData.Identity.Auth,
-                    siteUserId: vars._appData.Identity.SiteUserId,
-                    countryId: vars._appData.Settings.Country.Id,
-                    languageId: vars._appData.Settings.Language.Id,
-                    currencyId: vars._appData.Settings.Currency.Id,
-                    askQuestionId: messageId
-                };
+                var qs = this.qs;
+                qs.askQuestionId = messageId;
                 this.PostApi({ Action: "/askquestioninfo", RequestData: JSON.stringify(qs), Callback: Callback });
             };
             AccountService.prototype.SendAskQuestion = function (question, Callback) {
                 this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
+            };
+            AccountService.prototype.GetAddresses = function (Callback) {
+                this.PostApi({ Action: "/addresses", RequestData: JSON.stringify(this.qs), Callback: Callback });
             };
             return AccountService;
         }(base.Services.BaseService));

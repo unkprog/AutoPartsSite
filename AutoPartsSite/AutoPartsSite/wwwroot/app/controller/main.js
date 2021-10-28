@@ -49,6 +49,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     "labelOrders": vars._statres("label$orders"),
                     "labelGarage": vars._statres("label$garage"),
                     "labelMessages": vars._statres("label$messages"),
+                    "labelAddresses": vars._statres("label$addresses"),
                     "labelSettings": vars._statres("label$settings"),
                     "labelExit": vars._statres("button$label$exit"),
                     "labelCustomerService": vars._statres("label$customer$service"),
@@ -199,6 +200,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 self.UserProfileButtonClick = self.createClickEvent("app-user-profile", self.userProfileButtonClick);
                 self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
                 self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
+                self.UserAddressesButtonClick = self.createClickEvent("app-user-addresses", self.userAddressesButtonClick);
             };
             Main.prototype.destroyEvents = function () {
                 this.destroyTouchClickEvent(this.buttonMenu, this.OpenMenuButtonClick);
@@ -229,6 +231,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 this.destroyClickEvent("footer-view-btn-terms", this.FTermsAboutButtonClick);
                 this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
                 this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
+                this.destroyClickEvent("app-user-addresses", this.UserAddressesButtonClick);
                 this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
             };
             Main.prototype.openMenuButtonClick = function (e) {
@@ -561,6 +564,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
             };
             Main.prototype.userMessagesButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/messages");
+            };
+            Main.prototype.userAddressesButtonClick = function (e) {
+                return this.handleMenuItem(e, "account/addresses");
             };
             Main.prototype.userOrdersButtonClick = function (e) {
                 return this.handleMenuItem(e, "account/orders");

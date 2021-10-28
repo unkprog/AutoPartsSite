@@ -43,6 +43,7 @@ export namespace Controller {
                 "labelOrders": vars._statres("label$orders"),
                 "labelGarage": vars._statres("label$garage"),
                 "labelMessages": vars._statres("label$messages"),
+                "labelAddresses": vars._statres("label$addresses"),
                 "labelSettings": vars._statres("label$settings"),
                 "labelExit": vars._statres("button$label$exit"),
 
@@ -267,6 +268,7 @@ export namespace Controller {
             self.UserOrdersButtonClick = self.createClickEvent("app-user-orders", self.userOrdersButtonClick);
             //self.UserGarageButtonClick = self.createClickEvent("app-user-garage", self.userGarageButtonClick);
             self.UserMessagesButtonClick = self.createClickEvent("app-user-messages", self.userMessagesButtonClick);
+            self.UserAddressesButtonClick = self.createClickEvent("app-user-addresses", self.userAddressesButtonClick);
         }
 
         protected destroyEvents(): void {
@@ -308,6 +310,7 @@ export namespace Controller {
 
             this.destroyClickEvent("app-user-profile", this.UserProfileButtonClick);
             this.destroyClickEvent("app-user-messages", this.UserMessagesButtonClick);
+            this.destroyClickEvent("app-user-addresses", this.UserAddressesButtonClick);
             //this.destroyClickEvent("app-user-garage", this.UserGarageButtonClick);
             this.destroyClickEvent("app-user-orders", this.UserOrdersButtonClick);
         }
@@ -780,6 +783,11 @@ export namespace Controller {
         public UserMessagesButtonClick: { (e: any): void; };
         private userMessagesButtonClick(e: any): boolean {
             return this.handleMenuItem(e, "account/messages");
+        }
+
+        public UserAddressesButtonClick: { (e: any): void; };
+        private userAddressesButtonClick(e: any): boolean {
+            return this.handleMenuItem(e, "account/addresses");
         }
 
         //public UserGarageButtonClick: { (e: any): void; };

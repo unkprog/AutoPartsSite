@@ -195,6 +195,14 @@ export namespace App {
             localStorage.setItem('message-id', '' + id);
         }
 
+        public get AddressId(): number {
+            return parseInt(localStorage.getItem('address-id'), 0);
+        }
+
+        public set AddressId(id: number) {
+            localStorage.setItem('address-id', '' + id);
+        }
+
         public get IsBasketCheckOut(): boolean {
             var basketCheckOut = localStorage.getItem('basketCheckOut');
             return (basketCheckOut && basketCheckOut == "true");

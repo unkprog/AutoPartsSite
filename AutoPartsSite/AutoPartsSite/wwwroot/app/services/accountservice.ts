@@ -44,8 +44,8 @@ export namespace Services {
             this.GetApi({ Action: "/settingsdata", RequestData: { langId: langId, isSetup: isSetup }, Callback: Callback });
         }
 
-        public Orders(Callback: (responseData: any) => void) {
-            let qs = {
+        public get qs(): any {
+            return {
                 uid: vars._appData.Uid,
                 Auth: vars._appData.Identity.Auth,
                 siteUserId: vars._appData.Identity.SiteUserId,
@@ -53,19 +53,15 @@ export namespace Services {
                 languageId: vars._appData.Settings.Language.Id,
                 currencyId: vars._appData.Settings.Currency.Id
             };
-            this.PostApi({ Action: "/orders", RequestData: JSON.stringify(qs), Callback: Callback });
+        }
+
+        public Orders(Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/orders", RequestData: JSON.stringify(this.qs), Callback: Callback });
         }
 
         public OrderInfo(orderId:number, Callback: (responseData: any) => void) {
-            let qs = {
-                uid: vars._appData.Uid,
-                Auth: vars._appData.Identity.Auth,
-                siteUserId: vars._appData.Identity.SiteUserId,
-                countryId: vars._appData.Settings.Country.Id,
-                languageId: vars._appData.Settings.Language.Id,
-                currencyId: vars._appData.Settings.Currency.Id,
-                orderId: orderId
-            };
+            let qs = this.qs;
+            qs.orderId = orderId;
             this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
         }
 
@@ -74,21 +70,18 @@ export namespace Services {
         }
 
         public AskQuestionInfo(messageId: number, Callback: (responseData: any) => void) {
-            let qs = {
-                uid: vars._appData.Uid,
-                Auth: vars._appData.Identity.Auth,
-                siteUserId: vars._appData.Identity.SiteUserId,
-                countryId: vars._appData.Settings.Country.Id,
-                languageId: vars._appData.Settings.Language.Id,
-                currencyId: vars._appData.Settings.Currency.Id,
-                askQuestionId: messageId
-            };
+            let qs = this.qs;
+            qs.askQuestionId = messageId;
             this.PostApi({ Action: "/askquestioninfo", RequestData: JSON.stringify(qs), Callback: Callback });
         }
 
 
         public SendAskQuestion(question: Interfaces.Model.IAskQuestion, Callback: (responseData: any) => void) {
             this.PostApi({ Action: "/askquestion", RequestData: JSON.stringify(question), Callback: Callback });
+        }
+
+        public GetAddresses(Callback: (responseData: any) => void) {
+            this.PostApi({ Action: "/addresses", RequestData: JSON.stringify(this.qs), Callback: Callback });
         }
     }
 }

@@ -1,0 +1,85 @@
+﻿<div id="addresses-view" class="view">
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="section left">
+                <h1 class="page-header" data-bind="text:Header"></h1>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="addresses-view-parts" class="row margin-bottom-0">
+        <div id="addresses-view-parts-empty" class="col s12 m12 l12 xl12 center" style="font-size: 1.7rem;" data-bind="text:labelEmptyAddresses"></div>
+        <div id="addresses-view-parts-table" class="col s12 m12 l12 xl12">
+            <div id="addresses-view-parts-rows" class="row margin-bottom-0">
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/x-kendo-template" id="addresses-view-parts-table-template">
+         <div class="col s12 m12 l12 xl12 padding-0_75rem">
+             <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected message-view-item" id="addresses-view-item-#=Id#" data-id="#=Id#">
+                 <div class="row margin-bottom-0">
+                     <div class="col s12 m12 l12 xl12 valign-wrapper" style="font-size:0.75rem">
+                         <div>
+                             #=DateStr# #=Email#
+                         </div>
+                     </div>
+                     <div class="col s12 m12 l12 xl12">
+                          <span>#=Question#</span>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+            <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected message-view-item" id="addresses-view-item-#=Id#" data-id="#=Id#">
+                <div class="section left">
+                    <h4 style="font-size:1.5rem" class="margin-bottom-0" data-bind="text:labelDelivery"></h4>
+                </div>
+                <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelFullName"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.FullName"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCountry"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Country.Name"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelRegion"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Region"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCity"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.City"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelZipCode"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.ZipCode"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelStreet"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Street"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhoneCode"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.PhoneCode"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhone"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Phone"></td>
+                        </tr>
+                        <tr class="card-search-table-props-row">
+                            <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelEmail"></td>
+                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Email"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+</div>

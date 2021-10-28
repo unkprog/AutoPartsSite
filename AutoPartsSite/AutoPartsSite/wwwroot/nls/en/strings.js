@@ -96,6 +96,7 @@ define({
     "label$order": "Order",
     "label$garage": "Garage",
     "label$messages": "Messages",
+    "label$addresses": "Addresses",
     "label$settings": "Settings",
 
     "label$basket": "Cart",
@@ -236,4 +237,9 @@ define({
     "label$messages$empty": "Message list is empty",
     "label$messages$messagetext": "Message text",
     "label$messages$message": "Message",
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //              Адреса                                                                     //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    "label$addresses$empty": "The address list is empty",
 });
