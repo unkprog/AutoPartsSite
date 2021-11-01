@@ -20,62 +20,54 @@
 
 
     <script type="text/x-kendo-template" id="addresses-view-parts-table-template">
-         <div class="col s12 m12 l12 xl12 padding-0_75rem">
-             <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected message-view-item" id="addresses-view-item-#=Id#" data-id="#=Id#">
-                 <div class="row margin-bottom-0">
-                     <div class="col s12 m12 l12 xl12 valign-wrapper" style="font-size:0.75rem">
-                         <div>
-                             #=DateStr# #=Email#
-                         </div>
-                     </div>
-                     <div class="col s12 m12 l12 xl12">
-                          <span>#=Question#</span>
-                     </div>
-                 </div>
-             </div>
-         </div>
-        <div class="col s12 m12 l12 xl12 padding-0_75rem">
+        <div class="col s12 m12 l6 xl4 padding-0_75rem">
             <div class="card white margin-0 z-depth-2 hoverable card-delivery-item-row card-delivery-item-row-selected message-view-item" id="addresses-view-item-#=Id#" data-id="#=Id#">
-                <div class="section left">
-                    <h4 style="font-size:1.5rem" class="margin-bottom-0" data-bind="text:labelDelivery"></h4>
+                <div class="left">
+                    <h4 style="font-size:1.5rem" class="margin-0_1rem">
+        #if(AddressTypeId===3) {#
+                        <span data-bind="text:labelBilling"></span>
+        #} else if(AddressTypeId===4) {#
+                        <span data-bind="text:labelDelivery"></span>
+        #}#
+                    </h4>
                 </div>
                 <table class="striped card-search-table-props" cellspacing="0" cellpadding="0">
                     <tbody>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelFullName"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.FullName"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=FullName#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCountry"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Country.Name"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=Country.Name#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelRegion"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Region"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=Region#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelCity"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.City"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=City#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelZipCode"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.ZipCode"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=ZipCode#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelStreet"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Street"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=Street#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhoneCode"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.PhoneCode"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=PhoneCode#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelPhone"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Phone"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=Phone#</td>
                         </tr>
                         <tr class="card-search-table-props-row">
                             <td class="card-basket-table-props-td" style="width:30%" data-bind="text:labelEmail"></td>
-                            <td class="card-basket-table-props-td" style="width:70%" data-bind="text:Order.DeliveryAddress.Email"></td>
+                            <td class="card-basket-table-props-td" style="width:70%">#=Email#</td>
                         </tr>
                     </tbody>
                 </table>

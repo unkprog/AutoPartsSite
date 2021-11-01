@@ -69,6 +69,17 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public string Email { get; set; }
+
+        /// <summary>
+        /// AddressTypeId
+        /// </summary>
+        [DataMember]
+        public decimal AddressTypeId { get; set; }
+        /// <summary>
+        /// UserId
+        /// </summary>
+        [DataMember]
+        public int UserId { get; set; }
     }
 
    

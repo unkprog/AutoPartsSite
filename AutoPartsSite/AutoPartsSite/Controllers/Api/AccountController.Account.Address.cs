@@ -4,6 +4,7 @@ using AutoPartsSite.Models;
 using AutoPartsSite.Models.GlobalParts;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoPartsSite.Controllers.Api
@@ -12,7 +13,7 @@ namespace AutoPartsSite.Controllers.Api
     {
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("addresses")]
         public async Task<HttpMessage<List<AddressInfo>>> Addresses(QueryWithSettings qs)
         => await TryCatchResponseAsync(async () =>
@@ -23,7 +24,8 @@ namespace AutoPartsSite.Controllers.Api
                 string email = principal == null || principal.User == null ? string.Empty : principal.User.Email;
                 int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
 
-                List<AddressInfo> result = GetAddresses(userId, qs, -1, -1);
+                List<AddressInfo> addresses = GetAddresses(userId, qs, -1, -1);
+                List<AddressInfo> result = (addresses.Count > 0 ? addresses.Where(f => f.UserId == userId).ToList() : addresses);
                 return CreateResponseOk(result);
             });
         });

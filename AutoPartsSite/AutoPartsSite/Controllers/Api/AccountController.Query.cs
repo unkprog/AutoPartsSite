@@ -317,9 +317,9 @@ namespace AutoPartsSite.Controllers.Api
             int f_CountryId = -1, f_CountryCode = -1, f_CountryName = -1;
             int f_ZipCode = -1, f_Region = -1, f_City = -1, f_Address = -1;
             int f_PhoneCode = -1, f_PhoneMain = -1, f_PhoneExt = -1, f_Email = -1;
-            int f_Default = -1;
+            int f_Default = -1, f_AddressTypeId = -1, f_UserId = -1;
 
-            AppSettings.Query.GlobalParts.Execute(@"Basket\[get_address]"
+            AppSettings.Query.GlobalParts.Execute(@"Account\[get_address]"
                 , new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@AddressTypeID", Value = typeAddress },
@@ -354,8 +354,9 @@ namespace AutoPartsSite.Controllers.Api
                         else if (fname == "PhoneExt") f_PhoneExt = i;
                         else if (fname == "Email") f_Email = i;
 
-
                         else if (fname == "IsDefault") f_Default = i;
+                        else if (fname == "AddressType") f_AddressTypeId = i;
+                        else if (fname == "UserID") f_UserId = i;
                     }
                 }
                 , (values) =>
@@ -384,7 +385,8 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_Email > -1) item.Email = values[f_Email].ToStr();
 
                     if (f_Default > -1) item.Default = values[f_Default].ToBool();
-
+                    if (f_AddressTypeId > -1) item.AddressTypeId = values[f_AddressTypeId].ToDecimal();
+                    if (f_UserId > -1) item.UserId = values[f_UserId].ToInt();
                     result.Add(item);
                 });
 
