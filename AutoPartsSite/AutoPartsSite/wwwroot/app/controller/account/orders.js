@@ -38,6 +38,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelDelivery": vars._statres("label$shipping"),
                         "labelComment": vars._statres("label$order$comment"),
                         "labelOpenOrder": vars._statres("label$order$open"),
+                        "labelPayOrder": vars._statres("label$order$payment")
                     });
                 };
                 Orders.prototype.OnViewInit = function () {
@@ -47,9 +48,11 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 Orders.prototype.createEvents = function () {
                     _super.prototype.createEvents.call(this);
                     this.proxyOpenOrder = $.proxy(this.openOrder, this);
+                    this.proxyPayOrder = $.proxy(this.payOrder, this);
                 };
                 Orders.prototype.destroyEvents = function () {
-                    this.View.find('#orders-view-parts-table-rows').find('a').off('click', this.proxyOpenOrder);
+                    this.View.find('#orders-view-parts-table-rows').find('a.order-open').off('click', this.proxyOpenOrder);
+                    this.View.find('#orders-view-parts-table-rows').find('a.order-payment').off('click', this.proxyPayOrder);
                     _super.prototype.destroyEvents.call(this);
                 };
                 Orders.prototype.search = function (e) {
@@ -71,6 +74,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                             else {
                                 for (var i = 0; i < icount; i++) {
                                     items[i].labelOpenOrder = self.Model.get("labelOpenOrder");
+                                    items[i].labelPayOrder = self.Model.get("labelPayOrder");
                                     htmlResult = (htmlResult + template(items[i]));
                                 }
                                 self.View.find('#orders-view-parts-table').show();
@@ -79,7 +83,8 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                             if (htmlResult !== '') {
                                 self.rebindModel();
                             }
-                            self.View.find('#orders-view-parts-table-rows').find('a').on('click', self.proxyOpenOrder);
+                            self.View.find('#orders-view-parts-table-rows').find('a.order-open').on('click', self.proxyOpenOrder);
+                            self.View.find('#orders-view-parts-table-rows').find('a.order-payment').on('click', self.proxyPayOrder);
                         }
                         else {
                             vars._app.ShowError(responseData.Error);
@@ -96,6 +101,16 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                     var id = $(e.currentTarget).data('id');
                     vars._appData.OrderId = id;
                     vars._app.OpenController({ urlController: 'account/orderinfo', backController: this });
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
+                };
+                Orders.prototype.payOrder = function (e) {
+                    var id = $(e.currentTarget).data('id');
+                    vars._appData.OrderId = id;
+                    vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
                     if (e) {
                         e.preventDefault();
                         e.stopPropagation();
