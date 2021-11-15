@@ -80,13 +80,13 @@ export namespace Controller.Basket {
             $('#billing-view-country').html(html);
             this.View.find('select').formSelect();
             M.updateTextFields();
-        }   
-        
+        }
+
         protected createEvents(): void {
             this.CheckoutButtonClick = this.createClickEvent("billing-checkout-btn", this.checkoutButtonClick);
             this.BackButtonClick = this.createClickEvent("billing-back-btn", this.backButtonClick);
 
-            
+
         }
 
         protected destroyEvents(): void {
@@ -106,11 +106,12 @@ export namespace Controller.Basket {
 
         public CheckoutButtonClick: { (e: any): void; };
         private checkoutButtonClick(e) {
-            let billingInfo: Interfaces.Model.IBillingAddressInfo = this.Model.get("BillingAddress").toJSON();
-            if (this.validate(billingInfo)) {
-                this.BasketService.SetBillingAddressData(billingInfo, (responseData) => {
+            let self = this;
+            let billingInfo: Interfaces.Model.IBillingAddressInfo = self.Model.get("BillingAddress").toJSON();
+            if (self.validate(billingInfo)) {
+                self.BasketService.SetBillingAddressData(billingInfo, (responseData) => {
                     if (responseData.Result === 0) {
-                        vars._app.OpenController({ urlController: "basket/payment" });
+                        self.createOrder();
                     }
                     else {
                         vars._app.ShowError(responseData.Error);
@@ -118,11 +119,28 @@ export namespace Controller.Basket {
                     vars._app.HideLoading();
                 });
 
-                
+
             }
             e.preventDefault();
             e.stopPropagation();
             return false;
+        }
+
+        private createOrder() {
+            let self = this;
+            self.BasketService.CreateOrder((responseData) => {
+                if (responseData.Result === 0) {
+                    if (responseData.Data.OrderHeaderID > 0) {
+                        $('.app-basket-counter').hide();
+                        vars._appData.IsBasketCheckOut = true;
+                        vars._appData.OrderId = responseData.Data.OrderHeaderID;
+                        vars._app.OpenController({ urlController: "account/orderpayment" });
+                    }
+                    M.toast({ html: responseData.Data.StatusMessage });
+                }
+                else
+                    vars._app.ShowError(responseData.Error);
+            });
         }
 
         private validate(model: Interfaces.Model.IDeliveryAddressInfo): boolean {

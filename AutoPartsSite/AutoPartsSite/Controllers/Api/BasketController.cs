@@ -234,15 +234,15 @@ namespace AutoPartsSite.Controllers.Api
 
         [HttpPost]
         [Route("ordercreate")]
-        public async Task<HttpMessage<string>> OrderCreate(QueryWithSettings qs)
+        public async Task<HttpMessage<OrderCreateResult>> OrderCreate(QueryWithSettings qs)
           => await TryCatchResponseAsync(async () =>
           {
               return await Task.Run(() =>
               {
-                  string result = "Ok";
+                  //string result = "Ok";
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  OrderCreateSql(userId, qs);
+                  OrderCreateResult result = OrderCreateSql(userId, qs);
                   ClearBasket(qs);
                   return CreateResponseOk(result);
               });

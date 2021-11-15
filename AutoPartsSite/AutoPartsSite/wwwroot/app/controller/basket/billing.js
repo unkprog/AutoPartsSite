@@ -102,11 +102,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 Billing.prototype.checkoutButtonClick = function (e) {
-                    var billingInfo = this.Model.get("BillingAddress").toJSON();
-                    if (this.validate(billingInfo)) {
-                        this.BasketService.SetBillingAddressData(billingInfo, function (responseData) {
+                    var self = this;
+                    var billingInfo = self.Model.get("BillingAddress").toJSON();
+                    if (self.validate(billingInfo)) {
+                        self.BasketService.SetBillingAddressData(billingInfo, function (responseData) {
                             if (responseData.Result === 0) {
-                                vars._app.OpenController({ urlController: "basket/payment" });
+                                self.createOrder();
                             }
                             else {
                                 vars._app.ShowError(responseData.Error);
@@ -117,6 +118,22 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
+                };
+                Billing.prototype.createOrder = function () {
+                    var self = this;
+                    self.BasketService.CreateOrder(function (responseData) {
+                        if (responseData.Result === 0) {
+                            if (responseData.Data.OrderHeaderID > 0) {
+                                $('.app-basket-counter').hide();
+                                vars._appData.IsBasketCheckOut = true;
+                                vars._appData.OrderId = responseData.Data.OrderHeaderID;
+                                vars._app.OpenController({ urlController: "account/orderpayment" });
+                            }
+                            M.toast({ html: responseData.Data.StatusMessage });
+                        }
+                        else
+                            vars._app.ShowError(responseData.Error);
+                    });
                 };
                 Billing.prototype.validate = function (model) {
                     var result = true;

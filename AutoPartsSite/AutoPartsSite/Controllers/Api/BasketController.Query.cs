@@ -833,14 +833,37 @@ namespace AutoPartsSite.Controllers.Api
 
 
         [NonAction]
-        private void OrderCreateSql(int userId, QueryWithSettings qs)
+        private OrderCreateResult OrderCreateSql(int userId, QueryWithSettings qs)
         {
-            List<Payment> result = new List<Payment>();
-            AppSettings.Query.GlobalParts.ExecuteNonQuery(@"Basket\[ordercreate]", new SqlParameter[]
+            OrderCreateResult result = new OrderCreateResult() { OrderHeaderID = -1 };
+            int f_StatusMessage = -1, f_OrderHeaderID = -1, f_OrderNumberFull = -1, f_OrderNumber = -1;
+
+
+            AppSettings.Query.GlobalParts.Execute(@"Basket\[ordercreate]", new SqlParameter[]
                 {
                     new SqlParameter() { ParameterName = "@SiteUserID", Value = userId },
                     new SqlParameter() { ParameterName = "@LocaleLanguageID", Value = qs.languageId }
+                }
+                , onExecute: (reader) =>
+                {
+                    string fname;
+                    for (int i = 0, icount = reader.FieldCount; i < icount; i++)
+                    {
+                        fname = reader.GetName(i);
+                             if (fname == "StatusMessage")   f_StatusMessage = i;
+                        else if (fname == "OrderHeaderID")   f_OrderHeaderID = i;
+                        else if (fname == "OrderNumberFull") f_OrderNumberFull = i;
+                        else if (fname == "OrderNumber")     f_OrderNumber = i;
+                    }
+                }
+                , (values) =>
+                {
+                    if (f_StatusMessage > -1) result.StatusMessage = values[f_StatusMessage].ToStr();
+                    if (f_OrderHeaderID > -1) result.OrderHeaderID = values[f_OrderHeaderID].ToInt();
+                    if (f_OrderNumberFull > -1) result.OrderNumberFull = values[f_OrderNumberFull].ToStr();
+                    if (f_OrderNumber > -1) result.OrderNumber = values[f_OrderNumber].ToDecimal();
                 });
+            return result;
         }
 
         [NonAction]

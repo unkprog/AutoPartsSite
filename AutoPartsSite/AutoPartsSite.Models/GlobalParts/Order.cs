@@ -3,6 +3,34 @@ using System.Runtime.Serialization;
 
 namespace AutoPartsSite.Models.GlobalParts
 {
+    [DataContract]
+    public class OrderCreateResult : BaseModel
+    {
+        /// <summary>
+        /// Идентификатор заказа
+        /// </summary>
+        [DataMember]
+        public int OrderHeaderID { get; set; }
+        /// <summary>
+        /// Номер заказа
+        /// </summary>
+        [DataMember]
+        public string OrderNumberFull { get; set; }
+        /// <summary>
+        /// Номер заказа
+        /// </summary>
+        [DataMember]
+        public decimal OrderNumber { get; set; }
+        
+
+        /// <summary>
+        /// Комментарий
+        /// </summary>
+        [DataMember]
+        public string StatusMessage { get; set; }
+
+     
+    }
 
     [DataContract]
     public class Order : BaseModel

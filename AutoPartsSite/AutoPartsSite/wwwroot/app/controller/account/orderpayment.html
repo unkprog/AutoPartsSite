@@ -9,4 +9,64 @@
             <div class="divider"></div>
         </div>
     </div>
+
+    <div id="orderpayment-view-info" class="row">
+
+    </div>
+
+    <div id="orderpayment-view-terms" class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div>
+                <label>
+                    <input id="orderpayment-view-terms-input" type="checkbox" data-bind="checked: IsAcceptTC" />
+                    <span>
+                        &nbsp;
+                    </span>
+                </label>
+                <a id="orderpayment-view-terms-btn" style="cursor:pointer;" data-bind="text:labelTerms"></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderpayment-view-buttons" class="row">
+        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
+            <a id="orderpayment-back-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">search</i><span data-bind="text:labelContinueShopping"></span></a>
+        </div>
+        <div class="col s6 m4 l4 xl3">
+            <a id="orderpayment-checkout-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12" data-bind="enabled: IsAcceptTC"><i class="material-icons left">payment</i><span data-bind="text:labelPay"></span></a>
+        </div>
+    </div>
+
+    <script type="text/x-kendo-template" id="orderpayment-view-info-type-template">
+        <div class="col s12 m6 l4 xl3 padding-0_75rem center">
+            <div id="pay-card-#=Id#" class="z-depth-1 hoverable pay-card-item-row" data-id="#=Id#" style="padding:1rem;">
+                <a class="pay-card-item" title="#=Name#" style="text-decoration: none;">
+                    <img src="#=Logo#" alt="#=Name#" style="margin:auto; width:10rem;">
+                    <div style="font-size: 22px; color: black; padding: 0 0 0.75rem;">#=Name#</div>
+                </a>
+            </div>
+        </div>
+    </script>
+
+    <div id="orderpayment-view-modal" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12 m12 l12 xl12">
+                    <div class="section left">
+                        <h1 class="page-header" data-bind="text:labelTermsConditions"></h1>
+                    </div>
+                </div>
+                <div class="col s12 m12 l12 xl12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="orderpayment-view-modal-content" class="col s12 m12 l12 xl12">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="orderpayment-view-modal-btn-ok" class="modal-close waves-effect waves-orange btn"><i class="material-icons left">done</i><span data-bind="text:labelOk"></span></a>
+        </div>
+    </div>
 </div>
