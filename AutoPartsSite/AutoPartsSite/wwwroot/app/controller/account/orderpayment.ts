@@ -34,8 +34,12 @@ export namespace Controller.Account {
                 "labelTermsConditions": vars._statres("label$termsconditions"),
                 "labelPay": vars._statres("button$label$pay"),
                 "labelOk": vars._statres("button$label$ok"),
+                "labelBack": vars._statres("label$back"),
                 "IsAcceptTC": false,
-                "payCardId": 0
+                "payCardId": 0,
+                "orderId": 0,
+                "isBasketCheckOut": false,
+                "isOrderCheckOut": true,
             });
         }
 
@@ -64,9 +68,9 @@ export namespace Controller.Account {
         }
 
         protected OnViewInit(): void {
-            if (vars._appData.IsBasketCheckOut === true) {
-                vars._appData.IsBasketCheckOut = false;
-            }
+            this.Model.set("orderId", vars._appData.OrderId);
+            this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+            this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
             this.loadPayments();
         }
 
@@ -87,6 +91,8 @@ export namespace Controller.Account {
         private payCardItems: JQuery;
         private createCardsItems() {
             let self = this;
+            self.Model.set("orderId", vars._appData.OrderId);
+            self.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
             self.payCardItems = self.View.find('#orderpayment-view-info').find(".pay-card-item-row");
             if (self.payCardItems) {
                 self.proxyPayCardClick = $.proxy(self.payCardClick, self);
@@ -97,8 +103,6 @@ export namespace Controller.Account {
         private destroyPayCardItems() {
             if (this.payCardItems) this.payCardItems.off('click', this.proxyPayCardClick);
         }
-
-
 
         private payCardClick(e: any): boolean {
             let self = this;
@@ -115,7 +119,7 @@ export namespace Controller.Account {
 
         public BackButtonClick: { (e: any): void; };
         private backButtonClick(e) {
-            vars._app.OpenController({ urlController: "search/index" });
+            vars._app.OpenController({ urlController: "account/orders" });
             e.preventDefault();
             e.stopPropagation();
             return false;

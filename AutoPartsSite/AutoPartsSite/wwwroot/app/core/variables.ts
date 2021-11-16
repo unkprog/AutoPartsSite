@@ -205,7 +205,7 @@ export namespace App {
 
         public get IsBasketCheckOut(): boolean {
             var basketCheckOut = localStorage.getItem('basketCheckOut');
-            return (basketCheckOut && basketCheckOut == "true");
+            return (basketCheckOut && basketCheckOut == "true" ? true : false);
         }
 
         public set IsBasketCheckOut(val: boolean) {
@@ -213,6 +213,11 @@ export namespace App {
                 localStorage.setItem('basketCheckOut', 'true');
             else
                 localStorage.removeItem('basketCheckOut');
+        }
+
+        public SetOrderBasket(orderId: number, isBasketCheckOut: boolean): void {
+            this.OrderId = orderId;
+            this.IsBasketCheckOut = isBasketCheckOut;
         }
 
         public get BasketIsInit(): boolean {

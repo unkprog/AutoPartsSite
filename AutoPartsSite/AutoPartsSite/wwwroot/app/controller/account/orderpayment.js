@@ -53,8 +53,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                         "labelTermsConditions": vars._statres("label$termsconditions"),
                         "labelPay": vars._statres("button$label$pay"),
                         "labelOk": vars._statres("button$label$ok"),
+                        "labelBack": vars._statres("label$back"),
                         "IsAcceptTC": false,
-                        "payCardId": 0
+                        "payCardId": 0,
+                        "orderId": 0,
+                        "isBasketCheckOut": false,
+                        "isOrderCheckOut": true,
                     });
                 };
                 OrderPayment.prototype.loadPayments = function () {
@@ -77,9 +81,9 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     });
                 };
                 OrderPayment.prototype.OnViewInit = function () {
-                    if (vars._appData.IsBasketCheckOut === true) {
-                        vars._appData.IsBasketCheckOut = false;
-                    }
+                    this.Model.set("orderId", vars._appData.OrderId);
+                    this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+                    this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
                     this.loadPayments();
                 };
                 OrderPayment.prototype.createEvents = function () {
@@ -95,6 +99,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 };
                 OrderPayment.prototype.createCardsItems = function () {
                     var self = this;
+                    self.Model.set("orderId", vars._appData.OrderId);
+                    self.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
                     self.payCardItems = self.View.find('#orderpayment-view-info').find(".pay-card-item-row");
                     if (self.payCardItems) {
                         self.proxyPayCardClick = $.proxy(self.payCardClick, self);
@@ -117,7 +123,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                     return false;
                 };
                 OrderPayment.prototype.backButtonClick = function (e) {
-                    vars._app.OpenController({ urlController: "search/index" });
+                    vars._app.OpenController({ urlController: "account/orders" });
                     e.preventDefault();
                     e.stopPropagation();
                     return false;

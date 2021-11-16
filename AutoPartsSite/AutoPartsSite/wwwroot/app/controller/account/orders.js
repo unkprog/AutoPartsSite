@@ -109,7 +109,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 };
                 Orders.prototype.payOrder = function (e) {
                     var id = $(e.currentTarget).data('id');
-                    vars._appData.OrderId = id;
+                    vars._appData.SetOrderBasket(id, false);
                     vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
                     if (e) {
                         e.preventDefault();

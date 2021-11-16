@@ -195,7 +195,7 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
             Object.defineProperty(Data.prototype, "IsBasketCheckOut", {
                 get: function () {
                     var basketCheckOut = localStorage.getItem('basketCheckOut');
-                    return (basketCheckOut && basketCheckOut == "true");
+                    return (basketCheckOut && basketCheckOut == "true" ? true : false);
                 },
                 set: function (val) {
                     if (val === true)
@@ -206,6 +206,10 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
+            Data.prototype.SetOrderBasket = function (orderId, isBasketCheckOut) {
+                this.OrderId = orderId;
+                this.IsBasketCheckOut = isBasketCheckOut;
+            };
             Object.defineProperty(Data.prototype, "BasketIsInit", {
                 get: function () {
                     var basketIsInit = localStorage.getItem('basketIsInit');

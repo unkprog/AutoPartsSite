@@ -29,8 +29,11 @@
     </div>
 
     <div id="orderpayment-view-buttons" class="row">
-        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3">
+        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3"  data-bind="visible: isBasketCheckOut">
             <a id="orderpayment-back-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">search</i><span data-bind="text:labelContinueShopping"></span></a>
+        </div>
+        <div class="col s6 m4 l4 xl3 offset-m2 offset-l2 offset-xl3" data-bind="visible: isOrderCheckOut">
+            <a id="orderpayment-back-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12"><i class="material-icons left">arrow_back</i><span data-bind="text:labelBack"></span></a>
         </div>
         <div class="col s6 m4 l4 xl3">
             <a id="orderpayment-checkout-btn" class="waves-effect waves-light btn col s12 m12 l12 xl12" data-bind="enabled: IsAcceptTC"><i class="material-icons left">payment</i><span data-bind="text:labelPay"></span></a>
