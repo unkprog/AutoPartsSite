@@ -215,8 +215,18 @@ export namespace App {
                 localStorage.removeItem('basketCheckOut');
         }
 
-        public SetOrderBasket(orderId: number, isBasketCheckOut: boolean): void {
+        public get PayOrderType(): number {
+            var payOrderType = localStorage.getItem('payOrderType');
+            return (payOrderType && payOrderType == "1" ? 1 : 0);
+        }
+
+        public set PayOrderType(val: number) {
+            localStorage.setItem('payOrderType', '' + val);
+        }
+
+        public SetOrderBasket(orderId: number, payOrderType:number, isBasketCheckOut: boolean): void {
             this.OrderId = orderId;
+            this.PayOrderType = payOrderType;
             this.IsBasketCheckOut = isBasketCheckOut;
         }
 

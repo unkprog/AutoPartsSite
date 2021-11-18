@@ -5,6 +5,7 @@
                 <h1 class="page-header"><span data-bind="text:Header"></span><span data-bind="text:Order.Order.OrderNumberFull"></span></h1>
             </div>
             <div class="section right">
+                <a id="orderinfo-checkout-btn" class="waves-effect waves-light btn" data-bind="visible: isOrderCheckOut"><i class="material-icons left">payment</i><span data-bind="text:labelPay"></span></a>
                 <a id="orderinfo-view-btn-close" class="waves-effect waves-light btn"><i class="material-icons left">close</i><span data-bind="text:labelClose"></span></a>
             </div>
         </div>

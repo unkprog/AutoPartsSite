@@ -56,7 +56,9 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelEmail": vars._statres("label$email"),
                         "Order": {},
                         "labelTotalAmount": vars._statres("label$total") + ":",
-                        "TotalSumValue": 0
+                        "TotalSumValue": 0,
+                        "labelPay": vars._statres("button$label$pay"),
+                        "isOrderCheckOut": false,
                     });
                 };
                 OrderInfo.prototype.OnViewInit = function () {
@@ -75,12 +77,23 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.createEvents = function () {
                     _super.prototype.createEvents.call(this);
                     var self = this;
+                    self.PayOrderButtonClick = self.createTouchClickEvent("orderinfo-checkout-btn", self.payOrderButtonClick);
                     self.CloseButtonClick = self.createTouchClickEvent("orderinfo-view-btn-close", self.closeButtonClick);
                 };
                 OrderInfo.prototype.destroyEvents = function () {
                     var self = this;
+                    self.destroyTouchClickEvent("orderinfo-checkout-btn", self.PayOrderButtonClick);
                     self.destroyTouchClickEvent("orderinfo-view-btn-close", self.CloseButtonClick);
                     _super.prototype.destroyEvents.call(this);
+                };
+                OrderInfo.prototype.payOrderButtonClick = function (e) {
+                    vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
+                    vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    return false;
                 };
                 OrderInfo.prototype.closeButtonClick = function (e) {
                     vars._app.ControllerBack(e);
@@ -91,6 +104,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.showOrderInfo = function (data) {
                     var self = this;
                     self.Model.set("Order", data);
+                    self.Model.set("isOrderCheckOut", true);
                     var templateContent = self.View.find('#orderinfo-view-parts-template').html();
                     var templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();
                     var template = vars.getTemplate(templateContent);

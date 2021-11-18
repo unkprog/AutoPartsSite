@@ -132,7 +132,7 @@ export namespace Controller.Basket {
                 if (responseData.Result === 0) {
                     if (responseData.Data.OrderHeaderID > 0) {
                         $('.app-basket-counter').hide();
-                        vars._appData.SetOrderBasket(responseData.Data.OrderHeaderID, true);
+                        vars._appData.SetOrderBasket(responseData.Data.OrderHeaderID, 0, true);
                         vars._app.OpenController({ urlController: "account/orderpayment" });
                     }
                     M.toast({ html: responseData.Data.StatusMessage });

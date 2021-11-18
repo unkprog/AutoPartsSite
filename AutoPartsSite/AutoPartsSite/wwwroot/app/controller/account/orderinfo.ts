@@ -46,8 +46,9 @@ export namespace Controller.Account {
                 "labelEmail": vars._statres("label$email"),
                 "Order": {},
                 "labelTotalAmount": vars._statres("label$total") + ":",
-                "TotalSumValue" : 0
-
+                "TotalSumValue" : 0,
+                "labelPay": vars._statres("button$label$pay"),
+                "isOrderCheckOut": false,
             });
         }
 
@@ -55,7 +56,6 @@ export namespace Controller.Account {
         protected OnViewInit(): void {
             super.OnViewInit();
             let self = this;
-
             self.AccountService.OrderInfo(vars._appData.OrderId, (responseData) => {
                 if (responseData.Result === 0) {
                     self.showOrderInfo(responseData.Data);
@@ -70,13 +70,26 @@ export namespace Controller.Account {
         protected createEvents(): void {
             super.createEvents();
             let self = this;
+            self.PayOrderButtonClick = self.createTouchClickEvent("orderinfo-checkout-btn", self.payOrderButtonClick);
             self.CloseButtonClick = self.createTouchClickEvent("orderinfo-view-btn-close", self.closeButtonClick);
         }
 
         protected destroyEvents(): void {
             let self = this;
+            self.destroyTouchClickEvent("orderinfo-checkout-btn", self.PayOrderButtonClick);
             self.destroyTouchClickEvent("orderinfo-view-btn-close", self.CloseButtonClick);
             super.destroyEvents();
+        }
+
+        public PayOrderButtonClick: { (e: any): void; };
+        private payOrderButtonClick(e) {
+            vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
+            vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            return false;
         }
 
         public CloseButtonClick: { (e: any): void; };
@@ -90,6 +103,7 @@ export namespace Controller.Account {
         private showOrderInfo(data: any): void {
             let self = this;
             self.Model.set("Order", data);
+            self.Model.set("isOrderCheckOut", true);
 
             let templateContent = self.View.find('#orderinfo-view-parts-template').html();
             let templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();

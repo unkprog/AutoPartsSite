@@ -119,7 +119,10 @@ export namespace Controller.Account {
 
         public BackButtonClick: { (e: any): void; };
         private backButtonClick(e) {
-            vars._app.OpenController({ urlController: "account/orders" });
+            if (vars._appData.PayOrderType === 1)
+                vars._app.OpenController({ urlController: "account/orderinfo" });
+            else
+                vars._app.OpenController({ urlController: "account/orders" });
             e.preventDefault();
             e.stopPropagation();
             return false;

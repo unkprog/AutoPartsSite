@@ -112,7 +112,7 @@ export namespace Controller.Account {
 
         private payOrder(e: any): boolean {
             let id: number = $(e.currentTarget).data('id');
-            vars._appData.SetOrderBasket(id, false);
+            vars._appData.SetOrderBasket(id, 0, false);
             vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
             if (e) {
                 e.preventDefault();

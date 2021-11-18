@@ -206,8 +206,20 @@ define(["require", "exports", "./utils", "i18n!nls/strings"], function (require,
                 enumerable: false,
                 configurable: true
             });
-            Data.prototype.SetOrderBasket = function (orderId, isBasketCheckOut) {
+            Object.defineProperty(Data.prototype, "PayOrderType", {
+                get: function () {
+                    var payOrderType = localStorage.getItem('payOrderType');
+                    return (payOrderType && payOrderType == "1" ? 1 : 0);
+                },
+                set: function (val) {
+                    localStorage.setItem('payOrderType', '' + val);
+                },
+                enumerable: false,
+                configurable: true
+            });
+            Data.prototype.SetOrderBasket = function (orderId, payOrderType, isBasketCheckOut) {
                 this.OrderId = orderId;
+                this.PayOrderType = payOrderType;
                 this.IsBasketCheckOut = isBasketCheckOut;
             };
             Object.defineProperty(Data.prototype, "BasketIsInit", {
