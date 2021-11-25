@@ -1,0 +1,1 @@
+﻿declare function IMask(a: any, o: any):void;

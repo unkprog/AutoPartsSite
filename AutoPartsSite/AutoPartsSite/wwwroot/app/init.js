@@ -28,6 +28,7 @@ requirejs.config({
         "kendo.data.xml": "lib/kendo/kendo.data.xml.es5.min",
         "kendo.binder": "lib/kendo/kendo.binder.es5.min",
         "summernote": "lib/summernote/summernote-lite.min",
+        "imask": "lib/imask/imask.min",
         "i18n": "lib/i18n.es5.min",
         "domReady": "lib/require/domReady.es5.min",
     },

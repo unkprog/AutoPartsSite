@@ -133,18 +133,7 @@ export namespace Controller.Account {
         private checkoutButtonClick(e) {
             let self = this;
             if (self.validate() == true) {
-                self.BasketService.CreateOrder((responseData) => {
-                    if (responseData.Result === 0) {
-                        if (responseData.Data == "Ok") {
-                            //$('.app-basket-counter').hide();
-                            //vars._app.OpenController({ urlController: "basket/orderresult" });
-                        }
-                        else
-                            M.toast({ html: responseData.Data });
-                    }
-                    else
-                        vars._app.ShowError(responseData.Error);
-                });
+                vars._app.OpenController({ urlController: "account/payment/card" });
             }
             e.preventDefault();
             e.stopPropagation();

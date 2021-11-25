@@ -311,6 +311,7 @@
     <TypeScriptCompile Include="wwwroot\app\controller\account\messageinfo.ts" DependentUpon="messageinfo.html" />
     <TypeScriptCompile Include="wwwroot\app\controller\account\settings.ts" DependentUpon="settings.html" />
 	<TypeScriptCompile Include="wwwroot\app\controller\account\orderpayment.ts" DependentUpon="orderpayment.html" />
+	<TypeScriptCompile Include="wwwroot\app\controller\account\payment\card.ts" DependentUpon="card.html" />
 
     <TypeScriptCompile Include="wwwroot\app\controller\basket\index.ts" DependentUpon="index.html" />
 	<TypeScriptCompile Include="wwwroot\app\controller\basket\delivery.ts" DependentUpon="delivery.html" />
