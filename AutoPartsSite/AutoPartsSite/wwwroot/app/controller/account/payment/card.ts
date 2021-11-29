@@ -79,7 +79,7 @@ export namespace Controller.Account.Payment {
         private generatecard: any;
         private loadcontrols() {
             let self = this;
-            
+
             self.name = self.View.find('#card-view-name');
             self.cardnumber = self.View.find('#card-view-cardnumber');
             self.expirationdate = self.View.find('#card-view-expirationdate');
@@ -90,6 +90,8 @@ export namespace Controller.Account.Payment {
             self.generatecard = self.View.find('#card-view-generatecard');
             self.create_cardnumber_mask();
             self.bind_generatecard();
+            self.bind_expirationdate();
+            self.bind_securitycode();
         }
 
         private bind_generatecard() {
@@ -215,10 +217,44 @@ export namespace Controller.Account.Payment {
                     case ('jcb' || 'jcb15'): viewcardsvg(self.jcb, self.jcb_single, 'red'); break;
                     case 'maestro': viewcardsvg(self.maestro, self.maestro_single, 'yellow'); break;
                     case 'mastercard': viewcardsvg(self.mastercard, self.mastercard_single, 'lightblue'); break;
-                    case 'unionpay': viewcardsvg(self.unionpay,  self.unionpay_single, 'cyan'); break;
+                    case 'unionpay': viewcardsvg(self.unionpay, self.unionpay_single, 'cyan'); break;
                     default: viewcardsvg('', '', 'grey'); break;
                 }
 
+            });
+        }
+
+        private bind_expirationdate() {
+            var expirationdate_mask = new IMask(this.expirationdate, {
+                mask: 'MM{/}YY',
+        //        groups: {
+        //            YY: new IMask.MaskedPattern.Group.Range([0, 99]),
+        //            MM: new IMask.MaskedPattern.Group.Range([1, 12]),
+        //        }
+            });
+
+            expirationdate_mask.on('accept', function () {
+                if (expirationdate_mask.value.length == 0) {
+                    document.getElementById('svgexpire').innerHTML = '01/23';
+                } else {
+                    document.getElementById('svgexpire').innerHTML = expirationdate_mask.value;
+                }
+            });
+        }
+
+        private bind_securitycode() {
+            let self = this;
+            //Mask the security code
+            var securitycode_mask = new IMask(self.securitycode[0], {
+                mask: '0000'
+            });
+
+            securitycode_mask.on('accept', function () {
+                if (securitycode_mask.value.length == 0) {
+                    document.getElementById('svgsecurity').innerHTML = '000';
+                } else {
+                    document.getElementById('svgsecurity').innerHTML = securitycode_mask.value;
+                }
             });
         }
 
