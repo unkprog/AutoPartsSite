@@ -243,7 +243,8 @@ namespace AutoPartsSite.Controllers.Api
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
                   OrderCreateResult result = OrderCreateSql(userId, qs);
-                  ClearBasket(qs);
+                  if (result.OrderHeaderID > 0)
+                      ClearBasket(qs);
                   return CreateResponseOk(result);
               });
           });
