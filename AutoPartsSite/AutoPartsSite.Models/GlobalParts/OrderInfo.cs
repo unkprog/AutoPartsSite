@@ -38,6 +38,18 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public int OrderItemID { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// </summary>
+        [DataMember]
+        public Status Status { get; set; }
+
+        /// <summary>
+        /// Статус тип
+        /// </summary>
+        [DataMember]
+        public StatusType StatusType { get; set; }
     }
 
 }

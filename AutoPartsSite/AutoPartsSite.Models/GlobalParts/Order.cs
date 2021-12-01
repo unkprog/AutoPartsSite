@@ -70,5 +70,17 @@ namespace AutoPartsSite.Models.GlobalParts
         /// </summary>
         [DataMember]
         public DeliveryInfo Delivery { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// </summary>
+        [DataMember]
+        public Status Status { get; set; }
+
+        /// <summary>
+        /// Статус тип
+        /// </summary>
+        [DataMember]
+        public StatusType StatusType { get; set; }
     }
 }

@@ -117,6 +117,9 @@ namespace AutoPartsSite.Controllers.Api
             int f_OrderCurrencyID = -1, f_OrderCurrencyCode = -1;
             int f_DeliveryTariffID = -1, f_DeliveryTariffDescr = -1;
 
+            int f_StatusID = -1, f_StatusCode = -1, f_StatusDescr = -1;
+            int f_StatusTypeID = -1, f_StatusTypeCode = -1, f_StatusTypeDescr = -1;
+
             AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderGet]"
                 , sqlParameters: new SqlParameter[]
                 {
@@ -140,11 +143,19 @@ namespace AutoPartsSite.Controllers.Api
 
                         else if (fname == "DeliveryTariffID")    f_DeliveryTariffID = i;
                         else if (fname == "DeliveryTariffDescr") f_DeliveryTariffDescr = i;
+
+                        else if (fname == "StatusID")    f_StatusID = i;
+                        else if (fname == "StatusCode")  f_StatusCode = i;
+                        else if (fname == "StatusDescr") f_StatusDescr = i;
+
+                        else if (fname == "StatusTypeID")    f_StatusTypeID = i;
+                        else if (fname == "StatusTypeCode")  f_StatusTypeCode = i;
+                        else if (fname == "StatusTypeDescr") f_StatusTypeDescr = i;
                     }
                 }
                 , action: (values) =>
                 {
-                    Order order = new Order() { Currency = new Currency(), Delivery = new DeliveryInfo() };
+                    Order order = new Order() { Currency = new Currency(), Delivery = new DeliveryInfo(), Status = new Status(), StatusType = new StatusType() };
                     if (f_OrderHeaderID   > -1) order.OrderHeaderID   = values[f_OrderHeaderID].ToInt();
                     if (f_OrderNumberFull > -1) order.OrderNumberFull = values[f_OrderNumberFull].ToStr();
                     if (f_OrderDate       > -1) order.OrderDate       = values[f_OrderDate].ToDateTime();
@@ -153,6 +164,15 @@ namespace AutoPartsSite.Controllers.Api
                     if (f_OrderCurrencyCode > -1) order.Currency.Code = values[f_OrderCurrencyCode].ToStr();
                     if (f_DeliveryTariffID    > -1) order.Delivery.Id   = values[f_DeliveryTariffID].ToInt();
                     if (f_DeliveryTariffDescr > -1) order.Delivery.Name = values[f_DeliveryTariffDescr].ToStr();
+
+                    if (f_StatusID > -1)    order.Status.Id   = values[f_StatusID].ToInt();
+                    if (f_StatusCode > -1)  order.Status.Code = values[f_StatusCode].ToStr();
+                    if (f_StatusDescr > -1) order.Status.Name = values[f_StatusDescr].ToStr();
+
+                    if (f_StatusTypeID > -1)    order.StatusType.Id   = values[f_StatusTypeID].ToInt();
+                    if (f_StatusTypeCode > -1)  order.StatusType.Code = values[f_StatusTypeCode].ToStr();
+                    if (f_StatusTypeDescr > -1) order.StatusType.Name = values[f_StatusTypeDescr].ToStr();
+
                     result.Add(order);
                 });
             return result;
@@ -163,6 +183,9 @@ namespace AutoPartsSite.Controllers.Api
             List<OrderInfoItem> result = new List<OrderInfoItem>();
             int f_OrderItemID = -1, f_Id = -1, f_Articul = -1, f_PartNumber = -1, f_Name = -1, f_BrandCode = -1;
             int f_Qty = -1, f_CartPrice = -1, f_CartAmount = -1, f_CartDeliveryAmount = -1, f_CartVatAmount = -1, f_CartVatTotalAmount = -1;
+
+            int f_StatusID = -1, f_StatusCode = -1, f_StatusDescr = -1;
+            int f_StatusTypeID = -1, f_StatusTypeCode = -1, f_StatusTypeDescr = -1;
 
             AppSettings.Query.GlobalParts.Execute(@"Account\[r_OrderItemGet]", new SqlParameter[]
             {
@@ -187,6 +210,14 @@ namespace AutoPartsSite.Controllers.Api
                     else if (fname == "CartDeliveryAmount") f_CartDeliveryAmount = i;
                     else if (fname == "CartVatAmount") f_CartVatAmount = i;
                     else if (fname == "CartVatTotalAmount") f_CartVatTotalAmount = i;
+
+                    else if (fname == "StatusID") f_StatusID = i;
+                    else if (fname == "StatusCode") f_StatusCode = i;
+                    else if (fname == "StatusDescr") f_StatusDescr = i;
+
+                    else if (fname == "StatusTypeID") f_StatusTypeID = i;
+                    else if (fname == "StatusTypeCode") f_StatusTypeCode = i;
+                    else if (fname == "StatusTypeDescr") f_StatusTypeDescr = i;
                 }
             }
             , (values) =>
@@ -198,7 +229,7 @@ namespace AutoPartsSite.Controllers.Api
                     return;
 
 
-                OrderInfoItem item = new OrderInfoItem() { OrderItemID = id, Brand = new Brand() };
+                OrderInfoItem item = new OrderInfoItem() { OrderItemID = id, Brand = new Brand(), Status = new Status(), StatusType = new StatusType() };
                 result.Add(item);
 
                 if (f_Id > -1) item.Id = values[f_Id].ToInt();
@@ -215,6 +246,13 @@ namespace AutoPartsSite.Controllers.Api
                 if (f_CartVatAmount > -1) item.VatAmount = values[f_CartVatAmount].ToDecimal();
                 if (f_CartVatTotalAmount > -1) item.TotalAmount = values[f_CartVatTotalAmount].ToDecimal();
 
+                if (f_StatusID > -1)    item.Status.Id   = values[f_StatusID].ToInt();
+                if (f_StatusCode > -1)  item.Status.Code = values[f_StatusCode].ToStr();
+                if (f_StatusDescr > -1) item.Status.Name = values[f_StatusDescr].ToStr();
+
+                if (f_StatusTypeID > -1)    item.StatusType.Id   = values[f_StatusTypeID].ToInt();
+                if (f_StatusTypeCode > -1)  item.StatusType.Code = values[f_StatusTypeCode].ToStr();
+                if (f_StatusTypeDescr > -1) item.StatusType.Name = values[f_StatusTypeDescr].ToStr();
             });
 
             return result;
