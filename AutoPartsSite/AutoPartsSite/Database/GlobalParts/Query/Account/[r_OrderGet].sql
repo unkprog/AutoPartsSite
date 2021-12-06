@@ -2,7 +2,7 @@
 declare @SiteID int = (select top 1 [SiteID] from dbo.GetSites(@LocaleLanguageID, 0, @SiteCode))
 
 
-select * from [dbo].[r_OrderGet]
+select * from [dbo].[r_OrderHeaderGet] --[r_OrderGet]
 (
 	@LocaleLanguageID ,	
 	@SiteID,

@@ -428,6 +428,9 @@
     <None Update="Database\GlobalParts\Query\Account\[r_OrderAddressGet].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Account\[get_status].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Account\[r_OrderItemGet].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

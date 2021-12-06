@@ -14,4 +14,20 @@ namespace AutoPartsSite.Models.GlobalParts
     public class StatusType : ReferenceNamedDbModel
     {
     }
+
+    [DataContract]
+    public class StatusInfo
+    {
+        /// <summary>
+        /// Статус
+        /// </summary>
+        [DataMember]
+        public Status Status { get; set; }
+
+        /// <summary>
+        /// Статус тип
+        /// </summary>
+        [DataMember]
+        public StatusType StatusType { get; set; }
+    }
 }

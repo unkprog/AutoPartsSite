@@ -51,7 +51,9 @@
                 <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat order-open" style="padding: .1em .3em;" data-id="#=OrderHeaderID#" data-tooltip="#=labelOpenOrder#"><i class="material-icons" style="font-size:2rem;">article</i></a>
             </td>
             <td style="width:5%;">
+        #if(Status.Code == "Order.Header.New"){#
                 <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat order-payment" style="padding: .1em .3em;" data-id="#=OrderHeaderID#" data-tooltip="#=labelPayOrder#"><i class="material-icons" style="font-size:2rem;">payment</i></a>
+        #}#
             </td>
         </tr>
         <tr class="orders-view-parts-table-row-item hide-on-large-only" id="order-view-item-l-#=OrderHeaderID#" data-id="#=OrderHeaderID#">
@@ -63,7 +65,9 @@
                 <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat order-open" style="padding: .1em .3em;" data-id="#=OrderHeaderID#" data-tooltip="#=labelOpenOrder#"><i class="material-icons" style="font-size:2rem;">article</i></a>
             </td>
             <td style="width:7%;">
+        #if(Status.Code == "Order.Header.New"){#
                 <a class="waves-effect waves-light btn center basket-del-btn tooltipped btn-flat order-payment" style="padding: .1em .3em;" data-id="#=OrderHeaderID#" data-tooltip="#=labelPayOrder#"><i class="material-icons" style="font-size:2rem;">payment</i></a>
+        #}#
             </td>
         </tr>
     </script>

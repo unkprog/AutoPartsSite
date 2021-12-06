@@ -21,7 +21,20 @@ namespace AutoPartsSite.Controllers.Api
               {
                   Principal principal = Core.Http.HttpContext.Current.User as Principal;
                   int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
-                  return CreateResponseOk(GetOrders(userId, 0, qs));
+                  List<Order> orders = GetOrders(userId, 0, qs);
+
+                  StatusInfo si = null;
+                  foreach(var o in orders)
+                  {
+                      if(o.Status == null || o.Status.Id < 1)
+                      {
+                          if (si == null)
+                              si = GetOrderStatus(qs.languageId, "Order.Header.New");
+                          o.Status = si.Status;
+                          o.StatusType = si.StatusType;
+                      }
+                  }
+                  return CreateResponseOk(orders);
               });
           });
 
@@ -38,7 +51,12 @@ namespace AutoPartsSite.Controllers.Api
 
                   OrderInfo result = new OrderInfo();
                   result.Order = orders != null && orders.Count > 0 ? orders[0]: new Order();
-
+                  if (result.Order.Status == null || result.Order.Status.Id < 1)
+                  {
+                      StatusInfo si = GetOrderStatus(qs.languageId, "Order.Header.New");
+                      result.Order.Status = si.Status;
+                      result.Order.StatusType = si.StatusType;
+                  }
 
                   result.Items = OrderItems(qs.orderId, qs);
 

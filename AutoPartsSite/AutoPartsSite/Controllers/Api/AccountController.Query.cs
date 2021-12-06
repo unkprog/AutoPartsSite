@@ -106,6 +106,45 @@ namespace AutoPartsSite.Controllers.Api
             return result;
         }
 
+        #region STATUSES
+
+        internal StatusInfo GetOrderStatus(int langId, string code)
+        {
+            StatusInfo result;
+            List<StatusInfo> lis = GetOrderStatuses(langId, "Order.Header.New");
+            if (lis.Count > 0)
+                result = lis[0];
+            else
+                result = new StatusInfo()
+                {
+                    Status = new Status() { Id = 1, Code = "Order.Header.New", Name = "New" },
+                    StatusType = new StatusType() { Id = 1, Code = "Order.Header", Name = "Order header" }
+                };
+            return result;
+        }
+
+        [NonAction]
+        internal List<StatusInfo> GetOrderStatuses(int langId, string code = null)
+        {
+            List<StatusInfo> result = new List<StatusInfo>();
+            AppSettings.Query.GlobalParts.Execute(@"Account\[get_status]"
+               , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@LocaleLanguageID", langId),
+                    new SqlParameter("@StatusCode", string.IsNullOrEmpty(code) ? (object)DBNull.Value : code)
+                }
+                , onExecute: null
+                , action: (values) =>
+                {
+                    result.Add(new StatusInfo() { 
+                        Status = new Status() { Id = values[0].ToInt(), Code = values[1].ToStr().Trim(), Name = values[2].ToStr() },
+                        StatusType = new StatusType() { Id = values[3].ToInt(), Code = values[4].ToStr().Trim(), Name = values[5].ToStr() }
+                    });
+                });
+            return result;
+        }
+        #endregion
+
         #region ORDERS
 
         [NonAction]
