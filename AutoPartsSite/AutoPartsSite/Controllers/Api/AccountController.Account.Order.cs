@@ -24,9 +24,9 @@ namespace AutoPartsSite.Controllers.Api
                   List<Order> orders = GetOrders(userId, 0, qs);
 
                   StatusInfo si = null;
-                  foreach(var o in orders)
+                  foreach (var o in orders)
                   {
-                      if(o.Status == null || o.Status.Id < 1)
+                      if (o.Status == null || o.Status.Id < 1)
                       {
                           if (si == null)
                               si = GetOrderStatus(qs.languageId, "Order.Header.New");

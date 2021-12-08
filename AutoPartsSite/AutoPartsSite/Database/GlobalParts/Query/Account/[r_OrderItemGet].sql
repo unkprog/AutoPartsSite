@@ -2,5 +2,6 @@
 (
 	@LocaleLanguageID,
 	@OrderHeaderID,
-	null
+	null,
+	0
 )

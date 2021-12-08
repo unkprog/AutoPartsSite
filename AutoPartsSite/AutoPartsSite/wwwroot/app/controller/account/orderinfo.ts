@@ -103,7 +103,7 @@ export namespace Controller.Account {
         private showOrderInfo(data: any): void {
             let self = this;
             self.Model.set("Order", data);
-            self.Model.set("isOrderCheckOut", true);
+            self.Model.set("isOrderCheckOut", data.Order.Status.Code == 'Order.Header.New');
 
             let templateContent = self.View.find('#orderinfo-view-parts-template').html();
             let templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();

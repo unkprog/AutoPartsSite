@@ -104,7 +104,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                 OrderInfo.prototype.showOrderInfo = function (data) {
                     var self = this;
                     self.Model.set("Order", data);
-                    self.Model.set("isOrderCheckOut", true);
+                    self.Model.set("isOrderCheckOut", data.Order.Status.Code == 'Order.Header.New');
                     var templateContent = self.View.find('#orderinfo-view-parts-template').html();
                     var templateContentTable = self.View.find('#orderinfo-view-parts-table-template').html();
                     var template = vars.getTemplate(templateContent);
