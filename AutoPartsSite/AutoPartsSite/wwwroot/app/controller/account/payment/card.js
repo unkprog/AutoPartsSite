@@ -33,9 +33,17 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                     Card.prototype.createModel = function () {
                         return new kendo.data.ObservableObject({
                             "Header": vars._statres("label$payment"),
+                            "labelPay": vars._statres("button$label$pay"),
+                            "orderId": 0,
+                            "isBasketCheckOut": false,
+                            "isOrderCheckOut": true,
+                            "IsAcceptTC": false
                         });
                     };
                     Card.prototype.OnViewInit = function () {
+                        this.Model.set("orderId", vars._appData.OrderId);
+                        this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+                        this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
                         this.loadPayments();
                     };
                     Card.prototype.loadPayments = function () {

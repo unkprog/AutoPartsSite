@@ -133,6 +133,8 @@ export namespace Controller.Account {
         private checkoutButtonClick(e) {
             let self = this;
             if (self.validate() == true) {
+                vars._appData.OrderId = self.Model.get("orderId");
+                vars._appData.IsBasketCheckOut = self.Model.get("isBasketCheckOut");
                 vars._app.OpenController({ urlController: "account/payment/card" });
             }
             e.preventDefault();

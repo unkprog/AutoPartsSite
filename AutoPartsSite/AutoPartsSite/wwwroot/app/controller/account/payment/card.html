@@ -124,6 +124,11 @@
                 <label for="card-view-securitycode">Security Code</label>
                 <input id="card-view-securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
             </div>
+
+            <div class="card-view-field-container">
+                <a id="card-view-pay-btn" class="waves-effect waves-light btn" data-bind="enabled: IsAcceptTC"><i class="material-icons left">payment</i><span data-bind="text:labelPay"></span></a>
+
+            </div>
         </div>
     </div>
    

@@ -18,10 +18,18 @@ export namespace Controller.Account.Payment {
         protected createModel(): kendo.data.ObservableObject {
             return new kendo.data.ObservableObject({
                 "Header": vars._statres("label$payment"),
+                "labelPay": vars._statres("button$label$pay"),
+                "orderId": 0,
+                "isBasketCheckOut": false,
+                "isOrderCheckOut": true,
+                "IsAcceptTC": false
             });
         }
 
         protected OnViewInit(): void {
+            this.Model.set("orderId", vars._appData.OrderId);
+            this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+            this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
             this.loadPayments();
         }
 

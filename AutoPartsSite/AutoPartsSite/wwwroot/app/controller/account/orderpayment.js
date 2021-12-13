@@ -134,6 +134,8 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller", "
                 OrderPayment.prototype.checkoutButtonClick = function (e) {
                     var self = this;
                     if (self.validate() == true) {
+                        vars._appData.OrderId = self.Model.get("orderId");
+                        vars._appData.IsBasketCheckOut = self.Model.get("isBasketCheckOut");
                         vars._app.OpenController({ urlController: "account/payment/card" });
                     }
                     e.preventDefault();

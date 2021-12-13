@@ -42,6 +42,10 @@ card-view-body {
     grid-area: card-view-security;
 }
 
+.card-view-form-container .card-view-field-container:nth-of-type(5) {
+    grid-area: card-view-pay-btn;
+}
+
 .card-view-field-container input {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -56,11 +60,15 @@ card-view-body {
     display: grid;
     grid-column-gap: 10px;
     grid-template-columns: auto auto;
-    grid-template-rows: 90px 90px 90px;
-    grid-template-areas: "card-view-name card-view-name""card-view-number card-view-number""card-view-expiration card-view-security";
+    grid-template-rows: 90px 90px 90px auto;
+    grid-template-areas: "card-view-name card-view-name""card-view-number card-view-number""card-view-expiration card-view-security""card-view-pay-btn card-view-pay-btn";
     max-width: 400px;
     padding: 20px;
     color: #707070;
+}
+
+#card-view-pay-btn {
+    width: 100%;
 }
 
 label {
