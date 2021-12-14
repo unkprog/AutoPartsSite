@@ -299,6 +299,23 @@ namespace AutoPartsSite.Controllers.Api
         }
 
         [NonAction]
+        internal List<StatusInfo> UpdateOrderStatus(int langId, int orderId, StatusInfo si)
+        {
+            List<StatusInfo> result = new List<StatusInfo>();
+            AppSettings.Query.GlobalParts.ExecuteNonQuery(@"Account\[update_status_order]"
+               , sqlParameters: new SqlParameter[]
+                {
+                    new SqlParameter("@LocaleLanguageID", langId),
+                    new SqlParameter("@CrudType", 2),
+                    new SqlParameter("@OrderHeaderID ", orderId),
+                    new SqlParameter("@StatusID", si.Status.Id),
+                    new SqlParameter("@OrderHeaderStatusID", si.StatusType.Id),
+                    new SqlParameter("@Comment", string.Empty)
+                });
+            return result;
+        }
+
+        [NonAction]
         private List<AddressInfo> GetAddress(int orderId, QueryWithSettings qs, int typeAddress)
         {
             List<AddressInfo> result = new List<AddressInfo>();

@@ -22,7 +22,7 @@ export namespace Controller.Account.Payment {
                 "orderId": 0,
                 "isBasketCheckOut": false,
                 "isOrderCheckOut": true,
-                "IsAcceptTC": false
+                "IsAcceptTC": true
             });
         }
 
@@ -75,6 +75,29 @@ export namespace Controller.Account.Payment {
             require(["imask"], function (imask) {
                 self.loadcontrols();
             });
+        }
+
+        protected createEvents(): void {
+            super.createEvents();
+            let self = this;
+            self.PayOrderButtonClick = self.createTouchClickEvent("card-view-pay-btn", self.payOrderButtonClick);
+        }
+
+        protected destroyEvents(): void {
+            let self = this;
+            self.destroyTouchClickEvent("card-view-pay-btn", self.PayOrderButtonClick);
+            super.destroyEvents();
+        }
+
+        public PayOrderButtonClick: { (e: any): void; };
+        private payOrderButtonClick(e) {
+            vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
+            vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            return false;
         }
 
         private name: any;
@@ -266,17 +289,6 @@ export namespace Controller.Account.Payment {
             });
         }
 
-        protected createEvents(): void {
-            //this.TermsCondButtonClick = this.createClickEvent("orderpayment-view-terms-btn", this.termsCondButtonClick);
-            //this.CheckoutButtonClick = this.createClickEvent("orderpayment-checkout-btn", this.checkoutButtonClick);
-            //this.BackButtonClick = this.createClickEvent("orderpayment-back-btn", this.backButtonClick);
-        }
-
-        protected destroyEvents(): void {
-            //this.destroyClickEvent("orderpayment-view-terms-btn", this.TermsCondButtonClick);
-            //this.destroyClickEvent("orderpayment-back-btn", this.BackButtonClick);
-            //this.destroyClickEvent("orderpayment-checkout-btn", this.CheckoutButtonClick);
-        }
 
         private validate(): boolean {
             let result: boolean = true;

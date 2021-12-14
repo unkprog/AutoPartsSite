@@ -37,7 +37,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                             "orderId": 0,
                             "isBasketCheckOut": false,
                             "isOrderCheckOut": true,
-                            "IsAcceptTC": false
+                            "IsAcceptTC": true
                         });
                     };
                     Card.prototype.OnViewInit = function () {
@@ -67,6 +67,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         require(["imask"], function (imask) {
                             self.loadcontrols();
                         });
+                    };
+                    Card.prototype.createEvents = function () {
+                        _super.prototype.createEvents.call(this);
+                        var self = this;
+                        self.PayOrderButtonClick = self.createTouchClickEvent("card-view-pay-btn", self.payOrderButtonClick);
+                    };
+                    Card.prototype.destroyEvents = function () {
+                        var self = this;
+                        self.destroyTouchClickEvent("card-view-pay-btn", self.PayOrderButtonClick);
+                        _super.prototype.destroyEvents.call(this);
+                    };
+                    Card.prototype.payOrderButtonClick = function (e) {
+                        vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
+                        vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+                        if (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                        return false;
                     };
                     Card.prototype.loadcontrols = function () {
                         var self = this;
@@ -241,10 +260,6 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                                 document.getElementById('svgsecurity').innerHTML = securitycode_mask.value;
                             }
                         });
-                    };
-                    Card.prototype.createEvents = function () {
-                    };
-                    Card.prototype.destroyEvents = function () {
                     };
                     Card.prototype.validate = function () {
                         var result = true;

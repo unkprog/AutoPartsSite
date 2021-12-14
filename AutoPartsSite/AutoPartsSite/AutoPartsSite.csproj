@@ -425,6 +425,12 @@
     <None Update="Database\AutoPartsSite\Cms\New\[get].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database\GlobalParts\Query\Account\[update_status_order_item].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database\GlobalParts\Query\Account\[update_status_order].sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\GlobalParts\Query\Account\[r_OrderAddressGet].sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

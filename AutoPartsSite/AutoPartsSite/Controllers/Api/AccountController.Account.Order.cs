@@ -69,5 +69,29 @@ namespace AutoPartsSite.Controllers.Api
               });
           });
 
+        [HttpPost]
+        [Route("orderpay")]
+        public async Task<HttpMessage<string>> OrderPay(QueryWithSettings qs)
+          => await TryCatchResponseAsync(async () =>
+          {
+              return await Task.Run(() =>
+              {
+                  Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                  int userId = principal == null || principal.User == null ? 0 : principal.User.Id;
+                  string result = "Ok";
+
+                  StatusInfo si = GetOrderStatus(qs.languageId, "Order.Header.Payed");
+
+                  if (si != null && si.Status != null && si.Status.Id > 0 && si.StatusType != null && si.StatusType.Id > 0)
+                      UpdateOrderStatus(qs.languageId, qs.orderId, si);
+                  else
+                      result = "Невозможно обновить статус заказа";
+
+
+
+
+                  return CreateResponseOk(result);
+              });
+          });
     }
 }
