@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/variables", "app/core/basecontroller"], function (require, exports, vars, base) {
+define(["require", "exports", "app/core/variables", "app/controller/account/account"], function (require, exports, vars, acc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Controller = void 0;
@@ -37,12 +37,14 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                             "orderId": 0,
                             "isBasketCheckOut": false,
                             "isOrderCheckOut": true,
+                            "payOrderType": 0,
                             "IsAcceptTC": true
                         });
                     };
                     Card.prototype.OnViewInit = function () {
                         this.Model.set("orderId", vars._appData.OrderId);
                         this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+                        this.Model.set("payOrderType", vars._appData.PayOrderType);
                         this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
                         this.loadPayments();
                     };
@@ -79,8 +81,25 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         _super.prototype.destroyEvents.call(this);
                     };
                     Card.prototype.payOrderButtonClick = function (e) {
-                        vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
-                        vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+                        var self = this;
+                        self.AccountService.OrderPay(vars._appData.OrderId, function (responseData) {
+                            if (responseData.Result === 0) {
+                                M.toast({ html: vars._statres('label$order$paid') });
+                                if (self.Model.get("isOrderCheckOut") === true) {
+                                    if (self.Model.get("payOrderType") === 1)
+                                        vars._app.OpenController({ urlController: 'account/orderinfo' });
+                                    else
+                                        vars._app.OpenController({ urlController: 'account/orders' });
+                                }
+                                else {
+                                    vars._app.OpenController({ urlController: 'search/index' });
+                                }
+                            }
+                            else {
+                                vars._app.ShowError(responseData.Error);
+                            }
+                            vars._app.HideLoading();
+                        });
                         if (e) {
                             e.preventDefault();
                             e.stopPropagation();
@@ -266,7 +285,7 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                         return result;
                     };
                     return Card;
-                }(base.Controller.Base));
+                }(acc.Controller.Account.Account));
                 Payment.Card = Card;
             })(Payment = Account.Payment || (Account.Payment = {}));
         })(Account = Controller.Account || (Controller.Account = {}));

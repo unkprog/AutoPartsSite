@@ -1,10 +1,8 @@
 ﻿import vars = require('app/core/variables');
-import base = require('app/core/basecontroller');
-import bsk = require('app/services/basketservice');
-import cms = require('app/services/cmsservice')
+import acc = require('app/controller/account/account');
 
 export namespace Controller.Account.Payment {
-    export class Card extends base.Controller.Base {
+    export class Card extends acc.Controller.Account.Account {
 
         constructor() {
             super();
@@ -22,6 +20,7 @@ export namespace Controller.Account.Payment {
                 "orderId": 0,
                 "isBasketCheckOut": false,
                 "isOrderCheckOut": true,
+                "payOrderType": 0,
                 "IsAcceptTC": true
             });
         }
@@ -29,6 +28,7 @@ export namespace Controller.Account.Payment {
         protected OnViewInit(): void {
             this.Model.set("orderId", vars._appData.OrderId);
             this.Model.set("isBasketCheckOut", vars._appData.IsBasketCheckOut);
+            this.Model.set("payOrderType", vars._appData.PayOrderType);
             this.Model.set("isOrderCheckOut", vars._appData.IsBasketCheckOut === false);
             this.loadPayments();
         }
@@ -91,8 +91,26 @@ export namespace Controller.Account.Payment {
 
         public PayOrderButtonClick: { (e: any): void; };
         private payOrderButtonClick(e) {
-            vars._appData.SetOrderBasket(vars._appData.OrderId, 1, false);
-            vars._app.OpenController({ urlController: 'account/orderpayment', backController: this });
+            let self = this;
+            self.AccountService.OrderPay(vars._appData.OrderId, (responseData) => {
+                if (responseData.Result === 0) {
+                    M.toast({ html: vars._statres('label$order$paid') });
+                    if (self.Model.get("isOrderCheckOut") === true) {
+                        if (self.Model.get("payOrderType") === 1)
+                            vars._app.OpenController({ urlController: 'account/orderinfo' });
+                        else
+                            vars._app.OpenController({ urlController: 'account/orders' });
+                    }
+                    else {
+                        vars._app.OpenController({ urlController: 'search/index' });
+                    }
+                }
+                else {
+                    vars._app.ShowError(responseData.Error);
+                }
+                vars._app.HideLoading();
+                
+            });
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();

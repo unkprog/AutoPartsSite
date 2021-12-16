@@ -75,6 +75,11 @@ define(["require", "exports", "app/core/baseservice", "app/core/variables"], fun
                 qs.orderId = orderId;
                 this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
             };
+            AccountService.prototype.OrderPay = function (orderId, Callback) {
+                var qs = this.qs;
+                qs.orderId = orderId;
+                this.PostApi({ Action: "/orderpay", RequestData: JSON.stringify(qs), Callback: Callback });
+            };
             AccountService.prototype.GetAskQuestions = function (Callback) {
                 this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
             };

@@ -247,4 +247,5 @@ define({
     //              Оплата заказа                                                              //
     /////////////////////////////////////////////////////////////////////////////////////////////
     "label$order$payment": "Order payment",
+    "label$order$paid": "Oder has been paid"
 });

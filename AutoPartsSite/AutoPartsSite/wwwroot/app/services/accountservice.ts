@@ -65,6 +65,12 @@ export namespace Services {
             this.PostApi({ Action: "/orderinfo", RequestData: JSON.stringify(qs), Callback: Callback });
         }
 
+        public OrderPay(orderId: number, Callback: (responseData: any) => void) {
+            let qs = this.qs;
+            qs.orderId = orderId;
+            this.PostApi({ Action: "/orderpay", RequestData: JSON.stringify(qs), Callback: Callback });
+        }
+
         public GetAskQuestions(Callback: (responseData: any) => void) {
             this.GetApi({ Action: "/askquestions", RequestData: undefined, Callback: Callback });
         }
