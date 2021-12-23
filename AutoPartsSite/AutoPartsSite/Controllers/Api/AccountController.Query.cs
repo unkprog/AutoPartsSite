@@ -111,7 +111,7 @@ namespace AutoPartsSite.Controllers.Api
         internal StatusInfo GetOrderStatus(int langId, string code)
         {
             StatusInfo result;
-            List<StatusInfo> lis = GetOrderStatuses(langId, "Order.Header.New");
+            List<StatusInfo> lis = GetOrderStatuses(langId, code);
             if (lis.Count > 0)
                 result = lis[0];
             else
@@ -308,8 +308,9 @@ namespace AutoPartsSite.Controllers.Api
                     new SqlParameter("@LocaleLanguageID", langId),
                     new SqlParameter("@CrudType", 2),
                     new SqlParameter("@OrderHeaderID ", orderId),
-                    new SqlParameter("@StatusID", si.Status.Id),
-                    new SqlParameter("@OrderHeaderStatusID", si.StatusType.Id),
+                    new SqlParameter("@StatusID", 0),
+                    new SqlParameter("@OrderHeaderStatusID", 0),
+                    new SqlParameter("@NewStatusID", si.Status.Id),
                     new SqlParameter("@Comment", string.Empty)
                 });
             return result;

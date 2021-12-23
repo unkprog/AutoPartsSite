@@ -7,4 +7,5 @@ exec [dbo].[r_OrderHeaderStatusUpdate]
 	, @OrderHeaderID --int,
 	, @StatusID --int,
 	, @OrderHeaderStatusID --int,
+	, @NewStatusID --int,
 	, @Comment --nvarchar(255)
