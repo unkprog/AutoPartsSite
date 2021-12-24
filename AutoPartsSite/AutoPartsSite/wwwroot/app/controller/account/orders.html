@@ -19,16 +19,18 @@
                 <!-- class="hide-on-med-and-down" -->
                 <thead style="font-size:0.81rem;">
                     <tr class="hide-on-med-and-down">
-                        <th style="width:19%;"><span data-bind="text:labelOrderNumber"></span></th>
-                        <th style="width:19%;"><span data-bind="text:labelOrderDate"></span></th>
+                        <th style="width:17%;"><span data-bind="text:labelOrderNumber"></span></th>
+                        <th style="width:4%;"><span data-bind="text:labelOrderStatus"></span></th>
+                        <th style="width:17%;"><span data-bind="text:labelOrderDate"></span></th>
                         <th style="width:10%;"><span data-bind="text:labelCurrency"></span></th>
                         <th style="width:42%;"><span data-bind="text:labelDelivery"></span></th>
                         <th style="width:5%;"></th>
                         <th style="width:5%;"></th>
                     </tr>
                     <tr class="hide-on-large-only">
-                        <th style="width:20%;"><span data-bind="text:labelOrderNumber"></span></th>
-                        <th style="width:20%;"><span data-bind="text:labelOrderDate"></span></th>
+                        <th style="width:17%;"><span data-bind="text:labelOrderNumber"></span></th>
+                        <th style="width:6%;"><span data-bind="text:labelOrderStatus"></span></th>
+                        <th style="width:17%;"><span data-bind="text:labelOrderDate"></span></th>
                         <th style="width:10%;"><span data-bind="text:labelCurrency"></span></th>
                         <th style="width:35%;"><span data-bind="text:labelDelivery"></span></th>
                         <th style="width:7%;"></th>
@@ -43,8 +45,9 @@
 
     <script type="text/x-kendo-template" id="orders-view-parts-table-template">
         <tr class="orders-view-parts-table-row-item hide-on-med-and-down" id="order-view-item-#=OrderHeaderID#" data-id="#=OrderHeaderID#">
-            <td style="width:19%;">#=OrderNumberFull#</td>
-            <td style="width:19%;">#=OrderDateStr#</td>
+            <td style="width:17%;">#=OrderNumberFull#</td>
+            <td style="width:4%;">#=Status.Name#</td>
+            <td style="width:17%;">#=OrderDateStr#</td>
             <td style="width:10%;">#=Currency.Code#</td>
             <td style="width:42%;">#=Delivery.Name#</td>
             <td style="width:5%;">
@@ -57,8 +60,9 @@
             </td>
         </tr>
         <tr class="orders-view-parts-table-row-item hide-on-large-only" id="order-view-item-l-#=OrderHeaderID#" data-id="#=OrderHeaderID#">
-            <td style="width:20%;">#=OrderNumberFull#</td>
-            <td style="width:20%;">#=OrderDateStr#</td>
+            <td style="width:17%;">#=OrderNumberFull#</td>
+            <td style="width:6%;">#=Status.Name#</td>
+            <td style="width:17%;">#=OrderDateStr#</td>
             <td style="width:10%;">#=Currency.Code#</td>
             <td style="width:35%;">#=Delivery.Name#</td>
             <td style="width:7%;">

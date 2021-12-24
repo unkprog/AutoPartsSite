@@ -20,6 +20,7 @@ export namespace Controller.Account {
                 "labelEmptyOrders": vars._statres("label$order$empty"),
                 "labelOrderNumber": vars._statres("label$order$no"),
                 "labelOrderDate": vars._statres("label$order$date"),
+                "labelOrderStatus": vars._statres("label$order$status"),
                 "labelCurrency": vars._statres("label$currency"),
                 "labelDelivery": vars._statres("label$shipping"),
                 "labelComment": vars._statres("label$order$comment"),
