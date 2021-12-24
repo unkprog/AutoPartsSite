@@ -15,11 +15,15 @@
     </div>
 
     <div id="orderinfo-view-header" class="row margin-bottom-0">
-        <div class="input-field col s12 m6 l6 xl6">
+        <div class="input-field col s12 m4 l4 xl4">
             <input disabled id="orderinfo-view-header-date" type="text" class="validate black-text" data-bind="value:Order.Order.OrderDateStr">
             <label for="orderinfo-view-header-date" data-bind="text:labelOrderDate"></label>
         </div>
-        <div class="input-field col s12 m6 l6 xl6">
+        <div class="input-field col s12 m4 l4 xl4">
+            <input disabled id="orderinfo-view-header-status" type="text" class="validate black-text" data-bind="value:Order.Order.Status.Name">
+            <label for="orderinfo-view-header-status" data-bind="text:labelOrderStatus"></label>
+        </div>
+        <div class="input-field col s12 m4 l4 xl4">
             <input disabled id="orderinfo-view-header-currency" type="text" class="validate black-text" data-bind="value:Order.Order.Currency.Code">
             <label for="orderinfo-view-header-currency" data-bind="text:labelCurrency"></label>
         </div>

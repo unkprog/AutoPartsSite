@@ -34,6 +34,7 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         "labelClose": vars._statres("button$label$close"),
                         "labelOrderDate": vars._statres("label$order$date"),
                         "labelCurrency": vars._statres("label$currency"),
+                        "labelOrderStatus": vars._statres("label$order$status"),
                         "labelBrand": vars._statres("label$brand"),
                         "labelPartNumber": vars._statres("label$partnumber"),
                         "labelName": vars._statres("label$description"),
