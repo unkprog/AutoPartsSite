@@ -117,8 +117,38 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         self.generatecard = self.View.find('#card-view-generatecard');
                         self.create_cardnumber_mask();
                         self.bind_generatecard();
-                        self.bind_expirationdate();
                         self.bind_securitycode();
+                        self.name[0].addEventListener('input', function () {
+                            if (self.name[0].value.length == 0) {
+                                document.getElementById('svgname').innerHTML = 'John Doe';
+                                document.getElementById('svgnameback').innerHTML = 'John Doe';
+                            }
+                            else {
+                                document.getElementById('svgname').innerHTML = this.value;
+                                document.getElementById('svgnameback').innerHTML = this.value;
+                            }
+                        });
+                        self.cardnumber_mask.on('accept', function () {
+                            if (self.cardnumber_mask.value.length == 0) {
+                                document.getElementById('svgnumber').innerHTML = '0123 4567 8910 1112';
+                            }
+                            else {
+                                document.getElementById('svgnumber').innerHTML = self.cardnumber_mask.value;
+                            }
+                        });
+                        var cvcc = self.View.find('#card-view-creditcard');
+                        self.name[0].addEventListener('focus', function () {
+                            cvcc[0].classList.remove('flipped');
+                        });
+                        self.cardnumber[0].addEventListener('focus', function () {
+                            cvcc[0].classList.remove('flipped');
+                        });
+                        self.expirationdate[0].addEventListener('focus', function () {
+                            cvcc[0].classList.remove('flipped');
+                        });
+                        self.securitycode[0].addEventListener('focus', function () {
+                            cvcc[0].classList.add('flipped');
+                        });
                     };
                     Card.prototype.bind_generatecard = function () {
                         var self = this;
