@@ -83,7 +83,12 @@ namespace AutoPartsSite.Controllers.Api
                   StatusInfo si = GetOrderStatus(qs.languageId, "Order.Header.Payed");
 
                   if (si != null && si.Status != null && si.Status.Id > 0 && si.StatusType != null && si.StatusType.Id > 0)
+                  {
                       UpdateOrderStatus(qs.languageId, qs.orderId, si);
+                      si = GetOrderStatus(qs.languageId, "Order.Item.Payed");
+                      if (si != null && si.Status != null && si.Status.Id > 0 && si.StatusType != null && si.StatusType.Id > 0)
+                          UpdateOrderItemStatus(qs.languageId, qs.orderId, si);
+                  }
                   else
                       result = "Невозможно обновить статус заказа";
 

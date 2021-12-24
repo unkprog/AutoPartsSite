@@ -8,4 +8,5 @@ exec [dbo].[r_OrderItemStatusUpdate]
 	, @OrderItemID --int,
 	, @StatusID --int,
 	, @OrderItemStatusID --int,
+	, @NewStatusID --int,
 	, @Comment --nvarchar(255)
