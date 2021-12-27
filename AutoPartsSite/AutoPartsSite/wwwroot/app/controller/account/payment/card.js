@@ -117,11 +117,12 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         self.generatecard = self.View.find('#card-view-generatecard');
                         self.create_cardnumber_mask();
                         self.bind_generatecard();
+                        self.bind_expirationdate();
                         self.bind_securitycode();
                         self.name[0].addEventListener('input', function () {
                             if (self.name[0].value.length == 0) {
-                                document.getElementById('svgname').innerHTML = 'John Doe';
-                                document.getElementById('svgnameback').innerHTML = 'John Doe';
+                                document.getElementById('svgname').innerHTML = 'NONAME';
+                                document.getElementById('svgnameback').innerHTML = 'NONAME';
                             }
                             else {
                                 document.getElementById('svgname').innerHTML = this.value;
@@ -130,13 +131,13 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         });
                         self.cardnumber_mask.on('accept', function () {
                             if (self.cardnumber_mask.value.length == 0) {
-                                document.getElementById('svgnumber').innerHTML = '0123 4567 8910 1112';
+                                document.getElementById('svgnumber').innerHTML = '0123 4567 8910 0123';
                             }
                             else {
                                 document.getElementById('svgnumber').innerHTML = self.cardnumber_mask.value;
                             }
                         });
-                        var cvcc = self.View.find('#card-view-creditcard');
+                        var cvcc = self.View.find('div.card-view-creditcard');
                         self.name[0].addEventListener('focus', function () {
                             cvcc[0].classList.remove('flipped');
                         });
@@ -284,12 +285,17 @@ define(["require", "exports", "app/core/variables", "app/controller/account/acco
                         });
                     };
                     Card.prototype.bind_expirationdate = function () {
-                        var expirationdate_mask = new IMask(this.expirationdate, {
+                        var dateoptions = {
                             mask: 'MM{/}YY',
-                        });
+                            groups: {
+                                YY: new IMask.MaskedPattern.Group.Range([0, 99]),
+                                MM: new IMask.MaskedPattern.Group.Range([1, 12]),
+                            }
+                        };
+                        var expirationdate_mask = new IMask(this.expirationdate[0], dateoptions);
                         expirationdate_mask.on('accept', function () {
                             if (expirationdate_mask.value.length == 0) {
-                                document.getElementById('svgexpire').innerHTML = '01/23';
+                                document.getElementById('svgexpire').innerHTML = '00/00';
                             }
                             else {
                                 document.getElementById('svgexpire').innerHTML = expirationdate_mask.value;
