@@ -301,7 +301,7 @@ namespace AutoPartsSite.Controllers.Api
                     result.Positions.Add(new BasketGoods()
                     {
                         Goods = new Goods() { Id = values[0].ToInt(), Brand = new Brand(), Country = new Country(), Currency = new Currency(), Parameters = new GoodsParameters() },
-                        Quantity = values[1].ToDecimal(), Price = values[2].ToDecimal()
+                        Quantity = values[1].ToDecimal(), Price = values[2].ToDecimal(), RowNumber = values[3].ToDecimal()
                     });
                 });
             });
@@ -348,25 +348,26 @@ namespace AutoPartsSite.Controllers.Api
             List<GoodsSearch> result = new List<GoodsSearch>();
             List<int> ids = new List<int>();
             foreach (var id in positions)
-                ids.Add(id.Goods.Id);
+            {
 
-            AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
-                {
-                    new SqlParameter() { ParameterName = "@GoodsID", Value = ids.Count == 0 ? new int[] { 0 } : ids.ToArray() },
-                }
-                , onExecute: null
-                , (values) =>
-                {
-                    result.Add(new GoodsSearch()
+                AppSettings.Query.GlobalParts.Execute(@"Search\[get_in]", new SqlParameter[]
                     {
-                        Id = (int)values[0],
-                        PartNumber = (string)values[1],
-                        Brand = (string)values[2],
-                        Page = (int)values[3],
-                        MaxPage = (int)values[4]
+                    new SqlParameter() { ParameterName = "@GoodsID", Value = ids.Count == 0 ? new int[] { id.Goods.Id } : ids.ToArray() },
+                    }
+                    , onExecute: null
+                    , (values) =>
+                    {
+                        result.Add(new GoodsSearch()
+                        {
+                            RowNumber = id.RowNumber,
+                            Id = (int)values[0],
+                            PartNumber = (string)values[1],
+                            Brand = (string)values[2],
+                            Page = (int)values[3],
+                            MaxPage = (int)values[4]
+                        });
                     });
-                });
-
+            }
             return result;
         }
 

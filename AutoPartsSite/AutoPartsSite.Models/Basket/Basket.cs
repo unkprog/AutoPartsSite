@@ -8,6 +8,12 @@ namespace AutoPartsSite.Models.Basket
     [DataContract]
     public class BasketGoods : BaseModel
     {
+        /// <summary>
+        /// Количество
+        /// </summary>
+        [DataMember]
+        public decimal RowNumber { get; set; }
+
         public BasketGoods()
         {
             Goods = new Goods();

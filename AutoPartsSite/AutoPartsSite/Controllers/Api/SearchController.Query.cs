@@ -51,7 +51,7 @@ namespace AutoPartsSite.Controllers.Api
             StringBuilder xmlParts = new StringBuilder();
             xmlParts.AppendLine("<ROOT>");
             for (int i = 0, icount = goods.Count; i < icount; i++)
-                xmlParts.AppendLine(string.Concat("    <Part RowNumber=", '"', i + 1, '"', " GoodsId=", '"', '"', " PartNumber=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Qty=", '"', goods[i].Quantity > 0 ? goods[i].Quantity : 1, '"', " />"));
+                xmlParts.AppendLine(string.Concat("    <Part RowNumber=", '"', goods[i].RowNumber, '"', " GoodsId=", '"', '"', " PartNumber=", '"', goods[i].PartNumber, '"', " Brand=", '"', goods[i].Brand, '"', " Qty=", '"', goods[i].Quantity > 0 ? goods[i].Quantity : 1, '"', " />"));
             xmlParts.AppendLine("</ROOT>");
             return xmlParts.ToString();
         }

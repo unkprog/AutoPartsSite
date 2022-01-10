@@ -146,6 +146,9 @@ namespace AutoPartsSite.Models.GlobalParts
     [DataContract]
     public class GoodsSearch : BaseDbModel
     {
+        [DataMember]
+        public decimal RowNumber { get; set; }
+
         /// <summary>
         /// Номер детали
         /// </summary>
