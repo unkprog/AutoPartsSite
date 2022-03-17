@@ -56,6 +56,7 @@ export namespace Controller.Account {
 
             if (controller.validate(model)) {
                 controller.enterPassModal = controller.View.find('#profile-view-pass-modal').modal();
+                $('#profile-view-pass').val(model.Pass);
                 controller.enterPassModal.modal('open');
             }
         }

@@ -154,8 +154,12 @@ define(["require", "exports", "app/core/variables", "app/core/basecontroller"], 
                 enumerable: false,
                 configurable: true
             });
-            Application.prototype.NativeCommand = function (command, data) {
+            Application.prototype.NativeCommandApp = function (command, data) {
                 if (this.IsNativeApp)
+                    this.NativeCommand(command, data);
+            };
+            Application.prototype.NativeCommand = function (command, data) {
+                if (nativeBridge && nativeBridge != null)
                     nativeBridge.command(command, JSON.stringify(data));
             };
             Application.prototype.ControllerBackEndModal = function () {

@@ -61,6 +61,7 @@ define(["require", "exports", "app/core/variables", "app/core/utils", "app/contr
                     };
                     if (controller.validate(model)) {
                         controller.enterPassModal = controller.View.find('#profile-view-pass-modal').modal();
+                        $('#profile-view-pass').val(model.Pass);
                         controller.enterPassModal.modal('open');
                     }
                 };

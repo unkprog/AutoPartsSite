@@ -1,15 +1,14 @@
 using AutoPartsSite.Core.Formatters;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Handlers;
+using AutoPartsSite.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Primitives;
 using System.IO;
 using Utf8Json.Resolvers;
 
@@ -94,7 +93,19 @@ namespace AutoPartsSite
             {
                 System.Type t = typeof(Startup);
                 string file = string.Concat(t.Assembly.Location.Replace(t.Assembly.ManifestModule.Name, string.Empty), @"wwwroot\app\controller", context.Request.Path.ToString().Replace(@"/", @"\"), ".html");
-                if (File.Exists(file))
+#if DEBUG
+                file = file.Replace("\\bin\\Debug\\netcoreapp3.1\\", "\\");
+#endif
+#if SSR
+                string fileSsr = file.Replace("\\app\\", "\\appssr\\");
+                if (File.Exists(fileSsr))
+                {
+                    string htmlSsr = Core.IO.Helper.ReadFileAsString(fileSsr);
+                    await context.Response.WriteAsync(htmlSsr);
+                }
+#endif
+
+                else if (File.Exists(file))
                 {
                     file = string.Concat(t.Assembly.Location.Replace(t.Assembly.ManifestModule.Name, string.Empty), @"wwwroot\app\index.html");
                     string html = Core.IO.Helper.ReadFileAsString(file);
@@ -102,11 +113,17 @@ namespace AutoPartsSite
                     if (file[0] == '/')
                         file = file.Substring(1);
                     html = html.Replace("<!--location-->", "<script>localStorage.setItem('startupPage','" + file + "');</script>");
+#if SSR
+                    SsrManager.SSR(file, fileSsr, html);
+#endif
                     await context.Response.WriteAsync(html);
                 }
                 else
                     await context.Response.WriteAsync("Auto parts site - page " + context.Request.Path.ToString() + " not found!");
             });
         }
+
+        
     }
+
 }

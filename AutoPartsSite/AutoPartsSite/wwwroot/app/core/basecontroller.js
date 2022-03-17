@@ -78,6 +78,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
             };
             Base.prototype.ViewShow = function (e) {
                 M.updateTextFields();
+                vars._app.NativeCommand('ViewShow', {});
                 return true;
             };
             Base.prototype.ViewHide = function (e) {

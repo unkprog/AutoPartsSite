@@ -61,6 +61,7 @@ export namespace Controller {
 
         public ViewShow(e: any): boolean {
             M.updateTextFields();
+            vars._app.NativeCommand('ViewShow', {});
             return true;
         }
 

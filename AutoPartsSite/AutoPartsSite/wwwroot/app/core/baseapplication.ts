@@ -200,8 +200,13 @@ export namespace App {
             return (window.location.href.toLocaleLowerCase().indexOf('isnativeapp') > -1 ? true : false);
         }
 
-        public NativeCommand(command: string, data: any) {
+        public NativeCommandApp(command: string, data: any) {
             if (this.IsNativeApp)
+                this.NativeCommand(command, data);
+        }
+
+        public NativeCommand(command: string, data: any) {
+            if (nativeBridge && nativeBridge != null)
                 nativeBridge.command(command, JSON.stringify(data));
         }
 

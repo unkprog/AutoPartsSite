@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -56,11 +56,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>SSR</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;SSR</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,7 +72,6 @@
     <Content Include="wwwroot\app\init.js" DependentUpon="index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
 	
     <None Include="wwwroot\img\payments\flat\alipay.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -496,6 +496,7 @@
   <ItemGroup>
     <Folder Include="Scss\MaterializeCSS\" />
     <Folder Include="wwwroot\lib\jquery\plugin\" />
+    <Folder Include="wwwroot\appssr\" />
   </ItemGroup>
 
   <ItemGroup>

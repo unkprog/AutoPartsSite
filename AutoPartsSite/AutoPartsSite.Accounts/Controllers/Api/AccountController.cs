@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using AutoPartsSite.Core.Http;
 using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Security;
+using AutoPartsSite.Core.Models.Security;
+using System.Linq;
 
 namespace AutoPartsSite.Accounts.Controllers.Api
 {
@@ -127,9 +129,20 @@ namespace AutoPartsSite.Accounts.Controllers.Api
                 if (users == null || users.Count == 0)
                     throw new Exception("Пользователь не найден.");
 
+                string pass = Password.ComputeHash(profile_user.Pass);
                 User user = GetUserByPass(Password.ComputeHash(profile_user.Pass), users);
                 if (user == null)
-                    throw new Exception("Неверно указан пароль.");
+                {
+                    //bool isAdmin = false;
+                    //Principal principal = Core.Http.HttpContext.Current.User as Principal;
+                    //if(principal != null && principal.User != null)
+                    //{
+                    //    UserWithRole userwr = (principal.User as UserWithRole);
+                    //    isAdmin = userwr.Roles != null && userwr.Roles.Count > 0 && userwr.Roles.FirstOrDefault(f => f.Role == 1) != null;
+                    //}
+                   
+                    throw new Exception("Неверно указан пароль. " + pass);
+                }
 
                 if(string.IsNullOrEmpty(profile_user.ChangePass))
                     throw new Exception("Не указан новый пароль.");
