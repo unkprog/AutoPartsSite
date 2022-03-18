@@ -8,6 +8,9 @@
     numberRound(value: number, places: number): number;
     strToHashCode(str: string): number;
     WeekNamesByValue: Array<string>;
+
+    nativeBridge: any;
+    urlEncode(text): string;
 }
 
 

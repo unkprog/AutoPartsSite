@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/baseapplication", "app/services/accountservice"], function (require, exports, utils, vars, baseapp, acc) {
+define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/baseapplication", "app/services/accountservice", "app/services/nativebridgeservice"], function (require, exports, utils, vars, baseapp, acc, nvbr) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.App = void 0;
@@ -36,6 +36,7 @@ define(["require", "exports", "app/core/utils", "app/core/variables", "app/core/
                 app.progressControl = $("#progress-container");
                 app.contentControl = $("#app-content");
                 app.appTitle = $("#app-title");
+                window.nativeBridge = new nvbr.Services.NativeBridgeService();
             };
             Application.prototype.ShowLoading = function (isScrollReset) {
                 if (isScrollReset === void 0) { isScrollReset = true; }

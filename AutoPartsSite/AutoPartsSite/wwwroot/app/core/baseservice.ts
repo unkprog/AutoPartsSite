@@ -62,7 +62,7 @@ export namespace Services {
                 url: action,
                 type: "post",
                 dataType: "json",
-                contentType: "application/json",
+                contentType: "application/json; charset=utf-8",
                 data: options.RequestData,
                 success: function (responseData, textStatus, jqXHR) {
                     if (responseData.error) {

@@ -206,8 +206,12 @@ export namespace App {
         }
 
         public NativeCommand(command: string, data: any) {
-            if (nativeBridge && nativeBridge != null)
-                nativeBridge.command(command, JSON.stringify(data));
+            if (nativeBridge && nativeBridge != null) {
+                var json = JSON.stringify({ command: command, data: data });
+                nativeBridge.Command(json, (r) => {
+
+                });
+            }
         }
 
         protected ControllerBackEndModal() {

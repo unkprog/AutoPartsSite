@@ -61,10 +61,15 @@ export namespace Controller {
 
         public ViewShow(e: any): boolean {
             M.updateTextFields();
-            vars._app.NativeCommand('ViewShow', {});
+            this.ssr();
+           
             return true;
         }
 
+        public ssr(): void {
+            var content = window.escape(document.documentElement.innerHTML);
+            vars._app.NativeCommand('ViewShow', { htmlcontent: content });
+        }
         //public AfterShow(e: any): void {
 
         //}

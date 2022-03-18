@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.strToHashCode = exports.numberRound = exports.numberPadZero = exports.numberToString = exports.date_from_ddmmyyyy = exports.date_ddmmyyyy_withtime = exports.date_ddmmyyyy = exports.date_parse = exports.dateToday = exports.dateToLongString = exports.stringFormat = exports.validatePhone = exports.validateEmail = exports.isNullOrEmpty = exports.isNull = exports.destroyBlurEvent = exports.createBlurEvent = exports.destroyContextMenuEvent = exports.createContextMenuEvent = exports.destroyDblTouchClickEvent = exports.createDblTouchClickEvent = exports.destroyTouchClickEvent = exports.createTouchClickEvent = exports.destroyClickEvent = exports.createClickEvent = exports.destroyEventListener = exports.createEventListener = void 0;
+    exports.urlEncode = exports.nativeBridge = exports.strToHashCode = exports.numberRound = exports.numberPadZero = exports.numberToString = exports.date_from_ddmmyyyy = exports.date_ddmmyyyy_withtime = exports.date_ddmmyyyy = exports.date_parse = exports.dateToday = exports.dateToLongString = exports.stringFormat = exports.validatePhone = exports.validateEmail = exports.isNullOrEmpty = exports.isNull = exports.destroyBlurEvent = exports.createBlurEvent = exports.destroyContextMenuEvent = exports.createContextMenuEvent = exports.destroyDblTouchClickEvent = exports.createDblTouchClickEvent = exports.destroyTouchClickEvent = exports.createTouchClickEvent = exports.destroyClickEvent = exports.createClickEvent = exports.destroyEventListener = exports.createEventListener = void 0;
     function createEventListener(elemName, eventName, clickFunc, thisObject, view) {
         var result = $.proxy(clickFunc, thisObject);
         var elem = elemName instanceof $ ? elemName : (view ? view.find("#" + elemName) : $("#" + elemName));
@@ -186,5 +186,15 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.strToHashCode = strToHashCode;
     window.strToHashCode = strToHashCode;
+    function urlEncode(text) {
+        var encoded = '';
+        for (var _i = 0, text_1 = text; _i < text_1.length; _i++) {
+            var char = text_1[_i];
+            encoded += '%' + char.charCodeAt(0).toString(16);
+        }
+        return encoded;
+    }
+    exports.urlEncode = urlEncode;
+    window.urlEncode = urlEncode;
 });
 //# sourceMappingURL=utils.js.map

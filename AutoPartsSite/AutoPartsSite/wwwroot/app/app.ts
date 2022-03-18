@@ -3,6 +3,7 @@ import vars = require('app/core/variables');
 import base = require('app/core/basecontroller');
 import baseapp = require('app/core/baseapplication');
 import acc = require('app/services/accountservice');
+import nvbr = require('app/services/nativebridgeservice');
 
 export module App {
     export class Application extends baseapp.App.Application {
@@ -32,6 +33,7 @@ export module App {
             app.progressControl = $("#progress-container");
             app.contentControl = $("#app-content");
             app.appTitle = $("#app-title");
+            window.nativeBridge = new nvbr.Services.NativeBridgeService()
            
         }
 

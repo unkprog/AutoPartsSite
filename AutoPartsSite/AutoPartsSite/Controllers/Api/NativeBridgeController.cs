@@ -1,4 +1,5 @@
-﻿using AutoPartsSite.Core.Controllers;
+﻿using AutoPartsSite.Core.Cef;
+using AutoPartsSite.Core.Controllers;
 using AutoPartsSite.Core.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,10 @@ namespace AutoPartsSite.Controllers.Api
         {
         }
 
-
+        
         [HttpPost]
         [Route("command")]
-        public async Task<HttpMessage<string>> Register(string register_user)
+        public async Task<HttpMessage<string>> Register(CommandData command)
               => await TryCatchResponseAsync(async () =>
               {
                   return await Task.Run(() =>

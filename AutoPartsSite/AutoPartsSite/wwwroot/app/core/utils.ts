@@ -178,6 +178,18 @@ export function strToHashCode(value: string): number {
     }
     return hash;
 }
-window.strToHashCode = strToHashCode
+window.strToHashCode = strToHashCode;
+
+
+export let nativeBridge: any;
+
+export function urlEncode(text): string {
+    let encoded = '';
+    for (let char of text) {
+        encoded += '%' + char.charCodeAt(0).toString(16);
+    }
+    return encoded;
+}
+window.urlEncode = urlEncode;
 
 
